@@ -4,9 +4,14 @@ import '../../core/themes/app_text_theme.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/auth_button.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,27 +22,24 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 80),
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+
               Text(
-                'Travery',
+                'Tạo tài khoản mới',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.primary,
-                ),
-              ),
-              SizedBox(height: 40),
-              Text(
-                'Chào mừng trở lại',
-                style: TextStyle(
-                  fontSize: AppTextTheme.headlineLarge,
-                  fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
               ),
               SizedBox(height: 8),
               Text(
-                'Bắt đầu cuộc hành trình khám phá thế giới của riêng bạn.',
+                'Bắt đầu hành trình khám phá thế giới cùng Travery',
                 style: TextStyle(
                   fontSize: AppTextTheme.bodyLarge,
                   fontWeight: FontWeight.w400,
@@ -46,6 +48,16 @@ class LoginScreen extends StatelessWidget {
               ),
 
               SizedBox(height: 24),
+
+              AuthTextField(
+                title: 'Họ và tên',
+                hintText: 'Nhập họ và tên của bạn',
+                isPassword: false,
+                prefixIcon: Icons.person,
+              ),
+
+              SizedBox(height: 16),
+
               AuthTextField(
                 title: 'Email',
                 hintText: 'Nhập email của bạn',
@@ -54,6 +66,7 @@ class LoginScreen extends StatelessWidget {
               ),
 
               SizedBox(height: 16),
+
               AuthTextField(
                 title: 'Mật khẩu',
                 hintText: 'Nhập mật khẩu của bạn',
@@ -61,27 +74,18 @@ class LoginScreen extends StatelessWidget {
                 prefixIcon: Icons.lock,
               ),
 
-              SizedBox(height: 8),
+              SizedBox(height: 16),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      'Quên mật khẩu?',
-                      style: TextStyle(
-                        color: AppColors.link,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+              AuthTextField(
+                title: 'Xác nhận mật khẩu',
+                hintText: 'Nhập lại mật khẩu của bạn',
+                isPassword: true,
+                prefixIcon: Icons.lock_reset,
               ),
 
               SizedBox(height: 24),
 
-              AuthButton(title: 'Đăng nhập', onPressed: () {}),
+              AuthButton(title: 'Đăng ký', onPressed: () {}),
 
               Spacer(flex: 1),
 
@@ -91,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Bạn chưa có tài khoản? ',
+                      'Bạn đã có tài khoản? ',
                       style: TextStyle(
                         fontSize: AppTextTheme.bodyLarge,
                         fontWeight: FontWeight.w400,
@@ -101,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                     InkWell(
                       onTap: () {},
                       child: Text(
-                        'Đăng ký',
+                        'Đăng nhập',
                         style: TextStyle(
                           fontSize: AppTextTheme.bodyLarge,
                           fontWeight: FontWeight.bold,

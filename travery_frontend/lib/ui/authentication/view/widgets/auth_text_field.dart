@@ -7,12 +7,14 @@ class AuthTextField extends StatefulWidget {
   final String hintText;
   final bool isPassword;
   final IconData? prefixIcon;
+  final TextEditingController controller;
 
   const AuthTextField({
     super.key,
     required this.title,
     required this.hintText,
     required this.isPassword,
+    required this.controller,
     this.prefixIcon,
   });
 
@@ -44,6 +46,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
         ),
         SizedBox(height: 8),
         TextField(
+          controller: widget.controller,
           obscureText: _isObscure,
           decoration: InputDecoration(
             hintText: widget.hintText,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/auth_button.dart';
+import 'package:travery_frontend/utils/error_alert.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,6 +14,68 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
+  void _navigateToLogin(BuildContext context) {
+    context.go('/login');
+  }
+
+  void _navigateToOTP(BuildContext context) {
+    context.go('/otp');
+  }
+
+  GestureTapCallback? _handleRegister(BuildContext context) {
+    final email = emailController.text;
+    final password = passwordController.text;
+    final confirmPassword = confirmPasswordController.text;
+    final name = nameController.text;
+
+    if (name.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập họ và tên');
+      return null;
+    }
+
+    if (email.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập email');
+      return null;
+    }
+
+    if (password.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập mật khẩu');
+      return null;
+    }
+
+    if (password.length < 8) {
+      Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 ký tự');
+      return null;
+    }
+
+    if (confirmPassword.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập lại mật khẩu');
+      return null;
+    }
+
+    if (confirmPassword != password) {
+      Utils.showErrorNotification(context, 'Mật khẩu không khớp');
+      return null;
+    }
+
+    //Navigator.push(context, MaterialPageRoute<void>(builder: (context) => ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
               ),
 
@@ -50,6 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 24),
 
               AuthTextField(
+                controller: nameController,
                 title: 'Họ và tên',
                 hintText: 'Nhập họ và tên của bạn',
                 isPassword: false,
@@ -59,6 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 16),
 
               AuthTextField(
+                controller: emailController,
                 title: 'Email',
                 hintText: 'Nhập email của bạn',
                 isPassword: false,
@@ -68,6 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 16),
 
               AuthTextField(
+                controller: passwordController,
                 title: 'Mật khẩu',
                 hintText: 'Nhập mật khẩu của bạn',
                 isPassword: true,
@@ -77,6 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(height: 16),
 
               AuthTextField(
+                controller: confirmPasswordController,
                 title: 'Xác nhận mật khẩu',
                 hintText: 'Nhập lại mật khẩu của bạn',
                 isPassword: true,
@@ -85,7 +153,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               SizedBox(height: 24),
 
-              AuthButton(title: 'Đăng ký', onPressed: () {}),
+              AuthButton(
+                title: 'Đăng ký',
+                onPressed: () => _navigateToOTP(context),
+              ),
 
               Spacer(flex: 1),
 
@@ -103,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => _navigateToLogin(context),
                       child: Text(
                         'Đăng nhập',
                         style: TextStyle(

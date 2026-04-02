@@ -12,9 +12,9 @@ class AppTextTheme {
   static const double bodySmall = 12.0;
 
   // Label / Caption
-  static const double labelLarge = 16.0;
-  static const double labelMedium = 14.0;
-  static const double labelSmall = 12.0;
+  static const double labelLarge = 18.0;
+  static const double labelMedium = 16.0;
+  static const double labelSmall = 14.0;
 
   // Button
   static const double buttonLarge = 16.0;

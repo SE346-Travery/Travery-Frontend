@@ -1,11 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/auth_button.dart';
+import 'register_screen.dart';
+import 'package:travery_frontend/utils/error_alert.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  GestureTapCallback? _navigateToRegister(BuildContext context) {
+    context.push('/register');
+  }
+
+  GestureTapCallback? _navigateToForgotPassword(BuildContext context) {
+    return null;
+  }
+
+  GestureTapCallback? _handleLogin(BuildContext context) {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    if (email.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập email');
+      return null;
+    }
+
+    if (password.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập mật khẩu');
+      return null;
+    }
+
+    if (password.length < 8) {
+      Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 ký tự');
+      return null;
+    }
+    return null;
+    //Navigator.push(context, MaterialPageRoute<void>(builder: (context) => ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +87,7 @@ class LoginScreen extends StatelessWidget {
                 hintText: 'Nhập email của bạn',
                 isPassword: false,
                 prefixIcon: Icons.email,
+                controller: emailController,
               ),
 
               SizedBox(height: 16),
@@ -59,6 +96,7 @@ class LoginScreen extends StatelessWidget {
                 hintText: 'Nhập mật khẩu của bạn',
                 isPassword: true,
                 prefixIcon: Icons.lock,
+                controller: passwordController,
               ),
 
               SizedBox(height: 8),
@@ -81,7 +119,10 @@ class LoginScreen extends StatelessWidget {
 
               SizedBox(height: 24),
 
-              AuthButton(title: 'Đăng nhập', onPressed: () {}),
+              AuthButton(
+                title: 'Đăng nhập',
+                onPressed: () => _handleLogin(context),
+              ),
 
               Spacer(flex: 1),
 
@@ -99,7 +140,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => _navigateToRegister(context),
                       child: Text(
                         'Đăng ký',
                         style: TextStyle(

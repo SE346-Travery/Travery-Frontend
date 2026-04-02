@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/ui/authentication/view/login_screen.dart';
-import 'package:travery_frontend/ui/authentication/view/otp_verification_screen.dart';
+import 'package:travery_frontend/routing/app_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +11,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Travery', home: const OTPVerificationScreen());
+    return MaterialApp.router(title: 'Travery', routerConfig: AppRouter.router);
   }
 }

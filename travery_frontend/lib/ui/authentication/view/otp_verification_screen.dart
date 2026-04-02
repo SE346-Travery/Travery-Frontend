@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
 import '../../core/themes/app_colors.dart';
@@ -25,7 +26,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                 },
               ),
 

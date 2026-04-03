@@ -1,83 +1,33 @@
-import 'package:flutter/material.dart';
-import 'app_colors.dart';
-
 class AppTextTheme {
   AppTextTheme._();
 
   // Display / Headline
-  static const TextStyle displayLarge = TextStyle(
-    fontSize: 32,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
-    letterSpacing: -0.5,
-  );
-
-  static const TextStyle headlineLarge = TextStyle(
-    fontSize: 26,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
-    letterSpacing: -0.3,
-  );
-
-  static const TextStyle headlineMedium = TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
-  );
+  static const double displayLarge = 32.0;
+  static const double headlineLarge = 26.0;
+  static const double headlineMedium = 22.0;
 
   // Body
-  static const TextStyle bodyLarge = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
-    height: 1.5,
-  );
-
-  static const TextStyle bodyMedium = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
-    height: 1.5,
-  );
-
-  static const TextStyle bodySmall = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
-  );
+  static const double bodyLarge = 16.0;
+  static const double bodyMedium = 14.0;
+  static const double bodySmall = 12.0;
 
   // Label / Caption
-  static const TextStyle labelMedium = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textPrimary,
-  );
-
-  static const TextStyle labelSmall = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textSecondary,
-  );
+  static const double labelLarge = 18.0;
+  static const double labelMedium = 16.0;
+  static const double labelSmall = 14.0;
 
   // Button
-  static const TextStyle buttonLarge = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.buttonPrimaryText,
-    letterSpacing: 0.3,
-  );
+  static const double buttonLarge = 16.0;
+  static const double buttonMedium = 14.0;
+  static const double buttonSmall = 12.0;
 
   // Link
-  static const TextStyle link = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
-    color: AppColors.link,
-  );
+  static const double linkLarge = 14.0;
+  static const double linkMedium = 12.0;
+  static const double linkSmall = 10.0;
 
   // Hint
-  static const TextStyle hint = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColors.textHint,
-  );
+  static const double hintLarge = 14.0;
+  static const double hintMedium = 12.0;
+  static const double hintSmall = 10.0;
 }

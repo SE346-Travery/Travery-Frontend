@@ -90,6 +90,14 @@ class AppColors {
   static const Color error = Color(0xFFEF4444);
 
   // -----------------------------------------
+  // Success
+  // -----------------------------------------
+
+  /// HEX: #4CAF50
+  /// Công dụng: Thông báo thành công, text xác nhận.
+  static const Color success = Color(0xFF4CAF50);
+
+  // -----------------------------------------
   // Icon
   // -----------------------------------------
 

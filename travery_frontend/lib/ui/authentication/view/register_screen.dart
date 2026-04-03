@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travery_frontend/utils/alert.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/auth_button.dart';
-import 'package:travery_frontend/utils/error_alert.dart';
+import 'package:travery_frontend/routing/routes.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,8 +17,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
   @override
@@ -30,11 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _navigateToLogin(BuildContext context) {
-    context.go('/login');
-  }
-
-  void _navigateToOTP(BuildContext context) {
-    context.go('/otp');
+    context.go(Routes.login);
   }
 
   GestureTapCallback? _handleRegister(BuildContext context) {
@@ -72,8 +68,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Utils.showErrorNotification(context, 'Mật khẩu không khớp');
       return null;
     }
-
-    //Navigator.push(context, MaterialPageRoute<void>(builder: (context) => ));
+    context.push(Routes.otp);
+    return null;
   }
 
   @override
@@ -155,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               AuthButton(
                 title: 'Đăng ký',
-                onPressed: () => _navigateToOTP(context),
+                onPressed: () => _handleRegister(context),
               ),
 
               Spacer(flex: 1),

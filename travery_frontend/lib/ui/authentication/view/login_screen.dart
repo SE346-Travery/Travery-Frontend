@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../core/themes/app_colors.dart';
-import '../../core/themes/app_text_theme.dart';
+import 'package:travery_frontend/ui/core/themes/app_colors.dart';
+import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/auth_button.dart';
-import 'register_screen.dart';
-import 'package:travery_frontend/utils/error_alert.dart';
+import 'package:travery_frontend/utils/alert.dart';
+import 'package:travery_frontend/ui/authentication/view_models/login_view_model.dart';
+import 'package:travery_frontend/routing/routes.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+  LoginScreen({super.key, required this.viewModel});
+  final LoginViewModel viewModel;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   GestureTapCallback? _navigateToRegister(BuildContext context) {
-    context.push('/register');
-  }
-
-  GestureTapCallback? _navigateToForgotPassword(BuildContext context) {
+    context.push(Routes.register);
     return null;
   }
 
@@ -39,6 +38,13 @@ class LoginScreen extends StatelessWidget {
       Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 ký tự');
       return null;
     }
+
+    viewModel.login(email, password);
+    if (viewModel.errorMessage == null)
+    {
+      Utils.showSuccessNotification(context, 'Đăng nhập thành công');
+    }
+  
     return null;
     //Navigator.push(context, MaterialPageRoute<void>(builder: (context) => ));
   }
@@ -105,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () => context.push(Routes.forgotPassword),
                     child: Text(
                       'Quên mật khẩu?',
                       style: TextStyle(

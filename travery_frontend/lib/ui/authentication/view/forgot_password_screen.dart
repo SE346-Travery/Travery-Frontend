@@ -6,9 +6,12 @@ import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/auth_button.dart';
 import 'widgets/auth_text_field.dart';
+import '../view_models/forgot_password_view_model.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+  const ForgotPasswordScreen({super.key, required this.viewModel});
+
+  final ForgotPasswordViewModel viewModel;
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -23,7 +26,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
-  GestureTapCallback? _handleSendRequest(BuildContext context) {
+  Future<void> _handleSendRequest(BuildContext context) async {
     final contact = _contactController.text.trim();
 
     if (contact.isEmpty) {
@@ -31,16 +34,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         context,
         'Vui lòng nhập email hoặc số điện thoại',
       );
-      return null;
+      return;
     }
 
-    // TODO: Gọi API gửi yêu cầu đặt lại mật khẩu
-    Utils.showSuccessNotification(
-      context,
-      'Đã gửi yêu cầu. Vui lòng kiểm tra email hoặc điện thoại của bạn.',
-    );
-    context.push(Routes.otp);
-    return null;
+    final result = await widget.viewModel.forgotPassword(contact);
+    if (!context.mounted) return;
+    
+    try {
+      if (result) {
+        Utils.showSuccessNotification(
+          context,
+          'Đã gửi yêu cầu. Vui lòng kiểm tra email hoặc điện thoại của bạn.',
+        );
+        context.push(Routes.otp, extra: contact);
+      }
+    } catch (e) {
+      Utils.showErrorNotification(context, widget.viewModel.errorMessage ?? 'Gửi yêu cầu thất bại');
+    }
   }
 
   @override
@@ -53,6 +63,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+
               const SizedBox(height: 48),
 
               // Icon khóa

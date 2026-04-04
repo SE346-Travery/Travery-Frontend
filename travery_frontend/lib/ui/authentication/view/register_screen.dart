@@ -6,9 +6,11 @@ import '../../core/themes/app_text_theme.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/auth_button.dart';
 import 'package:travery_frontend/routing/routes.dart';
+import 'package:travery_frontend/ui/authentication/view_models/register_view_model.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  const RegisterScreen({super.key, required this.viewModel});
+  final RegisterViewModel viewModel;
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -33,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     context.go(Routes.login);
   }
 
-  GestureTapCallback? _handleRegister(BuildContext context) {
+  Future<void> _handleRegister(BuildContext context) async {
     final email = emailController.text;
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
@@ -41,35 +43,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (name.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập họ và tên');
-      return null;
     }
 
     if (email.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập email');
-      return null;
     }
 
     if (password.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập mật khẩu');
-      return null;
     }
 
     if (password.length < 8) {
       Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 ký tự');
-      return null;
     }
 
     if (confirmPassword.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập lại mật khẩu');
-      return null;
     }
 
     if (confirmPassword != password) {
       Utils.showErrorNotification(context, 'Mật khẩu không khớp');
-      return null;
     }
-    context.push(Routes.otp);
-    return null;
+    
+    final result = await widget.viewModel.register(email, password);
+    if (!context.mounted) return;
+    
+    try { 
+      if (result) {
+        context.push(Routes.otp, extra: email);
+      }
+    } catch (e) {
+      Utils.showErrorNotification(context, widget.viewModel.errorMessage ?? 'Đăng kí thất bại');
+    }
   }
 
   @override

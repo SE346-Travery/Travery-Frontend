@@ -20,33 +20,34 @@ class LoginScreen extends StatelessWidget {
     return null;
   }
 
-  GestureTapCallback? _handleLogin(BuildContext context) {
+  Future<void> _handleLogin(BuildContext context) async {
     final email = emailController.text;
     final password = passwordController.text;
 
     if (email.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập email');
-      return null;
+      return;
     }
 
     if (password.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập mật khẩu');
-      return null;
+      return;
     }
 
     if (password.length < 8) {
       Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 ký tự');
-      return null;
+      return;
     }
 
-    viewModel.login(email, password);
-    if (viewModel.errorMessage == null)
-    {
+    final success = await viewModel.login(email, password);
+    if (!context.mounted) return;
+
+    if (success) {
       Utils.showSuccessNotification(context, 'Đăng nhập thành công');
+      // TODO: navigate to home screen
+    } else {
+      Utils.showErrorNotification(context, viewModel.errorMessage ?? 'Đăng nhập thất bại');
     }
-  
-    return null;
-    //Navigator.push(context, MaterialPageRoute<void>(builder: (context) => ));
   }
 
   @override

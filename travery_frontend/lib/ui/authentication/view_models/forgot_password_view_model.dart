@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
 
-class LoginViewModel extends ChangeNotifier {
+class ForgotPasswordViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
-  LoginViewModel({required AuthRepository authRepository})
+
+  ForgotPasswordViewModel({required AuthRepository authRepository})
     : _authRepository = authRepository;
 
   bool _isLoading = false;
@@ -12,13 +13,13 @@ class LoginViewModel extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  Future<bool> login(String email, String password) async {
+  Future<bool> forgotPassword(String email) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      await _authRepository.loginViaEmail(email, password);
+      await _authRepository.forgotPassword(email);
       _isLoading = false;
       notifyListeners();
       return true;

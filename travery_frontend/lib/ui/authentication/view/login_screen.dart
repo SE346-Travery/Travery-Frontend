@@ -20,6 +20,11 @@ class LoginScreen extends StatelessWidget {
     return null;
   }
 
+  GestureTapCallback? _navigateToHomePage(BuildContext context) {
+    context.replace(Routes.homepage);
+    return null;
+  }
+
   GestureTapCallback? _handleLogin(BuildContext context) {
     final email = emailController.text;
     final password = passwordController.text;
@@ -40,12 +45,13 @@ class LoginScreen extends StatelessWidget {
     }
 
     viewModel.login(email, password);
-    if (viewModel.errorMessage == null)
-    {
+    if (viewModel.errorMessage == null) {
       Utils.showSuccessNotification(context, 'Đăng nhập thành công');
     }
-  
-    return null;
+
+    // return null;
+    context.go('/homepage');
+    _navigateToHomePage(context);
     //Navigator.push(context, MaterialPageRoute<void>(builder: (context) => ));
   }
 

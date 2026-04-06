@@ -14,7 +14,7 @@ void main() {
       providers: [
         Provider(create: (context) => AuthService()),
         Provider(create: (context) => SecurityStorageService()),
-        
+
         Provider(
           create: (context) => AuthRepositoryRemote(
             authService: context.read(),
@@ -36,3 +36,4 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(title: 'Travery', routerConfig: AppRouter.router);
   }
 }
+

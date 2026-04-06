@@ -40,13 +40,17 @@ class LoginScreen extends StatelessWidget {
     }
 
     viewModel.login(email, password);
-    if (viewModel.errorMessage == null)
-    {
+    if (viewModel.errorMessage == null) {
       Utils.showSuccessNotification(context, 'Đăng nhập thành công');
     }
-  
+    _navigateToHomePage(context);
     return null;
     //Navigator.push(context, MaterialPageRoute<void>(builder: (context) => ));
+  }
+
+  GestureTapCallback? _navigateToHomePage(BuildContext context) {
+    context.push(Routes.homepage);
+    return null;
   }
 
   @override

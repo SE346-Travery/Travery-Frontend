@@ -6,9 +6,18 @@ class Routes {
   static const String forgotPassword = '/forgot-password';
   static const String confirmPassword = '/confirm-password';
 
+  // user
+  // home
+  static const String homepage = '/home-page';
+  // tour
+  static const String tourlist = '/tour';
+  static const String tourdetail = '/tour-detail/:id';
+  // booking
+  static const String tourbookinginput = '/tour-booking-input/:id';
+  
   // Main Features nhóm
   static const String home = '/home';
-  
+
   /* HƯỚNG DẪN: Khi thêm Repository/Feature mới (ví dụ: Hotel, Car):
   Hãy thêm các hằng số đường dẫn vào đây.
   static const String hotelList = '/hotels';

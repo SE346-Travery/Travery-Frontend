@@ -12,13 +12,23 @@ class RegisterViewModel extends ChangeNotifier {
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
-  
-  Future<bool> register(String email, String password) async {
+
+  Future<bool> register(
+    String email,
+    String password,
+    String confirmPassword,
+    String fullName,
+  ) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
     try {
-      await _authRepository.registerViaEmail(email, password);
+      await _authRepository.registerViaEmail(
+        email,
+        password,
+        confirmPassword,
+        fullName,
+      );
       _isLoading = false;
       notifyListeners();
       return true;

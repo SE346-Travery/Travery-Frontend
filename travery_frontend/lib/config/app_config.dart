@@ -1,4 +1,4 @@
 class AppConfig {
-  static const String baseUrl = '';
+  static const String baseUrl = 'http://10.0.2.2:8080';
   static const int timeout = 10000;
 }

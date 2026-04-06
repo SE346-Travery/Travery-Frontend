@@ -41,10 +41,14 @@ class AppRouter {
       GoRoute(
         path: Routes.otp,
         builder: (context, state) {
-          final email = state.extra as String? ?? '';
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          final email = extra['email'] as String? ?? '';
+          final nextRoute = extra['nextRoute'] as String? ?? Routes.login;
+
           return OtpVerificationScreen(
             viewModel: OtpVerificationViewModel(context.read<AuthRepository>()),
             email: email,
+            nextRoute: nextRoute,
           );
         },
       ),
@@ -64,7 +68,7 @@ class AppRouter {
         path: Routes.testHome,
         builder: (context, state) => TestHomeScreen(),
       ),
-      
+
       // --- MAIN APP ROUTES ---
       GoRoute(
         path: Routes.home,

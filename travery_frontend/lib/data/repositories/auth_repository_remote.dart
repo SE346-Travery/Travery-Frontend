@@ -11,7 +11,6 @@ class AuthRepositoryRemote implements AuthRepository {
     required SecurityStorageService securityStorageService,
   }) : _authService = authService,
        _securityStorageService = securityStorageService;
-  
 
   @override
   Future<void> loginViaEmail(String email, String password) async {
@@ -19,22 +18,24 @@ class AuthRepositoryRemote implements AuthRepository {
       // Gọi API đăng nhập
       final response = await _authService.loginViaEmail(email, password);
       // Lưu token vào storage
-      await _securityStorageService.saveToken(response.accessToken);
-      await _securityStorageService.saveToken(response.refreshToken);
-      
+      await _securityStorageService.saveAccessToken(response.accessToken);
+      await _securityStorageService.saveRefreshToken(response.refreshToken);
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<void> registerViaEmail(String email, String password) async {
+  Future<void> registerViaEmail(
+    String email,
+    String password,
+    String confirmPassword,
+    String fullName,
+  ) async {
     try {
       // Gọi API đăng ký
-      final response = await _authService.register(email, password);
-      // Lưu token vào storage
-      await _securityStorageService.saveToken(response.accessToken);
-      await _securityStorageService.saveToken(response.refreshToken);
+      await _authService.register(email, password, confirmPassword, fullName);
+      // Đăng ký xong chưa có token, phải đợi xác thực OTP xong mới có thể login.
     } catch (e) {
       rethrow;
     }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/model/auth_response_model.dart';
 import 'package:travery_frontend/config/app_config.dart';
 import 'package:http/http.dart' as http;
@@ -18,22 +19,26 @@ class AuthService {
         'password': password,
       }),
     );
+    debugPrint('Email, password in response: ${response.body}');
     // Nếu kết nối thành công (status code 200) thì trả về AuthResponseModel từ sever
     if (response.statusCode == 200) {
       return AuthResponseModel.fromJson(jsonDecode(response.body));
-    } 
-    else if (response.statusCode == 401 || response.statusCode == 404) {
+    } else if (response.statusCode == 401 || response.statusCode == 404) {
       final errorData = jsonDecode(response.body);
       throw Exception(
         errorData['message'] ?? 'Email hoặc mật khẩu không đúng.',
       );
-    } 
-    else {
+    } else {
       throw Exception('Lỗi server: ${response.statusCode}');
     }
   }
 
-  Future<AuthResponseModel> register(String email, String password) async {
+  Future<void> register(
+    String email,
+    String password,
+    String confirmPassword,
+    String fullName,
+  ) async {
     // gọi API qua phương thức POST
     final response = await http.post(
       Uri.parse('${AppConfig.baseUrl}/auth/signup'),
@@ -45,19 +50,19 @@ class AuthService {
         // Chuyển đổi dữ liệu sang json
         'email': email,
         'password': password,
+        'confirmPassword': confirmPassword,
+        'fullName': fullName,
       }),
     );
-    // Nếu kết nối thành công (status code 200) thì trả về AuthResponseModel từ sever
-    if (response.statusCode == 200) {
-      return AuthResponseModel.fromJson(jsonDecode(response.body));
-    } 
-    else if (response.statusCode == 401 || response.statusCode == 404) {
+    // Nếu kết nối thành công (status code 200)
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return; // Thành công, nhưng backend không trả về token ở api này
+    } else if (response.statusCode == 400 ||
+        response.statusCode == 401 ||
+        response.statusCode == 404) {
       final errorData = jsonDecode(response.body);
-      throw Exception(
-        errorData['message'] ?? 'Email hoặc mật khẩu không đúng.',
-      );
-    } 
-    else {
+      throw Exception(errorData['message'] ?? 'Lỗi đăng ký.');
+    } else {
       throw Exception('Lỗi server: ${response.statusCode}');
     }
   }
@@ -70,7 +75,10 @@ class AuthService {
     );
     if (response.statusCode != 200) {
       final errorData = jsonDecode(response.body);
-      throw Exception(errorData['message'] ?? 'Lỗi khôi phục mật khẩu: ${response.statusCode}');
+      throw Exception(
+        errorData['message'] ??
+            'Lỗi khôi phục mật khẩu: ${response.statusCode}',
+      );
     }
   }
 
@@ -94,7 +102,9 @@ class AuthService {
     );
     if (response.statusCode != 200) {
       final errorData = jsonDecode(response.body);
-      throw Exception(errorData['message'] ?? 'Lỗi gửi lại OTP: ${response.statusCode}');
+      throw Exception(
+        errorData['message'] ?? 'Lỗi gửi lại OTP: ${response.statusCode}',
+      );
     }
   }
 
@@ -106,7 +116,9 @@ class AuthService {
     if (response.statusCode != 200 && response.statusCode != 204) {
       try {
         final errorData = jsonDecode(response.body);
-        throw Exception(errorData['message'] ?? 'Lỗi đăng xuất: ${response.statusCode}');
+        throw Exception(
+          errorData['message'] ?? 'Lỗi đăng xuất: ${response.statusCode}',
+        );
       } catch (e) {
         throw Exception('Lỗi đăng xuất: ${response.statusCode}');
       }

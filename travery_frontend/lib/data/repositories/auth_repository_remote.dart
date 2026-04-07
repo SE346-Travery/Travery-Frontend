@@ -69,16 +69,32 @@ class AuthRepositoryRemote implements AuthRepository {
   }
 
   @override
-  Future<void> logout() async {
+  Future<void> resetPassword(
+    String email,
+    String otp,
+    String confirmPassword,
+    String newPassword,
+  ) async {
+    try {
+      await _authService.resetPassword(
+        email,
+        otp,
+        confirmPassword,
+        newPassword,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> logout(String refreshToken) async {
     try {
       // Gọi API logout
-      await _authService.logout();
-      // Xóa tokens trong storage bằng hàm deleteToken hoặc tương tự
-      // giả sử có hàm deleteToken hoặc deleteTokens trong SecurityStorageService.
-      // Nếu không có, bạn có thể gọi lưu null:
-      // await _securityStorageService.saveToken(null);
+      await _authService.logout(refreshToken);
+      await _securityStorageService.deleteAccessToken();
+      await _securityStorageService.deleteRefreshToken();
     } catch (e) {
-      // Dù gọi API lỗi hay không, thường khi logout ở client chúng ta vẫn xoá token.
       rethrow;
     }
   }

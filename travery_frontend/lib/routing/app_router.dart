@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart'; // Giả sử dùng Provider để inject
+import 'package:travery_frontend/ui/authentication/view_models/confirm_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/forgot_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/register_view_model.dart';
 import 'routes.dart';
@@ -41,14 +42,18 @@ class AppRouter {
       GoRoute(
         path: Routes.otp,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>? ?? {};
-          final email = extra['email'] as String? ?? '';
-          final nextRoute = extra['nextRoute'] as String? ?? Routes.login;
+          final extra = state.extra as Map<String, dynamic>;
+          final email = extra['email'] as String;
+          final password = extra['password'] as String;
+          final confirmPassword = extra['confirmPassword'] as String;
 
           return OtpVerificationScreen(
-            viewModel: OtpVerificationViewModel(context.read<AuthRepository>()),
+            viewModel: OtpVerificationViewModel(
+              authRepository: context.read<AuthRepository>(),
+            ),
             email: email,
-            nextRoute: nextRoute,
+            password: password,
+            confirmPassword: confirmPassword,
           );
         },
       ),
@@ -62,7 +67,19 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.confirmPassword,
-        builder: (context, state) => const ConfirmPasswordScreen(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final email = extra['email'] as String;
+          final otp = extra['otp'] as String;
+
+          return ConfirmPasswordScreen(
+            viewModel: ConfirmPasswordViewModel(
+              authRepository: context.read<AuthRepository>(),
+            ),
+            email: email,
+            otp: otp,
+          );
+        },
       ),
       GoRoute(
         path: Routes.testHome,

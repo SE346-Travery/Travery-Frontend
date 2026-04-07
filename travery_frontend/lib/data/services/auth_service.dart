@@ -108,10 +108,33 @@ class AuthService {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> resetPassword(
+    String email,
+    String otp,
+    String confirmPassword,
+    String newPassword,
+  ) async {
+    final response = await http.post(
+      Uri.parse('${AppConfig.baseUrl}/auth/reset-password'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': email,
+        'otp': otp,
+        'confirmPassword': confirmPassword,
+        'newPassword': newPassword,
+      }),
+    );
+    if (response.statusCode != 200) {
+      final errorData = jsonDecode(response.body);
+      throw Exception(errorData['message'] ?? 'Lỗi đặt lại mật khẩu.');
+    }
+  }
+
+  Future<void> logout(String refreshToken) async {
     final response = await http.post(
       Uri.parse('${AppConfig.baseUrl}/auth/logout'),
       headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'refreshToken': refreshToken}),
     );
     if (response.statusCode != 200 && response.statusCode != 204) {
       try {

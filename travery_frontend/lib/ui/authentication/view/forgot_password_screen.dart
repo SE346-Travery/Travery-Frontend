@@ -19,15 +19,21 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _contactController = TextEditingController();
-
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   @override
   void dispose() {
     _contactController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
   Future<void> _handleSendRequest(BuildContext context) async {
     final contact = _contactController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
 
     if (contact.isEmpty) {
       Utils.showErrorNotification(
@@ -37,22 +43,49 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       return;
     }
 
+    if (password.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập mật khẩu');
+      return;
+    }
+
+    if (password.length < 8) {
+      Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 kí tự');
+      return;
+    }
+
+    if (confirmPassword.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập lại mật khẩu');
+      return;
+    }
+
+    if (confirmPassword != password) {
+      Utils.showErrorNotification(context, 'Mật khẩu không khớp');
+      return;
+    }
+
     final result = await widget.viewModel.forgotPassword(contact);
     if (!context.mounted) return;
-    
+
     try {
       if (result) {
         Utils.showSuccessNotification(
           context,
           'Đã gửi yêu cầu. Vui lòng kiểm tra email hoặc điện thoại của bạn.',
         );
-        context.push(Routes.otp, extra: {
-          'email': contact,
-          'nextRoute': Routes.confirmPassword,
-        });
+        context.push(
+          Routes.otp,
+          extra: {
+            'email': contact,
+            'password': password,
+            'confirmPassword': confirmPassword,
+          },
+        );
       }
     } catch (e) {
-      Utils.showErrorNotification(context, widget.viewModel.errorMessage ?? 'Gửi yêu cầu thất bại');
+      Utils.showErrorNotification(
+        context,
+        widget.viewModel.errorMessage ?? 'Gửi yêu cầu thất bại',
+      );
     }
   }
 
@@ -65,35 +98,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           builder: (context, constraints) {
             return SingleChildScrollView(
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
-
-                        const SizedBox(height: 48),
-
-                        // Icon khóa
-                        Container(
-                          width: 64,
-                          height: 64,
-                          decoration: BoxDecoration(
-                            color: AppColors.background,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: const Icon(
-                            Icons.lock_reset_rounded,
-                            size: 32,
-                            color: AppColors.primary,
-                          ),
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => context.pop(),
                         ),
 
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 24),
 
                         // Tiêu đề
                         Text(
@@ -128,6 +145,27 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           prefixIcon: Icons.email_outlined,
                         ),
 
+                        const SizedBox(height: 16),
+
+                        AuthTextField(
+                          controller: _passwordController,
+                          title: 'Mật khẩu',
+                          hintText: '••••••••',
+                          isPassword: true,
+                          prefixIcon: Icons.lock_outline,
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Ô xác nhận mật khẩu
+                        AuthTextField(
+                          controller: _confirmPasswordController,
+                          title: 'Xác nhận mật khẩu',
+                          hintText: '••••••••',
+                          isPassword: true,
+                          prefixIcon: Icons.lock_reset,
+                        ),
+
                         const SizedBox(height: 24),
 
                         // Nút gửi yêu cầu
@@ -141,9 +179,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         // Divider "HOẶC"
                         Row(
                           children: [
-                            const Expanded(child: Divider(color: AppColors.inputBorder)),
+                            const Expanded(
+                              child: Divider(color: AppColors.inputBorder),
+                            ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
                               child: Text(
                                 'HOẶC',
                                 style: TextStyle(
@@ -154,7 +196,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 ),
                               ),
                             ),
-                            const Expanded(child: Divider(color: AppColors.inputBorder)),
+                            const Expanded(
+                              child: Divider(color: AppColors.inputBorder),
+                            ),
                           ],
                         ),
 

@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
+import 'package:travery_frontend/routing/routes.dart';
 
 import 'package:travery_frontend/utils/alert.dart';
 import '../../core/themes/app_colors.dart';
@@ -13,12 +14,14 @@ class OtpVerificationScreen extends StatefulWidget {
     super.key,
     required this.viewModel,
     required this.email,
-    required this.nextRoute,
+    this.password,
+    this.confirmPassword,
   });
 
   final OtpVerificationViewModel viewModel;
   final String email;
-  final String nextRoute;
+  final String? password;
+  final String? confirmPassword;
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -38,11 +41,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     if (otp.length == 6) {
       final result = await widget.viewModel.verifyOtp(widget.email, otp);
       if (!context.mounted) return;
-
       try {
         if (result) {
           Utils.showSuccessNotification(context, 'Xác thực OTP thành công');
-          context.go(widget.nextRoute);
+
+          context.push(Routes.login);
         }
       } catch (e) {
         Utils.showErrorNotification(
@@ -71,6 +74,34 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     }
   }
 
+  Future<void> _handleConfirmPassword(BuildContext context) async {
+    final otp = _otpController.text.trim();
+
+    if (otp.length == 6) {
+      final result = await widget.viewModel.confirmPassword(
+        widget.email,
+        otp,
+        widget.confirmPassword!,
+        widget.password!,
+      );
+      if (!context.mounted) return;
+      try {
+        if (result) {
+          Utils.showSuccessNotification(context, 'Xác thực OTP thành công');
+
+          context.push(Routes.login);
+        }
+      } catch (e) {
+        Utils.showErrorNotification(
+          context,
+          widget.viewModel.errorMessage ?? 'Xác thực OTP thất bại',
+        );
+      }
+    } else {
+      Utils.showErrorNotification(context, 'Vui lòng nhập đủ 6 số OTP');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +111,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           builder: (context, constraints) {
             return SingleChildScrollView(
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 24),
@@ -133,7 +162,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               decoration: BoxDecoration(
                                 color: AppColors.inputBackground,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: AppColors.inputBorder),
+                                border: Border.all(
+                                  color: AppColors.inputBorder,
+                                ),
                               ),
                             ),
                             focusedPinTheme: PinTheme(
@@ -147,7 +178,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               decoration: BoxDecoration(
                                 color: AppColors.inputBackground,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: AppColors.inputBorderFocused),
+                                border: Border.all(
+                                  color: AppColors.inputBorderFocused,
+                                ),
                               ),
                             ),
                           ),
@@ -157,7 +190,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
                         AuthButton(
                           title: 'Xác thực',
-                          onPressed: () => _handleVerifyOtp(context),
+                          onPressed: widget.password != null
+                              ? () => _handleConfirmPassword(context)
+                              : () => _handleVerifyOtp(context),
                         ),
 
                         Spacer(flex: 1),

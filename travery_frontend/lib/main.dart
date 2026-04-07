@@ -9,17 +9,19 @@ import 'package:travery_frontend/data/repositories/auth_repository_remote.dart';
 void main() {
   runApp(
     // Dependency Injection: Chỉ khởi tạo service và repository_remote
-    // ViewModel khởi tạo ở router để tránh tạo quá nhiều instance
+    // ViewModel khởi tạo ở router để tránh tạo quá nhiều instance.
     MultiProvider(
       providers: [
         Provider(create: (context) => AuthService()),
         Provider(create: (context) => SecurityStorageService()),
-        
+
         Provider(
-          create: (context) => AuthRepositoryRemote(
-            authService: context.read(),
-            securityStorageService: context.read(),
-          ) as AuthRepository,
+          create: (context) =>
+              AuthRepositoryRemote(
+                    authService: context.read(),
+                    securityStorageService: context.read(),
+                  )
+                  as AuthRepository,
         ),
       ],
       child: const MyApp(),

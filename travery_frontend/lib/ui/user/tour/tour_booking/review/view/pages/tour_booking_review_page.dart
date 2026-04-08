@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:travery_frontend/ui/user/tour/tour_view/tour_list/view/widgets/appbar.dart';
 
+import '../../../../../../../data/model/booking_tour_model.dart';
 import '../../../../../../../data/model/tour_combined_model.dart';
 import '../../../../../../core/themes/app_colors.dart';
+import '../../../payment/view/pages/tour_payment_page.dart';
 import '../widgets/member_card.dart';
 import '../widgets/review_section.dart';
 import '../widgets/review_tourcard.dart';
@@ -23,6 +25,37 @@ class TourBookingReviewPage extends StatefulWidget {
 
 class _TourBookingReviewPageState extends State<TourBookingReviewPage> {
   bool isAgreed = true;
+
+  // API
+  Future<void> _handleCreateBooking() async {
+    final info = widget.bookingInfo;
+
+    final newBooking = BookingTour(
+      id: "BK${DateTime.now().millisecondsSinceEpoch}",
+      userId: info['user_id'] ?? "user_123",
+      tourInstanceId: info['tour_instance_id'],
+      passengerName: info['passenger_name'],
+      passengerPhone: info['passenger_phone'],
+      status: 'pending',
+      adultCount: info['adult_count'],
+      childCount: info['child_count'],
+      totalPrice: (info['total_price'] as num).toDouble(),
+      memberList: info['member_list'],
+      specialNotes: info['special_notes'],
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+
+    if (!mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            TourPaymentPage(booking: newBooking, tourData: widget.tourData),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,10 +244,7 @@ class _TourBookingReviewPageState extends State<TourBookingReviewPage> {
           const SizedBox(width: 20),
           Expanded(
             child: ElevatedButton(
-              onPressed: isAgreed
-                  ? () {
-                    }
-                  : null,
+              onPressed: isAgreed ? _handleCreateBooking : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 disabledBackgroundColor: AppColors.textHint,

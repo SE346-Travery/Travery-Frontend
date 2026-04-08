@@ -188,7 +188,7 @@ class _TourBookingInputPageState extends State<TourBookingInputPage> {
                   const SizedBox(height: 16),
                   CustomTextField(
                     label: "SỐ ĐIỆN THOẠI",
-                    hint: "0901 234 567",
+                    hint: "0901 123 567",
                     controller: _contactPhone,
                     keyboardType: TextInputType.phone,
                   ),
@@ -405,7 +405,7 @@ class _TourBookingInputPageState extends State<TourBookingInputPage> {
     }
 
     if (!_isValidPhone(_contactPhone.text)) {
-      _showErrorMessage("Số điện thoại không đúng định dạng (10 số)");
+      _showErrorMessage("Vui lòng nhập đúng số điện thoại");
       return;
     }
     for (int i = 0; i < memberControllers.length; i++) {

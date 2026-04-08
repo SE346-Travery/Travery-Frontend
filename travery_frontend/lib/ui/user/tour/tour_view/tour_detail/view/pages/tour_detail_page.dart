@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/ui/user/tour/tour_booking/input/view/pages/tour_bookinh_input_page.dart';
+import 'package:travery_frontend/ui/user/tour/tour_booking/input/view/pages/tour_booking_input_page.dart';
 import '../../../../../../../data/fake_data/tour_data.dart';
 import '../widgets/tourdetail_card.dart';
 
@@ -8,15 +8,15 @@ class TourDetailPage extends StatelessWidget {
 
   const TourDetailPage({super.key, required this.tourId});
 
-  void _navigateToTourBookingInputPage(BuildContext context, String tourId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            TourBookinhInputPage(userId: '1', tourInstanceId: tourId),
-      ),
-    );
-  }
+  // void _navigateToTourBookingInputPage(BuildContext context, String tourId) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) =>
+  //           TourBookingInputPage(userId: '1', tourInstanceId: tourId, fullTourData: ,),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,12 @@ class TourDetailPage extends StatelessWidget {
       ],
       onBackPressed: () {},
       onSharePressed: () {},
-      onBookPressed: () => _navigateToTourBookingInputPage(context, tourId),
+      onBookPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TourBookingInputPage(userId: '1', tourInstanceId: tourId,fullTourData: tourCombined,),
+        ),
+      ),
     );
   }
 }

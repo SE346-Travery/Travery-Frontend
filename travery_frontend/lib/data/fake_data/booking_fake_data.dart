@@ -11,8 +11,8 @@ final List<Map<String, dynamic>> fakeBookings = [
     "child_count": 1,
     "total_price": 350.50,
     "member_list": [
-      {"name": "Nguyen Van A", "age": 30},
-      {"name": "Tran Thi B", "age": 28},
+      {"name": "Nguyen Van A", "idCard": "123456789123"},
+      {"name": "Tran Thi B", "idCard": "123456789123"},
     ],
     "room_request": "Twin beds",
     "special_notes": "Near window",

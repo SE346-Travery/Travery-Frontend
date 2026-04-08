@@ -5,39 +5,74 @@ import 'package:travery_frontend/ui/user/tour/tour_view/tour_list/view/widgets/a
 import '../../../../../../../data/fake_data/tour_data.dart';
 import '../../../../../../../data/model/tour_combined_model.dart';
 import '../../../../../../core/themes/app_colors.dart';
+import '../../../review/view/pages/tour_booking_review_page.dart';
 import '../widgets/input_tourcard.dart';
 import '../widgets/passenger.dart';
 import '../widgets/textfield.dart';
 
-class TourBookinhInputPage extends StatefulWidget {
+class TourBookingInputPage extends StatefulWidget {
   final String userId;
   final String tourInstanceId;
-
-  const TourBookinhInputPage({
+  final TourCombined fullTourData;
+  const TourBookingInputPage({
     super.key,
     required this.userId,
     required this.tourInstanceId,
+    required this.fullTourData
   });
 
   @override
-  State<TourBookinhInputPage> createState() => _TourBookinhInputPageState();
+  State<TourBookingInputPage> createState() => _TourBookingInputPageState();
 }
 
-class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
+class _TourBookingInputPageState extends State<TourBookingInputPage> {
   final _contactName = TextEditingController();
   final _contactPhone = TextEditingController();
   final _specialNotes = TextEditingController();
-  late TourCombined fullTourData;
+
   int adultCount = 2;
   int childCount = 0;
 
   List<Map<String, TextEditingController>> memberControllers = [];
+
+  // HELPER CHO NHẬP BOOKING
+
+  String _formatName(String name) {
+    if (name.trim().isEmpty) return "";
+    return name
+        .trim()
+        .split(RegExp(r'\s+'))
+        .map((str) {
+          if (str.isEmpty) return "";
+          return str[0].toUpperCase() + str.substring(1).toLowerCase();
+        })
+        .join(' ');
+  }
+
+  bool _isValidPhone(String phone) {
+    return RegExp(r'^(0[3|5|7|8|9])([0-9]{8})$').hasMatch(phone.trim());
+  }
+
+  bool _isValidID(String id) {
+    return RegExp(r'^[a-zA-Z0-9]{12}$').hasMatch(id.trim());
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+
   TourCombined getTourCombined(String instanceId) {
     try {
       final instance = tourInstances.firstWhere((i) => i.id == instanceId);
-
       final tour = tours.firstWhere((t) => t.id == instance.tourId);
-
       return TourCombined(tour: tour, instance: instance);
     } catch (e) {
       throw Exception("Không tìm thấy thông tin tour cho ID: $instanceId");
@@ -48,7 +83,6 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
   void initState() {
     super.initState();
     _syncMembers();
-    fullTourData = getTourCombined(widget.tourInstanceId);
   }
 
   void _syncMembers() {
@@ -74,15 +108,16 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const TourSummaryCard(
-              title: "Tour Hạ Long 5 Sao: Khám phá Vịnh Kỳ Quan Thế Giới",
+            TourSummaryCard(
+              title: widget.fullTourData.tour.name,
               imageUrl:
                   "https://img.lovepik.com/photo/40015/3762.jpg_wh860.jpg",
-              date: "25/10/2024",
-              duration: "2 ngày 1 đêm",
+              date: DateFormat(
+                'dd/MM/yyyy',
+              ).format(widget.fullTourData.instance.startDate),
+              duration: widget.fullTourData.durationText,
             ),
             const SizedBox(height: 24),
-
             _buildSection(
               "Số lượng hành khách",
               Column(
@@ -92,7 +127,8 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
                     subtitle: "Từ 12 tuổi trở lên",
                     value: adultCount,
                     onChanged: (v) => setState(() {
-                      adultCount = v;
+                      // RÀNG BUỘC: Không cho phép giảm xuống 0
+                      adultCount = v < 1 ? 1 : v;
                       _syncMembers();
                     }),
                   ),
@@ -116,8 +152,8 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
                         color: AppColors.warning.withOpacity(0.3),
                       ),
                     ),
-                    child: Row(
-                      children: const [
+                    child: const Row(
+                      children: [
                         Icon(
                           Icons.info_outline,
                           size: 18,
@@ -140,7 +176,6 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
                 ],
               ),
             ),
-
             _buildSection(
               "Thông tin liên hệ",
               Column(
@@ -160,9 +195,7 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
                 ],
               ),
             ),
-
             _buildMemberList(),
-
             _buildSection(
               "Ghi chú đặc biệt",
               CustomTextField(
@@ -171,7 +204,6 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
                 maxLines: 3,
               ),
             ),
-
             const SizedBox(height: 120),
           ],
         ),
@@ -281,8 +313,8 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
 
   Widget _buildBottomBar() {
     double total =
-        (adultCount * fullTourData.tour.price) +
-        (childCount * fullTourData.tour.price);
+        (adultCount * widget.fullTourData.tour.price) +
+        (childCount * widget.fullTourData.tour.price);
     final formatter = NumberFormat('#,###', 'vi_VN');
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
@@ -338,9 +370,9 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     "Tiếp tục thanh toán",
                     style: TextStyle(
@@ -365,6 +397,35 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
   }
 
   void _onContinue() {
+    _contactName.text = _formatName(_contactName.text);
+
+    if (_contactName.text.isEmpty || _contactName.text.length < 2) {
+      _showErrorMessage("Vui lòng nhập họ tên liên hệ hợp lệ");
+      return;
+    }
+
+    if (!_isValidPhone(_contactPhone.text)) {
+      _showErrorMessage("Số điện thoại không đúng định dạng (10 số)");
+      return;
+    }
+    for (int i = 0; i < memberControllers.length; i++) {
+      var nameCtrl = memberControllers[i]['name']!;
+      var idCtrl = memberControllers[i]['idCard']!;
+      nameCtrl.text = _formatName(nameCtrl.text);
+
+      if (nameCtrl.text.isEmpty || nameCtrl.text.length < 2) {
+        _showErrorMessage("Họ tên hành khách ${i + 1} không hợp lệ");
+        return;
+      }
+
+      if (!_isValidID(idCtrl.text)) {
+        _showErrorMessage(
+          "Số CMND/Hộ chiếu HK ${i + 1} không hợp lệ (12 ký tự)",
+        );
+        return;
+      }
+    }
+
     final bookingInfo = {
       'user_id': widget.userId,
       'tour_instance_id': widget.tourInstanceId,
@@ -377,10 +438,19 @@ class _TourBookinhInputPageState extends State<TourBookinhInputPage> {
           .toList(),
       'special_notes': _specialNotes.text,
       'total_price':
-          (adultCount * fullTourData.tour.price) +
-          (childCount * fullTourData.tour.price),
+          (adultCount * widget.fullTourData.tour.price) +
+          (childCount * widget.fullTourData.tour.price),
     };
 
-    print("Dữ liệu sẵn sàng: $bookingInfo");
+    print("Dữ liệu chuẩn: $bookingInfo");
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TourBookingReviewPage(
+          bookingInfo: bookingInfo,
+          tourData: widget.fullTourData,
+        ),
+      ),
+    );
   }
 }

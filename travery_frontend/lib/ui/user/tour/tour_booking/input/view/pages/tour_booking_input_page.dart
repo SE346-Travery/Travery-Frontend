@@ -30,7 +30,7 @@ class _TourBookingInputPageState extends State<TourBookingInputPage> {
   final _contactPhone = TextEditingController();
   final _specialNotes = TextEditingController();
 
-  int adultCount = 2;
+  int adultCount = 1;
   int childCount = 0;
 
   List<Map<String, TextEditingController>> memberControllers = [];

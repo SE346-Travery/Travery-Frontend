@@ -21,7 +21,7 @@ class TourListScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TourDetailPage(tourId: id), // Dùng biến id ở đây
+        builder: (context) => TourDetailPage(tourId: id),
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 
-
 class TourCard extends StatelessWidget {
   final String title;
   final double price;

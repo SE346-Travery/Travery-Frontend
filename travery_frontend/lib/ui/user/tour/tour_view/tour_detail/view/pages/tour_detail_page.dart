@@ -20,12 +20,11 @@ class TourDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('DEBUG: Nhận được tourId là: $tourId');
+    print('tourId là: $tourId');
     final tourCombined = combinedList.firstWhere(
       (item) => item.instance.id == tourId,
       orElse: () => combinedList.first,
     );
-    print("tourcombined la $tourCombined.instance.id");
     return TourDetailCard(
       tourCombined: tourCombined,
       imageUrls: const [

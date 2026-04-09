@@ -108,4 +108,6 @@ class AppColors {
   /// HEX: #1A73E8
   /// Công dụng: Icon khi được chọn hoặc đang hoạt động.
   static const Color iconActive = Color(0xFF1A73E8);
+
+  static const Color warning = Color(0xFFF2C94C);
 }

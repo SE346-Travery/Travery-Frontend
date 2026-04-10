@@ -1,33 +1,25 @@
-import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
+import 'package:travery_frontend/utils/command.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
-class ForgotPasswordViewModel extends ChangeNotifier {
+class ForgotPasswordViewModel {
   final AuthRepository _authRepository;
 
   ForgotPasswordViewModel({required AuthRepository authRepository})
-    : _authRepository = authRepository;
+    : _authRepository = authRepository {
+    forgotPassword = Command1<void, String>(_forgotPassword);
+  }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  late final Command1 forgotPassword;
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
+  Future<Result<void>> _forgotPassword(String email) async {
+    final result = await _authRepository.forgotPassword(email: email);
+    switch (result) {
+      case Ok<void>():
+        return const Result.ok(null);
 
-  Future<bool> forgotPassword(String email) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      await _authRepository.forgotPassword(email);
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _isLoading = false;
-      _errorMessage = e.toString();
-      notifyListeners();
-      return false;
+      case Error<void>():
+        return Result.error(result.error);
     }
   }
 }

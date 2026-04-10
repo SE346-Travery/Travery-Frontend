@@ -1,42 +1,35 @@
-import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
+import 'package:travery_frontend/utils/command.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
-class ConfirmPasswordViewModel extends ChangeNotifier {
+class ConfirmPasswordViewModel {
   final AuthRepository _authRepository;
+
   ConfirmPasswordViewModel({required AuthRepository authRepository})
-    : _authRepository = authRepository;
+    : _authRepository = authRepository {
+    confirmPassword = Command1<void, (String, String, String, String)>(
+      _confirmPassword,
+    );
+  }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  late final Command1 confirmPassword;
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
-  Future<bool> confirmPassword(
-    String email,
-    String otp,
-    String confirmPassword,
-    String newPassword,
+  Future<Result<void>> _confirmPassword(
+    (String, String, String, String) args,
   ) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
+    final (email, otp, confirmPassword, newPassword) = args;
+    final result = await _authRepository.resetPassword(
+      email: email,
+      otp: otp,
+      confirmPassword: confirmPassword,
+      newPassword: newPassword,
+    );
+    switch (result) {
+      case Ok<void>():
+        return const Result.ok(null);
 
-    try {
-      await _authRepository.resetPassword(
-        email,
-        otp,
-        confirmPassword,
-        newPassword,
-      );
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _isLoading = false;
-      _errorMessage = e.toString();
-      notifyListeners();
-      return false;
+      case Error<void>():
+        return Result.error(result.error);
     }
   }
 }

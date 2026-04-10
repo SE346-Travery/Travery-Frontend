@@ -1,42 +1,33 @@
-import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
+import 'package:travery_frontend/utils/command.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
-class RegisterViewModel extends ChangeNotifier {
+class RegisterViewModel {
   final AuthRepository _authRepository;
 
   RegisterViewModel({required AuthRepository authRepository})
-    : _authRepository = authRepository;
+    : _authRepository = authRepository {
+    register = Command1<void, (String, String, String, String)>(_register);
+  }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  late final Command1<void, (String, String, String, String)> register;
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
-  Future<bool> register(
-    String email,
-    String password,
-    String confirmPassword,
-    String fullName,
+  Future<Result<void>> _register(
+    (String, String, String, String) credentials,
   ) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-    try {
-      await _authRepository.registerViaEmail(
-        email,
-        password,
-        confirmPassword,
-        fullName,
-      );
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _isLoading = false;
-      _errorMessage = e.toString();
-      notifyListeners();
-      return false;
+    final (email, password, confirmPassword, fullName) = credentials;
+    final result = await _authRepository.registerViaEmail(
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+      fullName: fullName,
+    );
+    switch (result) {
+      case Ok<void>():
+        return const Result.ok(null);
+
+      case Error<void>():
+        return Result.error(result.error);
     }
   }
 }

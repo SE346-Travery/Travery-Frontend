@@ -2,7 +2,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
 import 'package:travery_frontend/routing/routes.dart';
-
 import 'package:travery_frontend/utils/alert.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
@@ -28,78 +27,101 @@ class OtpVerificationScreen extends StatefulWidget {
 }
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
-  final _otpController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.verifyOtp.addListener(_onVerifyOtpResult);
+    widget.viewModel.resendOtp.addListener(_onResendOtpResult);
+    widget.viewModel.confirmPassword.addListener(_onConfirmPasswordResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant OtpVerificationScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.verifyOtp.removeListener(_onVerifyOtpResult);
+    oldWidget.viewModel.resendOtp.removeListener(_onResendOtpResult);
+    oldWidget.viewModel.confirmPassword.removeListener(
+      _onConfirmPasswordResult,
+    );
+    widget.viewModel.verifyOtp.addListener(_onVerifyOtpResult);
+    widget.viewModel.resendOtp.addListener(_onResendOtpResult);
+    widget.viewModel.confirmPassword.addListener(_onConfirmPasswordResult);
+  }
 
   @override
   void dispose() {
+    widget.viewModel.verifyOtp.removeListener(_onVerifyOtpResult);
+    widget.viewModel.resendOtp.removeListener(_onResendOtpResult);
+    widget.viewModel.confirmPassword.removeListener(_onConfirmPasswordResult);
     _otpController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleVerifyOtp(BuildContext context) async {
-    final otp = _otpController.text.trim();
-    if (otp.length == 6) {
-      final result = await widget.viewModel.verifyOtp(widget.email, otp);
-      if (!context.mounted) return;
-      try {
-        if (result) {
-          Utils.showSuccessNotification(context, 'Xác thực OTP thành công');
-
-          context.push(Routes.login);
-        }
-      } catch (e) {
-        Utils.showErrorNotification(
-          context,
-          widget.viewModel.errorMessage ?? 'Xác thực OTP thất bại',
-        );
-      }
-    } else {
-      Utils.showErrorNotification(context, 'Vui lòng nhập đủ 6 số OTP');
+  void _onVerifyOtpResult() {
+    if (widget.viewModel.verifyOtp.completed) {
+      widget.viewModel.verifyOtp.clearResult();
+      Utils.showSuccessNotification(context, 'Xác thực OTP thành công');
+      context.push(Routes.login);
+    }
+    if (widget.viewModel.verifyOtp.error) {
+      widget.viewModel.verifyOtp.clearResult();
+      Utils.showErrorNotification(context, 'Xác thực OTP thất bại');
     }
   }
 
-  Future<void> _handleResendOtp(BuildContext context) async {
-    final result = await widget.viewModel.resendOtp(widget.email);
-    if (!context.mounted) return;
-
-    try {
-      if (result) {
-        Utils.showSuccessNotification(context, 'Đã gửi lại mã OTP');
-      }
-    } catch (e) {
+  void _onResendOtpResult() {
+    if (widget.viewModel.resendOtp.completed) {
+      widget.viewModel.resendOtp.clearResult();
+      Utils.showSuccessNotification(context, 'Đã gửi lại mã OTP');
+    }
+    if (widget.viewModel.resendOtp.error) {
+      widget.viewModel.resendOtp.clearResult();
       Utils.showErrorNotification(
         context,
-        widget.viewModel.errorMessage ?? 'Gửi lại OTP thất bại',
+        widget.viewModel.resendOtp.error.toString(),
       );
     }
   }
 
-  Future<void> _handleConfirmPassword(BuildContext context) async {
-    final otp = _otpController.text.trim();
-
-    if (otp.length == 6) {
-      final result = await widget.viewModel.confirmPassword(
-        widget.email,
-        otp,
-        widget.confirmPassword!,
-        widget.password!,
-      );
-      if (!context.mounted) return;
-      try {
-        if (result) {
-          Utils.showSuccessNotification(context, 'Xác thực OTP thành công');
-
-          context.push(Routes.login);
-        }
-      } catch (e) {
-        Utils.showErrorNotification(
-          context,
-          widget.viewModel.errorMessage ?? 'Xác thực OTP thất bại',
-        );
-      }
-    } else {
-      Utils.showErrorNotification(context, 'Vui lòng nhập đủ 6 số OTP');
+  void _onConfirmPasswordResult() {
+    if (widget.viewModel.confirmPassword.completed) {
+      widget.viewModel.confirmPassword.clearResult();
+      Utils.showSuccessNotification(context, 'Xác thực OTP thành công');
+      context.push(Routes.login);
     }
+    if (widget.viewModel.confirmPassword.error) {
+      widget.viewModel.confirmPassword.clearResult();
+      Utils.showErrorNotification(context, 'Xác thực OTP thất bại');
+    }
+  }
+
+  void _handleVerifyOtp() {
+    final otp = _otpController.text.trim();
+    if (otp.length != 6) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập đủ 6 số OTP');
+      return;
+    }
+    widget.viewModel.verifyOtp.execute((widget.email, otp));
+  }
+
+  void _handleResendOtp() {
+    widget.viewModel.resendOtp.execute(widget.email);
+  }
+
+  void _handleConfirmPassword() {
+    final otp = _otpController.text.trim();
+    if (otp.length != 6) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập đủ 6 số OTP');
+      return;
+    }
+    widget.viewModel.confirmPassword.execute((
+      widget.email,
+      otp,
+      widget.confirmPassword!,
+      widget.password!,
+    ));
   }
 
   @override
@@ -120,9 +142,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: () {
-                            context.pop();
-                          },
+                          onPressed: () => context.pop(),
                         ),
 
                         Text(
@@ -191,8 +211,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         AuthButton(
                           title: 'Xác thực',
                           onPressed: widget.password != null
-                              ? () => _handleConfirmPassword(context)
-                              : () => _handleVerifyOtp(context),
+                              ? _handleConfirmPassword
+                              : _handleVerifyOtp,
                         ),
 
                         Spacer(flex: 1),
@@ -211,7 +231,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () => _handleResendOtp(context),
+                                onTap: _handleResendOtp,
                                 child: Text(
                                   'Gửi lại mã',
                                   style: TextStyle(

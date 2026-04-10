@@ -22,15 +22,52 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.forgotPassword.addListener(_onForgotPasswordResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant ForgotPasswordScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.forgotPassword.removeListener(_onForgotPasswordResult);
+    widget.viewModel.forgotPassword.addListener(_onForgotPasswordResult);
+  }
+
   @override
   void dispose() {
+    widget.viewModel.forgotPassword.removeListener(_onForgotPasswordResult);
     _contactController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleSendRequest(BuildContext context) async {
+  void _onForgotPasswordResult() {
+    if (widget.viewModel.forgotPassword.completed) {
+      widget.viewModel.forgotPassword.clearResult();
+      Utils.showSuccessNotification(
+        context,
+        'Đã gửi yêu cầu. Vui lòng kiểm tra email hoặc điện thoại của bạn.',
+      );
+      context.push(
+        Routes.otp,
+        extra: {
+          'email': _contactController.text,
+          'password': _passwordController.text,
+          'confirmPassword': _confirmPasswordController.text,
+        },
+      );
+    }
+    if (widget.viewModel.forgotPassword.error) {
+      widget.viewModel.forgotPassword.clearResult();
+      Utils.showErrorNotification(context, 'Gửi yêu cầu thất bại');
+    }
+  }
+
+  void _handleSendRequest() {
     final contact = _contactController.text.trim();
     final password = _passwordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
@@ -63,30 +100,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       return;
     }
 
-    final result = await widget.viewModel.forgotPassword(contact);
-    if (!context.mounted) return;
-
-    try {
-      if (result) {
-        Utils.showSuccessNotification(
-          context,
-          'Đã gửi yêu cầu. Vui lòng kiểm tra email hoặc điện thoại của bạn.',
-        );
-        context.push(
-          Routes.otp,
-          extra: {
-            'email': contact,
-            'password': password,
-            'confirmPassword': confirmPassword,
-          },
-        );
-      }
-    } catch (e) {
-      Utils.showErrorNotification(
-        context,
-        widget.viewModel.errorMessage ?? 'Gửi yêu cầu thất bại',
-      );
-    }
+    widget.viewModel.forgotPassword.execute(contact);
   }
 
   @override
@@ -139,7 +153,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         // Ô nhập email / số điện thoại
                         AuthTextField(
                           controller: _contactController,
-                          title: 'EMAIL / SỐ ĐIỆN THOẠI',
+                          title: 'Email',
                           hintText: 'travery@example.com',
                           isPassword: false,
                           prefixIcon: Icons.email_outlined,
@@ -149,7 +163,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                         AuthTextField(
                           controller: _passwordController,
-                          title: 'Mật khẩu',
+                          title: 'Mật khẩu mới',
                           hintText: '••••••••',
                           isPassword: true,
                           prefixIcon: Icons.lock_outline,
@@ -171,7 +185,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         // Nút gửi yêu cầu
                         AuthButton(
                           title: 'Gửi yêu cầu',
-                          onPressed: () => _handleSendRequest(context),
+                          onPressed: _handleSendRequest,
                         ),
 
                         const SizedBox(height: 24),

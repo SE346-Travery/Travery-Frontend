@@ -8,19 +8,57 @@ import 'package:travery_frontend/utils/alert.dart';
 import 'package:travery_frontend/ui/authentication/view_models/login_view_model.dart';
 import 'package:travery_frontend/routing/routes.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key, required this.viewModel});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key, required this.viewModel});
   final LoginViewModel viewModel;
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  GestureTapCallback? _navigateToRegister(BuildContext context) {
-    context.push(Routes.register);
-    return null;
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.loginViaEmail.addListener(_onResult);
   }
 
-  Future<void> _handleLogin(BuildContext context) async {
+  @override
+  void didUpdateWidget(covariant LoginScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.loginViaEmail.removeListener(_onResult);
+    widget.viewModel.loginViaEmail.addListener(_onResult);
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.loginViaEmail.removeListener(_onResult);
+    super.dispose();
+  }
+
+  void _navigateToRegister() {
+    context.push(Routes.register);
+  }
+
+  void _onResult() {
+    if (widget.viewModel.loginViaEmail.completed) {
+      Utils.showSuccessNotification(context, 'Đăng nhập thành công');
+      context.go(Routes.home);
+      widget.viewModel.loginViaEmail.clearResult();
+    }
+    if (widget.viewModel.loginViaEmail.error) {
+      widget.viewModel.loginViaEmail.clearResult();
+      Utils.showErrorNotification(
+        context,
+        widget.viewModel.loginViaEmail.error.toString(),
+      );
+    }
+  }
+
+  Future<void> _handleLogin() async {
     final email = emailController.text;
     final password = passwordController.text;
 
@@ -39,18 +77,7 @@ class LoginScreen extends StatelessWidget {
       return;
     }
 
-    final success = await viewModel.loginViaEmail(email, password);
-    if (!context.mounted) return;
-
-    if (success) {
-      Utils.showSuccessNotification(context, 'Đăng nhập thành công');
-      context.push(Routes.home);
-    } else {
-      Utils.showErrorNotification(
-        context,
-        viewModel.errorMessage ?? 'Đăng nhập thất bại',
-      );
-    }
+    widget.viewModel.loginViaEmail.execute((email, password));
   }
 
   @override
@@ -62,9 +89,7 @@ class LoginScreen extends StatelessWidget {
           builder: (context, constraints) {
             return SingleChildScrollView(
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 24),
@@ -137,10 +162,7 @@ class LoginScreen extends StatelessWidget {
 
                         SizedBox(height: 24),
 
-                        AuthButton(
-                          title: 'Đăng nhập',
-                          onPressed: () => _handleLogin(context),
-                        ),
+                        AuthButton(title: 'Đăng nhập', onPressed: _handleLogin),
 
                         Spacer(flex: 1),
 
@@ -158,7 +180,7 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               ),
                               InkWell(
-                                onTap: () => _navigateToRegister(context),
+                                onTap: _navigateToRegister,
                                 child: Text(
                                   'Đăng ký',
                                   style: TextStyle(

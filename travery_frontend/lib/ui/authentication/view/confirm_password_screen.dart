@@ -30,13 +30,44 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
       TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    widget.viewModel.confirmPassword.addListener(_onConfirmPasswordResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant ConfirmPasswordScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.confirmPassword.removeListener(
+      _onConfirmPasswordResult,
+    );
+    widget.viewModel.confirmPassword.addListener(_onConfirmPasswordResult);
+  }
+
+  @override
   void dispose() {
+    widget.viewModel.confirmPassword.removeListener(_onConfirmPasswordResult);
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleConfirm(BuildContext context) async {
+  void _onConfirmPasswordResult() {
+    if (widget.viewModel.confirmPassword.completed) {
+      widget.viewModel.confirmPassword.clearResult();
+      Utils.showSuccessNotification(
+        context,
+        'Mật khẩu đã được cập nhật thành công',
+      );
+      context.go(Routes.login);
+    }
+    if (widget.viewModel.confirmPassword.error) {
+      widget.viewModel.confirmPassword.clearResult();
+      Utils.showErrorNotification(context, 'Cập nhật mật khẩu thất bại');
+    }
+  }
+
+  void _handleConfirm() {
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
 
@@ -60,26 +91,12 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
       return;
     }
 
-    final result = await widget.viewModel.confirmPassword(
+    widget.viewModel.confirmPassword.execute((
       widget.email,
       widget.otp,
       confirmPassword,
       password,
-    );
-    if (!context.mounted) return;
-
-    if (result) {
-      Utils.showSuccessNotification(
-        context,
-        'Mật khẩu đã được cập nhật thành công',
-      );
-      context.go(Routes.login);
-    } else {
-      Utils.showErrorNotification(
-        context,
-        widget.viewModel.errorMessage ?? 'Có lỗi xảy ra. Hãy thử lại.',
-      );
-    }
+    ));
   }
 
   @override
@@ -159,7 +176,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                         // Nút xác nhận
                         AuthButton(
                           title: 'Xác nhận',
-                          onPressed: () => _handleConfirm(context),
+                          onPressed: _handleConfirm,
                         ),
 
                         const Spacer(flex: 1),

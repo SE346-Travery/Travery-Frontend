@@ -24,7 +24,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nameController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    widget.viewModel.register.addListener(_onRegisterResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant RegisterScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.register.removeListener(_onRegisterResult);
+    widget.viewModel.register.addListener(_onRegisterResult);
+  }
+
+  @override
   void dispose() {
+    widget.viewModel.register.removeListener(_onRegisterResult);
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
@@ -32,11 +46,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _navigateToLogin(BuildContext context) {
+  void _navigateToLogin() {
     context.go(Routes.login);
   }
 
-  Future<void> _handleRegister(BuildContext context) async {
+  void _onRegisterResult() {
+    if (widget.viewModel.register.completed) {
+      widget.viewModel.register.clearResult();
+      context.push(Routes.otp, extra: {'email': emailController.text});
+    }
+    if (widget.viewModel.register.error) {
+      widget.viewModel.register.clearResult();
+      Utils.showErrorNotification(
+        context,
+        widget.viewModel.register.error.toString(),
+      );
+    }
+  }
+
+  void _handleRegister() {
     final email = emailController.text;
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
@@ -44,55 +72,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (fullName.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập họ và tên');
+      return;
     }
 
     if (email.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập email');
+      return;
     }
 
     if (password.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập mật khẩu');
+      return;
     }
 
     if (password.length < 8) {
       Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 ký tự');
+      return;
     }
 
     if (confirmPassword.isEmpty) {
       Utils.showErrorNotification(context, 'Vui lòng nhập lại mật khẩu');
+      return;
     }
 
     if (confirmPassword != password) {
       Utils.showErrorNotification(context, 'Mật khẩu không khớp');
+      return;
     }
 
-    final result = await widget.viewModel.register(
+    widget.viewModel.register.execute((
       email,
       password,
       confirmPassword,
       fullName,
-    );
-    if (!context.mounted) return;
-
-    try {
-      if (result) {
-        context.push(
-          Routes.otp,
-          extra: {
-            'email': email,
-            'password': password,
-            'confirmPassword': confirmPassword,
-            'fullName': fullName,
-            'nextRoute': Routes.login,
-          },
-        );
-      }
-    } catch (e) {
-      Utils.showErrorNotification(
-        context,
-        widget.viewModel.errorMessage ?? 'Đăng kí thất bại',
-      );
-    }
+    ));
   }
 
   @override
@@ -104,9 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           builder: (context, constraints) {
             return SingleChildScrollView(
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 24),
@@ -115,9 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: () {
-                            context.pop();
-                          },
+                          onPressed: () => context.pop(),
                         ),
 
                         Text(
@@ -182,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         AuthButton(
                           title: 'Đăng ký',
-                          onPressed: () => _handleRegister(context),
+                          onPressed: _handleRegister,
                         ),
 
                         Spacer(flex: 1),
@@ -201,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () => _navigateToLogin(context),
+                                onTap: _navigateToLogin,
                                 child: Text(
                                   'Đăng nhập',
                                   style: TextStyle(

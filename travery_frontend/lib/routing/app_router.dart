@@ -8,6 +8,7 @@ import 'routes.dart';
 
 // Import các màn hình và viewmodel
 import '../ui/authentication/view/login_screen.dart';
+
 import '../ui/authentication/view/register_screen.dart';
 import '../ui/authentication/view/otp_verification_screen.dart';
 import '../ui/authentication/view/forgot_password_screen.dart';
@@ -17,8 +18,8 @@ import '../ui/authentication/view_models/login_view_model.dart';
 import '../ui/authentication/view_models/otp_verification_view_model.dart';
 import '../data/repositories/auth_repository.dart';
 
-class AppRouter {
-  static final GoRouter router = GoRouter(
+GoRouter router(AuthRepository authRepository) {
+  return GoRouter(
     initialLocation: Routes.login,
     debugLogDiagnostics: true,
     routes: [
@@ -44,8 +45,8 @@ class AppRouter {
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>;
           final email = extra['email'] as String;
-          final password = extra['password'] as String;
-          final confirmPassword = extra['confirmPassword'] as String;
+          final password = extra['password'] as String?;
+          final confirmPassword = extra['confirmPassword'] as String?;
 
           return OtpVerificationScreen(
             viewModel: OtpVerificationViewModel(

@@ -1,79 +1,62 @@
-import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
+import 'package:travery_frontend/utils/command.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
-class OtpVerificationViewModel extends ChangeNotifier {
+class OtpVerificationViewModel {
   final AuthRepository _authRepository;
 
   OtpVerificationViewModel({required AuthRepository authRepository})
-    : _authRepository = authRepository;
+    : _authRepository = authRepository {
+    verifyOtp = Command1<void, (String, String)>(_verifyOtp);
+    resendOtp = Command1<void, String>(_resendOtp);
+    confirmPassword = Command1<void, (String, String, String, String)>(
+      _confirmPassword,
+    );
+  }
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+  late final Command1 verifyOtp;
+  late final Command1 resendOtp;
+  late final Command1 confirmPassword;
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
+  Future<Result<void>> _verifyOtp((String, String) args) async {
+    final (email, otp) = args;
+    final result = await _authRepository.verifyOtp(email: email, otp: otp);
+    switch (result) {
+      case Ok<void>():
+        return const Result.ok(null);
 
-  Future<bool> verifyOtp(String email, String otp) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      await _authRepository.verifyOtp(email, otp);
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _isLoading = false;
-      _errorMessage = e.toString();
-      notifyListeners();
-      return false;
+      case Error<void>():
+        return Result.error(result.error);
     }
   }
 
-  Future<bool> resendOtp(String email) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
+  Future<Result<void>> _resendOtp(String email) async {
+    final result = await _authRepository.resendOtp(email: email);
+    switch (result) {
+      case Ok<void>():
+        return const Result.ok(null);
 
-    try {
-      await _authRepository.resendOtp(email);
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _isLoading = false;
-      _errorMessage = e.toString();
-      notifyListeners();
-      return false;
+      case Error<void>():
+        return Result.error(result.error);
     }
   }
 
-  Future<bool> confirmPassword(
-    String email,
-    String otp,
-    String confirmPassword,
-    String newPassword,
+  Future<Result<void>> _confirmPassword(
+    (String, String, String, String) args,
   ) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
+    final (email, otp, confirmPassword, newPassword) = args;
+    final result = await _authRepository.resetPassword(
+      email: email,
+      otp: otp,
+      confirmPassword: confirmPassword,
+      newPassword: newPassword,
+    );
+    switch (result) {
+      case Ok<void>():
+        return const Result.ok(null);
 
-    try {
-      await _authRepository.resetPassword(
-        email,
-        otp,
-        confirmPassword,
-        newPassword,
-      );
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _isLoading = false;
-      _errorMessage = e.toString();
-      notifyListeners();
-      return false;
+      case Error<void>():
+        return Result.error(result.error);
     }
   }
 }

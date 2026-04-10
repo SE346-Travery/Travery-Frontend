@@ -1,19 +1,25 @@
-abstract class AuthRepository {
-  Future<void> loginViaEmail(String email, String password);
-  Future<void> registerViaEmail(
-    String email,
-    String password,
-    String confirmPassword,
-    String fullName,
-  );
-  Future<void> forgotPassword(String email);
-  Future<void> verifyOtp(String email, String otp);
-  Future<void> resendOtp(String email);
-  Future<void> logout(String refreshToken);
-  Future<void> resetPassword(
-    String email,
-    String otp,
-    String confirmPassword,
-    String newPassword,
-  );
+import 'package:flutter/foundation.dart';
+import 'package:travery_frontend/utils/core_result.dart';
+
+abstract class AuthRepository extends ChangeNotifier {
+  Future<Result<void>> loginViaEmail({
+    required String email,
+    required String password,
+  });
+  Future<Result<void>> registerViaEmail({
+    required String email,
+    required String password,
+    required String confirmPassword,
+    required String fullName,
+  });
+  Future<Result<void>> forgotPassword({required String email});
+  Future<Result<void>> verifyOtp({required String email, required String otp});
+  Future<Result<void>> resendOtp({required String email});
+  Future<Result<void>> logout({required String refreshToken});
+  Future<Result<void>> resetPassword({
+    required String email,
+    required String otp,
+    required String confirmPassword,
+    required String newPassword,
+  });
 }

@@ -6,9 +6,12 @@ import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/auth_button.dart';
 import 'widgets/auth_text_field.dart';
+import '../view_models/forgot_password_view_model.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+  const ForgotPasswordScreen({super.key, required this.viewModel});
+
+  final ForgotPasswordViewModel viewModel;
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -16,31 +19,88 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.forgotPassword.addListener(_onForgotPasswordResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant ForgotPasswordScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.forgotPassword.removeListener(_onForgotPasswordResult);
+    widget.viewModel.forgotPassword.addListener(_onForgotPasswordResult);
+  }
 
   @override
   void dispose() {
+    widget.viewModel.forgotPassword.removeListener(_onForgotPasswordResult);
     _contactController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  GestureTapCallback? _handleSendRequest(BuildContext context) {
+  void _onForgotPasswordResult() {
+    if (widget.viewModel.forgotPassword.completed) {
+      widget.viewModel.forgotPassword.clearResult();
+      Utils.showSuccessNotification(
+        context,
+        'Đã gửi yêu cầu. Vui lòng kiểm tra email hoặc điện thoại của bạn.',
+      );
+      context.push(
+        Routes.otp,
+        extra: {
+          'email': _contactController.text,
+          'password': _passwordController.text,
+          'confirmPassword': _confirmPasswordController.text,
+        },
+      );
+    }
+    if (widget.viewModel.forgotPassword.error) {
+      widget.viewModel.forgotPassword.clearResult();
+      Utils.showErrorNotification(context, 'Gửi yêu cầu thất bại');
+    }
+  }
+
+  void _handleSendRequest() {
     final contact = _contactController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
 
     if (contact.isEmpty) {
       Utils.showErrorNotification(
         context,
         'Vui lòng nhập email hoặc số điện thoại',
       );
-      return null;
+      return;
     }
 
-    // TODO: Gọi API gửi yêu cầu đặt lại mật khẩu
-    Utils.showSuccessNotification(
-      context,
-      'Đã gửi yêu cầu. Vui lòng kiểm tra email hoặc điện thoại của bạn.',
-    );
-    context.push(Routes.otp);
-    return null;
+    if (password.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập mật khẩu');
+      return;
+    }
+
+    if (password.length < 8) {
+      Utils.showErrorNotification(context, 'Mật khẩu phải có ít nhất 8 kí tự');
+      return;
+    }
+
+    if (confirmPassword.isEmpty) {
+      Utils.showErrorNotification(context, 'Vui lòng nhập lại mật khẩu');
+      return;
+    }
+
+    if (confirmPassword != password) {
+      Utils.showErrorNotification(context, 'Mật khẩu không khớp');
+      return;
+    }
+
+    widget.viewModel.forgotPassword.execute(contact);
   }
 
   @override
@@ -48,136 +108,162 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 48),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => context.pop(),
+                        ),
 
-              // Icon khóa
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(
-                  Icons.lock_reset_rounded,
-                  size: 32,
-                  color: AppColors.primary,
-                ),
-              ),
+                        const SizedBox(height: 24),
 
-              const SizedBox(height: 32),
+                        // Tiêu đề
+                        Text(
+                          'Quên mật khẩu?',
+                          style: TextStyle(
+                            fontSize: AppTextTheme.headlineLarge,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
 
-              // Tiêu đề
-              Text(
-                'Quên mật khẩu?',
-                style: TextStyle(
-                  fontSize: AppTextTheme.headlineLarge,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
+                        const SizedBox(height: 8),
 
-              const SizedBox(height: 8),
+                        // Mô tả
+                        Text(
+                          'Đừng lo lắng, hãy nhập email hoặc số điện thoại để nhận mã OTP khôi phục.',
+                          style: TextStyle(
+                            fontSize: AppTextTheme.bodyLarge,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
 
-              // Mô tả
-              Text(
-                'Đừng lo lắng, hãy nhập email hoặc số điện thoại để nhận mã OTP khôi phục.',
-                style: TextStyle(
-                  fontSize: AppTextTheme.bodyLarge,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.textSecondary,
-                ),
-              ),
+                        const SizedBox(height: 32),
 
-              const SizedBox(height: 32),
+                        // Ô nhập email / số điện thoại
+                        AuthTextField(
+                          controller: _contactController,
+                          title: 'Email',
+                          hintText: 'travery@example.com',
+                          isPassword: false,
+                          prefixIcon: Icons.email_outlined,
+                        ),
 
-              // Ô nhập email / số điện thoại
-              AuthTextField(
-                controller: _contactController,
-                title: 'EMAIL / SỐ ĐIỆN THOẠI',
-                hintText: 'travery@example.com',
-                isPassword: false,
-                prefixIcon: Icons.email_outlined,
-              ),
+                        const SizedBox(height: 16),
 
-              const SizedBox(height: 24),
+                        AuthTextField(
+                          controller: _passwordController,
+                          title: 'Mật khẩu mới',
+                          hintText: '••••••••',
+                          isPassword: true,
+                          prefixIcon: Icons.lock_outline,
+                        ),
 
-              // Nút gửi yêu cầu
-              AuthButton(
-                title: 'Gửi yêu cầu',
-                onPressed: () => _handleSendRequest(context),
-              ),
+                        const SizedBox(height: 16),
 
-              const SizedBox(height: 24),
+                        // Ô xác nhận mật khẩu
+                        AuthTextField(
+                          controller: _confirmPasswordController,
+                          title: 'Xác nhận mật khẩu',
+                          hintText: '••••••••',
+                          isPassword: true,
+                          prefixIcon: Icons.lock_reset,
+                        ),
 
-              // Divider "HOẶC"
-              Row(
-                children: [
-                  const Expanded(child: Divider(color: AppColors.inputBorder)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      'HOẶC',
-                      style: TextStyle(
-                        fontSize: AppTextTheme.bodySmall,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textSecondary,
-                        letterSpacing: 1.2,
-                      ),
+                        const SizedBox(height: 24),
+
+                        // Nút gửi yêu cầu
+                        AuthButton(
+                          title: 'Gửi yêu cầu',
+                          onPressed: _handleSendRequest,
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Divider "HOẶC"
+                        Row(
+                          children: [
+                            const Expanded(
+                              child: Divider(color: AppColors.inputBorder),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              child: Text(
+                                'HOẶC',
+                                style: TextStyle(
+                                  fontSize: AppTextTheme.bodySmall,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.textSecondary,
+                                  letterSpacing: 1.2,
+                                ),
+                              ),
+                            ),
+                            const Expanded(
+                              child: Divider(color: AppColors.inputBorder),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Link Quay lại Đăng nhập
+                        Center(
+                          child: InkWell(
+                            onTap: () => context.go(Routes.login),
+                            borderRadius: BorderRadius.circular(8),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              child: Text(
+                                'Quay lại Đăng nhập',
+                                style: TextStyle(
+                                  fontSize: AppTextTheme.bodyLarge,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.link,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const Spacer(),
+
+                        // Ghi chú phía dưới
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: Center(
+                            child: Text(
+                              'Chúng tôi sẽ gửi một liên kết đặt lại mật khẩu hoặc mã OTP trực tiếp đến thông tin bạn đã cung cấp.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: AppTextTheme.bodySmall,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.textHint,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const Expanded(child: Divider(color: AppColors.inputBorder)),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              // Link Quay lại Đăng nhập
-              Center(
-                child: InkWell(
-                  onTap: () => context.go(Routes.login),
-                  borderRadius: BorderRadius.circular(8),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    child: Text(
-                      'Quay lại Đăng nhập',
-                      style: TextStyle(
-                        fontSize: AppTextTheme.bodyLarge,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.link,
-                      ),
-                    ),
-                  ),
                 ),
               ),
-
-              const Spacer(),
-
-              // Ghi chú phía dưới
-              Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: Center(
-                  child: Text(
-                    'Chúng tôi sẽ gửi một liên kết đặt lại mật khẩu hoặc mã OTP trực tiếp đến thông tin bạn đã cung cấp.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: AppTextTheme.bodySmall,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.textHint,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

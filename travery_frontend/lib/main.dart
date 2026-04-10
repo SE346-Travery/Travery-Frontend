@@ -1,30 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/auth_repository.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/routing/app_router.dart';
-import 'package:travery_frontend/data/services/auth_service.dart';
-import 'package:travery_frontend/data/repositories/auth_repository_remote.dart';
+import 'main_development.dart' as development;
 
 void main() {
-  runApp(
-    // Dependency Injection: Chỉ khởi tạo service và repository_remote
-    // ViewModel khởi tạo ở router để tránh tạo quá nhiều instance
-    MultiProvider(
-      providers: [
-        Provider(create: (context) => AuthService()),
-        Provider(create: (context) => SecurityStorageService()),
-        
-        Provider(
-          create: (context) => AuthRepositoryRemote(
-            authService: context.read(),
-            securityStorageService: context.read(),
-          ) as AuthRepository,
-        ),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  development.main();
 }
 
 class MyApp extends StatelessWidget {
@@ -33,6 +13,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(title: 'Travery', routerConfig: AppRouter.router);
+    return MaterialApp.router(routerConfig: router(context.read()));
   }
 }

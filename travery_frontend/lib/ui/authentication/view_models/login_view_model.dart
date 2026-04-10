@@ -1,32 +1,35 @@
+import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
-import 'package:travery_frontend/utils/command.dart';
-import 'package:logging/logging.dart';
-import 'package:travery_frontend/utils/core_result.dart';
 
-class LoginViewModel {
+class LoginViewModel extends ChangeNotifier{
   final AuthRepository _authRepository;
+  LoginViewModel({required AuthRepository authRepository}) : _authRepository = authRepository;
+  
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
-  LoginViewModel({required AuthRepository authRepository})
-    : _authRepository = authRepository {
-    loginViaEmail = Command1<void, (String email, String password)>(
-      _loginViaEmail,
-    );
-  }
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
 
-  late final Command1 loginViaEmail;
-
-  Future<Result<void>> _loginViaEmail((String, String) credentials) async {
-    final (email, password) = credentials;
-    final result = await _authRepository.loginViaEmail(
-      email: email,
-      password: password,
-    );
-    switch (result) {
-      case Ok<void>():
-        return const Result.ok(null);
-
-      case Error<void>():
-        return Result.error(result.error);
+  Future<bool> login(String email, String password) async {
+    try {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+      
+      final success = await _authRepository.login(email, password);
+      
+      if (success) {
+        return true;
+      } else {
+        _errorMessage = 'Đăng nhập thất bại';
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
     }
   }
 }

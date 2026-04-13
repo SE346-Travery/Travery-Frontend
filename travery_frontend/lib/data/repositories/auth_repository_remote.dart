@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:travery_frontend/data/services/api/model/forgot_password_request/forgot_password_request.dart';
 import 'package:travery_frontend/data/services/api/model/login_request/login_request.dart';
 import 'package:travery_frontend/data/services/api/model/login_response/login_response.dart';

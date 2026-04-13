@@ -3,6 +3,8 @@ import 'package:provider/single_child_widget.dart';
 
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/auth_repository_remote.dart';
+import 'package:travery_frontend/data/repositories/tour_repository.dart';
+import 'package:travery_frontend/data/repositories/tour_repository_mock.dart';
 
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
@@ -18,4 +20,5 @@ List<SingleChildWidget> get providers => [
             )
             as AuthRepository,
   ),
+  Provider<TourRepository>(create: (context) => TourRepositoryMock()),
 ];

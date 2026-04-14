@@ -10,7 +10,6 @@ class BookingInputField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextEditingController? controller;
 
-  // ✅ thêm
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
 
@@ -20,8 +19,8 @@ class BookingInputField extends StatelessWidget {
     required this.hint,
     this.keyboardType = TextInputType.text,
     this.controller,
-    this.validator, // ✅
-    this.inputFormatters, // ✅
+    this.validator, 
+    this.inputFormatters,
   });
 
   @override
@@ -29,7 +28,7 @@ class BookingInputField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label.isNotEmpty) // tránh label rỗng vẫn chiếm chỗ
+        if (label.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: 4, bottom: 6),
             child: Text(
@@ -42,7 +41,6 @@ class BookingInputField extends StatelessWidget {
             ),
           ),
 
-        // 🔥 CHỈ ĐỔI CHỖ NÀY
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
@@ -66,7 +64,6 @@ class BookingInputField extends StatelessWidget {
               borderSide: const BorderSide(color: AppColors.primary, width: 1),
             ),
             errorBorder: OutlineInputBorder(
-              // ✅ thêm viền lỗi
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Colors.red, width: 1),
             ),

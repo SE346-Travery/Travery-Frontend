@@ -45,6 +45,7 @@ class BookingPaymentModel {
   /// Tổng số khách
   int get totalGuests => adultCount + childCount;
 
+  /// Chuỗi mô tả số lượng khách
   String get guestDescription {
     if (adultCount > 0 && childCount > 0) {
       return '$adultCount Người lớn, $childCount Trẻ em';

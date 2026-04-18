@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
+import 'package:travery_frontend/data/repositories/receptionist_repository.dart';
 import 'package:travery_frontend/data/repositories/tour_repository.dart';
 import 'package:travery_frontend/ui/authentication/view_models/confirm_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/forgot_password_view_model.dart';
@@ -36,6 +37,10 @@ import '../ui/user/tour/view_models/tour_detail_view_model.dart';
 import '../ui/user/tour/view_models/tour_booking_view_model.dart';
 import '../../data/seed_models/booking_payment/booking_payment_model.dart';
 import '../../data/seed_models/booking_detail/booking_detail_model.dart';
+
+// Receptionist screens
+import '../ui/receptionist/receptionist_dashboard_screen.dart';
+import '../ui/receptionist/view_models/receptionist_view_model.dart';
 
 GoRouter appRouter(AuthRepository authRepository) {
   return GoRouter(
@@ -207,6 +212,16 @@ GoRouter appRouter(AuthRepository authRepository) {
             paymentMethod: extra['paymentMethod'] as String,
           );
         },
+      ),
+
+      // --- RECEPTIONIST ROUTES ---
+      GoRoute(
+        path: Routes.receptionistDashboard,
+        builder: (context, state) => ReceptionistDashboardScreen(
+          viewModel: ReceptionistViewModel(
+            repository: context.read<ReceptionistRepository>(),
+          ),
+        ),
       ),
     ],
   );

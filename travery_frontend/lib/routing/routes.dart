@@ -20,6 +20,9 @@ class Routes {
   static const String bookingSuccess = '/payment/success';
   static const String bookingDetail = '/booking/:id';
 
+  // Receptionist nhóm
+  static const String receptionistDashboard = '/receptionist/dashboard';
+
   /* HƯỚNG DẪN: Khi thêm Repository/Feature mới (ví dụ: Hotel, Car):
   Hãy thêm các hằng số đường dẫn vào đây.
   static const String hotelList = '/hotels';

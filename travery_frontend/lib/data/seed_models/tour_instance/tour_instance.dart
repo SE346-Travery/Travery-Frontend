@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
 import '../tour_booking/tour_booking.dart';
-
 
 part 'tour_instance.freezed.dart';
 part 'tour_instance.g.dart';

@@ -1,6 +1,5 @@
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
 import 'package:travery_frontend/utils/command.dart';
-import 'package:logging/logging.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class LoginViewModel {

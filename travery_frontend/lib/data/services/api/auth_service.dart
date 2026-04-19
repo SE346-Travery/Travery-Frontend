@@ -1,19 +1,17 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/config/app_config.dart';
-import 'package:travery_frontend/data/services/api/model/forgot_password_request/forgot_password_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/forgot_password_request/forgot_password_request.dart';
 import 'dart:convert';
 
-import 'package:travery_frontend/data/services/api/model/login_request/login_request.dart';
-import 'package:travery_frontend/data/services/api/model/login_response/login_response.dart';
-import 'package:travery_frontend/data/services/api/model/logout_request/logout_request.dart';
-import 'package:travery_frontend/data/services/api/model/refresh_request/refresh_request.dart';
-import 'package:travery_frontend/data/services/api/model/refresh_response/refresh_reponse.dart';
-import 'package:travery_frontend/data/services/api/model/resend_otp_request/resend_otp_request.dart';
-import 'package:travery_frontend/data/services/api/model/reset_password_request/reset_password_request.dart';
-import 'package:travery_frontend/data/services/api/model/signup_request/signup_request.dart';
-import 'package:travery_frontend/data/services/api/model/verify_otp_request/verify_otp_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/login_request/login_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/login_response/login_response.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/logout_request/logout_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/refresh_request/refresh_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/refresh_response/refresh_reponse.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/resend_otp_request/resend_otp_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/reset_password_request/reset_password_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/signup_request/signup_request.dart';
+import 'package:travery_frontend/data/services/api/model/authentication/verify_otp_request/verify_otp_request.dart';
 
 import 'package:travery_frontend/utils/core_result.dart';
 

@@ -104,89 +104,80 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 8),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 8),
 
-                        // Nút back
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () => context.pop(),
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                        ),
+                // Nút back
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => context.pop(),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
 
-                        const SizedBox(height: 32),
+                const SizedBox(height: 32),
 
-                        // Tiêu đề
-                        Text(
-                          'Tạo mật khẩu mới',
-                          style: TextStyle(
-                            fontSize: AppTextTheme.headlineLarge,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        // Mô tả
-                        Text(
-                          'Vui lòng xác nhận mật khẩu mới. Đảm bảo mật khẩu của bạn có 8 kí tự',
-                          style: TextStyle(
-                            fontSize: AppTextTheme.bodyLarge,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-
-                        const SizedBox(height: 32),
-
-                        // Ô nhập mật khẩu
-                        AuthTextField(
-                          controller: _passwordController,
-                          title: 'Mật khẩu',
-                          hintText: '••••••••',
-                          isPassword: true,
-                          prefixIcon: Icons.lock_outline,
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Ô xác nhận mật khẩu
-                        AuthTextField(
-                          controller: _confirmPasswordController,
-                          title: 'Xác nhận mật khẩu',
-                          hintText: '••••••••',
-                          isPassword: true,
-                          prefixIcon: Icons.lock_reset,
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        // Nút xác nhận
-                        AuthButton(
-                          title: 'Xác nhận',
-                          onPressed: _handleConfirm,
-                        ),
-
-                        const Spacer(flex: 1),
-                      ],
-                    ),
+                // Tiêu đề
+                Text(
+                  'Tạo mật khẩu mới',
+                  style: TextStyle(
+                    fontSize: AppTextTheme.headlineLarge,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
                   ),
                 ),
-              ),
-            );
-          },
+
+                const SizedBox(height: 8),
+
+                // Mô tả
+                Text(
+                  'Vui lòng xác nhận mật khẩu mới. Đảm bảo mật khẩu của bạn có 8 kí tự',
+                  style: TextStyle(
+                    fontSize: AppTextTheme.bodyLarge,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+
+                // Ô nhập mật khẩu
+                AuthTextField(
+                  controller: _passwordController,
+                  title: 'Mật khẩu',
+                  hintText: '••••••••',
+                  isPassword: true,
+                  prefixIcon: Icons.lock_outline,
+                ),
+
+                const SizedBox(height: 16),
+
+                // Ô xác nhận mật khẩu
+                AuthTextField(
+                  controller: _confirmPasswordController,
+                  title: 'Xác nhận mật khẩu',
+                  hintText: '••••••••',
+                  isPassword: true,
+                  prefixIcon: Icons.lock_reset,
+                ),
+
+                const SizedBox(height: 24),
+
+                // Nút xác nhận
+                AuthButton(
+                  title: 'Xác nhận',
+                  onPressed: _handleConfirm,
+                ),
+
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
         ),
       ),
     );

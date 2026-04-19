@@ -128,129 +128,118 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.surface,
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.arrow_back),
-                          onPressed: () => context.pop(),
-                        ),
-
-                        Text(
-                          'Xác thực OTP',
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Nhập mã OTP đã được gửi đến email:\n${widget.email}',
-                          style: TextStyle(
-                            fontSize: AppTextTheme.bodyLarge,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-
-                        SizedBox(height: 24),
-
-                        Center(
-                          child: Pinput(
-                            controller: _otpController,
-                            length: 6,
-                            keyboardType: TextInputType.number,
-                            pinAnimationType: PinAnimationType.fade,
-                            defaultPinTheme: PinTheme(
-                              width: 56,
-                              height: 56,
-                              textStyle: TextStyle(
-                                fontSize: AppTextTheme.headlineLarge,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textPrimary,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.inputBackground,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: AppColors.inputBorder,
-                                ),
-                              ),
-                            ),
-                            focusedPinTheme: PinTheme(
-                              width: 56,
-                              height: 56,
-                              textStyle: TextStyle(
-                                fontSize: AppTextTheme.headlineLarge,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textPrimary,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.inputBackground,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: AppColors.inputBorderFocused,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 24),
-
-                        AuthButton(
-                          title: 'Xác thực',
-                          onPressed: widget.password != null
-                              ? _handleConfirmPassword
-                              : _handleVerifyOtp,
-                        ),
-
-                        Spacer(flex: 1),
-
-                        SizedBox(
-                          height: 48,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Bạn chưa nhận được mã? ',
-                                style: TextStyle(
-                                  fontSize: AppTextTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: _handleResendOtp,
-                                child: Text(
-                                  'Gửi lại mã',
-                                  style: TextStyle(
-                                    fontSize: AppTextTheme.bodyLarge,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.link,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SizedBox(
+            height: 48,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Bạn chưa nhận được mã? ',
+                  style: TextStyle(
+                    fontSize: AppTextTheme.bodyLarge,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                InkWell(
+                  onTap: _handleResendOtp,
+                  child: Text(
+                    'Gửi lại mã',
+                    style: TextStyle(
+                      fontSize: AppTextTheme.bodyLarge,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.link,
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => context.pop(),
+                ),
+
+                Text(
+                  'Xác thực OTP',
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Nhập mã OTP đã được gửi đến email:\n${widget.email}',
+                  style: TextStyle(
+                    fontSize: AppTextTheme.bodyLarge,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                Center(
+                  child: Pinput(
+                    controller: _otpController,
+                    length: 6,
+                    keyboardType: TextInputType.number,
+                    pinAnimationType: PinAnimationType.fade,
+                    defaultPinTheme: PinTheme(
+                      width: 56,
+                      height: 56,
+                      textStyle: TextStyle(
+                        fontSize: AppTextTheme.headlineLarge,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.inputBackground,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.inputBorder),
+                      ),
+                    ),
+                    focusedPinTheme: PinTheme(
+                      width: 56,
+                      height: 56,
+                      textStyle: TextStyle(
+                        fontSize: AppTextTheme.headlineLarge,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.inputBackground,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.inputBorderFocused),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                AuthButton(
+                  title: 'Xác thực',
+                  onPressed: widget.password != null
+                      ? _handleConfirmPassword
+                      : _handleVerifyOtp,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

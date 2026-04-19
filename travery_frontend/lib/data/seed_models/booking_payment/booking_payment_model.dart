@@ -1,13 +1,32 @@
 class BookingPaymentModel {
+  /// Mã booking duy nhất
   final String bookingId;
+
+  /// Tên tour
   final String tourName;
+
+  /// Ngày khởi hành
   final DateTime departureDate;
+
+  /// Số người lớn
   final int adultCount;
+
+  /// Số trẻ em
   final int childCount;
+
+  /// Tổng số tiền thanh toán
   final double totalPrice;
+
+  /// Thời hạn giữ chỗ (phút)
   final int reservationMinutes;
+
+  /// URL QR code VNPay
   final String? qrCodeUrl;
+
+  /// Mã thanh toán VNPay
   final String? vnpayTransactionId;
+
+  /// Trạng thái thanh toán
   final PaymentStatus status;
 
   const BookingPaymentModel({
@@ -23,8 +42,10 @@ class BookingPaymentModel {
     this.status = PaymentStatus.pending,
   });
 
+  /// Tổng số khách
   int get totalGuests => adultCount + childCount;
 
+  /// Chuỗi mô tả số lượng khách
   String get guestDescription {
     if (adultCount > 0 && childCount > 0) {
       return '$adultCount Người lớn, $childCount Trẻ em';

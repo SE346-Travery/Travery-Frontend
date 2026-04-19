@@ -5,6 +5,7 @@ class AppTextTheme {
   static const double displayLarge = 32.0;
   static const double headlineLarge = 26.0;
   static const double headlineMedium = 22.0;
+  static const double headlineSmall = 18.0;
 
   // Body
   static const double bodyLarge = 16.0;

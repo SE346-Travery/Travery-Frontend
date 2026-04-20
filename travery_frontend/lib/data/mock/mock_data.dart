@@ -1,5 +1,3 @@
-
-
 import '../seed_models/tour/tour.dart';
 import '../seed_models/tour_booking/tour_booking.dart';
 import '../seed_models/tour_booking_member/tour_booking_member.dart';
@@ -10,228 +8,207 @@ import '../seed_models/tour_review/tour_review.dart';
 final List<Tour> mockTours = [
   Tour(
     id: 'tour_1',
-    name: 'Đà Nẵng - Hội An',
+    name: 'Tour Di sản Miền Trung: Đà Nẵng - Hội An - Huế',
     description: {'overview': 'Khám phá Đà Nẵng - Hội An - Bà Nà Hills'},
-
-    pricePerAdult: 2500000,
-    pricePerChild: 1500000,
-
-    maxCapacity: 20,
-    minCapacity: 5,
-
+    pricePerAdult: 3500000,
+    pricePerChild: 2000000,
+    maxCapacity: 30,
+    minCapacity: 10,
     isCustom: false,
     status: TourStatus.active,
-
-    createdAt: DateTime.parse('2025-01-01T10:00:00Z'),
-
+    createdAt: DateTime.now(),
     images: [
       TourImage(
         id: 'img_1',
         tourId: 'tour_1',
-        imageUrl: 'https://picsum.photos/400?random=1',
+        imageUrl:
+            'https://images.unsplash.com/photo-1555531542-741bc8d1e72f?q=80&w=600',
         displayOrder: 1,
       ),
       TourImage(
         id: 'img_2',
         tourId: 'tour_1',
-        imageUrl: 'https://picsum.photos/400?random=2',
+        imageUrl:
+            'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=600',
         displayOrder: 2,
       ),
       TourImage(
         id: 'img_3',
         tourId: 'tour_1',
-        imageUrl: 'https://picsum.photos/400?random=3',
+        imageUrl:
+            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600',
         displayOrder: 3,
       ),
     ],
-
     instances: [
       TourInstance(
         id: 'ins_1_1',
         tourId: 'tour_1',
-        startDate: DateTime.parse('2025-06-01T08:00:00Z'),
-        endDate: DateTime.parse('2025-06-03T18:00:00Z'),
+        startDate: DateTime(2025, 6, 1),
+        endDate: DateTime(2025, 6, 4),
         status: TourInstanceStatus.scheduled,
       ),
       TourInstance(
         id: 'ins_1_2',
         tourId: 'tour_1',
-        startDate: DateTime.parse('2025-06-10T08:00:00Z'),
-        endDate: DateTime.parse('2025-06-12T18:00:00Z'),
+        startDate: DateTime(2025, 6, 15),
+        endDate: DateTime(2025, 6, 18),
         status: TourInstanceStatus.scheduled,
       ),
       TourInstance(
         id: 'ins_1_3',
         tourId: 'tour_1',
-        startDate: DateTime.parse('2025-05-01T08:00:00Z'),
-        endDate: DateTime.parse('2025-05-03T18:00:00Z'),
-        status: TourInstanceStatus.completed,
-        bookings: [
-          TourBooking(
-            id: 'book_1',
-            userId: 'user_1',
-            tourInstanceId: 'ins_1_3',
-            passengerName: 'Nguyen Van A',
-            passengerPhone: '0900000001',
-            adultCount: 2,
-            childCount: 1,
-            totalPrice: 6500000,
-            status: BookingStatus.completed,
-            members: [
-              TourBookingMember(
-                id: 'm1',
-                tourBookingId: 'book_1',
-                fullName: 'Nguyen Van A',
-                isChild: false,
-                status: BookingMemberStatus.active,
-              ),
-              TourBookingMember(
-                id: 'm2',
-                tourBookingId: 'book_1',
-                fullName: 'Nguyen Van B',
-                isChild: true,
-                status: BookingMemberStatus.active,
-              ),
-            ],
-            review: TourReview(
-              id: 'rev_1',
-              tourBookingId: 'book_1',
-              rating: 5,
-              comment: 'Rất tốt',
-            ),
-          ),
-        ],
+        startDate: DateTime(2025, 7, 1),
+        endDate: DateTime(2025, 7, 4),
+        status: TourInstanceStatus.scheduled,
       ),
     ],
   ),
-
   Tour(
     id: 'tour_2',
-    name: 'Phú Quốc - Thiên đường biển đảo',
-    description: {'overview': 'Resort 5 sao, biển xanh cát trắng'},
-
-    pricePerAdult: 4500000,
-    pricePerChild: 3000000,
-
-    maxCapacity: 30,
-    minCapacity: 10,
-
+    name: 'Khám phá Sapa: Chinh phục đỉnh Fansipan',
+    description: {'overview': 'Trải nghiệm đỉnh núi cao nhất Đông Dương'},
+    pricePerAdult: 2850000,
+    pricePerChild: 1800000,
+    maxCapacity: 25,
+    minCapacity: 8,
     isCustom: false,
     status: TourStatus.active,
-
-    createdAt: DateTime.parse('2025-02-10T10:00:00Z'),
-
+    createdAt: DateTime.now(),
     images: [
       TourImage(
         id: 'img_4',
         tourId: 'tour_2',
-        imageUrl: 'https://picsum.photos/400?random=4',
+        imageUrl:
+            'https://images.unsplash.com/photo-1599424423719-74a96df44865?q=80&w=600',
         displayOrder: 1,
       ),
       TourImage(
         id: 'img_5',
         tourId: 'tour_2',
-        imageUrl: 'https://picsum.photos/400?random=5',
+        imageUrl:
+            'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600',
         displayOrder: 2,
       ),
     ],
-
     instances: [
       TourInstance(
         id: 'ins_2_1',
         tourId: 'tour_2',
-        startDate: DateTime.parse('2025-07-10T08:00:00Z'),
-        endDate: DateTime.parse('2025-07-13T18:00:00Z'),
+        startDate: DateTime(2025, 6, 10),
+        endDate: DateTime(2025, 6, 12),
         status: TourInstanceStatus.scheduled,
       ),
       TourInstance(
         id: 'ins_2_2',
         tourId: 'tour_2',
-        startDate: DateTime.parse('2025-08-01T08:00:00Z'),
-        endDate: DateTime.parse('2025-08-04T18:00:00Z'),
+        startDate: DateTime(2025, 6, 25),
+        endDate: DateTime(2025, 6, 27),
         status: TourInstanceStatus.scheduled,
-        bookings: [
-          TourBooking(
-            id: 'book_2',
-            userId: 'user_2',
-            tourInstanceId: 'ins_2_2',
-            passengerName: 'Le Van B',
-            passengerPhone: '0900000002',
-            adultCount: 3,
-            childCount: 2,
-            totalPrice: 12000000,
-            status: BookingStatus.confirmed,
-          ),
-        ],
-      ),
-      TourInstance(
-        id: 'ins_2_3',
-        tourId: 'tour_2',
-        startDate: DateTime.parse('2025-06-01T08:00:00Z'),
-        endDate: DateTime.parse('2025-06-04T18:00:00Z'),
-        status: TourInstanceStatus.completed,
       ),
     ],
   ),
-
   Tour(
     id: 'tour_3',
-    name: 'Hà Nội - Sapa săn mây',
-    description: {'overview': 'Trải nghiệm lạnh, săn mây Fansipan'},
-
-    pricePerAdult: 3800000,
-    pricePerChild: 2500000,
-
-    maxCapacity: 25,
-    minCapacity: 8,
-
+    name: 'Phú Quốc - Thiên đường biển đảo 4N3Đ',
+    description: {'overview': 'Resort 5 sao, biển xanh cát trắng'},
+    pricePerAdult: 4500000,
+    pricePerChild: 3000000,
+    maxCapacity: 30,
+    minCapacity: 10,
     isCustom: false,
-    status: TourStatus.expired,
-
-    createdAt: DateTime.parse('2024-12-01T10:00:00Z'),
-
+    status: TourStatus.active,
+    createdAt: DateTime.now(),
     images: [
       TourImage(
         id: 'img_6',
         tourId: 'tour_3',
-        imageUrl: 'https://picsum.photos/400?random=6',
+        imageUrl:
+            'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=600',
         displayOrder: 1,
       ),
+      TourImage(
+        id: 'img_7',
+        tourId: 'tour_3',
+        imageUrl:
+            'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=600',
+        displayOrder: 2,
+      ),
     ],
-
     instances: [
       TourInstance(
         id: 'ins_3_1',
         tourId: 'tour_3',
-        startDate: DateTime.parse('2024-12-20T08:00:00Z'),
-        endDate: DateTime.parse('2024-12-23T18:00:00Z'),
-        status: TourInstanceStatus.completed,
+        startDate: DateTime(2025, 7, 10),
+        endDate: DateTime(2025, 7, 13),
+        status: TourInstanceStatus.scheduled,
       ),
       TourInstance(
         id: 'ins_3_2',
         tourId: 'tour_3',
-        startDate: DateTime.parse('2024-11-10T08:00:00Z'),
-        endDate: DateTime.parse('2024-11-13T18:00:00Z'),
-        status: TourInstanceStatus.completed,
-        bookings: [
-          TourBooking(
-            id: 'book_3',
-            userId: 'user_3',
-            tourInstanceId: 'ins_3_2',
-            passengerName: 'Tran Van C',
-            passengerPhone: '0900000003',
-            adultCount: 1,
-            childCount: 0,
-            totalPrice: 3800000,
-            status: BookingStatus.completed,
-            review: TourReview(
-              id: 'rev_3',
-              tourBookingId: 'book_3',
-              rating: 4,
-              comment: 'Ổn',
-            ),
-          ),
-        ],
+        startDate: DateTime(2025, 7, 25),
+        endDate: DateTime(2025, 7, 28),
+        status: TourInstanceStatus.scheduled,
+      ),
+    ],
+  ),
+  Tour(
+    id: 'tour_4',
+    name: 'Hà Nội - Ninh Bình: Cố đô và Tràng An',
+    description: {'overview': 'Khám phá di sản UNESCO Tràng An'},
+    pricePerAdult: 2200000,
+    pricePerChild: 1500000,
+    maxCapacity: 35,
+    minCapacity: 12,
+    isCustom: false,
+    status: TourStatus.active,
+    createdAt: DateTime.now(),
+    images: [
+      TourImage(
+        id: 'img_8',
+        tourId: 'tour_4',
+        imageUrl:
+            'https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=600',
+        displayOrder: 1,
+      ),
+    ],
+    instances: [
+      TourInstance(
+        id: 'ins_4_1',
+        tourId: 'tour_4',
+        startDate: DateTime(2025, 6, 5),
+        endDate: DateTime(2025, 6, 6),
+        status: TourInstanceStatus.scheduled,
+      ),
+    ],
+  ),
+  Tour(
+    id: 'tour_5',
+    name: 'HCM - Cần Thơ - Châu Đốc: Miền Tây sông nước',
+    description: {'overview': 'Trải nghiệm chợ nổi, miệt vườn'},
+    pricePerAdult: 2800000,
+    pricePerChild: 1800000,
+    maxCapacity: 28,
+    minCapacity: 10,
+    isCustom: false,
+    status: TourStatus.active,
+    createdAt: DateTime.now(),
+    images: [
+      TourImage(
+        id: 'img_9',
+        tourId: 'tour_5',
+        imageUrl:
+            'https://images.unsplash.com/photo-1583417319070-4a69db38a482?q=80&w=600',
+        displayOrder: 1,
+      ),
+    ],
+    instances: [
+      TourInstance(
+        id: 'ins_5_1',
+        tourId: 'tour_5',
+        startDate: DateTime(2025, 6, 20),
+        endDate: DateTime(2025, 6, 22),
+        status: TourInstanceStatus.scheduled,
       ),
     ],
   ),

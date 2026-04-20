@@ -10,6 +10,7 @@ class Routes {
   // Main Features nhóm
   static const String home = '/home';
   static const String testHome = '/test-home';
+  static const String tourHome = '/tour-home';
 
   // Tour nhóm
   static const String tourList = '/tours';

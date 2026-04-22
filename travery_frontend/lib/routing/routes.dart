@@ -21,6 +21,15 @@ class Routes {
   static const String bookingSuccess = '/payment/success';
   static const String bookingDetail = '/booking/:id';
 
+  // Booking Detail
+  static const String bookingDetailScreen = '/booking-detail';
+
+  // Cancel Confirmation
+  static const String cancelConfirmation = '/booking/:id/cancel';
+
+  // Cancellation Success
+  static const String cancellationSuccess = '/booking/:id/cancel/success';
+
   /* HƯỚNG DẪN: Khi thêm Repository/Feature mới (ví dụ: Hotel, Car):
   Hãy thêm các hằng số đường dẫn vào đây.
   static const String hotelList = '/hotels';

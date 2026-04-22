@@ -10,8 +10,12 @@ import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service_mock.dart';
+import 'package:travery_frontend/data/services/booking/booking_service.dart';
+import 'package:travery_frontend/data/services/booking/booking_service_mock.dart';
 import 'package:travery_frontend/ui/user/home/view_models/tour_home_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/detail/view_models/tour_detail_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/booking/view_models/booking_view_model.dart';
 
 List<SingleChildWidget> get providers => [
   Provider(create: (context) => AuthService()),
@@ -26,6 +30,7 @@ List<SingleChildWidget> get providers => [
   ),
   Provider<TourRepository>(create: (context) => TourRepositoryMock()),
   Provider<TourService>(create: (context) => TourServiceMock()),
+  Provider<BookingService>(create: (context) => BookingServiceMock()),
   ChangeNotifierProvider(
     create: (context) =>
         TourHomeViewModel(tourService: context.read<TourService>()),
@@ -33,5 +38,13 @@ List<SingleChildWidget> get providers => [
   ChangeNotifierProvider(
     create: (context) =>
         TourListViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        TourDetailViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        BookingViewModel(tourService: context.read<TourService>()),
   ),
 ];

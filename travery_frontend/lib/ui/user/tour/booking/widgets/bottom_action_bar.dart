@@ -68,7 +68,7 @@ class BottomActionBar extends StatelessWidget {
               elevation: 0,
             ),
             child: const Text(
-              'Tiếp tục thanh toán',
+              'Xác nhận',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 14,

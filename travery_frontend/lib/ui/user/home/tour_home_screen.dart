@@ -182,7 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
             duration: duration.isNotEmpty ? duration : 'N/A',
             departureDate: departureDate.isNotEmpty ? departureDate : 'N/A',
             price: FormatUtils.formatCurrency(tour.pricePerAdult),
-            onTap: () {},
+            onTap: () {
+              if (tour.id != null) {
+                context.push(Routes.tourDetail.replaceFirst(':id', tour.id!));
+              }
+            },
           );
         },
       ),

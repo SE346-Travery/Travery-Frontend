@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_input_field.dart';
@@ -50,11 +52,43 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   String? _selectedRole;
 
   @override
+  void initState() {
+    super.initState();
+    // Listen to command result to navigate on success
+    context.read<CreateAccountViewModel>().createAccount.addListener(
+      _onCommandChanged,
+    );
+  }
+
+  @override
   void dispose() {
+    context.read<CreateAccountViewModel>().createAccount.removeListener(
+      _onCommandChanged,
+    );
     _nameController.dispose();
     _emailController.dispose();
     _employeeIdController.dispose();
     super.dispose();
+  }
+
+  void _onCommandChanged() {
+    final cmd = context.read<CreateAccountViewModel>().createAccount;
+    if (cmd.completed) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Đã tạo tài khoản: ${_nameController.text}'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      Navigator.pop(context);
+    } else if (cmd.error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Không thể tạo tài khoản. Vui lòng thử lại.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   void _onSave() {
@@ -68,14 +102,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       );
       return;
     }
-    // TODO: dispatch to ViewModel / repository
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Đã lưu tài khoản: ${_nameController.text}'),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-    Navigator.pop(context);
+
+    context.read<CreateAccountViewModel>().createAccount.execute((
+      name: _nameController.text.trim(),
+      email: _emailController.text.trim(),
+      employeeId: _employeeIdController.text.trim(),
+      role: _selectedRole!,
+      isActive: _isActive,
+    ));
   }
 
   void _onCancel() => Navigator.pop(context);
@@ -138,7 +172,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   onChanged: (value) => setState(() => _selectedRole = value),
                 ),
 
-                // Extra bottom padding so FAB/BottomBar don't overlap content
                 const SizedBox(height: 24),
               ],
             ),
@@ -273,7 +306,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            autofillHints: const [AutofillHints.email],
             validator: (v) {
               if (v == null || v.trim().isEmpty) return 'Vui lòng nhập email';
               if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(v)) {
@@ -301,57 +333,75 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   // ── Bottom action bar ──────────────────────────────────────────────────────
   Widget _buildBottomBar() {
-    return Container(
-      color: AppColors.surface,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14)
-          .copyWith(bottom: 14 + MediaQuery.of(context).padding.bottom),
-      child: Row(
-        children: [
-          // Cancel
-          Expanded(
-            child: TextButton(
-              onPressed: _onCancel,
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              child: Text(
-                'Hủy bỏ',
-                style: TextStyle(
-                  fontSize: AppTextTheme.bodyLarge,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
+    return ListenableBuilder(
+      listenable: context.read<CreateAccountViewModel>().createAccount,
+      builder: (context, _) {
+        final isRunning =
+            context.read<CreateAccountViewModel>().createAccount.running;
+        return Container(
+          color: AppColors.surface,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 14,
+          ).copyWith(bottom: 14 + MediaQuery.of(context).padding.bottom),
+          child: Row(
+            children: [
+              // Cancel
+              Expanded(
+                child: TextButton(
+                  onPressed: isRunning ? null : _onCancel,
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: Text(
+                    'Hủy bỏ',
+                    style: TextStyle(
+                      fontSize: AppTextTheme.bodyLarge,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
 
-          const SizedBox(width: 16),
+              const SizedBox(width: 16),
 
-          // Save
-          Expanded(
-            flex: 2,
-            child: ElevatedButton(
-              onPressed: _onSave,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
+              // Save
+              Expanded(
+                flex: 2,
+                child: ElevatedButton(
+                  onPressed: isRunning ? null : _onSave,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: isRunning
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          'Lưu thay đổi',
+                          style: TextStyle(
+                            fontSize: AppTextTheme.bodyLarge,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
-                elevation: 0,
               ),
-              child: Text(
-                'Lưu thay đổi',
-                style: TextStyle(
-                  fontSize: AppTextTheme.bodyLarge,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

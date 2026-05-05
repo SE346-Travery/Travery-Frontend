@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travery_frontend/data/repositories/admin_data_models.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
-
-/// Enum for account status
-enum AccountStatus { active, inactive }
-
-/// Enum for account role
-enum AccountRole { guide, coordinator, receptionist }
 
 extension AccountRoleLabel on AccountRole {
   String get label {

@@ -1,30 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_card.dart';
 import 'widgets/fliter_list.dart';
 import 'widgets/search_bar.dart';
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Simple data model for a demo account
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _AccountData {
-  const _AccountData({
-    required this.name,
-    required this.email,
-    required this.role,
-    required this.status,
-  });
-  final String name;
-  final String email;
-  final AccountRole role;
-  final AccountStatus status;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Screen
-// ─────────────────────────────────────────────────────────────────────────────
 
 class AccountManagementScreen extends StatefulWidget {
   const AccountManagementScreen({super.key});
@@ -35,7 +18,6 @@ class AccountManagementScreen extends StatefulWidget {
 }
 
 class _AccountManagementScreenState extends State<AccountManagementScreen> {
-  // Filter labels matching the image
   static const _filterLabels = [
     'Tất cả',
     'Điều phối viên',
@@ -43,43 +25,28 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     'Lễ tân',
   ];
 
-  // Demo accounts
-  static const _allAccounts = <_AccountData>[
-    _AccountData(
-      name: 'Alex Morgan',
-      email: 'alex.morgan@travery.com',
-      role: AccountRole.guide,
-      status: AccountStatus.active,
-    ),
-    _AccountData(
-      name: 'Julian Kross',
-      email: 'j.kross@travery.com',
-      role: AccountRole.coordinator,
-      status: AccountStatus.active,
-    ),
-    _AccountData(
-      name: 'Sarah Chen',
-      email: 's.chen@travery.com',
-      role: AccountRole.receptionist,
-      status: AccountStatus.inactive,
-    ),
-    _AccountData(
-      name: 'Marcus Reed',
-      email: 'm.reed@travery.com',
-      role: AccountRole.guide,
-      status: AccountStatus.active,
-    ),
-  ];
-
   int _selectedFilterIndex = 0;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
-  // ── Derived list ──────────────────────────────────────────────────────────
-  List<_AccountData> get _filteredAccounts {
-    var list = _allAccounts.toList();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AccountManagementViewModel>().loadAccounts.execute();
+    });
+  }
 
-    // Apply role filter
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  // ── Derived list ──────────────────────────────────────────────────────────
+  List<AccountData> _applyFilters(List<AccountData> all) {
+    var list = all.toList();
+
     if (_selectedFilterIndex == 1) {
       list = list.where((a) => a.role == AccountRole.coordinator).toList();
     } else if (_selectedFilterIndex == 2) {
@@ -88,7 +55,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       list = list.where((a) => a.role == AccountRole.receptionist).toList();
     }
 
-    // Apply search filter
     if (_searchQuery.isNotEmpty) {
       final q = _searchQuery.toLowerCase();
       list = list
@@ -104,13 +70,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final vm = context.read<AccountManagementViewModel>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -137,31 +99,77 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
             FilterList(
               filters: _filterLabels,
               selectedIndex: _selectedFilterIndex,
-              onSelected: (index) =>
-                  setState(() => _selectedFilterIndex = index),
+              onSelected:
+                  (index) => setState(() => _selectedFilterIndex = index),
             ),
 
             const SizedBox(height: 14),
 
             // ── Account list ───────────────────────────────────────────────
             Expanded(
-              child: _filteredAccounts.isEmpty
-                  ? _buildEmptyState()
-                  : ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      itemCount: _filteredAccounts.length,
-                      itemBuilder: (context, index) {
-                        final account = _filteredAccounts[index];
-                        return AccountCard(
-                          name: account.name,
-                          email: account.email,
-                          role: account.role,
-                          status: account.status,
-                          onTap: () => _onAccountTap(account),
-                          onMenuTap: () => _showAccountMenu(context, account),
-                        );
-                      },
-                    ),
+              child: ListenableBuilder(
+                listenable: vm.loadAccounts,
+                builder: (context, _) {
+                  final cmd = vm.loadAccounts;
+
+                  if (cmd.running) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (cmd.error) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            size: 48,
+                            color: AppColors.error,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Không thể tải danh sách',
+                            style: TextStyle(
+                              fontSize: AppTextTheme.bodyLarge,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          ElevatedButton(
+                            onPressed: () => cmd.execute(),
+                            child: const Text('Thử lại'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  final allAccounts =
+                      cmd.result is Ok<List<AccountData>>
+                          ? (cmd.result as Ok<List<AccountData>>).value
+                          : <AccountData>[];
+
+                  final filtered = _applyFilters(allAccounts);
+
+                  if (filtered.isEmpty) return _buildEmptyState();
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 100),
+                    itemCount: filtered.length,
+                    itemBuilder: (context, index) {
+                      final account = filtered[index];
+                      return AccountCard(
+                        name: account.name,
+                        email: account.email,
+                        role: account.role,
+                        status: account.status,
+                        onTap: () => _onAccountTap(account),
+                        onMenuTap: () => _showAccountMenu(context, account),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -233,8 +241,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onAccountTap(_AccountData account) {
-    // TODO: Navigate to account detail screen
+  void _onAccountTap(AccountData account) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem thông tin: ${account.name}'),
@@ -245,7 +252,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   void _onAddAccount() {
-    // TODO: Navigate to add account screen
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Thêm nhân viên mới'),
@@ -255,7 +261,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     );
   }
 
-  void _showAccountMenu(BuildContext context, _AccountData account) {
+  void _showAccountMenu(BuildContext context, AccountData account) {
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.surface,
@@ -274,7 +280,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 class _AccountMenuSheet extends StatelessWidget {
   const _AccountMenuSheet({required this.account});
 
-  final _AccountData account;
+  final AccountData account;
 
   @override
   Widget build(BuildContext context) {
@@ -294,7 +300,6 @@ class _AccountMenuSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            // Account name header
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(

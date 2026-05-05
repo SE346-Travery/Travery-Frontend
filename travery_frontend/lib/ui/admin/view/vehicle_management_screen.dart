@@ -1,37 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/fliter_list.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/vehicle_card.dart';
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Simple demo data model
-// ─────────────────────────────────────────────────────────────────────────────
-
-class _VehicleData {
-  const _VehicleData({
-    required this.routeFrom,
-    required this.routeTo,
-    required this.status,
-    required this.plateNumber,
-    required this.vehicleType,
-    required this.seatCount,
-    required this.driverName,
-  });
-
-  final String routeFrom;
-  final String routeTo;
-  final VehicleStatus status;
-  final String plateNumber;
-  final String vehicleType;
-  final int seatCount;
-  final String driverName;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Screen
-// ─────────────────────────────────────────────────────────────────────────────
 
 class VehicleManagementScreen extends StatefulWidget {
   const VehicleManagementScreen({super.key});
@@ -44,61 +20,34 @@ class VehicleManagementScreen extends StatefulWidget {
 class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
   static const _filterLabels = ['Tất cả', 'Đang chạy', 'Sẵn sàng'];
 
-  static const _allVehicles = <_VehicleData>[
-    _VehicleData(
-      routeFrom: 'SGN',
-      routeTo: 'DLT',
-      status: VehicleStatus.running,
-      plateNumber: '51B - 882.41',
-      vehicleType: 'VIP Sleeper',
-      seatCount: 22,
-      driverName: 'Nguyễn Văn Minh',
-    ),
-    _VehicleData(
-      routeFrom: 'HAN',
-      routeTo: 'HPH',
-      status: VehicleStatus.available,
-      plateNumber: '29B - 110.02',
-      vehicleType: 'Standard',
-      seatCount: 45,
-      driverName: 'Trần Quang Khải',
-    ),
-    _VehicleData(
-      routeFrom: 'SGN',
-      routeTo: 'CAM',
-      status: VehicleStatus.available,
-      plateNumber: '59B - 564.29',
-      vehicleType: 'Limousine',
-      seatCount: 9,
-      driverName: 'Lê Anh Tuấn',
-    ),
-    _VehicleData(
-      routeFrom: 'DLT',
-      routeTo: 'SGN',
-      status: VehicleStatus.running,
-      plateNumber: '49B - 023.15',
-      vehicleType: 'Standard',
-      seatCount: 34,
-      driverName: 'Võ Hoàng Phi',
-    ),
-  ];
-
   int _selectedFilterIndex = 0;
   String _searchQuery = '';
   final _searchController = TextEditingController();
 
-  // ── Derived list ────────────────────────────────────────────────────────────
-  List<_VehicleData> get _filteredVehicles {
-    var list = _allVehicles.toList();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<VehicleManagementViewModel>().loadVehicles.execute();
+    });
+  }
 
-    // Status filter
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  // ── Derived list ────────────────────────────────────────────────────────────
+  List<VehicleData> _applyFilters(List<VehicleData> all) {
+    var list = all.toList();
+
     if (_selectedFilterIndex == 1) {
       list = list.where((v) => v.status == VehicleStatus.running).toList();
     } else if (_selectedFilterIndex == 2) {
       list = list.where((v) => v.status == VehicleStatus.available).toList();
     }
 
-    // Search filter (route or driver name)
     if (_searchQuery.isNotEmpty) {
       final q = _searchQuery.toLowerCase();
       list = list
@@ -114,18 +63,9 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
     return list;
   }
 
-  int get _runningCount =>
-      _allVehicles.where((v) => v.status == VehicleStatus.running).length;
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final vehicles = _filteredVehicles;
+    final vm = context.read<VehicleManagementViewModel>();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -164,32 +104,6 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
 
             const SizedBox(height: 16),
 
-            // ── Stat cards ───────────────────────────────────────────────────
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _StatCard(
-                      icon: Icons.directions_bus_rounded,
-                      label: 'TỔNG XE',
-                      value: _allVehicles.length.toString(),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _StatCard(
-                      icon: Icons.trending_up_rounded,
-                      label: 'ĐANG CHẠY',
-                      value: _runningCount.toString(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
             // ── Search bar ───────────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -206,38 +120,122 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
             FilterList(
               filters: _filterLabels,
               selectedIndex: _selectedFilterIndex,
-              onSelected: (index) =>
-                  setState(() => _selectedFilterIndex = index),
+              onSelected:
+                  (index) => setState(() => _selectedFilterIndex = index),
             ),
 
             const SizedBox(height: 8),
 
-            // ── Vehicle list ─────────────────────────────────────────────────
+            // ── Content ──────────────────────────────────────────────────────
             Expanded(
-              child: vehicles.isEmpty
-                  ? _buildEmptyState()
-                  : ListView.separated(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      itemCount: vehicles.length,
-                      separatorBuilder: (_, __) => const Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: AppColors.inputBorder,
+              child: ListenableBuilder(
+                listenable: vm.loadVehicles,
+                builder: (context, _) {
+                  final cmd = vm.loadVehicles;
+
+                  if (cmd.running) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (cmd.error) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            size: 48,
+                            color: AppColors.error,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Không thể tải danh sách xe',
+                            style: TextStyle(
+                              fontSize: AppTextTheme.bodyLarge,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          ElevatedButton(
+                            onPressed: () => cmd.execute(),
+                            child: const Text('Thử lại'),
+                          ),
+                        ],
                       ),
-                      itemBuilder: (context, index) {
-                        final v = vehicles[index];
-                        return VehicleCard(
-                          routeFrom: v.routeFrom,
-                          routeTo: v.routeTo,
-                          status: v.status,
-                          plateNumber: v.plateNumber,
-                          vehicleType: v.vehicleType,
-                          seatCount: v.seatCount,
-                          driverName: v.driverName,
-                          onTap: () => _onVehicleTap(v),
-                        );
-                      },
-                    ),
+                    );
+                  }
+
+                  final all =
+                      cmd.result is Ok<List<VehicleData>>
+                          ? (cmd.result as Ok<List<VehicleData>>).value
+                          : <VehicleData>[];
+
+                  final vehicles = _applyFilters(all);
+                  final runningCount = all
+                      .where((v) => v.status == VehicleStatus.running)
+                      .length;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // ── Stat cards ─────────────────────────────────────────
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: _StatCard(
+                                icon: Icons.directions_bus_rounded,
+                                label: 'TỔNG XE',
+                                value: all.length.toString(),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _StatCard(
+                                icon: Icons.trending_up_rounded,
+                                label: 'ĐANG CHẠY',
+                                value: runningCount.toString(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // ── Vehicle list ───────────────────────────────────────
+                      Expanded(
+                        child: vehicles.isEmpty
+                            ? _buildEmptyState()
+                            : ListView.separated(
+                                padding: const EdgeInsets.only(bottom: 100),
+                                itemCount: vehicles.length,
+                                separatorBuilder:
+                                    (_, __) => const Divider(
+                                      height: 1,
+                                      thickness: 1,
+                                      color: AppColors.inputBorder,
+                                    ),
+                                itemBuilder: (context, index) {
+                                  final v = vehicles[index];
+                                  return VehicleCard(
+                                    routeFrom: v.routeFrom,
+                                    routeTo: v.routeTo,
+                                    status: v.status,
+                                    plateNumber: v.plateNumber,
+                                    vehicleType: v.vehicleType,
+                                    seatCount: v.seatCount,
+                                    driverName: v.driverName,
+                                    onTap: () => _onVehicleTap(v),
+                                  );
+                                },
+                              ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -309,7 +307,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onVehicleTap(_VehicleData v) {
+  void _onVehicleTap(VehicleData v) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${v.routeFrom} — ${v.routeTo}'),

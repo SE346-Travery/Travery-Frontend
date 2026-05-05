@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:travery_frontend/data/repositories/admin_data_models.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// TourTrend enum
-// ─────────────────────────────────────────────────────────────────────────────
-
-enum TourTrend { up, down, stable }
 
 extension TourTrendProps on TourTrend {
   Color get color {

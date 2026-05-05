@@ -21,6 +21,14 @@ class Routes {
   static const String bookingSuccess = '/payment/success';
   static const String bookingDetail = '/booking/:id';
 
+  // Admin screen
+  static const String adminDashboard = '/admin/dashboard';
+  static const String adminCreateAccount = '/admin/create-account';
+  static const String adminAccountManagement = '/admin/account-management';
+  static const String adminHotelManagement = '/admin/hotel-management';
+  static const String adminTourManagement = '/admin/tour-management';
+  static const String adminVehicleManagement = '/admin/vehicle-management';
+
   /* HƯỚNG DẪN: Khi thêm Repository/Feature mới (ví dụ: Hotel, Car):
   Hãy thêm các hằng số đường dẫn vào đây.
   static const String hotelList = '/hotels';

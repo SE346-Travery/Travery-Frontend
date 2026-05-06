@@ -1,9 +1,6 @@
 import '../seed_models/tour/tour.dart';
-import '../seed_models/tour_booking/tour_booking.dart';
-import '../seed_models/tour_booking_member/tour_booking_member.dart';
 import '../seed_models/tour_image/tour_image.dart';
 import '../seed_models/tour_instance/tour_instance.dart';
-import '../seed_models/tour_review/tour_review.dart';
 
 final List<Tour> mockTours = [
   Tour(

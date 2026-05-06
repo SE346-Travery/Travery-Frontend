@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -70,10 +70,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               );
             }
 
-            final stats =
-                cmd.result is Ok<DashboardStats>
-                    ? (cmd.result as Ok<DashboardStats>).value
-                    : null;
+            final stats = cmd.result is Ok<DashboardStats>
+                ? (cmd.result as Ok<DashboardStats>).value
+                : null;
 
             if (stats == null) {
               return const SizedBox.shrink();
@@ -117,8 +116,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     iconBgColor: const Color(0xFFE8F0FE),
                     iconColor: AppColors.primary,
                     label: 'DOANH THU',
-                    value:
-                        '\$${_formatNumber(stats.totalRevenue.toInt())}',
+                    value: '\$${_formatNumber(stats.totalRevenue.toInt())}',
                     badgeText:
                         '+${stats.revenueGrowthPercent.toStringAsFixed(1)}%',
                     badgeColor: const Color(0xFFE6F4EA),
@@ -186,7 +184,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(Icons.grid_view_rounded, color: Colors.white, size: 20),
+          child: const Icon(
+            Icons.grid_view_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
         ),
         const SizedBox(width: 10),
         Text(
@@ -292,10 +294,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       reservedSize: 28,
                       getTitlesWidget: (value, meta) {
                         final data = _selectedPeriod == 0
-                            ? [stats.tourRevenueM, stats.carRevenueM, stats.hotelRevenueM]
-                            : [stats.tourRevenueQuarterM, stats.carRevenueQuarterM, stats.hotelRevenueQuarterM];
+                            ? [
+                                stats.tourRevenueM,
+                                stats.carRevenueM,
+                                stats.hotelRevenueM,
+                              ]
+                            : [
+                                stats.tourRevenueQuarterM,
+                                stats.carRevenueQuarterM,
+                                stats.hotelRevenueQuarterM,
+                              ];
                         final idx = value.toInt();
-                        if (idx < 0 || idx >= data.length) return const SizedBox.shrink();
+                        if (idx < 0 || idx >= data.length)
+                          return const SizedBox.shrink();
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Text(
@@ -317,7 +328,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       getTitlesWidget: (value, meta) {
                         const labels = ['Tours', 'Xe khách', 'Khách sạn'];
                         final idx = value.toInt();
-                        if (idx < 0 || idx >= labels.length) return const SizedBox.shrink();
+                        if (idx < 0 || idx >= labels.length)
+                          return const SizedBox.shrink();
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
@@ -352,7 +364,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<BarChartGroupData> _buildBarGroups(DashboardStats stats) {
     final data = _selectedPeriod == 0
         ? [stats.tourRevenueM, stats.carRevenueM, stats.hotelRevenueM]
-        : [stats.tourRevenueQuarterM, stats.carRevenueQuarterM, stats.hotelRevenueQuarterM];
+        : [
+            stats.tourRevenueQuarterM,
+            stats.carRevenueQuarterM,
+            stats.hotelRevenueQuarterM,
+          ];
 
     return List.generate(data.length, (i) {
       return BarChartGroupData(
@@ -463,7 +479,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               value: stats.systemStabilityPercent / 100,
               minHeight: 8,
               backgroundColor: AppColors.inputBorder,
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.success),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                AppColors.success,
+              ),
             ),
           ),
         ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -120,8 +120,8 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
             FilterList(
               filters: _filterLabels,
               selectedIndex: _selectedFilterIndex,
-              onSelected:
-                  (index) => setState(() => _selectedFilterIndex = index),
+              onSelected: (index) =>
+                  setState(() => _selectedFilterIndex = index),
             ),
 
             const SizedBox(height: 8),
@@ -165,10 +165,9 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                     );
                   }
 
-                  final all =
-                      cmd.result is Ok<List<VehicleData>>
-                          ? (cmd.result as Ok<List<VehicleData>>).value
-                          : <VehicleData>[];
+                  final all = cmd.result is Ok<List<VehicleData>>
+                      ? (cmd.result as Ok<List<VehicleData>>).value
+                      : <VehicleData>[];
 
                   final vehicles = _applyFilters(all);
                   final runningCount = all
@@ -211,12 +210,11 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                             : ListView.separated(
                                 padding: const EdgeInsets.only(bottom: 100),
                                 itemCount: vehicles.length,
-                                separatorBuilder:
-                                    (_, __) => const Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      color: AppColors.inputBorder,
-                                    ),
+                                separatorBuilder: (_, __) => const Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  color: AppColors.inputBorder,
+                                ),
                                 itemBuilder: (context, index) {
                                   final v = vehicles[index];
                                   return VehicleCard(

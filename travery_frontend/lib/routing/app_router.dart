@@ -5,7 +5,6 @@ import 'package:travery_frontend/data/repositories/auth_repository.dart';
 import 'package:travery_frontend/ui/authentication/view_models/confirm_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/forgot_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/register_view_model.dart';
-import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'routes.dart';
 
 import '../ui/authentication/view/login_screen.dart';

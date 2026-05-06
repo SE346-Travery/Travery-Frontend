@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
-
 
 extension TourTrendProps on TourTrend {
   Color get color {
@@ -117,11 +116,7 @@ class TourCard extends StatelessWidget {
                 const SizedBox(width: 8),
 
                 // ── Trend icon ────────────────────────────────────────────
-                Icon(
-                  trend.icon,
-                  size: 22,
-                  color: trend.color,
-                ),
+                Icon(trend.icon, size: 22, color: trend.color),
               ],
             ),
           ),

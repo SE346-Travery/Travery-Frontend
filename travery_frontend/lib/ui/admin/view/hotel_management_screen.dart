@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
-import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/hotel_card.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
 
 class HotelManagementScreen extends StatefulWidget {
   const HotelManagementScreen({super.key});
@@ -75,10 +75,9 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
                     );
                   }
 
-                  final hotels =
-                      cmd.result is Ok<List<HotelData>>
-                          ? (cmd.result as Ok<List<HotelData>>).value
-                          : <HotelData>[];
+                  final hotels = cmd.result is Ok<List<HotelData>>
+                      ? (cmd.result as Ok<List<HotelData>>).value
+                      : <HotelData>[];
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,12 +113,11 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
                         child: ListView.separated(
                           padding: const EdgeInsets.only(bottom: 100),
                           itemCount: hotels.length,
-                          separatorBuilder:
-                              (_, __) => const Divider(
-                                height: 1,
-                                thickness: 1,
-                                color: AppColors.inputBorder,
-                              ),
+                          separatorBuilder: (_, __) => const Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: AppColors.inputBorder,
+                          ),
                           itemBuilder: (context, index) {
                             final h = hotels[index];
                             return HotelCard(

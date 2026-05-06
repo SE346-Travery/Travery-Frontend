@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -99,8 +99,8 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
             FilterList(
               filters: _filterLabels,
               selectedIndex: _selectedFilterIndex,
-              onSelected:
-                  (index) => setState(() => _selectedFilterIndex = index),
+              onSelected: (index) =>
+                  setState(() => _selectedFilterIndex = index),
             ),
 
             const SizedBox(height: 14),
@@ -144,10 +144,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                     );
                   }
 
-                  final allAccounts =
-                      cmd.result is Ok<List<AccountData>>
-                          ? (cmd.result as Ok<List<AccountData>>).value
-                          : <AccountData>[];
+                  final allAccounts = cmd.result is Ok<List<AccountData>>
+                      ? (cmd.result as Ok<List<AccountData>>).value
+                      : <AccountData>[];
 
                   final filtered = _applyFilters(allAccounts);
 

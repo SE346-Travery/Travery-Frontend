@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -87,15 +87,13 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                     );
                   }
 
-                  final tours =
-                      toursCmd.result is Ok<List<TourData>>
-                          ? (toursCmd.result as Ok<List<TourData>>).value
-                          : <TourData>[];
+                  final tours = toursCmd.result is Ok<List<TourData>>
+                      ? (toursCmd.result as Ok<List<TourData>>).value
+                      : <TourData>[];
 
-                  final stats =
-                      statsCmd.result is Ok<TourSummaryStats>
-                          ? (statsCmd.result as Ok<TourSummaryStats>).value
-                          : null;
+                  final stats = statsCmd.result is Ok<TourSummaryStats>
+                      ? (statsCmd.result as Ok<TourSummaryStats>).value
+                      : null;
 
                   return SingleChildScrollView(
                     padding: const EdgeInsets.only(bottom: 32),
@@ -150,8 +148,8 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                               _PeriodPicker(
                                 periods: _periods,
                                 selectedIndex: _periodIndex,
-                                onSelected:
-                                    (i) => setState(() => _periodIndex = i),
+                                onSelected: (i) =>
+                                    setState(() => _periodIndex = i),
                               ),
                             ],
                           ),
@@ -177,14 +175,13 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: tours.length,
-                            separatorBuilder:
-                                (_, __) => const Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  indent: 16,
-                                  endIndent: 16,
-                                  color: AppColors.inputBorder,
-                                ),
+                            separatorBuilder: (_, __) => const Divider(
+                              height: 1,
+                              thickness: 1,
+                              indent: 16,
+                              endIndent: 16,
+                              color: AppColors.inputBorder,
+                            ),
                             itemBuilder: (context, index) {
                               final t = tours[index];
                               return TourCard(
@@ -458,50 +455,49 @@ class _PeriodPicker extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder:
-          (_) => SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: AppColors.inputBorder,
-                      borderRadius: BorderRadius.circular(2),
+      builder: (_) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.inputBorder,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...List.generate(periods.length, (i) {
+                final selected = i == selectedIndex;
+                return ListTile(
+                  title: Text(
+                    periods[i],
+                    style: TextStyle(
+                      fontSize: AppTextTheme.bodyMedium,
+                      fontWeight: selected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      color: selected
+                          ? AppColors.primary
+                          : AppColors.textPrimary,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  ...List.generate(periods.length, (i) {
-                    final selected = i == selectedIndex;
-                    return ListTile(
-                      title: Text(
-                        periods[i],
-                        style: TextStyle(
-                          fontSize: AppTextTheme.bodyMedium,
-                          fontWeight:
-                              selected ? FontWeight.bold : FontWeight.normal,
-                          color:
-                              selected
-                                  ? AppColors.primary
-                                  : AppColors.textPrimary,
-                        ),
-                      ),
-                      trailing: selected
-                          ? Icon(Icons.check_rounded, color: AppColors.primary)
-                          : null,
-                      onTap: () {
-                        onSelected(i);
-                        Navigator.pop(context);
-                      },
-                    );
-                  }),
-                ],
-              ),
-            ),
+                  trailing: selected
+                      ? Icon(Icons.check_rounded, color: AppColors.primary)
+                      : null,
+                  onTap: () {
+                    onSelected(i);
+                    Navigator.pop(context);
+                  },
+                );
+              }),
+            ],
           ),
+        ),
+      ),
     );
   }
 }

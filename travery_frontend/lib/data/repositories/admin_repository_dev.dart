@@ -1,4 +1,4 @@
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/data/repositories/admin_repository.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
@@ -256,8 +256,7 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Dashboard ──────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<DashboardStats>> getDashboardStats() =>
-      _delay(_dashboardStats);
+  Future<Result<DashboardStats>> getDashboardStats() => _delay(_dashboardStats);
 
   @override
   Future<Result<List<double>>> getRevenueByMonth({
@@ -277,9 +276,7 @@ class AdminRepositoryDev extends AdminRepository {
     try {
       return Result.ok(_mutableAccounts.firstWhere((a) => a.id == id));
     } catch (_) {
-      return Result.error(
-        Exception('Account not found: $id'),
-      );
+      return Result.error(Exception('Account not found: $id'));
     }
   }
 

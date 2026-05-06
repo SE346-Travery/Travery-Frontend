@@ -44,7 +44,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   // ── Derived list ──────────────────────────────────────────────────────────
-  List<AccountData> _applyFilters(List<AccountData> all) {
+  List<Account> _applyFilters(List<Account> all) {
     var list = all.toList();
 
     if (_selectedFilterIndex == 1) {
@@ -144,9 +144,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                     );
                   }
 
-                  final allAccounts = cmd.result is Ok<List<AccountData>>
-                      ? (cmd.result as Ok<List<AccountData>>).value
-                      : <AccountData>[];
+                  final allAccounts = cmd.result is Ok<List<Account>>
+                      ? (cmd.result as Ok<List<Account>>).value
+                      : <Account>[];
 
                   final filtered = _applyFilters(allAccounts);
 
@@ -240,7 +240,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onAccountTap(AccountData account) {
+  void _onAccountTap(Account account) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem thông tin: ${account.name}'),
@@ -260,7 +260,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     );
   }
 
-  void _showAccountMenu(BuildContext context, AccountData account) {
+  void _showAccountMenu(BuildContext context, Account account) {
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.surface,
@@ -279,7 +279,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 class _AccountMenuSheet extends StatelessWidget {
   const _AccountMenuSheet({required this.account});
 
-  final AccountData account;
+  final Account account;
 
   @override
   Widget build(BuildContext context) {
@@ -373,3 +373,4 @@ class _MenuOption extends StatelessWidget {
     );
   }
 }
+

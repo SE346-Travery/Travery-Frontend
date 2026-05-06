@@ -3,26 +3,6 @@ import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
 
-extension VehicleStatusLabel on VehicleStatus {
-  String get label {
-    switch (this) {
-      case VehicleStatus.running:
-        return 'ĐANG CHẠY';
-      case VehicleStatus.available:
-        return 'SẴN SÀNG';
-    }
-  }
-
-  Color get backgroundColor {
-    switch (this) {
-      case VehicleStatus.running:
-        return const Color(0xFF1A73E8); // primary blue
-      case VehicleStatus.available:
-        return const Color(0xFF2E7D32); // rich green
-    }
-  }
-}
-
 class VehicleCard extends StatelessWidget {
   const VehicleCard({
     super.key,
@@ -42,7 +22,7 @@ class VehicleCard extends StatelessWidget {
   /// Arrival location code, e.g. "DLT"
   final String routeTo;
 
-  final VehicleStatus status;
+  final CoachStatus status;
 
   /// Licence plate displayed on the right, e.g. "51B - 882.41"
   final String plateNumber;
@@ -160,18 +140,36 @@ class VehicleCard extends StatelessWidget {
 class _StatusBadge extends StatelessWidget {
   const _StatusBadge({required this.status});
 
-  final VehicleStatus status;
+  final CoachStatus status;
+
+  String _getLabel(CoachStatus status) {
+    switch (status) {
+      case CoachStatus.running:
+        return 'Đang chạy';
+      case CoachStatus.available:
+        return 'Sẵn sàng';
+    }
+  }
+
+  Color _getColor(CoachStatus status) {
+    switch (status) {
+      case CoachStatus.running:
+        return const Color(0xFF1A73E8); // primary blue
+      case CoachStatus.available:
+        return const Color(0xFF2E7D32); // rich green
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: status.backgroundColor,
+        color: _getColor(status),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        status.label,
+        _getLabel(status),
         style: const TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w700,
@@ -182,3 +180,4 @@ class _StatusBadge extends StatelessWidget {
     );
   }
 }
+

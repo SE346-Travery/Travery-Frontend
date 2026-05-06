@@ -227,7 +227,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         Switch(
           value: _isActive,
           onChanged: (value) => setState(() => _isActive = value),
-          activeColor: AppColors.primary,
           activeTrackColor: AppColors.primaryLight,
           thumbColor: WidgetStateProperty.all(Colors.white),
         ),
@@ -254,7 +253,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -293,8 +292,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             controller: _nameController,
             keyboardType: TextInputType.name,
             textInputAction: TextInputAction.next,
-            validator: (v) =>
-                (v == null || v.trim().isEmpty) ? 'Vui lòng nhập họ và tên' : null,
+            validator: (v) => (v == null || v.trim().isEmpty)
+                ? 'Vui lòng nhập họ và tên'
+                : null,
           ),
 
           const SizedBox(height: 16),
@@ -323,8 +323,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             hint: 'VD: TRV-2024-001',
             controller: _employeeIdController,
             textInputAction: TextInputAction.done,
-            validator: (v) =>
-                (v == null || v.trim().isEmpty) ? 'Vui lòng nhập mã nhân viên' : null,
+            validator: (v) => (v == null || v.trim().isEmpty)
+                ? 'Vui lòng nhập mã nhân viên'
+                : null,
           ),
         ],
       ),
@@ -336,8 +337,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return ListenableBuilder(
       listenable: context.read<CreateAccountViewModel>().createAccount,
       builder: (context, _) {
-        final isRunning =
-            context.read<CreateAccountViewModel>().createAccount.running;
+        final isRunning = context
+            .read<CreateAccountViewModel>()
+            .createAccount
+            .running;
         return Container(
           color: AppColors.surface,
           padding: const EdgeInsets.symmetric(

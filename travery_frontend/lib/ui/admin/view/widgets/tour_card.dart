@@ -67,8 +67,8 @@ class TourCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: AppColors.primary.withOpacity(0.06),
-          highlightColor: AppColors.primary.withOpacity(0.03),
+          splashColor: AppColors.primary.withValues(alpha: 0.06),
+          highlightColor: AppColors.primary.withValues(alpha: 0.03),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
@@ -134,7 +134,7 @@ class TourCard extends StatelessWidget {
               width: 52,
               height: 52,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _placeholder(),
+              errorBuilder: (_, _, _) => _placeholder(),
             )
           : _placeholder(),
     );

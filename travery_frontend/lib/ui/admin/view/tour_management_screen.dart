@@ -87,12 +87,12 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                     );
                   }
 
-                  final tours = toursCmd.result is Ok<List<TourData>>
-                      ? (toursCmd.result as Ok<List<TourData>>).value
-                      : <TourData>[];
+                  final tours = toursCmd.result is Ok<List<Tour>>
+                      ? (toursCmd.result as Ok<List<Tour>>).value
+                      : <Tour>[];
 
-                  final stats = statsCmd.result is Ok<TourSummaryStats>
-                      ? (statsCmd.result as Ok<TourSummaryStats>).value
+                  final stats = statsCmd.result is Ok<TourSummary>
+                      ? (statsCmd.result as Ok<TourSummary>).value
                       : null;
 
                   return SingleChildScrollView(
@@ -164,7 +164,7 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: Colors.black.withValues(alpha: 0.05),
                                 blurRadius: 10,
                                 offset: const Offset(0, 2),
                               ),
@@ -175,7 +175,7 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: tours.length,
-                            separatorBuilder: (_, __) => const Divider(
+                            separatorBuilder: (_, _) => const Divider(
                               height: 1,
                               thickness: 1,
                               indent: 16,
@@ -212,7 +212,7 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
+                                    color: Colors.black.withValues(alpha: 0.05),
                                     blurRadius: 10,
                                     offset: const Offset(0, 2),
                                   ),
@@ -301,7 +301,7 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
     return '$number';
   }
 
-  void _onTourTap(TourData t) {
+  void _onTourTap(Tour t) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${t.tourName}'),
@@ -338,7 +338,7 @@ class _SummaryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -378,7 +378,7 @@ class _SummaryCard extends StatelessWidget {
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: badgeColor.withOpacity(0.15),
+                    color: badgeColor.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
@@ -557,3 +557,4 @@ class _BottomStat extends StatelessWidget {
     );
   }
 }
+

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
@@ -13,26 +13,26 @@ void main() {
   // ── getDashboardStats ──────────────────────────────────────────────────────
 
   group('getDashboardStats', () {
-    test('returns Ok with DashboardStats', () async {
+    test('returns Ok with Dashboard', () async {
       final result = await repo.getDashboardStats();
-      expect(result, isA<Ok<DashboardStats>>());
+      expect(result, isA<Ok<Dashboard>>());
     });
 
     test('stats have correct totalRevenue', () async {
       final result = await repo.getDashboardStats();
-      final stats = (result as Ok<DashboardStats>).value;
+      final stats = (result as Ok<Dashboard>).value;
       expect(stats.totalRevenue, equals(4820150));
     });
 
     test('stats have correct ongoingTours', () async {
       final result = await repo.getDashboardStats();
-      final stats = (result as Ok<DashboardStats>).value;
+      final stats = (result as Ok<Dashboard>).value;
       expect(stats.ongoingTours, equals(24));
     });
 
     test('systemStabilityPercent is 99.9', () async {
       final result = await repo.getDashboardStats();
-      final stats = (result as Ok<DashboardStats>).value;
+      final stats = (result as Ok<Dashboard>).value;
       expect(stats.systemStabilityPercent, equals(99.9));
     });
   });
@@ -42,21 +42,21 @@ void main() {
   group('getAllAccounts', () {
     test('returns Ok with list of 5 accounts', () async {
       final result = await repo.getAllAccounts();
-      expect(result, isA<Ok<List<AccountData>>>());
-      final accounts = (result as Ok<List<AccountData>>).value;
+      expect(result, isA<Ok<List<Account>>>());
+      final accounts = (result as Ok<List<Account>>).value;
       expect(accounts.length, equals(5));
     });
 
     test('first account is Alex Morgan with guide role', () async {
       final result = await repo.getAllAccounts();
-      final accounts = (result as Ok<List<AccountData>>).value;
+      final accounts = (result as Ok<List<Account>>).value;
       expect(accounts.first.name, equals('Alex Morgan'));
       expect(accounts.first.role, equals(AccountRole.guide));
     });
 
     test('contains active and inactive accounts', () async {
       final result = await repo.getAllAccounts();
-      final accounts = (result as Ok<List<AccountData>>).value;
+      final accounts = (result as Ok<List<Account>>).value;
       final activeCount =
           accounts.where((a) => a.status == AccountStatus.active).length;
       final inactiveCount =
@@ -67,7 +67,7 @@ void main() {
 
     test('accounts have non-empty emails', () async {
       final result = await repo.getAllAccounts();
-      final accounts = (result as Ok<List<AccountData>>).value;
+      final accounts = (result as Ok<List<Account>>).value;
       for (final a in accounts) {
         expect(a.email, isNotEmpty);
         expect(a.employeeId, isNotEmpty);
@@ -80,7 +80,7 @@ void main() {
   group('createAccount', () {
     test('returns Ok and increases list size by 1', () async {
       final before = await repo.getAllAccounts();
-      final countBefore = (before as Ok<List<AccountData>>).value.length;
+      final countBefore = (before as Ok<List<Account>>).value.length;
 
       final result = await repo.createAccount(
         name: 'Test User',
@@ -93,7 +93,7 @@ void main() {
       expect(result, isA<Ok<void>>());
 
       final after = await repo.getAllAccounts();
-      final countAfter = (after as Ok<List<AccountData>>).value.length;
+      final countAfter = (after as Ok<List<Account>>).value.length;
       expect(countAfter, equals(countBefore + 1));
     });
 
@@ -107,7 +107,7 @@ void main() {
       );
 
       final allResult = await repo.getAllAccounts();
-      final accounts = (allResult as Ok<List<AccountData>>).value;
+      final accounts = (allResult as Ok<List<Account>>).value;
       final created = accounts.lastWhere((a) => a.email == 'new@travery.com');
 
       expect(created.name, equals('New Employee'));
@@ -124,7 +124,7 @@ void main() {
       expect(result, isA<Ok<void>>());
 
       final allResult = await repo.getAllAccounts();
-      final accounts = (allResult as Ok<List<AccountData>>).value;
+      final accounts = (allResult as Ok<List<Account>>).value;
       expect(accounts.any((a) => a.id == 'acc_1'), isFalse);
     });
 
@@ -139,14 +139,14 @@ void main() {
   group('getAccount', () {
     test('returns Ok for existing id', () async {
       final result = await repo.getAccount(id: 'acc_2');
-      expect(result, isA<Ok<AccountData>>());
-      final account = (result as Ok<AccountData>).value;
+      expect(result, isA<Ok<Account>>());
+      final account = (result as Ok<Account>).value;
       expect(account.name, equals('Julian Kross'));
     });
 
     test('returns Error for non-existent id', () async {
       final result = await repo.getAccount(id: 'xyz_not_found');
-      expect(result, isA<Error<AccountData>>());
+      expect(result, isA<Error<Account>>());
     });
   });
 
@@ -155,27 +155,27 @@ void main() {
   group('getAllVehicles', () {
     test('returns Ok with 4 vehicles', () async {
       final result = await repo.getAllVehicles();
-      expect(result, isA<Ok<List<VehicleData>>>());
-      final vehicles = (result as Ok<List<VehicleData>>).value;
+      expect(result, isA<Ok<List<CoachData>>>());
+      final vehicles = (result as Ok<List<CoachData>>).value;
       expect(vehicles.length, equals(4));
     });
 
     test('vehicles have running and available statuses', () async {
       final result = await repo.getAllVehicles();
-      final vehicles = (result as Ok<List<VehicleData>>).value;
+      final vehicles = (result as Ok<List<CoachData>>).value;
       expect(
-        vehicles.any((v) => v.status == VehicleStatus.running),
+        vehicles.any((v) => v.status == CoachStatus.running),
         isTrue,
       );
       expect(
-        vehicles.any((v) => v.status == VehicleStatus.available),
+        vehicles.any((v) => v.status == CoachStatus.available),
         isTrue,
       );
     });
 
     test('vehicles have non-empty plateNumbers', () async {
       final result = await repo.getAllVehicles();
-      final vehicles = (result as Ok<List<VehicleData>>).value;
+      final vehicles = (result as Ok<List<CoachData>>).value;
       for (final v in vehicles) {
         expect(v.plateNumber, isNotEmpty);
         expect(v.driverName, isNotEmpty);
@@ -217,14 +217,14 @@ void main() {
   group('getAllTours', () {
     test('returns Ok with 5 tours', () async {
       final result = await repo.getAllTours();
-      expect(result, isA<Ok<List<TourData>>>());
-      final tours = (result as Ok<List<TourData>>).value;
+      expect(result, isA<Ok<List<Tour>>>());
+      final tours = (result as Ok<List<Tour>>).value;
       expect(tours.length, equals(5));
     });
 
     test('tours are sorted by rank', () async {
       final result = await repo.getAllTours();
-      final tours = (result as Ok<List<TourData>>).value;
+      final tours = (result as Ok<List<Tour>>).value;
       for (int i = 0; i < tours.length - 1; i++) {
         expect(tours[i].rank, lessThan(tours[i + 1].rank));
       }
@@ -232,7 +232,7 @@ void main() {
 
     test('tours have up and down trends', () async {
       final result = await repo.getAllTours();
-      final tours = (result as Ok<List<TourData>>).value;
+      final tours = (result as Ok<List<Tour>>).value;
       expect(tours.any((t) => t.trend == TourTrend.up), isTrue);
       expect(tours.any((t) => t.trend == TourTrend.down), isTrue);
     });
@@ -241,17 +241,18 @@ void main() {
   // ── getTourSummaryStats ────────────────────────────────────────────────────
 
   group('getTourSummaryStats', () {
-    test('returns Ok with TourSummaryStats', () async {
+    test('returns Ok with TourSummary', () async {
       final result = await repo.getTourSummaryStats();
-      expect(result, isA<Ok<TourSummaryStats>>());
+      expect(result, isA<Ok<TourSummary>>());
     });
 
     test('stats have expected values', () async {
       final result = await repo.getTourSummaryStats();
-      final stats = (result as Ok<TourSummaryStats>).value;
+      final stats = (result as Ok<TourSummary>).value;
       expect(stats.completed, equals(1284));
       expect(stats.ongoing, equals(42));
       expect(stats.avgRating, equals(4.8));
     });
   });
 }
+

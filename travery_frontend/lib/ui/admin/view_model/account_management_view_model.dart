@@ -9,19 +9,19 @@ class AccountManagementViewModel extends ChangeNotifier {
 
   AccountManagementViewModel({required AdminRepository adminRepository})
     : _adminRepository = adminRepository {
-    loadAccounts = Command0<List<AccountData>>(_loadAccounts);
+    loadAccounts = Command0<List<Account>>(_loadAccounts);
     deleteAccount = Command1<void, String>(_deleteAccount);
   }
 
-  late final Command0<List<AccountData>> loadAccounts;
+  late final Command0<List<Account>> loadAccounts;
   late final Command1<void, String> deleteAccount;
 
-  Future<Result<List<AccountData>>> _loadAccounts() async {
+  Future<Result<List<Account>>> _loadAccounts() async {
     final result = await _adminRepository.getAllAccounts();
     switch (result) {
-      case Ok<List<AccountData>>():
+      case Ok<List<Account>>():
         return Result.ok(result.value);
-      case Error<List<AccountData>>():
+      case Error<List<Account>>():
         return Result.error(result.error);
     }
   }
@@ -36,3 +36,4 @@ class AccountManagementViewModel extends ChangeNotifier {
     }
   }
 }
+

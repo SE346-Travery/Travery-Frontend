@@ -70,8 +70,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               );
             }
 
-            final stats = cmd.result is Ok<DashboardStats>
-                ? (cmd.result as Ok<DashboardStats>).value
+            final stats = cmd.result is Ok<Dashboard>
+                ? (cmd.result as Ok<Dashboard>).value
                 : null;
 
             if (stats == null) {
@@ -206,14 +206,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ─────────────────────────────────────────────────────────────────────────
   // Revenue chart card
   // ─────────────────────────────────────────────────────────────────────────
-  Widget _buildRevenueCard(DashboardStats stats) {
+  Widget _buildRevenueCard(Dashboard stats) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -272,7 +272,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 barTouchData: BarTouchData(
                   enabled: true,
                   touchTooltipData: BarTouchTooltipData(
-                    getTooltipColor: (_) => AppColors.primary.withOpacity(0.9),
+                    getTooltipColor: (_) => AppColors.primary,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       const labels = ['Tours', 'Xe khách', 'Khách sạn'];
                       return BarTooltipItem(
@@ -305,8 +305,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 stats.hotelRevenueQuarterM,
                               ];
                         final idx = value.toInt();
-                        if (idx < 0 || idx >= data.length)
+                        if (idx < 0 || idx >= data.length) {
                           return const SizedBox.shrink();
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Text(
@@ -328,8 +329,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       getTitlesWidget: (value, meta) {
                         const labels = ['Tours', 'Xe khách', 'Khách sạn'];
                         final idx = value.toInt();
-                        if (idx < 0 || idx >= labels.length)
+                        if (idx < 0 || idx >= labels.length) {
                           return const SizedBox.shrink();
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
@@ -361,7 +363,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  List<BarChartGroupData> _buildBarGroups(DashboardStats stats) {
+  List<BarChartGroupData> _buildBarGroups(Dashboard stats) {
     final data = _selectedPeriod == 0
         ? [stats.tourRevenueM, stats.carRevenueM, stats.hotelRevenueM]
         : [
@@ -391,14 +393,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ─────────────────────────────────────────────────────────────────────────
   // Operational health card
   // ─────────────────────────────────────────────────────────────────────────
-  Widget _buildOperationalHealthCard(DashboardStats stats) {
+  Widget _buildOperationalHealthCard(Dashboard stats) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -532,7 +534,7 @@ class _StatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -683,3 +685,4 @@ class _HealthMetricItem extends StatelessWidget {
     );
   }
 }
+

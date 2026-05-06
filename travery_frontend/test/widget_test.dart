@@ -3,7 +3,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 void main() {
@@ -12,18 +12,18 @@ void main() {
 
     // Dashboard
     final dashResult = await repo.getDashboardStats();
-    expect(dashResult, isA<Ok<DashboardStats>>());
+    expect(dashResult, isA<Ok<Dashboard>>());
 
     // Accounts
     final accountsResult = await repo.getAllAccounts();
-    expect(accountsResult, isA<Ok<List<AccountData>>>());
-    final accounts = (accountsResult as Ok<List<AccountData>>).value;
+    expect(accountsResult, isA<Ok<List<Account>>>());
+    final accounts = (accountsResult as Ok<List<Account>>).value;
     expect(accounts, isNotEmpty);
 
     // Vehicles
     final vehiclesResult = await repo.getAllVehicles();
-    expect(vehiclesResult, isA<Ok<List<VehicleData>>>());
-    final vehicles = (vehiclesResult as Ok<List<VehicleData>>).value;
+    expect(vehiclesResult, isA<Ok<List<CoachData>>>());
+    final vehicles = (vehiclesResult as Ok<List<CoachData>>).value;
     expect(vehicles, isNotEmpty);
 
     // Hotels
@@ -34,8 +34,9 @@ void main() {
 
     // Tours
     final toursResult = await repo.getAllTours();
-    expect(toursResult, isA<Ok<List<TourData>>>());
-    final tours = (toursResult as Ok<List<TourData>>).value;
+    expect(toursResult, isA<Ok<List<Tour>>>());
+    final tours = (toursResult as Ok<List<Tour>>).value;
     expect(tours, isNotEmpty);
   });
 }
+

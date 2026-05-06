@@ -39,13 +39,13 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
   }
 
   // ── Derived list ────────────────────────────────────────────────────────────
-  List<VehicleData> _applyFilters(List<VehicleData> all) {
+  List<CoachData> _applyFilters(List<CoachData> all) {
     var list = all.toList();
 
     if (_selectedFilterIndex == 1) {
-      list = list.where((v) => v.status == VehicleStatus.running).toList();
+      list = list.where((v) => v.status == CoachStatus.running).toList();
     } else if (_selectedFilterIndex == 2) {
-      list = list.where((v) => v.status == VehicleStatus.available).toList();
+      list = list.where((v) => v.status == CoachStatus.available).toList();
     }
 
     if (_searchQuery.isNotEmpty) {
@@ -165,13 +165,13 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                     );
                   }
 
-                  final all = cmd.result is Ok<List<VehicleData>>
-                      ? (cmd.result as Ok<List<VehicleData>>).value
-                      : <VehicleData>[];
+                  final all = cmd.result is Ok<List<CoachData>>
+                      ? (cmd.result as Ok<List<CoachData>>).value
+                      : <CoachData>[];
 
                   final vehicles = _applyFilters(all);
                   final runningCount = all
-                      .where((v) => v.status == VehicleStatus.running)
+                      .where((v) => v.status == CoachStatus.running)
                       .length;
 
                   return Column(
@@ -210,7 +210,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                             : ListView.separated(
                                 padding: const EdgeInsets.only(bottom: 100),
                                 itemCount: vehicles.length,
-                                separatorBuilder: (_, __) => const Divider(
+                                separatorBuilder: (_, _) => const Divider(
                                   height: 1,
                                   thickness: 1,
                                   color: AppColors.inputBorder,
@@ -305,7 +305,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onVehicleTap(VehicleData v) {
+  void _onVehicleTap(CoachData v) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${v.routeFrom} — ${v.routeTo}'),
@@ -350,7 +350,7 @@ class _StatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -388,3 +388,4 @@ class _StatCard extends StatelessWidget {
     );
   }
 }
+

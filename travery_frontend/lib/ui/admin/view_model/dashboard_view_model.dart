@@ -9,18 +9,19 @@ class DashboardViewModel extends ChangeNotifier {
 
   DashboardViewModel({required AdminRepository adminRepository})
     : _adminRepository = adminRepository {
-    loadStats = Command0<DashboardStats>(_loadStats);
+    loadStats = Command0<Dashboard>(_loadStats);
   }
 
-  late final Command0<DashboardStats> loadStats;
+  late final Command0<Dashboard> loadStats;
 
-  Future<Result<DashboardStats>> _loadStats() async {
+  Future<Result<Dashboard>> _loadStats() async {
     final result = await _adminRepository.getDashboardStats();
     switch (result) {
-      case Ok<DashboardStats>():
+      case Ok<Dashboard>():
         return Result.ok(result.value);
-      case Error<DashboardStats>():
+      case Error<Dashboard>():
         return Result.error(result.error);
     }
   }
 }
+

@@ -9,30 +9,31 @@ class TourManagementViewModel extends ChangeNotifier {
 
   TourManagementViewModel({required AdminRepository adminRepository})
     : _adminRepository = adminRepository {
-    loadTours = Command0<List<TourData>>(_loadTours);
-    loadSummaryStats = Command0<TourSummaryStats>(_loadSummaryStats);
+    loadTours = Command0<List<Tour>>(_loadTours);
+    loadSummaryStats = Command0<TourSummary>(_loadSummaryStats);
   }
 
-  late final Command0<List<TourData>> loadTours;
-  late final Command0<TourSummaryStats> loadSummaryStats;
+  late final Command0<List<Tour>> loadTours;
+  late final Command0<TourSummary> loadSummaryStats;
 
-  Future<Result<List<TourData>>> _loadTours() async {
+  Future<Result<List<Tour>>> _loadTours() async {
     final result = await _adminRepository.getAllTours();
     switch (result) {
-      case Ok<List<TourData>>():
+      case Ok<List<Tour>>():
         return Result.ok(result.value);
-      case Error<List<TourData>>():
+      case Error<List<Tour>>():
         return Result.error(result.error);
     }
   }
 
-  Future<Result<TourSummaryStats>> _loadSummaryStats() async {
+  Future<Result<TourSummary>> _loadSummaryStats() async {
     final result = await _adminRepository.getTourSummaryStats();
     switch (result) {
-      case Ok<TourSummaryStats>():
+      case Ok<TourSummary>():
         return Result.ok(result.value);
-      case Error<TourSummaryStats>():
+      case Error<TourSummary>():
         return Result.error(result.error);
     }
   }
 }
+

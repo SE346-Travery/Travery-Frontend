@@ -9,18 +9,19 @@ class VehicleManagementViewModel extends ChangeNotifier {
 
   VehicleManagementViewModel({required AdminRepository adminRepository})
     : _adminRepository = adminRepository {
-    loadVehicles = Command0<List<VehicleData>>(_loadVehicles);
+    loadVehicles = Command0<List<CoachData>>(_loadVehicles);
   }
 
-  late final Command0<List<VehicleData>> loadVehicles;
+  late final Command0<List<CoachData>> loadVehicles;
 
-  Future<Result<List<VehicleData>>> _loadVehicles() async {
+  Future<Result<List<CoachData>>> _loadVehicles() async {
     final result = await _adminRepository.getAllVehicles();
     switch (result) {
-      case Ok<List<VehicleData>>():
+      case Ok<List<CoachData>>():
         return Result.ok(result.value);
-      case Error<List<VehicleData>>():
+      case Error<List<CoachData>>():
         return Result.error(result.error);
     }
   }
 }
+

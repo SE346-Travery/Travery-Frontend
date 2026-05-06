@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -26,20 +26,20 @@ void main() {
 
       expect(vm.loadAccounts.completed, isTrue);
       expect(vm.loadAccounts.error, isFalse);
-      expect(vm.loadAccounts.result, isA<Ok<List<AccountData>>>());
+      expect(vm.loadAccounts.result, isA<Ok<List<Account>>>());
     });
 
     test('result contains 5 accounts', () async {
       await vm.loadAccounts.execute();
       final accounts =
-          (vm.loadAccounts.result as Ok<List<AccountData>>).value;
+          (vm.loadAccounts.result as Ok<List<Account>>).value;
       expect(accounts.length, equals(5));
     });
 
     test('result includes accounts of different roles', () async {
       await vm.loadAccounts.execute();
       final accounts =
-          (vm.loadAccounts.result as Ok<List<AccountData>>).value;
+          (vm.loadAccounts.result as Ok<List<Account>>).value;
 
       final roles = accounts.map((a) => a.role).toSet();
       expect(roles, containsAll([
@@ -51,7 +51,7 @@ void main() {
 
     test('can filter accounts by role guide', () async {
       await vm.loadAccounts.execute();
-      final all = (vm.loadAccounts.result as Ok<List<AccountData>>).value;
+      final all = (vm.loadAccounts.result as Ok<List<Account>>).value;
       final guides = all.where((a) => a.role == AccountRole.guide).toList();
       expect(guides, isNotEmpty);
       expect(guides.every((a) => a.role == AccountRole.guide), isTrue);
@@ -59,7 +59,7 @@ void main() {
 
     test('can filter accounts by status active', () async {
       await vm.loadAccounts.execute();
-      final all = (vm.loadAccounts.result as Ok<List<AccountData>>).value;
+      final all = (vm.loadAccounts.result as Ok<List<Account>>).value;
       final active =
           all.where((a) => a.status == AccountStatus.active).toList();
       expect(active, isNotEmpty);
@@ -67,7 +67,7 @@ void main() {
 
     test('can search by name', () async {
       await vm.loadAccounts.execute();
-      final all = (vm.loadAccounts.result as Ok<List<AccountData>>).value;
+      final all = (vm.loadAccounts.result as Ok<List<Account>>).value;
       final q = 'alex';
       final filtered = all
           .where((a) => a.name.toLowerCase().contains(q))
@@ -78,7 +78,7 @@ void main() {
 
     test('can search by email', () async {
       await vm.loadAccounts.execute();
-      final all = (vm.loadAccounts.result as Ok<List<AccountData>>).value;
+      final all = (vm.loadAccounts.result as Ok<List<Account>>).value;
       final q = 'kross';
       final filtered = all
           .where((a) => a.email.toLowerCase().contains(q))
@@ -105,7 +105,7 @@ void main() {
     test('after delete, loadAccounts has one fewer account', () async {
       await vm.loadAccounts.execute();
       final countBefore =
-          (vm.loadAccounts.result as Ok<List<AccountData>>).value.length;
+          (vm.loadAccounts.result as Ok<List<Account>>).value.length;
 
       await vm.deleteAccount.execute('acc_2');
 
@@ -113,9 +113,10 @@ void main() {
       vm.loadAccounts.clearResult();
       await vm.loadAccounts.execute();
       final countAfter =
-          (vm.loadAccounts.result as Ok<List<AccountData>>).value.length;
+          (vm.loadAccounts.result as Ok<List<Account>>).value.length;
 
       expect(countAfter, equals(countBefore - 1));
     });
   });
 }
+

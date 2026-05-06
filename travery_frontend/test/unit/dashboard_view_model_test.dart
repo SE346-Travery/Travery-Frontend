@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travery_frontend/data/repositories/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -35,24 +35,24 @@ void main() {
       expect(vm.loadStats.error, isFalse);
     });
 
-    test('result contains DashboardStats after execute', () async {
+    test('result contains Dashboard after execute', () async {
       await vm.loadStats.execute();
 
-      expect(vm.loadStats.result, isA<Ok<DashboardStats>>());
-      final stats = (vm.loadStats.result as Ok<DashboardStats>).value;
+      expect(vm.loadStats.result, isA<Ok<Dashboard>>());
+      final stats = (vm.loadStats.result as Ok<Dashboard>).value;
       expect(stats.totalRevenue, greaterThan(0));
       expect(stats.totalBooking, greaterThan(0));
     });
 
     test('result has correct revenue growth', () async {
       await vm.loadStats.execute();
-      final stats = (vm.loadStats.result as Ok<DashboardStats>).value;
+      final stats = (vm.loadStats.result as Ok<Dashboard>).value;
       expect(stats.revenueGrowthPercent, equals(12.4));
     });
 
     test('ongoing tours and utilization are populated', () async {
       await vm.loadStats.execute();
-      final stats = (vm.loadStats.result as Ok<DashboardStats>).value;
+      final stats = (vm.loadStats.result as Ok<Dashboard>).value;
       expect(stats.ongoingTours, isPositive);
       expect(
         stats.vehicleUtilizationPercent,
@@ -85,3 +85,4 @@ void main() {
     });
   });
 }
+

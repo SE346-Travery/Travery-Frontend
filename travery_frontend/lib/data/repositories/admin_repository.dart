@@ -6,7 +6,7 @@ import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 abstract class AdminRepository extends ChangeNotifier {
   // ── Dashboard ──────────────────────────────────────────────────────────────
 
-  Future<Result<DashboardStats>> getDashboardStats();
+  Future<Result<Dashboard>> getDashboardStats();
 
   Future<Result<List<double>>> getRevenueByMonth({
     required int month,
@@ -15,9 +15,9 @@ abstract class AdminRepository extends ChangeNotifier {
 
   // ── Accounts ───────────────────────────────────────────────────────────────
 
-  Future<Result<List<AccountData>>> getAllAccounts();
+  Future<Result<List<Account>>> getAllAccounts();
 
-  Future<Result<AccountData>> getAccount({required String id});
+  Future<Result<Account>> getAccount({required String id});
 
   Future<Result<void>> createAccount({
     required String name,
@@ -40,9 +40,9 @@ abstract class AdminRepository extends ChangeNotifier {
 
   // ── Vehicles ───────────────────────────────────────────────────────────────
 
-  Future<Result<List<VehicleData>>> getAllVehicles();
+  Future<Result<List<CoachData>>> getAllVehicles();
 
-  Future<Result<VehicleData>> getVehicle({required String id});
+  Future<Result<CoachData>> getVehicle({required String id});
 
   // ── Hotels ────────────────────────────────────────────────────────────────
 
@@ -52,9 +52,10 @@ abstract class AdminRepository extends ChangeNotifier {
 
   // ── Tours ──────────────────────────────────────────────────────────────────
 
-  Future<Result<List<TourData>>> getAllTours();
+  Future<Result<List<Tour>>> getAllTours();
 
-  Future<Result<TourData>> getTour({required String id});
+  Future<Result<Tour>> getTour({required String id});
 
-  Future<Result<TourSummaryStats>> getTourSummaryStats();
+  Future<Result<TourSummary>> getTourSummaryStats();
 }
+

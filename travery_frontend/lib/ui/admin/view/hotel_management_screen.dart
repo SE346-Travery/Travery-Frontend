@@ -113,7 +113,7 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
                         child: ListView.separated(
                           padding: const EdgeInsets.only(bottom: 100),
                           itemCount: hotels.length,
-                          separatorBuilder: (_, __) => const Divider(
+                          separatorBuilder: (_, _) => const Divider(
                             height: 1,
                             thickness: 1,
                             color: AppColors.inputBorder,

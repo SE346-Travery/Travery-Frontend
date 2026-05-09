@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onResult() {
     if (widget.viewModel.loginViaEmail.completed) {
       Utils.showSuccessNotification(context, 'Đăng nhập thành công');
-      context.go(Routes.home);
+      context.go(Routes.roleSelection);
       widget.viewModel.loginViaEmail.clearResult();
     }
     if (widget.viewModel.loginViaEmail.error) {

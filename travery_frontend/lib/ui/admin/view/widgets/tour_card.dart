@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
-
-// ─────────────────────────────────────────────────────────────────────────────
-// TourTrend enum
-// ─────────────────────────────────────────────────────────────────────────────
-
-enum TourTrend { up, down, stable }
 
 extension TourTrendProps on TourTrend {
   Color get color {
@@ -72,8 +67,8 @@ class TourCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: AppColors.primary.withOpacity(0.06),
-          highlightColor: AppColors.primary.withOpacity(0.03),
+          splashColor: AppColors.primary.withValues(alpha: 0.06),
+          highlightColor: AppColors.primary.withValues(alpha: 0.03),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
@@ -121,11 +116,7 @@ class TourCard extends StatelessWidget {
                 const SizedBox(width: 8),
 
                 // ── Trend icon ────────────────────────────────────────────
-                Icon(
-                  trend.icon,
-                  size: 22,
-                  color: trend.color,
-                ),
+                Icon(trend.icon, size: 22, color: trend.color),
               ],
             ),
           ),
@@ -143,7 +134,7 @@ class TourCard extends StatelessWidget {
               width: 52,
               height: 52,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _placeholder(),
+              errorBuilder: (_, _, _) => _placeholder(),
             )
           : _placeholder(),
     );

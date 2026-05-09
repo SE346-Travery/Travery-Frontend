@@ -1,7 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
+import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
+import 'widgets/admin_bottom_nav_bar.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,93 +20,154 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedPeriod = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // Trigger data load after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DashboardViewModel>().loadStats.execute();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 0),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── App bar ──────────────────────────────────────────────────
-              _buildAppBar(),
+        child: ListenableBuilder(
+          listenable: context.read<DashboardViewModel>().loadStats,
+          builder: (context, _) {
+            final vm = context.read<DashboardViewModel>();
+            final cmd = vm.loadStats;
 
-              const SizedBox(height: 20),
+            if (cmd.running) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              // ── Page title ───────────────────────────────────────────────
-              Text(
-                'Báo cáo Tổng quát',
-                style: TextStyle(
-                  fontSize: AppTextTheme.headlineLarge,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+            if (cmd.error) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: AppColors.error,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Không thể tải dữ liệu',
+                      style: TextStyle(
+                        fontSize: AppTextTheme.bodyLarge,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton(
+                      onPressed: () => cmd.execute(),
+                      child: const Text('Thử lại'),
+                    ),
+                  ],
                 ),
+              );
+            }
+
+            final stats = cmd.result is Ok<Dashboard>
+                ? (cmd.result as Ok<Dashboard>).value
+                : null;
+
+            if (stats == null) {
+              return const SizedBox.shrink();
+            }
+
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ── App bar ──────────────────────────────────────────────────
+                  _buildAppBar(),
+
+                  const SizedBox(height: 20),
+
+                  // ── Page title ───────────────────────────────────────────────
+                  Text(
+                    'Báo cáo Tổng quát',
+                    style: TextStyle(
+                      fontSize: AppTextTheme.headlineLarge,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '24 THÁNG 10, 2023 – HÔM NAY',
+                    style: TextStyle(
+                      fontSize: AppTextTheme.bodySmall,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textSecondary,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // ── Stat cards ───────────────────────────────────────────────
+                  _StatCard(
+                    icon: Icons.attach_money_rounded,
+                    iconBgColor: const Color(0xFFE8F0FE),
+                    iconColor: AppColors.primary,
+                    label: 'DOANH THU',
+                    value: '\$${_formatNumber(stats.totalRevenue.toInt())}',
+                    badgeText:
+                        '+${stats.revenueGrowthPercent.toStringAsFixed(1)}%',
+                    badgeColor: const Color(0xFFE6F4EA),
+                    badgeTextColor: const Color(0xFF2E7D32),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  _StatCard(
+                    icon: Icons.confirmation_number_outlined,
+                    iconBgColor: const Color(0xFFF3E8FF),
+                    iconColor: const Color(0xFF7B2FF7),
+                    label: 'LƯỢT ĐẶT',
+                    value: _formatNumber(stats.totalBooking),
+                    badgeText:
+                        '+${stats.bookingGrowthPercent.toStringAsFixed(1)}%',
+                    badgeColor: const Color(0xFFE6F4EA),
+                    badgeTextColor: const Color(0xFF2E7D32),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  _StatCard(
+                    icon: Icons.account_balance_wallet_outlined,
+                    iconBgColor: const Color(0xFFFFEBEE),
+                    iconColor: const Color(0xFFE53935),
+                    label: 'LỢI NHUẬN RÒNG',
+                    value: '\$${_formatNumber(stats.netProfit.toInt())}',
+                    badgeText:
+                        '+${stats.profitGrowthPercent.toStringAsFixed(1)}%',
+                    badgeColor: const Color(0xFFE6F4EA),
+                    badgeTextColor: const Color(0xFF2E7D32),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // ── Revenue by service ────────────────────────────────────────
+                  _buildRevenueCard(stats),
+
+                  const SizedBox(height: 20),
+
+                  // ── Operational health ───────────────────────────────────────
+                  _buildOperationalHealthCard(stats),
+
+                  const SizedBox(height: 20),
+                ],
               ),
-              const SizedBox(height: 4),
-              Text(
-                '24 THÁNG 10, 2023 – HÔM NAY',
-                style: TextStyle(
-                  fontSize: AppTextTheme.bodySmall,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textSecondary,
-                  letterSpacing: 0.5,
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // ── Stat cards ───────────────────────────────────────────────
-              _StatCard(
-                icon: Icons.attach_money_rounded,
-                iconBgColor: const Color(0xFFE8F0FE),
-                iconColor: AppColors.primary,
-                label: 'DOANH THU',
-                value: '\$4,820,150',
-                badgeText: '+12.4%',
-                badgeColor: const Color(0xFFE6F4EA),
-                badgeTextColor: const Color(0xFF2E7D32),
-              ),
-
-              const SizedBox(height: 12),
-
-              _StatCard(
-                icon: Icons.confirmation_number_outlined,
-                iconBgColor: const Color(0xFFF3E8FF),
-                iconColor: const Color(0xFF7B2FF7),
-                label: 'LƯỢT ĐẶT',
-                value: '12,842',
-                badgeText: '+5.2%',
-                badgeColor: const Color(0xFFE6F4EA),
-                badgeTextColor: const Color(0xFF2E7D32),
-              ),
-
-              const SizedBox(height: 12),
-
-              _StatCard(
-                icon: Icons.account_balance_wallet_outlined,
-                iconBgColor: const Color(0xFFFFEBEE),
-                iconColor: const Color(0xFFE53935),
-                label: 'LỢI NHUẬN RÒNG',
-                value: '\$1,204,500',
-                badgeText: '+8.1%',
-                badgeColor: const Color(0xFFE6F4EA),
-                badgeTextColor: const Color(0xFF2E7D32),
-              ),
-
-              const SizedBox(height: 20),
-
-              // ── Revenue by service ────────────────────────────────────────
-              _buildRevenueCard(),
-
-              const SizedBox(height: 20),
-
-              // ── Operational health ───────────────────────────────────────
-              _buildOperationalHealthCard(),
-
-              const SizedBox(height: 20),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -120,7 +186,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(Icons.grid_view_rounded, color: Colors.white, size: 20),
+          child: const Icon(
+            Icons.grid_view_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
         ),
         const SizedBox(width: 10),
         Text(
@@ -138,14 +208,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ─────────────────────────────────────────────────────────────────────────
   // Revenue chart card
   // ─────────────────────────────────────────────────────────────────────────
-  Widget _buildRevenueCard() {
+  Widget _buildRevenueCard(Dashboard stats) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -204,7 +274,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 barTouchData: BarTouchData(
                   enabled: true,
                   touchTooltipData: BarTouchTooltipData(
-                    getTooltipColor: (_) => AppColors.primary.withOpacity(0.9),
+                    getTooltipColor: (_) => AppColors.primary,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       const labels = ['Tours', 'Xe khách', 'Khách sạn'];
                       return BarTooltipItem(
@@ -225,13 +295,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       showTitles: true,
                       reservedSize: 28,
                       getTitlesWidget: (value, meta) {
-                        final labels = ['400M', '400M', '400M'];
+                        final data = _selectedPeriod == 0
+                            ? [
+                                stats.tourRevenueM,
+                                stats.carRevenueM,
+                                stats.hotelRevenueM,
+                              ]
+                            : [
+                                stats.tourRevenueQuarterM,
+                                stats.carRevenueQuarterM,
+                                stats.hotelRevenueQuarterM,
+                              ];
                         final idx = value.toInt();
-                        if (idx < 0 || idx >= labels.length) return const SizedBox.shrink();
+                        if (idx < 0 || idx >= data.length) {
+                          return const SizedBox.shrink();
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Text(
-                            labels[idx],
+                            '${data[idx].toInt()}M',
                             style: TextStyle(
                               fontSize: AppTextTheme.bodySmall,
                               color: AppColors.textSecondary,
@@ -249,7 +331,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       getTitlesWidget: (value, meta) {
                         const labels = ['Tours', 'Xe khách', 'Khách sạn'];
                         final idx = value.toInt();
-                        if (idx < 0 || idx >= labels.length) return const SizedBox.shrink();
+                        if (idx < 0 || idx >= labels.length) {
+                          return const SizedBox.shrink();
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: Text(
@@ -272,7 +356,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 gridData: const FlGridData(show: false),
                 borderData: FlBorderData(show: false),
-                barGroups: _buildBarGroups(),
+                barGroups: _buildBarGroups(stats),
               ),
             ),
           ),
@@ -281,11 +365,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  List<BarChartGroupData> _buildBarGroups() {
-    // Tháng vs Quý data
+  List<BarChartGroupData> _buildBarGroups(Dashboard stats) {
     final data = _selectedPeriod == 0
-        ? [400.0, 400.0, 400.0]
-        : [320.0, 360.0, 450.0];
+        ? [stats.tourRevenueM, stats.carRevenueM, stats.hotelRevenueM]
+        : [
+            stats.tourRevenueQuarterM,
+            stats.carRevenueQuarterM,
+            stats.hotelRevenueQuarterM,
+          ];
 
     return List.generate(data.length, (i) {
       return BarChartGroupData(
@@ -308,14 +395,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ─────────────────────────────────────────────────────────────────────────
   // Operational health card
   // ─────────────────────────────────────────────────────────────────────────
-  Widget _buildOperationalHealthCard() {
+  Widget _buildOperationalHealthCard(Dashboard stats) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -343,19 +430,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               _HealthMetricItem(
                 icon: Icons.flag_outlined,
                 iconColor: AppColors.primary,
-                value: '24',
+                value: '${stats.ongoingTours}',
                 label: 'TOUR',
               ),
               _HealthMetricItem(
                 icon: Icons.directions_bus_outlined,
                 iconColor: AppColors.primary,
-                value: '88%',
+                value: '${stats.vehicleUtilizationPercent.toInt()}%',
                 label: 'ĐỘI XE',
               ),
               _HealthMetricItem(
                 icon: Icons.bed_outlined,
                 iconColor: AppColors.primary,
-                value: '94%',
+                value: '${stats.hotelOccupancyPercent.toInt()}%',
                 label: 'PHÒNG',
               ),
             ],
@@ -377,7 +464,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               Text(
-                '99.9%',
+                '${stats.systemStabilityPercent}%',
                 style: TextStyle(
                   fontSize: AppTextTheme.bodySmall,
                   fontWeight: FontWeight.bold,
@@ -393,15 +480,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
-              value: 0.999,
+              value: stats.systemStabilityPercent / 100,
               minHeight: 8,
               backgroundColor: AppColors.inputBorder,
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.success),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                AppColors.success,
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _formatNumber(int n) {
+    if (n >= 1000000) {
+      return '${(n / 1000000).toStringAsFixed(1)}M';
+    } else if (n >= 1000) {
+      return '${(n / 1000).toStringAsFixed(1)}K';
+    }
+    return '$n';
   }
 }
 
@@ -438,7 +536,7 @@ class _StatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),

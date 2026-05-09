@@ -18,7 +18,7 @@ class Vehicle with _$Vehicle {
 
     @JsonKey(name: 'floor_count') required int floorCount,
 
-    required VehicleStatus status,
+    required CoachStatus status,
 
     @JsonKey(name: 'created_at') DateTime? createdAt,
 
@@ -36,4 +36,5 @@ class Vehicle with _$Vehicle {
 enum VehicleType { seat, sleeper, limosine }
 
 @JsonEnum()
-enum VehicleStatus { active, maintenance, retired }
+enum CoachStatus { active, maintenance, retired }
+

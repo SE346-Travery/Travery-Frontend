@@ -29,7 +29,7 @@ mixin _$Vehicle {
   int get totalSeats => throw _privateConstructorUsedError;
   @JsonKey(name: 'floor_count')
   int get floorCount => throw _privateConstructorUsedError;
-  VehicleStatus get status => throw _privateConstructorUsedError;
+  CoachStatus get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
@@ -58,7 +58,7 @@ abstract class $VehicleCopyWith<$Res> {
     VehicleType vehicleType,
     @JsonKey(name: 'total_seats') int totalSeats,
     @JsonKey(name: 'floor_count') int floorCount,
-    VehicleStatus status,
+    CoachStatus status,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
     List<VehicleSeat>? seats,
@@ -115,7 +115,7 @@ class _$VehicleCopyWithImpl<$Res, $Val extends Vehicle>
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
-                      as VehicleStatus,
+                      as CoachStatus,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -148,7 +148,7 @@ abstract class _$$VehicleImplCopyWith<$Res> implements $VehicleCopyWith<$Res> {
     VehicleType vehicleType,
     @JsonKey(name: 'total_seats') int totalSeats,
     @JsonKey(name: 'floor_count') int floorCount,
-    VehicleStatus status,
+    CoachStatus status,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
     List<VehicleSeat>? seats,
@@ -204,7 +204,7 @@ class __$$VehicleImplCopyWithImpl<$Res>
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
-                  as VehicleStatus,
+                  as CoachStatus,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -254,7 +254,7 @@ class _$VehicleImpl implements _Vehicle {
   @JsonKey(name: 'floor_count')
   final int floorCount;
   @override
-  final VehicleStatus status;
+  final CoachStatus status;
   @override
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
@@ -338,7 +338,7 @@ abstract class _Vehicle implements Vehicle {
     required final VehicleType vehicleType,
     @JsonKey(name: 'total_seats') required final int totalSeats,
     @JsonKey(name: 'floor_count') required final int floorCount,
-    required final VehicleStatus status,
+    required final CoachStatus status,
     @JsonKey(name: 'created_at') final DateTime? createdAt,
     @JsonKey(name: 'updated_at') final DateTime? updatedAt,
     final List<VehicleSeat>? seats,
@@ -360,7 +360,7 @@ abstract class _Vehicle implements Vehicle {
   @JsonKey(name: 'floor_count')
   int get floorCount;
   @override
-  VehicleStatus get status;
+  CoachStatus get status;
   @override
   @JsonKey(name: 'created_at')
   DateTime? get createdAt;
@@ -379,3 +379,4 @@ abstract class _Vehicle implements Vehicle {
   _$$VehicleImplCopyWith<_$VehicleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+

@@ -45,7 +45,8 @@ const _$VehicleTypeEnumMap = {
 };
 
 const _$VehicleStatusEnumMap = {
-  VehicleStatus.active: 'active',
-  VehicleStatus.maintenance: 'maintenance',
-  VehicleStatus.retired: 'retired',
+  CoachStatus.active: 'active',
+  CoachStatus.maintenance: 'maintenance',
+  CoachStatus.retired: 'retired',
 };
+

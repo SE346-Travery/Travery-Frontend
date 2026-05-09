@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
-
-/// Enum for account status
-enum AccountStatus { active, inactive }
-
-/// Enum for account role
-enum AccountRole { guide, coordinator, receptionist }
 
 extension AccountRoleLabel on AccountRole {
   String get label {
@@ -70,7 +65,7 @@ class AccountCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -82,8 +77,8 @@ class AccountCard extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(16),
-          splashColor: AppColors.primary.withOpacity(0.06),
-          highlightColor: AppColors.primary.withOpacity(0.03),
+          splashColor: AppColors.primary.withValues(alpha: 0.06),
+          highlightColor: AppColors.primary.withValues(alpha: 0.03),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             child: Row(
@@ -139,7 +134,10 @@ class AccountCard extends StatelessWidget {
                   color: AppColors.textSecondary,
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                  constraints: const BoxConstraints(
+                    minWidth: 28,
+                    minHeight: 28,
+                  ),
                 ),
               ],
             ),
@@ -158,7 +156,7 @@ class AccountCard extends StatelessWidget {
           width: 52,
           height: 52,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _defaultAvatar(),
+          errorBuilder: (_, _, _) => _defaultAvatar(),
         ),
       );
     }

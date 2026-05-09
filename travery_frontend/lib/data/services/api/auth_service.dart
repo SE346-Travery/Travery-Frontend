@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:travery_frontend/config/app_config.dart';
 import 'package:travery_frontend/data/services/api/model/authentication/forgot_password_request/forgot_password_request.dart';
 import 'dart:convert';
 
@@ -17,8 +18,8 @@ import 'package:travery_frontend/utils/core_result.dart';
 
 class AuthService {
   AuthService({String? host, int? port, HttpClient Function()? clientFactory})
-    : _host = host ?? '192.168.1.63',
-      _port = port ?? 8080,
+    : _host = host ?? AppConfig.host,
+      _port = port ?? AppConfig.port,
       _clientFactory = clientFactory ?? HttpClient.new;
 
   final String _host;
@@ -27,6 +28,7 @@ class AuthService {
 
   Future<Result<LoginResponse>> loginViaEmail(LoginRequest loginRequest) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/login');
@@ -56,6 +58,7 @@ class AuthService {
 
   Future<Result<void>> signup(SignupRequest signupRequest) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/signup');
@@ -82,6 +85,7 @@ class AuthService {
     ForgotPasswordRequest forgotPasswordRequest,
   ) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/forgot-password');
@@ -106,6 +110,7 @@ class AuthService {
 
   Future<Result<void>> verifyOtp(VerifyOtpRequest verifyOtpRequest) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/verify-otp');
@@ -130,6 +135,7 @@ class AuthService {
 
   Future<Result<void>> resendOtp(ResendOtpRequest resendOtpRequest) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/resend-otp');
@@ -156,6 +162,7 @@ class AuthService {
     ResetPasswordRequest resetPasswordRequest,
   ) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/reset-password');
@@ -180,6 +187,7 @@ class AuthService {
 
   Future<Result<void>> logout(LogoutRequest logoutRequest) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/logout');
@@ -204,6 +212,7 @@ class AuthService {
 
   Future<Result<RefreshResponse>> refresh(RefreshRequest refreshRequest) async {
     final client = _clientFactory();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
       final request = await client.post(_host, _port, '/auth/refresh');

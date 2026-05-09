@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -31,22 +31,23 @@ void main() {
 
     test('result contains 5 accounts', () async {
       await vm.loadAccounts.execute();
-      final accounts =
-          (vm.loadAccounts.result as Ok<List<Account>>).value;
+      final accounts = (vm.loadAccounts.result as Ok<List<Account>>).value;
       expect(accounts.length, equals(5));
     });
 
     test('result includes accounts of different roles', () async {
       await vm.loadAccounts.execute();
-      final accounts =
-          (vm.loadAccounts.result as Ok<List<Account>>).value;
+      final accounts = (vm.loadAccounts.result as Ok<List<Account>>).value;
 
       final roles = accounts.map((a) => a.role).toSet();
-      expect(roles, containsAll([
-        AccountRole.guide,
-        AccountRole.coordinator,
-        AccountRole.receptionist,
-      ]));
+      expect(
+        roles,
+        containsAll([
+          AccountRole.guide,
+          AccountRole.coordinator,
+          AccountRole.receptionist,
+        ]),
+      );
     });
 
     test('can filter accounts by role guide', () async {
@@ -60,8 +61,9 @@ void main() {
     test('can filter accounts by status active', () async {
       await vm.loadAccounts.execute();
       final all = (vm.loadAccounts.result as Ok<List<Account>>).value;
-      final active =
-          all.where((a) => a.status == AccountStatus.active).toList();
+      final active = all
+          .where((a) => a.status == AccountStatus.active)
+          .toList();
       expect(active, isNotEmpty);
     });
 
@@ -119,4 +121,3 @@ void main() {
     });
   });
 }
-

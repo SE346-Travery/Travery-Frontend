@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -8,6 +8,7 @@ import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_card.dart';
 import 'widgets/fliter_list.dart';
 import 'widgets/search_bar.dart';
+import 'widgets/admin_bottom_nav_bar.dart';
 
 class AccountManagementScreen extends StatefulWidget {
   const AccountManagementScreen({super.key});
@@ -75,6 +76,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 1),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -373,4 +375,3 @@ class _MenuOption extends StatelessWidget {
     );
   }
 }
-

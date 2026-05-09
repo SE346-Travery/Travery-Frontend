@@ -1,5 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
+import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
+import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
+import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
@@ -57,10 +62,12 @@ void main() {
     test('contains active and inactive accounts', () async {
       final result = await repo.getAllAccounts();
       final accounts = (result as Ok<List<Account>>).value;
-      final activeCount =
-          accounts.where((a) => a.status == AccountStatus.active).length;
-      final inactiveCount =
-          accounts.where((a) => a.status == AccountStatus.inactive).length;
+      final activeCount = accounts
+          .where((a) => a.status == AccountStatus.active)
+          .length;
+      final inactiveCount = accounts
+          .where((a) => a.status == AccountStatus.inactive)
+          .length;
       expect(activeCount, greaterThan(0));
       expect(inactiveCount, greaterThan(0));
     });
@@ -155,27 +162,21 @@ void main() {
   group('getAllVehicles', () {
     test('returns Ok with 4 vehicles', () async {
       final result = await repo.getAllVehicles();
-      expect(result, isA<Ok<List<CoachData>>>());
-      final vehicles = (result as Ok<List<CoachData>>).value;
+      expect(result, isA<Ok<List<Coach>>>());
+      final vehicles = (result as Ok<List<Coach>>).value;
       expect(vehicles.length, equals(4));
     });
 
     test('vehicles have running and available statuses', () async {
       final result = await repo.getAllVehicles();
-      final vehicles = (result as Ok<List<CoachData>>).value;
-      expect(
-        vehicles.any((v) => v.status == CoachStatus.running),
-        isTrue,
-      );
-      expect(
-        vehicles.any((v) => v.status == CoachStatus.available),
-        isTrue,
-      );
+      final vehicles = (result as Ok<List<Coach>>).value;
+      expect(vehicles.any((v) => v.status == CoachStatus.running), isTrue);
+      expect(vehicles.any((v) => v.status == CoachStatus.available), isTrue);
     });
 
     test('vehicles have non-empty plateNumbers', () async {
       final result = await repo.getAllVehicles();
-      final vehicles = (result as Ok<List<CoachData>>).value;
+      final vehicles = (result as Ok<List<Coach>>).value;
       for (final v in vehicles) {
         expect(v.plateNumber, isNotEmpty);
         expect(v.driverName, isNotEmpty);
@@ -188,14 +189,14 @@ void main() {
   group('getAllHotels', () {
     test('returns Ok with 8 hotels', () async {
       final result = await repo.getAllHotels();
-      expect(result, isA<Ok<List<HotelData>>>());
-      final hotels = (result as Ok<List<HotelData>>).value;
+      expect(result, isA<Ok<List<Hotel>>>());
+      final hotels = (result as Ok<List<Hotel>>).value;
       expect(hotels.length, equals(8));
     });
 
     test('hotel occupancy rates are between 0 and 1', () async {
       final result = await repo.getAllHotels();
-      final hotels = (result as Ok<List<HotelData>>).value;
+      final hotels = (result as Ok<List<Hotel>>).value;
       for (final h in hotels) {
         expect(h.occupancyRate, greaterThanOrEqualTo(0.0));
         expect(h.occupancyRate, lessThanOrEqualTo(1.0));
@@ -204,7 +205,7 @@ void main() {
 
     test('hotel ratings are between 1 and 5', () async {
       final result = await repo.getAllHotels();
-      final hotels = (result as Ok<List<HotelData>>).value;
+      final hotels = (result as Ok<List<Hotel>>).value;
       for (final h in hotels) {
         expect(h.rating, greaterThanOrEqualTo(1.0));
         expect(h.rating, lessThanOrEqualTo(5.0));
@@ -255,4 +256,3 @@ void main() {
     });
   });
 }
-

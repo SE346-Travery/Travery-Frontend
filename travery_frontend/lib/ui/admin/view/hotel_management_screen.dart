@@ -4,8 +4,9 @@ import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/hotel_card.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
 import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
+import 'widgets/admin_bottom_nav_bar.dart';
 
 class HotelManagementScreen extends StatefulWidget {
   const HotelManagementScreen({super.key});
@@ -29,6 +30,7 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 0),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,9 +77,9 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
                     );
                   }
 
-                  final hotels = cmd.result is Ok<List<HotelData>>
-                      ? (cmd.result as Ok<List<HotelData>>).value
-                      : <HotelData>[];
+                  final hotels = cmd.result is Ok<List<Hotel>>
+                      ? (cmd.result as Ok<List<Hotel>>).value
+                      : <Hotel>[];
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +189,7 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
   }
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
-  void _onHotelTap(HotelData h) {
+  void _onHotelTap(Hotel h) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${h.name}'),

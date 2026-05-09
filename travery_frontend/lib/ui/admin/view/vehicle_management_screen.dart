@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -8,6 +8,7 @@ import '../../core/themes/app_text_theme.dart';
 import 'widgets/fliter_list.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/vehicle_card.dart';
+import 'widgets/admin_bottom_nav_bar.dart';
 
 class VehicleManagementScreen extends StatefulWidget {
   const VehicleManagementScreen({super.key});
@@ -39,7 +40,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
   }
 
   // ── Derived list ────────────────────────────────────────────────────────────
-  List<CoachData> _applyFilters(List<CoachData> all) {
+  List<Coach> _applyFilters(List<Coach> all) {
     var list = all.toList();
 
     if (_selectedFilterIndex == 1) {
@@ -69,6 +70,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 0),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,9 +167,9 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                     );
                   }
 
-                  final all = cmd.result is Ok<List<CoachData>>
-                      ? (cmd.result as Ok<List<CoachData>>).value
-                      : <CoachData>[];
+                  final all = cmd.result is Ok<List<Coach>>
+                      ? (cmd.result as Ok<List<Coach>>).value
+                      : <Coach>[];
 
                   final vehicles = _applyFilters(all);
                   final runningCount = all
@@ -305,7 +307,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onVehicleTap(CoachData v) {
+  void _onVehicleTap(Coach v) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${v.routeFrom} — ${v.routeTo}'),
@@ -388,4 +390,3 @@ class _StatCard extends StatelessWidget {
     );
   }
 }
-

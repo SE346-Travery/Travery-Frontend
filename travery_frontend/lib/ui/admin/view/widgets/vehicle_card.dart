@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
 
@@ -180,4 +180,3 @@ class _StatusBadge extends StatelessWidget {
     );
   }
 }
-

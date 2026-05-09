@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -54,14 +54,8 @@ void main() {
       await vm.loadStats.execute();
       final stats = (vm.loadStats.result as Ok<Dashboard>).value;
       expect(stats.ongoingTours, isPositive);
-      expect(
-        stats.vehicleUtilizationPercent,
-        greaterThan(0),
-      );
-      expect(
-        stats.hotelOccupancyPercent,
-        greaterThan(0),
-      );
+      expect(stats.vehicleUtilizationPercent, greaterThan(0));
+      expect(stats.hotelOccupancyPercent, greaterThan(0));
     });
 
     test('clearResult resets state', () async {
@@ -85,4 +79,3 @@ void main() {
     });
   });
 }
-

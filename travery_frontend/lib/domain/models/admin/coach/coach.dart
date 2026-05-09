@@ -1,7 +1,7 @@
 enum CoachStatus { running, available }
 
-class CoachData {
-  const CoachData({
+class Coach {
+  const Coach({
     required this.id,
     required this.routeFrom,
     required this.routeTo,
@@ -21,4 +21,3 @@ class CoachData {
   final int seatCount;
   final String driverName;
 }
-

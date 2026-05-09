@@ -1,6 +1,11 @@
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
 import 'package:travery_frontend/data/repositories/admin_repository.dart';
 import 'package:travery_frontend/utils/core_result.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
+import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
+import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
+import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 
 /// Development/local implementation of [AdminRepository] that returns
 /// in-memory seed data. Simulates a network delay of 300 ms.
@@ -90,8 +95,8 @@ class AdminRepositoryDev extends AdminRepository {
     ),
   ];
 
-  static final List<CoachData> _vehicles = [
-    CoachData(
+  static final List<Coach> _vehicles = [
+    Coach(
       id: 'veh_1',
       routeFrom: 'SGN',
       routeTo: 'DLT',
@@ -101,7 +106,7 @@ class AdminRepositoryDev extends AdminRepository {
       seatCount: 22,
       driverName: 'Nguyễn Văn Minh',
     ),
-    CoachData(
+    Coach(
       id: 'veh_2',
       routeFrom: 'HAN',
       routeTo: 'HPH',
@@ -111,7 +116,7 @@ class AdminRepositoryDev extends AdminRepository {
       seatCount: 45,
       driverName: 'Trần Quang Khải',
     ),
-    CoachData(
+    Coach(
       id: 'veh_3',
       routeFrom: 'SGN',
       routeTo: 'CAM',
@@ -121,7 +126,7 @@ class AdminRepositoryDev extends AdminRepository {
       seatCount: 9,
       driverName: 'Lê Anh Tuấn',
     ),
-    CoachData(
+    Coach(
       id: 'veh_4',
       routeFrom: 'DLT',
       routeTo: 'SGN',
@@ -131,7 +136,7 @@ class AdminRepositoryDev extends AdminRepository {
       seatCount: 34,
       driverName: 'Võ Hoàng Phi',
     ),
-    CoachData(
+    Coach(
       id: 'veh_5',
       routeFrom: 'HAN',
       routeTo: 'DLT',
@@ -141,7 +146,7 @@ class AdminRepositoryDev extends AdminRepository {
       seatCount: 18,
       driverName: 'Phạm Đức Long',
     ),
-    CoachData(
+    Coach(
       id: 'veh_6',
       routeFrom: 'NHA',
       routeTo: 'SGN',
@@ -153,8 +158,8 @@ class AdminRepositoryDev extends AdminRepository {
     ),
   ];
 
-  static final List<HotelData> _hotels = [
-    HotelData(
+  static final List<Hotel> _hotels = [
+    Hotel(
       id: 'hot_1',
       name: 'Grand Diamond Saigon',
       district: 'Quận 1',
@@ -165,7 +170,7 @@ class AdminRepositoryDev extends AdminRepository {
       imageUrl:
           'https://images.unsplash.com/photo-1566073771259-4e6a850e645b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
     ),
-    HotelData(
+    Hotel(
       id: 'hot_2',
       name: 'Coastal Breeze Resort',
       district: 'Ngũ Hành Sơn',
@@ -174,7 +179,7 @@ class AdminRepositoryDev extends AdminRepository {
       occupancyRate: 0.78,
       rating: 4.9,
     ),
-    HotelData(
+    Hotel(
       id: 'hot_3',
       name: 'Urban Sky Suites',
       district: 'Hoàn Kiếm',
@@ -183,7 +188,7 @@ class AdminRepositoryDev extends AdminRepository {
       occupancyRate: 0.64,
       rating: 4.2,
     ),
-    HotelData(
+    Hotel(
       id: 'hot_4',
       name: 'Pine Valley Retreat',
       district: 'Đà Lạt',
@@ -192,7 +197,7 @@ class AdminRepositoryDev extends AdminRepository {
       occupancyRate: 0.88,
       rating: 4.9,
     ),
-    HotelData(
+    Hotel(
       id: 'hot_5',
       name: 'Pearl Island Resort',
       district: 'Phú Quốc',
@@ -201,7 +206,7 @@ class AdminRepositoryDev extends AdminRepository {
       occupancyRate: 0.45,
       rating: 4.7,
     ),
-    HotelData(
+    Hotel(
       id: 'hot_6',
       name: 'Ancient Town Villas',
       district: 'Hội An',
@@ -210,7 +215,7 @@ class AdminRepositoryDev extends AdminRepository {
       occupancyRate: 1.0,
       rating: 4.6,
     ),
-    HotelData(
+    Hotel(
       id: 'hot_7',
       name: 'Cliff Edge Hotel',
       district: 'Nha Trang',
@@ -219,7 +224,7 @@ class AdminRepositoryDev extends AdminRepository {
       occupancyRate: 0.52,
       rating: 4.4,
     ),
-    HotelData(
+    Hotel(
       id: 'hot_8',
       name: 'Metropolis Lodge',
       district: 'Bình Thạnh',
@@ -300,8 +305,8 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Mutable copies for CRUD operations ─────────────────────────────────────
 
   final List<Account> _mutableAccounts = List.of(_accounts);
-  final List<CoachData> _mutableVehicles = List.of(_vehicles);
-  final List<HotelData> _mutableHotels = List.of(_hotels);
+  final List<Coach> _mutableVehicles = List.of(_vehicles);
+  final List<Hotel> _mutableHotels = List.of(_hotels);
   final List<Tour> _mutableTours = List.of(_tours);
 
   // ── Helpers ────────────────────────────────────────────────────────────────
@@ -426,11 +431,11 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Vehicles ───────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<List<CoachData>>> getAllVehicles() =>
+  Future<Result<List<Coach>>> getAllVehicles() =>
       _delay(List.unmodifiable(_mutableVehicles));
 
   @override
-  Future<Result<CoachData>> getVehicle({required String id}) async {
+  Future<Result<Coach>> getVehicle({required String id}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       return Result.ok(_mutableVehicles.firstWhere((v) => v.id == id));
@@ -442,11 +447,11 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Hotels ────────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<List<HotelData>>> getAllHotels() =>
+  Future<Result<List<Hotel>>> getAllHotels() =>
       _delay(List.unmodifiable(_mutableHotels));
 
   @override
-  Future<Result<HotelData>> getHotel({required String id}) async {
+  Future<Result<Hotel>> getHotel({required String id}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       return Result.ok(_mutableHotels.firstWhere((h) => h.id == id));
@@ -500,7 +505,7 @@ class AdminRepositoryDev extends AdminRepository {
     await Future.delayed(const Duration(milliseconds: 300));
     final newId = 'hot_${_mutableHotels.length + 1}';
     _mutableHotels.add(
-      HotelData(
+      Hotel(
         id: newId,
         name: name,
         district: address.split(',').first,
@@ -537,7 +542,7 @@ class AdminRepositoryDev extends AdminRepository {
     await Future.delayed(const Duration(milliseconds: 300));
     final newId = 'veh_${_mutableVehicles.length + 1}';
     _mutableVehicles.add(
-      CoachData(
+      Coach(
         id: newId,
         routeFrom: 'SGN',
         routeTo: 'SGN',
@@ -588,7 +593,7 @@ class AdminRepositoryDev extends AdminRepository {
       return Result.error(Exception('Hotel not found: $id'));
     }
     final existing = _mutableHotels[idx];
-    _mutableHotels[idx] = HotelData(
+    _mutableHotels[idx] = Hotel(
       id: existing.id,
       name: name,
       district: address.split(',').first,
@@ -629,7 +634,7 @@ class AdminRepositoryDev extends AdminRepository {
       return Result.error(Exception('Vehicle not found: $id'));
     }
     final existing = _mutableVehicles[idx];
-    _mutableVehicles[idx] = CoachData(
+    _mutableVehicles[idx] = Coach(
       id: existing.id,
       routeFrom: existing.routeFrom,
       routeTo: existing.routeTo,

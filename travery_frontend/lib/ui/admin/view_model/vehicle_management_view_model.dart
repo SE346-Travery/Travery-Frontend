@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
 import 'package:travery_frontend/data/repositories/admin_repository.dart';
 import 'package:travery_frontend/utils/command.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -9,19 +9,18 @@ class VehicleManagementViewModel extends ChangeNotifier {
 
   VehicleManagementViewModel({required AdminRepository adminRepository})
     : _adminRepository = adminRepository {
-    loadVehicles = Command0<List<CoachData>>(_loadVehicles);
+    loadVehicles = Command0<List<Coach>>(_loadVehicles);
   }
 
-  late final Command0<List<CoachData>> loadVehicles;
+  late final Command0<List<Coach>> loadVehicles;
 
-  Future<Result<List<CoachData>>> _loadVehicles() async {
+  Future<Result<List<Coach>>> _loadVehicles() async {
     final result = await _adminRepository.getAllVehicles();
     switch (result) {
-      case Ok<List<CoachData>>():
+      case Ok<List<Coach>>():
         return Result.ok(result.value);
-      case Error<List<CoachData>>():
+      case Error<List<Coach>>():
         return Result.error(result.error);
     }
   }
 }
-

@@ -1,5 +1,5 @@
-class HotelData {
-  const HotelData({
+class Hotel {
+  const Hotel({
     required this.id,
     required this.name,
     required this.district,
@@ -19,4 +19,3 @@ class HotelData {
   final double rating;
   final String? imageUrl;
 }
-

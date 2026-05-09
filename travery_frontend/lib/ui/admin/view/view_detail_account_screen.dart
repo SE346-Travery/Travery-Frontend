@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Simple data model passed into this screen

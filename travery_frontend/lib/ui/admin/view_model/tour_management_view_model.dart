@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 import 'package:travery_frontend/data/repositories/admin_repository.dart';
 import 'package:travery_frontend/utils/command.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -36,4 +37,3 @@ class TourManagementViewModel extends ChangeNotifier {
     }
   }
 }
-

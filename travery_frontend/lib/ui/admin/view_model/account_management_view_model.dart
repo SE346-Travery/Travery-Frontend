@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
 import 'package:travery_frontend/data/repositories/admin_repository.dart';
 import 'package:travery_frontend/utils/command.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -36,4 +36,3 @@ class AccountManagementViewModel extends ChangeNotifier {
     }
   }
 }
-

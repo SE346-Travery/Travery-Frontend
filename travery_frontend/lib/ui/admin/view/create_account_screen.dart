@@ -5,6 +5,7 @@ import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_input_field.dart';
 import 'widgets/role_selector.dart';
+import 'widgets/admin_bottom_nav_bar.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Default role options
@@ -119,7 +120,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       // ── Bottom action bar ─────────────────────────────────────────────────
-      bottomNavigationBar: _buildBottomBar(),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [_buildBottomBar(), const AdminBottomNavBar(currentIndex: 2)],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),

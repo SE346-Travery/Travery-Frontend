@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/utils/core_result.dart';
-
-import 'package:travery_frontend/domain/models/admin/admin_data_models.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
+import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
+import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
+import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 
 abstract class AdminRepository extends ChangeNotifier {
   // ── Dashboard ──────────────────────────────────────────────────────────────
@@ -40,15 +44,15 @@ abstract class AdminRepository extends ChangeNotifier {
 
   // ── Vehicles ───────────────────────────────────────────────────────────────
 
-  Future<Result<List<CoachData>>> getAllVehicles();
+  Future<Result<List<Coach>>> getAllVehicles();
 
-  Future<Result<CoachData>> getVehicle({required String id});
+  Future<Result<Coach>> getVehicle({required String id});
 
   // ── Hotels ────────────────────────────────────────────────────────────────
 
-  Future<Result<List<HotelData>>> getAllHotels();
+  Future<Result<List<Hotel>>> getAllHotels();
 
-  Future<Result<HotelData>> getHotel({required String id});
+  Future<Result<Hotel>> getHotel({required String id});
 
   // ── Tours ──────────────────────────────────────────────────────────────────
 
@@ -58,4 +62,3 @@ abstract class AdminRepository extends ChangeNotifier {
 
   Future<Result<TourSummary>> getTourSummaryStats();
 }
-

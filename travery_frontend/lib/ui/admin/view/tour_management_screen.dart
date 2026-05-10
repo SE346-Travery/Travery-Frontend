@@ -8,7 +8,6 @@ import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/tour_card.dart';
-import 'widgets/admin_bottom_nav_bar.dart';
 
 class TourManagementScreen extends StatefulWidget {
   const TourManagementScreen({super.key});

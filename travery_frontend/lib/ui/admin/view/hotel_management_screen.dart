@@ -7,7 +7,6 @@ import '../../core/themes/app_text_theme.dart';
 import 'widgets/hotel_card.dart';
 import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
 import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
-import 'widgets/admin_bottom_nav_bar.dart';
 
 class HotelManagementScreen extends StatefulWidget {
   const HotelManagementScreen({super.key});

@@ -9,7 +9,6 @@ import '../../core/themes/app_text_theme.dart';
 import 'widgets/fliter_list.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/vehicle_card.dart';
-import 'widgets/admin_bottom_nav_bar.dart';
 
 class VehicleManagementScreen extends StatefulWidget {
   const VehicleManagementScreen({super.key});

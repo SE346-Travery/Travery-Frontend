@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
-import 'package:travery_frontend/utils/command.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_input_field.dart';
 import 'widgets/role_selector.dart';
-import 'widgets/admin_bottom_nav_bar.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Default role options
@@ -173,6 +171,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
 
                 const SizedBox(height: 24),
+
+                _buildBottomBar(),
               ],
             ),
           ),

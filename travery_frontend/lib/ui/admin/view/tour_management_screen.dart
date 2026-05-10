@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
@@ -37,13 +38,14 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 0),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── App bar ──────────────────────────────────────────────────────
-            _buildAppBar(),
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => context.pop(),
+            ),
 
             Expanded(
               child: ListenableBuilder(
@@ -262,39 +264,6 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
 
   Widget _buildDivider() =>
       Container(height: 36, width: 1, color: AppColors.inputBorder);
-
-  // ── App bar ───────────────────────────────────────────────────────────────
-  Widget _buildAppBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Row(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Icon(
-              Icons.grid_view_rounded,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            'Travery Admin',
-            style: TextStyle(
-              fontSize: AppTextTheme.headlineMedium,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   String _formatNumber(int number) {

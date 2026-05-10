@@ -23,12 +23,15 @@ class Routes {
   static const String bookingDetail = '/booking/:id';
 
   // Admin screen
+  static const String adminMain = '/admin/main';
   static const String adminDashboard = '/admin/dashboard';
   static const String adminCreateAccount = '/admin/create-account';
   static const String adminAccountManagement = '/admin/account-management';
   static const String adminHotelManagement = '/admin/hotel-management';
   static const String adminTourManagement = '/admin/tour-management';
   static const String adminVehicleManagement = '/admin/vehicle-management';
+  static String adminViewDetailAccountWithId(String id) =>
+      '/admin/view-detail-account/$id';
 
   /* HƯỚNG DẪN: Khi thêm Repository/Feature mới (ví dụ: Hotel, Car):
   Hãy thêm các hằng số đường dẫn vào đây.

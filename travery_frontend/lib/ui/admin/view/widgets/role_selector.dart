@@ -33,7 +33,8 @@ class RoleSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.primaryLightWhiteBlue,
+        border: Border.all(color: AppColors.primary, width: 0.5),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -115,12 +116,10 @@ class _RoleRow extends StatelessWidget {
         curve: Curves.easeInOut,
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.inputBackground,
+          color: isSelected
+              ? AppColors.primaryDarkBlackBlue
+              : AppColors.inputBackground,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.inputBorder,
-            width: 1,
-          ),
         ),
         child: Row(
           children: [

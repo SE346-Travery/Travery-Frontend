@@ -27,6 +27,7 @@ import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_model.dart';
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
 import 'package:travery_frontend/data/services/booking/booking_service_mock.dart';
 import 'package:travery_frontend/data/services/guide/guide_service.dart';
@@ -96,6 +97,12 @@ List<SingleChildWidget> get providers => [
   ChangeNotifierProvider(
     create:
         (context) => CreateAccountViewModel(
+          adminRepository: context.read<AdminRepository>(),
+        ),
+  ),
+  ChangeNotifierProvider(
+    create:
+        (context) => ViewDetailAccountViewModel(
           adminRepository: context.read<AdminRepository>(),
         ),
   ),

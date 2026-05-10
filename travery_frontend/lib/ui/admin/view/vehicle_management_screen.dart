@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
@@ -70,20 +71,20 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 0),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── App bar ──────────────────────────────────────────────────────
-            _buildAppBar(),
-
             // ── Page header ──────────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => context.pop(),
+                  ),
                   Text(
                     'Quản lý đội xe',
                     style: TextStyle(
@@ -248,39 +249,6 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: const Icon(Icons.add_rounded, color: Colors.white),
-      ),
-    );
-  }
-
-  // ── App bar ────────────────────────────────────────────────────────────────
-  Widget _buildAppBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Row(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Icon(
-              Icons.grid_view_rounded,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            'Travery Admin',
-            style: TextStyle(
-              fontSize: AppTextTheme.headlineMedium,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
-          ),
-        ],
       ),
     );
   }

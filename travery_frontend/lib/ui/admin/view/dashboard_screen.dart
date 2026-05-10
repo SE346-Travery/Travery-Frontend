@@ -1,7 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
+import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -32,7 +34,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 0),
       body: SafeArea(
         child: ListenableBuilder(
           listenable: context.read<DashboardViewModel>().loadStats,
@@ -428,18 +429,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _HealthMetricItem(
+                onTap: () {
+                  context.push(Routes.adminTourManagement);
+                },
                 icon: Icons.flag_outlined,
                 iconColor: AppColors.primary,
                 value: '${stats.ongoingTours}',
                 label: 'TOUR',
               ),
               _HealthMetricItem(
+                onTap: () {
+                  context.push(Routes.adminVehicleManagement);
+                },
                 icon: Icons.directions_bus_outlined,
                 iconColor: AppColors.primary,
                 value: '${stats.vehicleUtilizationPercent.toInt()}%',
                 label: 'ĐỘI XE',
               ),
               _HealthMetricItem(
+                onTap: () {
+                  context.push(Routes.adminHotelManagement);
+                },
                 icon: Icons.bed_outlined,
                 iconColor: AppColors.primary,
                 value: '${stats.hotelOccupancyPercent.toInt()}%',
@@ -652,38 +662,43 @@ class _HealthMetricItem extends StatelessWidget {
     required this.iconColor,
     required this.value,
     required this.label,
+    required this.onTap,
   });
 
   final IconData icon;
   final Color iconColor;
   final String value;
   final String label;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(icon, color: iconColor, size: 28),
-        const SizedBox(height: 6),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: AppTextTheme.headlineMedium,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Icon(icon, color: iconColor, size: 28),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: AppTextTheme.headlineMedium,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
           ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: AppTextTheme.bodySmall,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textSecondary,
-            letterSpacing: 0.5,
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: AppTextTheme.bodySmall,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textSecondary,
+              letterSpacing: 0.5,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

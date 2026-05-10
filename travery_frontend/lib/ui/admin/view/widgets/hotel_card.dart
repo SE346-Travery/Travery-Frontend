@@ -45,7 +45,6 @@ class HotelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final occupancyPct = (occupancyRate * 100).round();
-    final bool almostFull = occupancyRate >= 0.9;
 
     return Container(
       color: AppColors.surface,
@@ -118,7 +117,7 @@ class HotelCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: AppTextTheme.bodySmall,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.primary,
+                              color: AppColors.primaryDarkBlackBlue,
                             ),
                           ),
                           Text(
@@ -126,9 +125,7 @@ class HotelCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: AppTextTheme.bodySmall,
                               fontWeight: FontWeight.w600,
-                              color: almostFull
-                                  ? AppColors.error
-                                  : AppColors.primary,
+                              color: AppColors.primaryDarkBlackBlue,
                             ),
                           ),
                         ],
@@ -143,9 +140,7 @@ class HotelCard extends StatelessWidget {
                           value: occupancyRate.clamp(0.0, 1.0),
                           minHeight: 5,
                           backgroundColor: AppColors.inputBorder,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            almostFull ? AppColors.error : AppColors.primary,
-                          ),
+                          color: AppColors.primaryDarkBlackBlue,
                         ),
                       ),
                     ],
@@ -181,7 +176,7 @@ class HotelCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: AppColors.primaryDarkBlackBlue,
               borderRadius: BorderRadius.circular(6),
             ),
             child: Row(

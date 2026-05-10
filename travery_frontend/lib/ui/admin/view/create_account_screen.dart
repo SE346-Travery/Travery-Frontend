@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
+import 'package:travery_frontend/utils/command.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_input_field.dart';
@@ -119,11 +120,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      // ── Bottom action bar ─────────────────────────────────────────────────
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [_buildBottomBar(), const AdminBottomNavBar(currentIndex: 2)],
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),

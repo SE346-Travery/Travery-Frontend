@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:travery_frontend/data/repositories/admin_repository.dart';
 
 import 'package:travery_frontend/data/repositories/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
@@ -9,6 +10,9 @@ import 'package:travery_frontend/data/repositories/tour_progress_repository.dart
 import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 import 'package:travery_frontend/data/services/cancel/cancel_service_mock.dart';
 import 'package:travery_frontend/data/services/cancellation/cancellation_service_mock.dart';
+import 'package:travery_frontend/ui/admin/view/admin_main_screen.dart';
+import 'package:travery_frontend/ui/admin/view/view_detail_account_screen.dart';
+import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/confirm_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/forgot_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/register_view_model.dart';
@@ -32,7 +36,6 @@ import '../ui/authentication/view/register_screen.dart';
 import '../ui/authentication/view/otp_verification_screen.dart';
 import '../ui/authentication/view/forgot_password_screen.dart';
 import '../ui/authentication/view/confirm_password_screen.dart';
-import '../ui/authentication/view/test_home_screen.dart';
 import '../ui/authentication/widgets/role_selection_screen.dart';
 import '../ui/authentication/view_models/login_view_model.dart';
 import '../ui/authentication/view_models/otp_verification_view_model.dart';
@@ -190,9 +193,8 @@ GoRouter appRouter(AuthRepository authRepository) {
       // --- COORDINATOR ROUTES ---
       GoRoute(
         path: Routes.coordinatorHome,
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Coordinator Home')),
-        ),
+        builder: (context, state) =>
+            const Scaffold(body: Center(child: Text('Coordinator Home'))),
       ),
 
       // --- GUIDE ROUTES ---
@@ -233,6 +235,10 @@ GoRouter appRouter(AuthRepository authRepository) {
 
       // --- ADMIN ROUTES ---
       GoRoute(
+        path: Routes.adminMain,
+        builder: (context, state) => const AdminMainScreen(),
+      ),
+      GoRoute(
         path: Routes.adminDashboard,
         builder: (context, state) => const DashboardScreen(),
       ),
@@ -243,6 +249,19 @@ GoRouter appRouter(AuthRepository authRepository) {
       GoRoute(
         path: Routes.adminAccountManagement,
         builder: (context, state) => const AccountManagementScreen(),
+      ),
+      GoRoute(
+        path: Routes.adminViewDetailAccountWithId(':id'),
+        builder: (context, state) {
+          final accountId = state.pathParameters['id']!;
+          final viewModel = ViewDetailAccountViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          );
+          return ViewDetailAccountScreen(
+            viewModel: viewModel,
+            accountId: accountId,
+          );
+        },
       ),
       GoRoute(
         path: Routes.adminHotelManagement,

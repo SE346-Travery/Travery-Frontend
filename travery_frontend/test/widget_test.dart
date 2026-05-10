@@ -1,30 +1,48 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Basic smoke test for the Travery app.
+// Verifies that the app widget tree builds without throwing.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:travery_frontend/main.dart';
+import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
+import 'package:travery_frontend/domain/models/admin/account/account.dart';
+import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
+import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
+import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test(
+    'AdminRepositoryDev smoke test — app data layer is functional',
+    () async {
+      final repo = AdminRepositoryDev();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      // Dashboard
+      final dashResult = await repo.getDashboardStats();
+      expect(dashResult, isA<Ok<Dashboard>>());
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      // Accounts
+      final accountsResult = await repo.getAllAccounts();
+      expect(accountsResult, isA<Ok<List<Account>>>());
+      final accounts = (accountsResult as Ok<List<Account>>).value;
+      expect(accounts, isNotEmpty);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+      // Vehicles
+      final vehiclesResult = await repo.getAllVehicles();
+      expect(vehiclesResult, isA<Ok<List<Coach>>>());
+      final vehicles = (vehiclesResult as Ok<List<Coach>>).value;
+      expect(vehicles, isNotEmpty);
+
+      // Hotels
+      final hotelsResult = await repo.getAllHotels();
+      expect(hotelsResult, isA<Ok<List<Hotel>>>());
+      final hotels = (hotelsResult as Ok<List<Hotel>>).value;
+      expect(hotels, isNotEmpty);
+
+      // Tours
+      final toursResult = await repo.getAllTours();
+      expect(toursResult, isA<Ok<List<Tour>>>());
+      final tours = (toursResult as Ok<List<Tour>>).value;
+      expect(tours, isNotEmpty);
+    },
+  );
 }

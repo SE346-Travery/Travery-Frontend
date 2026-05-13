@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/themes/app_colors.dart';
-import '../../core/themes/app_text_theme.dart';
 import 'widgets/input_text_field.dart';
 import 'widgets/dropdown_button.dart';
 
@@ -50,8 +49,16 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
               InputTextField(
                 label: 'Họ và tên',
                 textholder: 'Nhập họ và tên',
-                prefixIcon: const Icon(Icons.text_format, size: 20, color: Colors.black87),
-                suffixIcon: const Icon(Icons.edit, size: 16, color: Colors.black54),
+                prefixIcon: const Icon(
+                  Icons.text_format,
+                  size: 20,
+                  color: Colors.black87,
+                ),
+                suffixIcon: const Icon(
+                  Icons.edit,
+                  size: 16,
+                  color: Colors.black54,
+                ),
                 controller: _nameController,
                 textInputType: TextInputType.name,
               ),
@@ -59,8 +66,16 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
               InputTextField(
                 label: 'Số điện thoại',
                 textholder: 'Nhập số điện thoại',
-                prefixIcon: const Icon(Icons.phone, size: 20, color: Colors.black87),
-                suffixIcon: const Icon(Icons.edit, size: 16, color: Colors.black54),
+                prefixIcon: const Icon(
+                  Icons.phone,
+                  size: 20,
+                  color: Colors.black87,
+                ),
+                suffixIcon: const Icon(
+                  Icons.edit,
+                  size: 16,
+                  color: Colors.black54,
+                ),
                 controller: _phoneController,
                 textInputType: TextInputType.phone,
               ),
@@ -68,18 +83,33 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
               InputTextField(
                 label: 'Giấy phép lái xe',
                 textholder: 'Nhập số giấy phép lái xe',
-                prefixIcon: const Icon(Icons.numbers, size: 20, color: Colors.black87),
-                suffixIcon: const Icon(Icons.edit, size: 16, color: Colors.black54),
+                prefixIcon: const Icon(
+                  Icons.numbers,
+                  size: 20,
+                  color: Colors.black87,
+                ),
+                suffixIcon: const Icon(
+                  Icons.edit,
+                  size: 16,
+                  color: Colors.black54,
+                ),
                 controller: _licenseController,
                 textInputType: TextInputType.text,
               ),
               const SizedBox(height: 32),
-              _buildSectionTitle(Icons.directions_car_outlined, 'Thông tin phương tiện'),
+              _buildSectionTitle(
+                Icons.directions_car_outlined,
+                'Thông tin phương tiện',
+              ),
               const SizedBox(height: 16),
               CustomDropdownButton(
                 label: 'Loại xe',
                 textholder: 'Chọn loại xe',
-                prefixIcon: const Icon(Icons.directions_bus, size: 20, color: Colors.black87),
+                prefixIcon: const Icon(
+                  Icons.directions_bus,
+                  size: 20,
+                  color: Colors.black87,
+                ),
                 items: const ['Xe khách', 'Xe du lịch', 'Xe giường nằm'],
                 value: _selectedVehicleType,
                 onChanged: (val) => setState(() => _selectedVehicleType = val),
@@ -88,8 +118,16 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
               InputTextField(
                 label: 'Biển số xe',
                 textholder: 'Nhập biển số xe',
-                prefixIcon: const Icon(Icons.numbers, size: 20, color: Colors.black87),
-                suffixIcon: const Icon(Icons.edit, size: 16, color: Colors.black54),
+                prefixIcon: const Icon(
+                  Icons.numbers,
+                  size: 20,
+                  color: Colors.black87,
+                ),
+                suffixIcon: const Icon(
+                  Icons.edit,
+                  size: 16,
+                  color: Colors.black54,
+                ),
                 controller: _plateController,
                 textInputType: TextInputType.text,
               ),
@@ -97,8 +135,16 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
               InputTextField(
                 label: 'Số chỗ ngồi',
                 textholder: 'Nhập số chỗ ngồi',
-                prefixIcon: const Icon(Icons.event_seat, size: 20, color: Colors.black87),
-                suffixIcon: const Icon(Icons.edit, size: 16, color: Colors.black54),
+                prefixIcon: const Icon(
+                  Icons.event_seat,
+                  size: 20,
+                  color: Colors.black87,
+                ),
+                suffixIcon: const Icon(
+                  Icons.edit,
+                  size: 16,
+                  color: Colors.black54,
+                ),
                 controller: _seatsController,
                 textInputType: TextInputType.number,
               ),
@@ -120,7 +166,11 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(Icons.grid_view_rounded, color: Colors.white, size: 20),
+          child: const Icon(
+            Icons.grid_view_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
         ),
         const SizedBox(width: 10),
         const Text(
@@ -155,10 +205,7 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
               const SizedBox(height: 4),
               Text(
                 'Nhập thông tin phương tiện và tài xế để tạo chuyến xe',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
               ),
             ],
           ),
@@ -167,19 +214,24 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
           children: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Hủy', style: TextStyle(fontWeight: FontWeight.bold)),
+              child: const Text(
+                'Hủy',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(width: 8),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryDarkBlackBlue,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
               child: const Text('Lưu', style: TextStyle(color: Colors.white)),
             ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -212,13 +264,14 @@ class _CreateVehicleScreenState extends State<CreateVehicleScreen> {
               color: Colors.blue[50],
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.image_outlined, color: Colors.black54, size: 30),
+            child: const Icon(
+              Icons.image_outlined,
+              color: Colors.black54,
+              size: 30,
+            ),
           ),
           const SizedBox(height: 8),
-          Text(
-            text,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/themes/app_colors.dart';
-import '../../core/themes/app_text_theme.dart';
 import 'widgets/input_text_field.dart';
 import 'widgets/dropdown_button.dart';
 import 'widgets/room_card.dart';

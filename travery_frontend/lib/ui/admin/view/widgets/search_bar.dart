@@ -53,7 +53,7 @@ class _AdminSearchBarState extends State<AdminSearchBar> {
       height: 48,
       decoration: BoxDecoration(
         color: AppColors.inputBackground,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(color: AppColors.inputBorder, width: 1),
       ),
       child: Row(

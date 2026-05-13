@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 import 'package:travery_frontend/data/repositories/admin_repository.dart';
 import 'package:travery_frontend/utils/command.dart';
@@ -10,19 +10,19 @@ class TourManagementViewModel extends ChangeNotifier {
 
   TourManagementViewModel({required AdminRepository adminRepository})
     : _adminRepository = adminRepository {
-    loadTours = Command0<List<Tour>>(_loadTours);
+    loadTours = Command0<List<BusinessTour>>(_loadTours);
     loadSummaryStats = Command0<TourSummary>(_loadSummaryStats);
   }
 
-  late final Command0<List<Tour>> loadTours;
+  late final Command0<List<BusinessTour>> loadTours;
   late final Command0<TourSummary> loadSummaryStats;
 
-  Future<Result<List<Tour>>> _loadTours() async {
+  Future<Result<List<BusinessTour>>> _loadTours() async {
     final result = await _adminRepository.getAllTours();
     switch (result) {
-      case Ok<List<Tour>>():
+      case Ok<List<BusinessTour>>():
         return Result.ok(result.value);
-      case Error<List<Tour>>():
+      case Error<List<BusinessTour>>():
         return Result.error(result.error);
     }
   }

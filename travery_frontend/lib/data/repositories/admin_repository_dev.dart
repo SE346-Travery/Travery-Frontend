@@ -1,10 +1,11 @@
 import 'package:travery_frontend/data/repositories/admin_repository.dart';
+import 'package:travery_frontend/data/seed_models/room/room.dart';
 import 'package:travery_frontend/utils/core_result.dart';
-import 'package:travery_frontend/domain/models/admin/account/account.dart';
-import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
-import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
-import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
-import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
+import 'package:travery_frontend/domain/models/admin/business_dashboard/business_dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
+import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
+import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 
 /// Development/local implementation of [AdminRepository] that returns
@@ -12,231 +13,191 @@ import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.d
 class AdminRepositoryDev extends AdminRepository {
   // ── Seed data ──────────────────────────────────────────────────────────────
 
-  static final List<Account> _accounts = [
-    Account(
+  static final List<BusinessAccount> _accounts = [
+    BusinessAccount(
       id: 'acc_1',
       name: 'Alex Morgan',
       email: 'alex.morgan@travery.com',
-      employeeId: 'TRV-2022-001',
       role: AccountRole.guide,
       status: AccountStatus.active,
-      joinDate: DateTime(2022, 3, 15),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_1',
     ),
-    Account(
+    BusinessAccount(
       id: 'acc_2',
       name: 'Julian Kross',
       email: 'j.kross@travery.com',
-      employeeId: 'TRV-2021-008',
       role: AccountRole.coordinator,
       status: AccountStatus.active,
-      joinDate: DateTime(2021, 7, 1),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_2',
     ),
-    Account(
+    BusinessAccount(
       id: 'acc_3',
       name: 'Sarah Chen',
       email: 's.chen@travery.com',
-      employeeId: 'TRV-2023-014',
       role: AccountRole.receptionist,
       status: AccountStatus.inactive,
-      joinDate: DateTime(2023, 1, 20),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_3',
     ),
-    Account(
+    BusinessAccount(
       id: 'acc_4',
       name: 'Marcus Reed',
       email: 'm.reed@travery.com',
-      employeeId: 'TRV-2022-022',
       role: AccountRole.guide,
       status: AccountStatus.active,
-      joinDate: DateTime(2022, 9, 5),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_4',
     ),
-    Account(
+    BusinessAccount(
       id: 'acc_5',
       name: 'Linh Nguyễn',
       email: 'l.nguyen@travery.com',
-      employeeId: 'TRV-2023-031',
       role: AccountRole.coordinator,
       status: AccountStatus.active,
-      joinDate: DateTime(2023, 5, 12),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_5',
     ),
-    Account(
+    BusinessAccount(
       id: 'acc_6',
       name: 'Trần Minh Khoa',
       email: 't.minhkhoa@travery.com',
-      employeeId: 'TRV-2024-045',
       role: AccountRole.receptionist,
       status: AccountStatus.active,
-      joinDate: DateTime(2024, 2, 10),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_6',
     ),
-    Account(
+    BusinessAccount(
       id: 'acc_7',
       name: 'Nguyễn Thị Hoa',
       email: 'n.thihoa@travery.com',
-      employeeId: 'TRV-2023-058',
       role: AccountRole.guide,
       status: AccountStatus.inactive,
-      joinDate: DateTime(2023, 8, 22),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_7',
     ),
-    Account(
+    BusinessAccount(
       id: 'acc_8',
       name: 'David Park',
       email: 'd.park@travery.com',
-      employeeId: 'TRV-2022-077',
       role: AccountRole.coordinator,
       status: AccountStatus.active,
-      joinDate: DateTime(2022, 11, 3),
       avatarUrl: 'https://i.pravatar.cc/150?u=acc_8',
     ),
   ];
 
-  static final List<Coach> _vehicles = [
-    Coach(
+  static final List<BusinessCoach> _vehicles = [
+    BusinessCoach(
       id: 'veh_1',
-      routeFrom: 'SGN',
-      routeTo: 'DLT',
-      status: CoachStatus.running,
       plateNumber: '51B - 882.41',
-      vehicleType: 'VIP Sleeper',
+      coachType: CoachType.limousine.toString(),
       seatCount: 22,
-      driverName: 'Nguyễn Văn Minh',
     ),
-    Coach(
+    BusinessCoach(
       id: 'veh_2',
-      routeFrom: 'HAN',
-      routeTo: 'HPH',
-      status: CoachStatus.available,
       plateNumber: '29B - 110.02',
-      vehicleType: 'Standard',
+      coachType: 'Standard',
       seatCount: 45,
-      driverName: 'Trần Quang Khải',
     ),
-    Coach(
+    BusinessCoach(
       id: 'veh_3',
-      routeFrom: 'SGN',
-      routeTo: 'CAM',
-      status: CoachStatus.available,
       plateNumber: '59B - 564.29',
-      vehicleType: 'Limousine',
+      coachType: 'Limousine',
       seatCount: 9,
-      driverName: 'Lê Anh Tuấn',
     ),
-    Coach(
+    BusinessCoach(
       id: 'veh_4',
-      routeFrom: 'DLT',
-      routeTo: 'SGN',
-      status: CoachStatus.running,
       plateNumber: '49B - 023.15',
-      vehicleType: 'Standard',
+      coachType: 'Standard',
       seatCount: 34,
-      driverName: 'Võ Hoàng Phi',
     ),
-    Coach(
+    BusinessCoach(
       id: 'veh_5',
-      routeFrom: 'HAN',
-      routeTo: 'DLT',
-      status: CoachStatus.available,
       plateNumber: '30A - 765.33',
-      vehicleType: 'VIP Sleeper',
+      coachType: 'VIP Sleeper',
       seatCount: 18,
-      driverName: 'Phạm Đức Long',
     ),
-    Coach(
+    BusinessCoach(
       id: 'veh_6',
-      routeFrom: 'NHA',
-      routeTo: 'SGN',
-      status: CoachStatus.running,
       plateNumber: '79C - 441.88',
-      vehicleType: 'Standard',
+      coachType: 'Standard',
       seatCount: 40,
-      driverName: 'Bùi Thị Thanh',
     ),
   ];
 
-  static final List<Hotel> _hotels = [
-    Hotel(
+  static final List<BusinessHotel> _hotels = [
+    BusinessHotel(
       id: 'hot_1',
       name: 'Grand Diamond Saigon',
-      district: 'Quận 1',
-      location: 'TP. Hồ Chí Minh',
+      address: 'Quận 1',
+      cityProvince: 'TP. Hồ Chí Minh',
       roomCount: 120,
       occupancyRate: 0.92,
-      rating: 4.8,
+      starRating: 4.8,
       imageUrl:
           'https://images.unsplash.com/photo-1566073771259-4e6a850e645b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
     ),
-    Hotel(
+    BusinessHotel(
       id: 'hot_2',
       name: 'Coastal Breeze Resort',
-      district: 'Ngũ Hành Sơn',
-      location: 'Đà Nẵng',
+      address: 'Ngũ Hành Sơn',
+      cityProvince: 'Đà Nẵng',
       roomCount: 85,
       occupancyRate: 0.78,
-      rating: 4.9,
+      starRating: 4.9,
     ),
-    Hotel(
+    BusinessHotel(
       id: 'hot_3',
       name: 'Urban Sky Suites',
-      district: 'Hoàn Kiếm',
-      location: 'Hà Nội',
+      address: 'Hoàn Kiếm',
+      cityProvince: 'Hà Nội',
       roomCount: 45,
       occupancyRate: 0.64,
-      rating: 4.2,
+      starRating: 4.2,
     ),
-    Hotel(
+    BusinessHotel(
       id: 'hot_4',
       name: 'Pine Valley Retreat',
-      district: 'Đà Lạt',
-      location: 'Lâm Đồng',
+      address: 'Đà Lạt',
+      cityProvince: 'Lâm Đồng',
       roomCount: 30,
       occupancyRate: 0.88,
-      rating: 4.9,
+      starRating: 4.9,
     ),
-    Hotel(
+    BusinessHotel(
       id: 'hot_5',
       name: 'Pearl Island Resort',
-      district: 'Phú Quốc',
-      location: 'Kiên Giang',
+      address: 'Phú Quốc',
+      cityProvince: 'Kiên Giang',
       roomCount: 210,
       occupancyRate: 0.45,
-      rating: 4.7,
+      starRating: 4.7,
     ),
-    Hotel(
+    BusinessHotel(
       id: 'hot_6',
       name: 'Ancient Town Villas',
-      district: 'Hội An',
-      location: 'Quảng Nam',
+      address: 'Hội An',
+      cityProvince: 'Quảng Nam',
       roomCount: 18,
       occupancyRate: 1.0,
-      rating: 4.6,
+      starRating: 4.6,
     ),
-    Hotel(
+    BusinessHotel(
       id: 'hot_7',
-      name: 'Cliff Edge Hotel',
-      district: 'Nha Trang',
-      location: 'Khánh Hòa',
+      name: 'Cliff Edge BusinessHotel',
+      address: 'Nha Trang',
+      cityProvince: 'Khánh Hòa',
       roomCount: 65,
       occupancyRate: 0.52,
-      rating: 4.4,
+      starRating: 4.4,
     ),
-    Hotel(
+    BusinessHotel(
       id: 'hot_8',
       name: 'Metropolis Lodge',
-      district: 'Bình Thạnh',
-      location: 'TP. HCM',
+      address: 'Bình Thạnh',
+      cityProvince: 'TP. HCM',
       roomCount: 54,
       occupancyRate: 0.71,
-      rating: 4.3,
+      starRating: 4.3,
     ),
   ];
 
-  static final List<Tour> _tours = [
-    Tour(
+  static final List<BusinessTour> _tours = [
+    BusinessTour(
       id: 'tour_1',
       rank: 1,
       tourName: 'Hạ Long – Cát Bà 3N2D',
@@ -245,28 +206,28 @@ class AdminRepositoryDev extends AdminRepository {
       imageUrl:
           'https://images.unsplash.com/photo-1543726016-0a9e60a594e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
     ),
-    Tour(
+    BusinessTour(
       id: 'tour_2',
       rank: 2,
       tourName: 'Phố cổ Hội An – Đà Nẵng',
       category: 'Văn hóa & Ẩm thực',
       trend: TourTrend.up,
     ),
-    Tour(
+    BusinessTour(
       id: 'tour_3',
       rank: 3,
       tourName: 'Sapa – Đỉnh Fansipan',
       category: 'Trekking & Trải nghiệm',
       trend: TourTrend.up,
     ),
-    Tour(
+    BusinessTour(
       id: 'tour_4',
       rank: 4,
       tourName: 'Phú Quốc Pearl Island',
       category: 'Nghỉ dưỡng 5 sao',
       trend: TourTrend.down,
     ),
-    Tour(
+    BusinessTour(
       id: 'tour_5',
       rank: 5,
       tourName: 'Cố đô Huế – Lăng tẩm',
@@ -275,7 +236,7 @@ class AdminRepositoryDev extends AdminRepository {
     ),
   ];
 
-  static const Dashboard _dashboardStats = Dashboard(
+  static const BusinessDashboard _dashboardStats = BusinessDashboard(
     totalRevenue: 4820150,
     totalBooking: 12842,
     netProfit: 1204500,
@@ -304,10 +265,10 @@ class AdminRepositoryDev extends AdminRepository {
 
   // ── Mutable copies for CRUD operations ─────────────────────────────────────
 
-  final List<Account> _mutableAccounts = List.of(_accounts);
-  final List<Coach> _mutableVehicles = List.of(_vehicles);
-  final List<Hotel> _mutableHotels = List.of(_hotels);
-  final List<Tour> _mutableTours = List.of(_tours);
+  final List<BusinessAccount> _mutableAccounts = List.of(_accounts);
+  final List<BusinessCoach> _mutableVehicles = List.of(_vehicles);
+  final List<BusinessHotel> _mutableHotels = List.of(_hotels);
+  final List<BusinessTour> _mutableTours = List.of(_tours);
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -319,7 +280,8 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Dashboard ──────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<Dashboard>> getDashboardStats() => _delay(_dashboardStats);
+  Future<Result<BusinessDashboard>> getDashboardStats() =>
+      _delay(_dashboardStats);
 
   @override
   Future<Result<List<double>>> getRevenueByMonth({
@@ -349,11 +311,11 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Accounts ───────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<List<Account>>> getAllAccounts() =>
+  Future<Result<List<BusinessAccount>>> getAllAccounts() =>
       _delay(List.unmodifiable(_mutableAccounts));
 
   @override
-  Future<Result<Account>> getAccount({required String id}) async {
+  Future<Result<BusinessAccount>> getAccount({required String id}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       return Result.ok(_mutableAccounts.firstWhere((a) => a.id == id));
@@ -373,14 +335,12 @@ class AdminRepositoryDev extends AdminRepository {
     await Future.delayed(const Duration(milliseconds: 300));
     final newId = 'acc_${_mutableAccounts.length + 1}';
     _mutableAccounts.add(
-      Account(
+      BusinessAccount(
         id: newId,
         name: name,
         email: email,
-        employeeId: employeeId,
         role: _parseRole(role),
         status: isActive ? AccountStatus.active : AccountStatus.inactive,
-        joinDate: DateTime.now(),
       ),
     );
     notifyListeners();
@@ -402,14 +362,12 @@ class AdminRepositoryDev extends AdminRepository {
       return Result.error(Exception('Account not found: $id'));
     }
     final existing = _mutableAccounts[idx];
-    _mutableAccounts[idx] = Account(
+    _mutableAccounts[idx] = BusinessAccount(
       id: existing.id,
       name: name,
       email: email,
-      employeeId: employeeId,
       role: _parseRole(role),
       status: isActive ? AccountStatus.active : AccountStatus.inactive,
-      joinDate: existing.joinDate,
       avatarUrl: existing.avatarUrl,
     );
     notifyListeners();
@@ -431,11 +389,11 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Vehicles ───────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<List<Coach>>> getAllVehicles() =>
+  Future<Result<List<BusinessCoach>>> getAllVehicles() =>
       _delay(List.unmodifiable(_mutableVehicles));
 
   @override
-  Future<Result<Coach>> getVehicle({required String id}) async {
+  Future<Result<BusinessCoach>> getVehicle({required String id}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       return Result.ok(_mutableVehicles.firstWhere((v) => v.id == id));
@@ -447,11 +405,11 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Hotels ────────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<List<Hotel>>> getAllHotels() =>
+  Future<Result<List<BusinessHotel>>> getAllHotels() =>
       _delay(List.unmodifiable(_mutableHotels));
 
   @override
-  Future<Result<Hotel>> getHotel({required String id}) async {
+  Future<Result<BusinessHotel>> getHotel({required String id}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       return Result.ok(_mutableHotels.firstWhere((h) => h.id == id));
@@ -463,16 +421,16 @@ class AdminRepositoryDev extends AdminRepository {
   // ── Tours ──────────────────────────────────────────────────────────────────
 
   @override
-  Future<Result<List<Tour>>> getAllTours() =>
+  Future<Result<List<BusinessTour>>> getAllTours() =>
       _delay(List.unmodifiable(_mutableTours));
 
   @override
-  Future<Result<Tour>> getTour({required String id}) async {
+  Future<Result<BusinessTour>> getTour({required String id}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       return Result.ok(_mutableTours.firstWhere((t) => t.id == id));
     } catch (_) {
-      return Result.error(Exception('Tour not found: $id'));
+      return Result.error(Exception('BusinessTour not found: $id'));
     }
   }
 
@@ -505,14 +463,14 @@ class AdminRepositoryDev extends AdminRepository {
     await Future.delayed(const Duration(milliseconds: 300));
     final newId = 'hot_${_mutableHotels.length + 1}';
     _mutableHotels.add(
-      Hotel(
+      BusinessHotel(
         id: newId,
         name: name,
-        district: address.split(',').first,
-        location: address,
+        address: address.split(',').first,
+        cityProvince: address,
         roomCount: totalRooms,
         occupancyRate: 0.0,
-        rating: 5.0,
+        starRating: 5.0,
       ),
     );
     notifyListeners();
@@ -542,17 +500,11 @@ class AdminRepositoryDev extends AdminRepository {
     await Future.delayed(const Duration(milliseconds: 300));
     final newId = 'veh_${_mutableVehicles.length + 1}';
     _mutableVehicles.add(
-      Coach(
+      BusinessCoach(
         id: newId,
-        routeFrom: 'SGN',
-        routeTo: 'SGN',
-        status: status.toLowerCase() == 'running'
-            ? CoachStatus.running
-            : CoachStatus.available,
         plateNumber: licensePlate,
-        vehicleType: name,
+        coachType: name,
         seatCount: seatCount,
-        driverName: 'Unknown',
       ),
     );
     notifyListeners();
@@ -571,10 +523,170 @@ class AdminRepositoryDev extends AdminRepository {
     return const Result.ok(null);
   }
 
+  // @override
+  // Future<Result<void>> deleteRoom({required String roomId}) async {
+  //   await Future.delayed(const Duration(milliseconds: 300));
+  //   return const Result.ok(null);
+  // }
+
+  // @override
+  // Future<Result<void>> updateHotel({
+  //   required String id,
+  //   required String name,
+  //   required String address,
+  //   required String cityProvince,
+  //   required double starRating,
+  //   required String status,
+  // }) async {
+  //   await Future.delayed(const Duration(milliseconds: 300));
+  //   final idx = _mutableHotels.indexWhere((h) => h.id == id);
+  //   if (idx == -1) {
+  //     return Result.error(Exception('Hotel not found: $id'));
+  //   }
+  //   final existing = _mutableHotels[idx];
+  //   _mutableHotels[idx] = BusinessHotel(
+  //     id: existing.id,
+  //     name: name,
+  //     address: address.split(',').first,
+  //     cityProvince: cityProvince,
+  //     occupancyRate: existing.occupancyRate,
+  //     starRating: starRating,
+  //   );
+  //   notifyListeners();
+  //   return const Result.ok(null);
+  // }
+
+  // @override
+  // Future<Result<void>> createHotel({
+  //   required String name,
+  //   required String address,
+  //   required String cityProvince,
+  //   required int roomCount,
+  //   required double pricePerNight,
+  // }) async {
+  //   await Future.delayed(const Duration(milliseconds: 300));
+  //   notifyListeners();
+  //   return const Result.ok(null);
+  // }
+
+  // @override
+  // Future<Result<void>> createRoom({
+  //   required String roomId,
+  //   required String roomType,
+  //   required int capacity,
+  //   required double price,
+  // }) async {
+  //   await Future.delayed(const Duration(milliseconds: 300));
+  //   notifyListeners();
+  //   return const Result.ok(null);
+  // }
+
+  // @override
+  // Future<Result<void>> updateRoom({
+  //   required String roomId,
+  //   required String roomType,
+  //   required int capacity,
+  //   required double price,
+  // }) async {
+  //   await Future.delayed(const Duration(milliseconds: 300));
+  //   return const Result.ok(null);
+  // }
+
+  // @override
+  // Future<Result<void>> updateVehicle({
+  //   required String id,
+  //   required String name,
+  //   required String code,
+  //   required String licensePlate,
+  //   required int seatCount,
+  //   required String status,
+  //   required double rentalPrice,
+  // }) async {
+  //   await Future.delayed(const Duration(milliseconds: 300));
+  //   final idx = _mutableVehicles.indexWhere((v) => v.id == id);
+  //   if (idx == -1) {
+  //     return Result.error(Exception('Vehicle not found: $id'));
+  //   }
+  //   final existing = _mutableVehicles[idx];
+  //   _mutableVehicles[idx] = BusinessCoach(
+  //     id: existing.id,
+  //     routeFrom: existing.routeFrom,
+  //     routeTo: existing.routeTo,
+  //     status: status.toLowerCase() == 'running'
+  //         ? CoachStatus.running
+  //         : CoachStatus.available,
+  //     plateNumber: licensePlate,
+  //     coachType: name,
+  //     seatCount: seatCount,
+  //     driverName: existing.driverName,
+  //   );
+  //   notifyListeners();
+  //   return const Result.ok(null);
+  // }
+
   @override
-  Future<Result<void>> deleteRoom({required String roomId}) async {
+  Future<Result<void>> createVehicle({
+    required String registrationNumber,
+    required String model,
+    required String type,
+    required int seatCount,
+    required bool isAvailable,
+  }) async {
     await Future.delayed(const Duration(milliseconds: 300));
+    notifyListeners();
     return const Result.ok(null);
+  }
+
+  @override
+  Future<Result<void>> deleteVehicle({required String id}) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    notifyListeners();
+    return const Result.ok(null);
+  }
+
+  @override
+  Future<Result<List<Room>>> getAllRooms({required String hotelId}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<Room>> getRoom({required String id}) {
+    // TODO: implement getRoom
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<void>> createHotel({
+    required String id,
+    required String name,
+    required String address,
+    required String cityProvince,
+    required double starRating,
+    required String status,
+  }) {
+    // TODO: implement createHotel
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<void>> createRoom({
+    required String hotelId,
+    required String roomName,
+    required String roomType,
+    required double pricePerNight,
+    required int capacity,
+    required int maxAdults,
+    required int maxChildren,
+    required String status,
+  }) {
+    // TODO: implement createRoom
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<void>> deleteRoom({required String id}) {
+    // TODO: implement deleteRoom
+    throw UnimplementedError();
   }
 
   @override
@@ -582,72 +694,39 @@ class AdminRepositoryDev extends AdminRepository {
     required String id,
     required String name,
     required String address,
-    required String phone,
-    required int totalRooms,
+    required int starRating,
+    required String cityProvince,
     required String status,
-    required double pricePerNight,
-  }) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    final idx = _mutableHotels.indexWhere((h) => h.id == id);
-    if (idx == -1) {
-      return Result.error(Exception('Hotel not found: $id'));
-    }
-    final existing = _mutableHotels[idx];
-    _mutableHotels[idx] = Hotel(
-      id: existing.id,
-      name: name,
-      district: address.split(',').first,
-      location: address,
-      roomCount: totalRooms,
-      occupancyRate: existing.occupancyRate,
-      rating: existing.rating,
-      imageUrl: existing.imageUrl,
-    );
-    notifyListeners();
-    return const Result.ok(null);
+  }) {
+    // TODO: implement updateHotel
+    throw UnimplementedError();
   }
 
   @override
   Future<Result<void>> updateRoom({
-    required String roomId,
+    required String id,
+    required String roomNumber,
     required String roomType,
+    required double pricePerNight,
     required int capacity,
-    required double price,
-  }) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return const Result.ok(null);
+    required int maxAdults,
+    required int maxChildren,
+    required String status,
+  }) {
+    // TODO: implement updateRoom
+    throw UnimplementedError();
   }
 
   @override
   Future<Result<void>> updateVehicle({
     required String id,
-    required String name,
-    required String code,
-    required String licensePlate,
+    required String registrationNumber,
+    required String model,
+    required String type,
     required int seatCount,
-    required String status,
-    required double rentalPrice,
-  }) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    final idx = _mutableVehicles.indexWhere((v) => v.id == id);
-    if (idx == -1) {
-      return Result.error(Exception('Vehicle not found: $id'));
-    }
-    final existing = _mutableVehicles[idx];
-    _mutableVehicles[idx] = Coach(
-      id: existing.id,
-      routeFrom: existing.routeFrom,
-      routeTo: existing.routeTo,
-      status: status.toLowerCase() == 'running'
-          ? CoachStatus.running
-          : CoachStatus.available,
-      plateNumber: licensePlate,
-      vehicleType: name,
-      seatCount: seatCount,
-      driverName: existing.driverName,
-    );
-    notifyListeners();
-    return const Result.ok(null);
+    required bool isAvailable,
+  }) {
+    // TODO: implement updateVehicle
+    throw UnimplementedError();
   }
 }
-

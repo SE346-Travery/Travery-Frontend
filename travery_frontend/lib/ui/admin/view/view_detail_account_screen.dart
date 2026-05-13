@@ -1,40 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
-import 'package:travery_frontend/domain/models/admin/account/account.dart';
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Simple data model passed into this screen
-// ─────────────────────────────────────────────────────────────────────────────
-
-class AccountDetail {
-  const AccountDetail({
-    required this.name,
-    required this.role,
-    required this.status,
-    required this.employeeId,
-    required this.email,
-    required this.joinDate,
-    this.avatarUrl,
-  });
-
-  final String name;
-  final AccountRole role;
-  final AccountStatus status;
-  final String employeeId;
-  final String email;
-  final DateTime joinDate;
-  final String? avatarUrl;
-}
+import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
+import '../view_model/view_detail_account_view_model.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Screen
 // ─────────────────────────────────────────────────────────────────────────────
 
 class ViewDetailAccountScreen extends StatefulWidget {
-  const ViewDetailAccountScreen({super.key, required this.account});
+  const ViewDetailAccountScreen({
+    super.key,
+    required this.viewModel,
+    required this.accountId,
+  });
 
-  final AccountDetail account;
+  final ViewDetailAccountViewModel viewModel;
+  final String accountId;
 
   @override
   State<ViewDetailAccountScreen> createState() =>
@@ -42,12 +26,30 @@ class ViewDetailAccountScreen extends StatefulWidget {
 }
 
 class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
-  late AccountStatus _currentStatus;
+  AccountStatus? _currentStatus;
 
   @override
   void initState() {
     super.initState();
-    _currentStatus = widget.account.status;
+    widget.viewModel.loadAccount.addListener(_onResult);
+    widget.viewModel.loadAccount.execute(widget.accountId);
+  }
+
+  @override
+  void didUpdateWidget(covariant ViewDetailAccountScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.loadAccount.removeListener(_onResult);
+    widget.viewModel.loadAccount.addListener(_onResult);
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.loadAccount.removeListener(_onResult);
+    super.dispose();
+  }
+
+  void _onResult() {
+    setState(() {});
   }
 
   // ── Helpers ──────────────────────────────────────────────────────────────
@@ -110,14 +112,14 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
     );
   }
 
-  void _onDelete() {
+  void _onDelete(String accountName) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Xóa tài khoản'),
         content: Text(
-          'Bạn có chắc muốn xóa tài khoản của ${widget.account.name}? '
+          'Bạn có chắc muốn xóa tài khoản của $accountName? '
           'Hành động này không thể hoàn tác.',
         ),
         actions: [
@@ -141,10 +143,52 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final account = widget.account;
+    final cmd = widget.viewModel.loadAccount;
+
+    if (cmd.running) {
+      return const Scaffold(
+        backgroundColor: AppColors.surface,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (cmd.error) {
+      return Scaffold(
+        backgroundColor: AppColors.surface,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Center(child: Text('Lỗi tải thông tin tài khoản')),
+            ElevatedButton(
+              onPressed: () => context.pop(),
+              child: const Text('Quay lại'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (cmd.result is! Ok<BusinessAccount>) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Center(child: Text('Không tìm thấy tài khoản')),
+            ElevatedButton(
+              onPressed: () => context.pop(),
+              child: const Text('Quay lại'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final account = (cmd.result as Ok<BusinessAccount>).value;
+    final displayStatus = _currentStatus ?? account.status;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 32),
@@ -155,7 +199,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
               _buildAppBar(context),
 
               // ── Profile card (white) ─────────────────────────────────────
-              _buildProfileCard(account),
+              _buildProfileCard(account, displayStatus),
 
               const SizedBox(height: 16),
 
@@ -166,21 +210,20 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
                   children: [
                     _InfoTile(
                       icon: Icons.badge_outlined,
-                      label: 'MÃ NHÂN VIÊN',
-                      value: account.employeeId,
+                      label: 'TÊN NHÂN VIÊN',
+                      value: account.name,
                     ),
                     const SizedBox(height: 10),
                     _InfoTile(
-                      icon: Icons.mail_outline_rounded,
-                      label: 'EMAIL',
+                      icon: Icons.phone,
+                      label: 'SỐ ĐIỆN THOẠI',
                       value: account.email,
                     ),
                     const SizedBox(height: 10),
                     _InfoTile(
-                      icon: Icons.calendar_month_outlined,
-                      label: 'NGÀY THAM GIA',
-                      value: _formatDate(account.joinDate),
-                      suffix: '~ ${_relativeTime(account.joinDate)}',
+                      icon: Icons.email,
+                      label: 'EMAIL',
+                      value: account.email,
                     ),
                   ],
                 ),
@@ -199,26 +242,30 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(
         children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Icon(
-              Icons.grid_view_rounded,
-              color: Colors.white,
-              size: 20,
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: AppColors.background,
+                border: Border.all(color: AppColors.inputBorder),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.arrow_back_rounded,
+                color: AppColors.textPrimary,
+                size: 20,
+              ),
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 12),
           Text(
-            'Travery Admin',
+            'Chi tiết tài khoản',
             style: TextStyle(
               fontSize: AppTextTheme.headlineMedium,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: AppColors.textPrimary,
             ),
           ),
         ],
@@ -228,7 +275,10 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
   // ── Profile card ──────────────────────────────────────────────────────────
 
-  Widget _buildProfileCard(AccountDetail account) {
+  Widget _buildProfileCard(
+    BusinessAccount account,
+    AccountStatus displayStatus,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
@@ -275,18 +325,18 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
           const SizedBox(height: 12),
 
           // Status badge
-          _StatusPill(status: _currentStatus),
+          _StatusPill(status: displayStatus),
 
           const SizedBox(height: 20),
 
           // ── Action buttons ────────────────────────────────────────────
-          _buildActionButtons(),
+          _buildActionButtons(displayStatus, account.name),
         ],
       ),
     );
   }
 
-  Widget _buildAvatar(AccountDetail account) {
+  Widget _buildAvatar(BusinessAccount account) {
     if (account.avatarUrl != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -316,15 +366,13 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
   // ── Action buttons ────────────────────────────────────────────────────────
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(AccountStatus currentStatus, String accountName) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Kích hoạt — filled primary
         ElevatedButton.icon(
-          onPressed: _currentStatus == AccountStatus.active
-              ? null
-              : _onActivate,
+          onPressed: currentStatus == AccountStatus.active ? null : _onActivate,
           icon: const Icon(Icons.check_circle_outline_rounded, size: 18),
           label: const Text('Kích hoạt'),
           style: ElevatedButton.styleFrom(
@@ -341,7 +389,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
               fontWeight: FontWeight.w600,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
         ),
@@ -350,15 +398,14 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
         // Vô hiệu hóa — outlined
         OutlinedButton.icon(
-          onPressed: _currentStatus == AccountStatus.inactive
+          onPressed: currentStatus == AccountStatus.inactive
               ? null
               : _onDeactivate,
           icon: const Icon(Icons.block_rounded, size: 18),
           label: const Text('Vô hiệu hóa'),
           style: OutlinedButton.styleFrom(
-            foregroundColor: AppColors.textPrimary,
-            disabledForegroundColor: AppColors.textHint,
-            side: BorderSide(color: AppColors.inputBorder),
+            foregroundColor: AppColors.primaryDarkBlackBlue,
+            side: BorderSide(color: AppColors.primaryDarkBlackBlue),
             padding: const EdgeInsets.symmetric(vertical: 13),
             textStyle: TextStyle(
               fontSize: AppTextTheme.bodyLarge,
@@ -374,7 +421,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
         // Xóa tài khoản — outlined with red icon
         OutlinedButton.icon(
-          onPressed: _onDelete,
+          onPressed: () => _onDelete(accountName),
           icon: Icon(
             Icons.delete_outline_rounded,
             size: 18,
@@ -386,7 +433,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
           ),
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.error,
-            side: BorderSide(color: AppColors.inputBorder),
+            side: BorderSide(color: AppColors.error),
             padding: const EdgeInsets.symmetric(vertical: 13),
             textStyle: TextStyle(
               fontSize: AppTextTheme.bodyLarge,

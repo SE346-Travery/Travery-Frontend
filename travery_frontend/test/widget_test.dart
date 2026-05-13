@@ -3,11 +3,11 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
-import 'package:travery_frontend/domain/models/admin/account/account.dart';
-import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
-import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
-import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
-import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
+import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
+import 'package:travery_frontend/domain/models/admin/business_dashboard/business_dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
+import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 void main() {
@@ -18,30 +18,30 @@ void main() {
 
       // Dashboard
       final dashResult = await repo.getDashboardStats();
-      expect(dashResult, isA<Ok<Dashboard>>());
+      expect(dashResult, isA<Ok<BusinessDashboard>>());
 
       // Accounts
       final accountsResult = await repo.getAllAccounts();
-      expect(accountsResult, isA<Ok<List<Account>>>());
-      final accounts = (accountsResult as Ok<List<Account>>).value;
+      expect(accountsResult, isA<Ok<List<BusinessAccount>>>());
+      final accounts = (accountsResult as Ok<List<BusinessAccount>>).value;
       expect(accounts, isNotEmpty);
 
       // Vehicles
       final vehiclesResult = await repo.getAllVehicles();
-      expect(vehiclesResult, isA<Ok<List<Coach>>>());
-      final vehicles = (vehiclesResult as Ok<List<Coach>>).value;
+      expect(vehiclesResult, isA<Ok<List<BusinessCoach>>>());
+      final vehicles = (vehiclesResult as Ok<List<BusinessCoach>>).value;
       expect(vehicles, isNotEmpty);
 
       // Hotels
       final hotelsResult = await repo.getAllHotels();
-      expect(hotelsResult, isA<Ok<List<Hotel>>>());
-      final hotels = (hotelsResult as Ok<List<Hotel>>).value;
+      expect(hotelsResult, isA<Ok<List<BusinessHotel>>>());
+      final hotels = (hotelsResult as Ok<List<BusinessHotel>>).value;
       expect(hotels, isNotEmpty);
 
       // Tours
       final toursResult = await repo.getAllTours();
-      expect(toursResult, isA<Ok<List<Tour>>>());
-      final tours = (toursResult as Ok<List<Tour>>).value;
+      expect(toursResult, isA<Ok<List<BusinessTour>>>());
+      final tours = (toursResult as Ok<List<BusinessTour>>).value;
       expect(tours, isNotEmpty);
     },
   );

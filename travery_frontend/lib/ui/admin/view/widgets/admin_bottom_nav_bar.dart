@@ -1,39 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../routing/routes.dart';
 import '../../../core/themes/app_colors.dart';
 
 class AdminBottomNavBar extends StatelessWidget {
   final int currentIndex;
+  final ValueChanged<int> onTap;
 
-  const AdminBottomNavBar({super.key, required this.currentIndex});
-
-  void _onItemTapped(BuildContext context, int index) {
-    if (index == currentIndex) return;
-
-    switch (index) {
-      case 0:
-        context.go(Routes.adminDashboard);
-        break;
-      case 1:
-        context.go(Routes.adminAccountManagement);
-        break;
-      case 2:
-        context.go(Routes.adminCreateAccount);
-        break;
-      case 3:
-        // Optional: Navigate to chat screen when implemented
-        // context.go('/admin/chat');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Tính năng Chat đang được phát triển'),
-            duration: Duration(seconds: 1),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-        break;
-    }
-  }
+  const AdminBottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +26,7 @@ class AdminBottomNavBar extends StatelessWidget {
       ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,
-        onTap: (index) => _onItemTapped(context, index),
+        onTap: onTap,
         type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.surface,
         selectedItemColor: AppColors.primary,

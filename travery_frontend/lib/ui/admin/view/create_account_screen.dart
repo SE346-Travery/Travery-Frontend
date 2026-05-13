@@ -5,7 +5,6 @@ import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_input_field.dart';
 import 'widgets/role_selector.dart';
-import 'widgets/admin_bottom_nav_bar.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Default role options
@@ -118,12 +117,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      // ── Bottom action bar ─────────────────────────────────────────────────
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [_buildBottomBar(), const AdminBottomNavBar(currentIndex: 2)],
-      ),
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -177,6 +171,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
 
                 const SizedBox(height: 24),
+
+                _buildBottomBar(),
               ],
             ),
           ),
@@ -231,7 +227,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         Switch(
           value: _isActive,
           onChanged: (value) => setState(() => _isActive = value),
-          activeTrackColor: AppColors.primaryLight,
+          activeTrackColor: AppColors.primaryDarkBlackBlue,
           thumbColor: WidgetStateProperty.all(Colors.white),
         ),
         const SizedBox(width: 6),
@@ -241,7 +237,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             fontSize: AppTextTheme.bodySmall,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.5,
-            color: _isActive ? AppColors.primary : AppColors.textSecondary,
+            color: _isActive
+                ? AppColors.primaryDarkBlackBlue
+                : AppColors.textSecondary,
           ),
           child: Text(_isActive ? 'ĐANG HOẠT ĐỘNG' : 'NGỪNG HOẠT ĐỘNG'),
         ),
@@ -379,7 +377,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 child: ElevatedButton(
                   onPressed: isRunning ? null : _onSave,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: AppColors.primaryDarkBlackBlue,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),

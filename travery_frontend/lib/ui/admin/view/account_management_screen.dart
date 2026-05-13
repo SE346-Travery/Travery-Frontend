@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/domain/models/admin/account/account.dart';
+import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
+import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -8,7 +10,6 @@ import '../../core/themes/app_text_theme.dart';
 import 'widgets/account_card.dart';
 import 'widgets/fliter_list.dart';
 import 'widgets/search_bar.dart';
-import 'widgets/admin_bottom_nav_bar.dart';
 
 class AccountManagementScreen extends StatefulWidget {
   const AccountManagementScreen({super.key});
@@ -45,7 +46,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   // ── Derived list ──────────────────────────────────────────────────────────
-  List<Account> _applyFilters(List<Account> all) {
+  List<BusinessAccount> _applyFilters(List<BusinessAccount> all) {
     var list = all.toList();
 
     if (_selectedFilterIndex == 1) {
@@ -75,8 +76,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     final vm = context.read<AccountManagementViewModel>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 1),
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +107,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 
             const SizedBox(height: 14),
 
-            // ── Account list ───────────────────────────────────────────────
+            // ── BusinessAccount list ───────────────────────────────────────────────
             Expanded(
               child: ListenableBuilder(
                 listenable: vm.loadAccounts,
@@ -118,37 +118,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  if (cmd.error) {
-                    return Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.error_outline,
-                            size: 48,
-                            color: AppColors.error,
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Không thể tải danh sách',
-                            style: TextStyle(
-                              fontSize: AppTextTheme.bodyLarge,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          ElevatedButton(
-                            onPressed: () => cmd.execute(),
-                            child: const Text('Thử lại'),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  final allAccounts = cmd.result is Ok<List<Account>>
-                      ? (cmd.result as Ok<List<Account>>).value
-                      : <Account>[];
+                  final allAccounts = cmd.result is Ok<List<BusinessAccount>>
+                      ? (cmd.result as Ok<List<BusinessAccount>>).value
+                      : <BusinessAccount>[];
 
                   final filtered = _applyFilters(allAccounts);
 
@@ -179,7 +151,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       // ── FAB ───────────────────────────────────────────────────────────────
       floatingActionButton: FloatingActionButton(
         onPressed: _onAddAccount,
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.primaryDarkBlackBlue,
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: const Icon(Icons.person_add_rounded, color: Colors.white),
@@ -242,46 +214,34 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onAccountTap(Account account) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Xem thông tin: ${account.name}'),
-        duration: const Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+  void _onAccountTap(BusinessAccount BusinessAccount) {
+    context.push(Routes.adminViewDetailAccountWithId(BusinessAccount.id));
   }
 
   void _onAddAccount() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Thêm nhân viên mới'),
-        duration: Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    context.push(Routes.adminCreateAccount);
   }
 
-  void _showAccountMenu(BuildContext context, Account account) {
+  void _showAccountMenu(BuildContext context, BusinessAccount BusinessAccount) {
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) => _AccountMenuSheet(account: account),
+      builder: (_) => _AccountMenuSheet(account: BusinessAccount),
     );
   }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Account menu bottom sheet
+// BusinessAccount menu bottom sheet
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _AccountMenuSheet extends StatelessWidget {
   const _AccountMenuSheet({required this.account});
 
-  final Account account;
+  final BusinessAccount account;
 
   @override
   Widget build(BuildContext context) {

@@ -190,14 +190,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
 
                 AuthButton(title: 'Đăng nhập', onPressed: _handleLogin),
-
+                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 100,
                       child: InkWell(
-                        onTap: () => context.go(Routes.adminDashboard),
+                        onTap: () => context.go(Routes.adminMain),
                         child: Text(
                           'Admin',
                           style: TextStyle(
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: 24,
+                      width: 100,
                       child: InkWell(
                         onTap: () => context.go(Routes.tourHome),
                         child: Text(

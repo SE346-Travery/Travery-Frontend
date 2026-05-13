@@ -1,5 +1,5 @@
-class Dashboard {
-  const Dashboard({
+class BusinessDashboard {
+  const BusinessDashboard({
     required this.totalRevenue,
     required this.totalBooking,
     required this.netProfit,
@@ -39,4 +39,3 @@ class Dashboard {
   final double carRevenueQuarterM;
   final double hotelRevenueQuarterM;
 }
-

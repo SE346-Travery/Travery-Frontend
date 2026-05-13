@@ -10,11 +10,11 @@ class HotelCard extends StatelessWidget {
   const HotelCard({
     super.key,
     required this.name,
-    required this.location,
-    required this.district,
+    required this.address,
+    required this.cityProvince,
     required this.roomCount,
     required this.occupancyRate,
-    required this.rating,
+    required this.starRating,
     this.imageUrl,
     this.onTap,
   });
@@ -23,10 +23,10 @@ class HotelCard extends StatelessWidget {
   final String name;
 
   /// e.g. "TP. Hồ Chí Minh"
-  final String location;
+  final String cityProvince;
 
-  /// e.g. "Quận 1"
-  final String district;
+  /// e.g. "123 Lê Lợi, Quận 1"
+  final String address;
 
   /// Total number of rooms
   final int roomCount;
@@ -34,8 +34,7 @@ class HotelCard extends StatelessWidget {
   /// Occupancy rate 0.0 – 1.0
   final double occupancyRate;
 
-  /// Star rating e.g. 4.8
-  final double rating;
+  final double starRating;
 
   /// Network image of the hotel
   final String? imageUrl;
@@ -45,114 +44,116 @@ class HotelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final occupancyPct = (occupancyRate * 100).round();
-    final bool almostFull = occupancyRate >= 0.9;
 
     return Container(
-      color: AppColors.surface,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          splashColor: AppColors.primary.withValues(alpha: 0.06),
-          highlightColor: AppColors.primary.withValues(alpha: 0.03),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // ── Thumbnail ─────────────────────────────────────────────
-                _buildThumbnail(),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        border: Border.all(color: AppColors.inputBorder, width: 1),
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // ── Thumbnail ─────────────────────────────────────────────
+              _buildThumbnail(),
 
-                const SizedBox(width: 12),
+              const SizedBox(width: 12),
 
-                // ── Info ──────────────────────────────────────────────────
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Name
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: AppTextTheme.bodyLarge,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+              // ── Info ──────────────────────────────────────────────────
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Name
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: AppTextTheme.bodyLarge,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                    const SizedBox(height: 2),
+
+                    // District + Location
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          size: 13,
+                          color: AppColors.textSecondary,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-
-                      const SizedBox(height: 2),
-
-                      // District + Location
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_outlined,
-                            size: 13,
-                            color: AppColors.textSecondary,
-                          ),
-                          const SizedBox(width: 2),
-                          Expanded(
-                            child: Text(
-                              '$district, $location',
-                              style: TextStyle(
-                                fontSize: AppTextTheme.bodySmall,
-                                color: AppColors.textSecondary,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      // Room count + occupancy percentage
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Phòng: $roomCount',
+                        const SizedBox(width: 2),
+                        Expanded(
+                          child: Text(
+                            '$address, $cityProvince',
                             style: TextStyle(
                               fontSize: AppTextTheme.bodySmall,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primary,
+                              color: AppColors.textSecondary,
                             ),
-                          ),
-                          Text(
-                            '$occupancyPct% Lấp đầy',
-                            style: TextStyle(
-                              fontSize: AppTextTheme.bodySmall,
-                              fontWeight: FontWeight.w600,
-                              color: almostFull
-                                  ? AppColors.error
-                                  : AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 4),
-
-                      // Occupancy progress bar
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: LinearProgressIndicator(
-                          value: occupancyRate.clamp(0.0, 1.0),
-                          minHeight: 5,
-                          backgroundColor: AppColors.inputBorder,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            almostFull ? AppColors.error : AppColors.primary,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    // Room count + occupancy percentage
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Phòng: $roomCount',
+                          style: TextStyle(
+                            fontSize: AppTextTheme.bodySmall,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryDarkBlackBlue,
+                          ),
+                        ),
+                        Text(
+                          '$occupancyPct% Lấp đầy',
+                          style: TextStyle(
+                            fontSize: AppTextTheme.bodySmall,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryDarkBlackBlue,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    // Occupancy progress bar
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: LinearProgressIndicator(
+                        value: occupancyRate.clamp(0.0, 1.0),
+                        minHeight: 5,
+                        backgroundColor: AppColors.inputBorder,
+                        color: AppColors.primaryDarkBlackBlue,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -163,7 +164,7 @@ class HotelCard extends StatelessWidget {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           child: imageUrl != null
               ? Image.network(
                   imageUrl!,
@@ -181,7 +182,7 @@ class HotelCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: AppColors.primaryDarkBlackBlue,
               borderRadius: BorderRadius.circular(6),
             ),
             child: Row(
@@ -190,7 +191,7 @@ class HotelCard extends StatelessWidget {
                 const Icon(Icons.star_rounded, size: 10, color: Colors.white),
                 const SizedBox(width: 2),
                 Text(
-                  rating.toStringAsFixed(1),
+                  starRating.toStringAsFixed(1),
                   style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,

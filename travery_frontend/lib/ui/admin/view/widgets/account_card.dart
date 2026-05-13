@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/domain/models/admin/account/account.dart';
+import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
 

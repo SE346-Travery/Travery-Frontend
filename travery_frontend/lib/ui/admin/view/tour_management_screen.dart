@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/tour_card.dart';
-import 'widgets/admin_bottom_nav_bar.dart';
 
 class TourManagementScreen extends StatefulWidget {
   const TourManagementScreen({super.key});
@@ -36,14 +36,15 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
     final vm = context.read<TourManagementViewModel>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      bottomNavigationBar: const AdminBottomNavBar(currentIndex: 0),
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── App bar ──────────────────────────────────────────────────────
-            _buildAppBar(),
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => context.pop(),
+            ),
 
             Expanded(
               child: ListenableBuilder(
@@ -90,9 +91,9 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                     );
                   }
 
-                  final tours = toursCmd.result is Ok<List<Tour>>
-                      ? (toursCmd.result as Ok<List<Tour>>).value
-                      : <Tour>[];
+                  final tours = toursCmd.result is Ok<List<BusinessTour>>
+                      ? (toursCmd.result as Ok<List<BusinessTour>>).value
+                      : <BusinessTour>[];
 
                   final stats = statsCmd.result is Ok<TourSummary>
                       ? (statsCmd.result as Ok<TourSummary>).value
@@ -263,39 +264,6 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
   Widget _buildDivider() =>
       Container(height: 36, width: 1, color: AppColors.inputBorder);
 
-  // ── App bar ───────────────────────────────────────────────────────────────
-  Widget _buildAppBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Row(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Icon(
-              Icons.grid_view_rounded,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            'Travery Admin',
-            style: TextStyle(
-              fontSize: AppTextTheme.headlineMedium,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // ── Helpers ───────────────────────────────────────────────────────────────
   String _formatNumber(int number) {
     if (number >= 1000) {
@@ -304,7 +272,7 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
     return '$number';
   }
 
-  void _onTourTap(Tour t) {
+  void _onTourTap(BusinessTour t) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${t.tourName}'),

@@ -52,32 +52,6 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
     setState(() {});
   }
 
-  // ── Helpers ──────────────────────────────────────────────────────────────
-
-  /// Returns something like "8 tháng trước" or "2 năm trước"
-  String _relativeTime(DateTime date) {
-    final now = DateTime.now();
-    final diff = now.difference(date);
-    final days = diff.inDays;
-
-    if (days < 30) {
-      return '$days ngày trước';
-    } else if (days < 365) {
-      final months = (days / 30).floor();
-      return '$months tháng trước';
-    } else {
-      final years = (days / 365).floor();
-      return '$years năm trước';
-    }
-  }
-
-  String _formatDate(DateTime date) {
-    final d = date.day.toString().padLeft(2, '0');
-    final m = date.month.toString().padLeft(2, '0');
-    final y = date.year.toString();
-    return '$d/$m/$y';
-  }
-
   // ── Role display text (title-case for profile header) ────────────────────
   String _roleDisplayLabel(AccountRole role) {
     switch (role) {

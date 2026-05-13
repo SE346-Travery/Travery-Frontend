@@ -65,17 +65,21 @@ class _FilterChip extends StatelessWidget {
         curve: Curves.easeInOut,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.inputBackground,
-          borderRadius: BorderRadius.circular(20),
+          color: isSelected
+              ? AppColors.primaryDarkBlackBlue
+              : AppColors.inputBackground,
+          borderRadius: BorderRadius.circular(5),
           border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.inputBorder,
+            color: isSelected
+                ? AppColors.primaryDarkBlackBlue
+                : AppColors.inputBorder,
             width: 1,
           ),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: AppTextTheme.bodySmall,
+            fontSize: AppTextTheme.bodyMedium,
             fontWeight: FontWeight.w600,
             color: isSelected ? Colors.white : AppColors.textSecondary,
           ),

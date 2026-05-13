@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
+import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -40,24 +40,23 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
   }
 
   // ── Derived list ────────────────────────────────────────────────────────────
-  List<Coach> _applyFilters(List<Coach> all) {
+  List<BusinessCoach> _applyFilters(List<BusinessCoach> all) {
     var list = all.toList();
 
     if (_selectedFilterIndex == 1) {
-      list = list.where((v) => v.status == CoachStatus.running).toList();
+      list = list
+          .where((v) => v.coachType == CoachType.limousine.toString())
+          .toList();
     } else if (_selectedFilterIndex == 2) {
-      list = list.where((v) => v.status == CoachStatus.available).toList();
+      list = list
+          .where((v) => v.coachType == CoachType.sleeper.toString())
+          .toList();
     }
 
     if (_searchQuery.isNotEmpty) {
       final q = _searchQuery.toLowerCase();
       list = list
-          .where(
-            (v) =>
-                '${v.routeFrom} ${v.routeTo}'.toLowerCase().contains(q) ||
-                v.driverName.toLowerCase().contains(q) ||
-                v.plateNumber.toLowerCase().contains(q),
-          )
+          .where((v) => v.plateNumber.toLowerCase().contains(q))
           .toList();
     }
 
@@ -69,7 +68,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
     final vm = context.read<VehicleManagementViewModel>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,28 +104,6 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
             ),
 
             const SizedBox(height: 16),
-
-            // ── Search bar ───────────────────────────────────────────────────
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AdminSearchBar(
-                hintText: 'Tìm biển số, tuyến...',
-                controller: _searchController,
-                onChanged: (value) => setState(() => _searchQuery = value),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            // ── Filter chips ─────────────────────────────────────────────────
-            FilterList(
-              filters: _filterLabels,
-              selectedIndex: _selectedFilterIndex,
-              onSelected: (index) =>
-                  setState(() => _selectedFilterIndex = index),
-            ),
-
-            const SizedBox(height: 8),
 
             // ── Content ──────────────────────────────────────────────────────
             Expanded(
@@ -167,13 +144,15 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                     );
                   }
 
-                  final all = cmd.result is Ok<List<Coach>>
-                      ? (cmd.result as Ok<List<Coach>>).value
-                      : <Coach>[];
+                  final all = cmd.result is Ok<List<BusinessCoach>>
+                      ? (cmd.result as Ok<List<BusinessCoach>>).value
+                      : <BusinessCoach>[];
 
                   final vehicles = _applyFilters(all);
                   final runningCount = all
-                      .where((v) => v.status == CoachStatus.running)
+                      .where(
+                        (v) => v.coachType == CoachType.limousine.toString(),
+                      )
                       .length;
 
                   return Column(
@@ -203,31 +182,51 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 24),
+
+                      // ── Search bar ───────────────────────────────────────────────────
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: AdminSearchBar(
+                          hintText: 'Tìm biển số, tuyến...',
+                          controller: _searchController,
+                          onChanged: (value) =>
+                              setState(() => _searchQuery = value),
+                        ),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      // ── Filter chips ─────────────────────────────────────────────────
+                      FilterList(
+                        filters: _filterLabels,
+                        selectedIndex: _selectedFilterIndex,
+                        onSelected: (index) =>
+                            setState(() => _selectedFilterIndex = index),
+                      ),
+
+                      const SizedBox(height: 24),
 
                       // ── Vehicle list ───────────────────────────────────────
                       Expanded(
                         child: vehicles.isEmpty
                             ? _buildEmptyState()
                             : ListView.separated(
-                                padding: const EdgeInsets.only(bottom: 100),
-                                itemCount: vehicles.length,
-                                separatorBuilder: (_, _) => const Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: AppColors.inputBorder,
+                                padding: const EdgeInsets.only(
+                                  bottom: 100,
+                                  left: 16,
+                                  right: 16,
                                 ),
+                                itemCount: vehicles.length,
+                                separatorBuilder: (_, _) =>
+                                    const SizedBox(height: 12),
                                 itemBuilder: (context, index) {
                                   final v = vehicles[index];
                                   return VehicleCard(
-                                    routeFrom: v.routeFrom,
-                                    routeTo: v.routeTo,
-                                    status: v.status,
                                     plateNumber: v.plateNumber,
-                                    vehicleType: v.vehicleType,
+                                    vehicleType: v.coachType,
                                     seatCount: v.seatCount,
-                                    driverName: v.driverName,
-                                    onTap: () => _onVehicleTap(v),
+                                    onTap: () => {},
                                   );
                                 },
                               ),
@@ -243,7 +242,7 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
 
       // ── FAB ─────────────────────────────────────────────────────────────────
       floatingActionButton: FloatingActionButton(
-        onPressed: _onAddVehicle,
+        onPressed: () => {},
         backgroundColor: AppColors.primary,
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -269,27 +268,6 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onVehicleTap(Coach v) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Xem chi tiết: ${v.routeFrom} — ${v.routeTo}'),
-        duration: const Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _onAddVehicle() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Thêm phương tiện mới'),
-        duration: Duration(seconds: 1),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }

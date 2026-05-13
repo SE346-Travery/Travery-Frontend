@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travery_frontend/ui/admin/view/widgets/small_button.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
 import 'widgets/hotel_card.dart';
-import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
+import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
 import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
 
 class HotelManagementScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
     final vm = context.read<HotelManagementViewModel>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,26 +78,43 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
                     );
                   }
 
-                  final hotels = cmd.result is Ok<List<Hotel>>
-                      ? (cmd.result as Ok<List<Hotel>>).value
-                      : <Hotel>[];
+                  final hotels = cmd.result is Ok<List<BusinessHotel>>
+                      ? (cmd.result as Ok<List<BusinessHotel>>).value
+                      : <BusinessHotel>[];
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // ── Page header ────────────────────────────────────────
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        padding: const EdgeInsets.only(
+                          bottom: 10,
+                          left: 16,
+                          right: 16,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Khách sạn hoạt động',
-                              style: TextStyle(
-                                fontSize: AppTextTheme.headlineLarge,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textPrimary,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Khách sạn hoạt động',
+                                  style: TextStyle(
+                                    fontSize: AppTextTheme.headlineLarge,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                                SmallButton(
+                                  prefixIcon: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                  label: 'Thêm',
+                                  onTap: () => {},
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 2),
                             Text(
@@ -113,22 +131,23 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
                       // ── Hotel list ─────────────────────────────────────────
                       Expanded(
                         child: ListView.separated(
-                          padding: const EdgeInsets.only(bottom: 100),
-                          itemCount: hotels.length,
-                          separatorBuilder: (_, _) => const Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: AppColors.inputBorder,
+                          padding: const EdgeInsets.only(
+                            bottom: 10,
+                            left: 16,
+                            right: 16,
                           ),
+                          itemCount: hotels.length,
+                          separatorBuilder: (_, _) =>
+                              const SizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final h = hotels[index];
                             return HotelCard(
                               name: h.name,
-                              district: h.district,
-                              location: h.location,
-                              roomCount: h.roomCount,
-                              occupancyRate: h.occupancyRate,
-                              rating: h.rating,
+                              address: h.address,
+                              cityProvince: h.cityProvince,
+                              starRating: h.starRating!,
+                              roomCount: h.roomCount!,
+                              occupancyRate: h.occupancyRate!,
                               imageUrl: h.imageUrl,
                               onTap: () => _onHotelTap(h),
                             );
@@ -156,7 +175,7 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
   }
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
-  void _onHotelTap(Hotel h) {
+  void _onHotelTap(BusinessHotel h) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${h.name}'),

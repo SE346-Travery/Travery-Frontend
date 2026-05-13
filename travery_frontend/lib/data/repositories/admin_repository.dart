@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
+import 'package:travery_frontend/data/seed_models/room/room.dart';
 import 'package:travery_frontend/utils/core_result.dart';
-import 'package:travery_frontend/domain/models/admin/account/account.dart';
-import 'package:travery_frontend/domain/models/admin/coach/coach.dart';
-import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
-import 'package:travery_frontend/domain/models/admin/hotel/hotel.dart';
-import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
+import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
+import 'package:travery_frontend/domain/models/admin/business_dashboard/business_dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
+import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 
 abstract class AdminRepository extends ChangeNotifier {
   // ── Dashboard ──────────────────────────────────────────────────────────────
 
-  Future<Result<Dashboard>> getDashboardStats();
+  Future<Result<BusinessDashboard>> getDashboardStats();
 
   Future<Result<List<double>>> getRevenueByMonth({
     required int month,
@@ -19,9 +20,9 @@ abstract class AdminRepository extends ChangeNotifier {
 
   // ── Accounts ───────────────────────────────────────────────────────────────
 
-  Future<Result<List<Account>>> getAllAccounts();
+  Future<Result<List<BusinessAccount>>> getAllAccounts();
 
-  Future<Result<Account>> getAccount({required String id});
+  Future<Result<BusinessAccount>> getAccount({required String id});
 
   Future<Result<void>> createAccount({
     required String name,
@@ -44,21 +45,90 @@ abstract class AdminRepository extends ChangeNotifier {
 
   // ── Vehicles ───────────────────────────────────────────────────────────────
 
-  Future<Result<List<Coach>>> getAllVehicles();
+  Future<Result<List<BusinessCoach>>> getAllVehicles();
 
-  Future<Result<Coach>> getVehicle({required String id});
+  Future<Result<BusinessCoach>> getVehicle({required String id});
+
+  Future<Result<void>> createVehicle({
+    required String registrationNumber,
+    required String model,
+    required String type,
+    required int seatCount,
+    required bool isAvailable,
+  });
+
+  Future<Result<void>> updateVehicle({
+    required String id,
+    required String registrationNumber,
+    required String model,
+    required String type,
+    required int seatCount,
+    required bool isAvailable,
+  });
+
+  Future<Result<void>> deleteVehicle({required String id});
 
   // ── Hotels ────────────────────────────────────────────────────────────────
 
-  Future<Result<List<Hotel>>> getAllHotels();
+  Future<Result<List<BusinessHotel>>> getAllHotels();
 
-  Future<Result<Hotel>> getHotel({required String id});
+  Future<Result<BusinessHotel>> getHotel({required String id});
+
+  Future<Result<void>> createHotel({
+    required String id,
+    required String name,
+    required String address,
+    required String cityProvince,
+    required double starRating,
+    required String status,
+  });
+
+  Future<Result<void>> updateHotel({
+    required String id,
+    required String name,
+    required String address,
+    required int starRating,
+    required String cityProvince,
+    required String status,
+  });
+
+  Future<Result<void>> deleteHotel({required String id});
+
+  // ── Rooms ──────────────────────────────────────────────────────────────────
+
+  Future<Result<List<Room>>> getAllRooms({required String hotelId});
+
+  Future<Result<Room>> getRoom({required String id});
+
+  Future<Result<void>> createRoom({
+    required String hotelId,
+    required String roomName,
+    required String roomType,
+    required double pricePerNight,
+    required int capacity,
+    required int maxAdults,
+    required int maxChildren,
+    required String status,
+  });
+
+  Future<Result<void>> updateRoom({
+    required String id,
+    required String roomNumber,
+    required String roomType,
+    required double pricePerNight,
+    required int capacity,
+    required int maxAdults,
+    required int maxChildren,
+    required String status,
+  });
+
+  Future<Result<void>> deleteRoom({required String id});
 
   // ── Tours ──────────────────────────────────────────────────────────────────
 
-  Future<Result<List<Tour>>> getAllTours();
+  Future<Result<List<BusinessTour>>> getAllTours();
 
-  Future<Result<Tour>> getTour({required String id});
+  Future<Result<BusinessTour>> getTour({required String id});
 
   Future<Result<TourSummary>> getTourSummaryStats();
 }

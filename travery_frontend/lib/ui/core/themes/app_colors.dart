@@ -18,7 +18,6 @@ class AppColors {
   /// HEX: #1558B0
   /// Công dụng: Trạng thái khi nhấn giữ nút (Pressed).
   static const Color primaryDark = Color(0xFF1558B0);
-
   static const Color primaryDarkBlackBlue = Color(0xFF003D9B);
 
   // -----------------------------------------

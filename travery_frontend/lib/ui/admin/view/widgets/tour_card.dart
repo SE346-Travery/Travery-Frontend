@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
 
@@ -67,8 +67,6 @@ class TourCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: AppColors.primary.withValues(alpha: 0.06),
-          highlightColor: AppColors.primary.withValues(alpha: 0.03),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(

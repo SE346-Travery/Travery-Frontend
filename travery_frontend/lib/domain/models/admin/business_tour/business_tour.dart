@@ -1,7 +1,7 @@
 enum TourTrend { up, down, stable }
 
-class Tour {
-  const Tour({
+class BusinessTour {
+  const BusinessTour({
     required this.id,
     required this.rank,
     required this.tourName,

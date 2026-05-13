@@ -53,6 +53,10 @@ import '../ui/user/tour/booking/review/booking_review_screen.dart';
 import '../ui/user/tour/booking/payment/payment_screen.dart';
 import '../ui/user/tour/booking/payment/booking_success_screen.dart';
 import '../ui/user/tour/booking/booking_detail/booking_detail_screen.dart';
+import '../ui/admin/view/create_hotel_screen.dart';
+import '../ui/admin/view/update_hotel_screen.dart';
+import '../ui/admin/view/create_vehicle_screen.dart';
+import '../ui/admin/view/update_vehicle_screen.dart';
 
 GoRouter appRouter(AuthRepository authRepository) {
   return GoRouter(
@@ -264,9 +268,40 @@ GoRouter appRouter(AuthRepository authRepository) {
         },
       ),
       GoRoute(
-        path: Routes.adminHotelManagement,
-        builder: (context, state) => const HotelManagementScreen(),
+        path: Routes.adminCreateHotel,
+        builder: (context, state) => CreateHotelScreen(),
       ),
+      // GoRoute(
+      //   path: Routes.adminUpdateHotelWithId(':id'),
+      //   builder: (context, state) {
+      //     final hotelId = state.pathParameters['id']!;
+      //     final viewModel = UpdateHotelViewModel(
+      //       adminRepository: context.read<AdminRepository>(),
+      //     );
+      //     return UpdateHotelScreen(viewModel: viewModel, hotelId: hotelId);
+      //   },
+      // ),
+      GoRoute(
+        path: Routes.adminVehicleManagement,
+        builder: (context, state) => const VehicleManagementScreen(),
+      ),
+      GoRoute(
+        path: Routes.adminCreateVehicle,
+        builder: (context, state) => CreateVehicleScreen(),
+      ),
+      // GoRoute(
+      //   path: Routes.adminUpdateVehicleWithId(':id'),
+      //   builder: (context, state) {
+      //     final vehicleId = state.pathParameters['id']!;
+      //     final viewModel = UpdateVehicleViewModel(
+      //       adminRepository: context.read<AdminRepository>(),
+      //     );
+      //     return UpdateVehicleScreen(
+      //       viewModel: viewModel,
+      //       vehicleId: vehicleId,
+      //     );
+      //   },
+      // ),
       GoRoute(
         path: Routes.adminTourManagement,
         builder: (context, state) => const TourManagementScreen(),

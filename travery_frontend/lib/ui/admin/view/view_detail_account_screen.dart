@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_text_theme.dart';
-import 'package:travery_frontend/domain/models/admin/account/account.dart';
+import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
 import '../view_model/view_detail_account_view_model.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -147,14 +147,14 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
     if (cmd.running) {
       return const Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.surface,
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
     if (cmd.error) {
       return Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.surface,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -168,7 +168,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
       );
     }
 
-    if (cmd.result is! Ok<Account>) {
+    if (cmd.result is! Ok<BusinessAccount>) {
       return Scaffold(
         backgroundColor: AppColors.background,
         body: Column(
@@ -184,11 +184,11 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
       );
     }
 
-    final account = (cmd.result as Ok<Account>).value;
+    final account = (cmd.result as Ok<BusinessAccount>).value;
     final displayStatus = _currentStatus ?? account.status;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 32),
@@ -210,21 +210,20 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
                   children: [
                     _InfoTile(
                       icon: Icons.badge_outlined,
-                      label: 'MÃ NHÂN VIÊN',
-                      value: account.employeeId,
+                      label: 'TÊN NHÂN VIÊN',
+                      value: account.name,
                     ),
                     const SizedBox(height: 10),
                     _InfoTile(
-                      icon: Icons.mail_outline_rounded,
-                      label: 'EMAIL',
+                      icon: Icons.phone,
+                      label: 'SỐ ĐIỆN THOẠI',
                       value: account.email,
                     ),
                     const SizedBox(height: 10),
                     _InfoTile(
-                      icon: Icons.calendar_month_outlined,
-                      label: 'NGÀY THAM GIA',
-                      value: _formatDate(account.joinDate),
-                      suffix: '~ ${_relativeTime(account.joinDate)}',
+                      icon: Icons.email,
+                      label: 'EMAIL',
+                      value: account.email,
                     ),
                   ],
                 ),
@@ -249,7 +248,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: AppColors.background,
                 border: Border.all(color: AppColors.inputBorder),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -276,7 +275,10 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
   // ── Profile card ──────────────────────────────────────────────────────────
 
-  Widget _buildProfileCard(Account account, AccountStatus displayStatus) {
+  Widget _buildProfileCard(
+    BusinessAccount account,
+    AccountStatus displayStatus,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
@@ -334,7 +336,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
     );
   }
 
-  Widget _buildAvatar(Account account) {
+  Widget _buildAvatar(BusinessAccount account) {
     if (account.avatarUrl != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -387,7 +389,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
               fontWeight: FontWeight.w600,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
         ),
@@ -402,9 +404,8 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
           icon: const Icon(Icons.block_rounded, size: 18),
           label: const Text('Vô hiệu hóa'),
           style: OutlinedButton.styleFrom(
-            foregroundColor: AppColors.textPrimary,
-            disabledForegroundColor: AppColors.textHint,
-            side: BorderSide(color: AppColors.inputBorder),
+            foregroundColor: AppColors.primaryDarkBlackBlue,
+            side: BorderSide(color: AppColors.primaryDarkBlackBlue),
             padding: const EdgeInsets.symmetric(vertical: 13),
             textStyle: TextStyle(
               fontSize: AppTextTheme.bodyLarge,
@@ -432,7 +433,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
           ),
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.error,
-            side: BorderSide(color: AppColors.inputBorder),
+            side: BorderSide(color: AppColors.error),
             padding: const EdgeInsets.symmetric(vertical: 13),
             textStyle: TextStyle(
               fontSize: AppTextTheme.bodyLarge,

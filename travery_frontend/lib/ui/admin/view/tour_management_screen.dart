@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/domain/models/admin/tour/tour.dart';
+import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
 import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -36,7 +36,7 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
     final vm = context.read<TourManagementViewModel>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,9 +91,9 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
                     );
                   }
 
-                  final tours = toursCmd.result is Ok<List<Tour>>
-                      ? (toursCmd.result as Ok<List<Tour>>).value
-                      : <Tour>[];
+                  final tours = toursCmd.result is Ok<List<BusinessTour>>
+                      ? (toursCmd.result as Ok<List<BusinessTour>>).value
+                      : <BusinessTour>[];
 
                   final stats = statsCmd.result is Ok<TourSummary>
                       ? (statsCmd.result as Ok<TourSummary>).value
@@ -272,7 +272,7 @@ class _TourManagementScreenState extends State<TourManagementScreen> {
     return '$number';
   }
 
-  void _onTourTap(Tour t) {
+  void _onTourTap(BusinessTour t) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Xem chi tiết: ${t.tourName}'),

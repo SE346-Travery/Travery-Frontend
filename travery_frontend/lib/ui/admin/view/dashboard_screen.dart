@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/domain/models/admin/dashboard/dashboard.dart';
+import 'package:travery_frontend/domain/models/admin/business_dashboard/business_dashboard.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -32,7 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: ListenableBuilder(
           listenable: context.read<DashboardViewModel>().loadStats,
@@ -72,8 +72,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               );
             }
 
-            final stats = cmd.result is Ok<Dashboard>
-                ? (cmd.result as Ok<Dashboard>).value
+            final stats = cmd.result is Ok<BusinessDashboard>
+                ? (cmd.result as Ok<BusinessDashboard>).value
                 : null;
 
             if (stats == null) {
@@ -116,7 +116,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   _StatCard(
                     icon: Icons.attach_money_rounded,
                     iconBgColor: const Color(0xFFE8F0FE),
-                    iconColor: AppColors.primary,
+                    iconColor: AppColors.primaryDarkBlackBlue,
                     label: 'DOANH THU',
                     value: '\$${_formatNumber(stats.totalRevenue.toInt())}',
                     badgeText:
@@ -208,7 +208,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ─────────────────────────────────────────────────────────────────────────
   // Revenue chart card
   // ─────────────────────────────────────────────────────────────────────────
-  Widget _buildRevenueCard(Dashboard stats) {
+  Widget _buildRevenueCard(BusinessDashboard stats) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -274,7 +274,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 barTouchData: BarTouchData(
                   enabled: true,
                   touchTooltipData: BarTouchTooltipData(
-                    getTooltipColor: (_) => AppColors.primary,
+                    getTooltipColor: (_) => AppColors.primaryDarkBlackBlue,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       const labels = ['Tours', 'Xe khách', 'Khách sạn'];
                       return BarTooltipItem(
@@ -316,7 +316,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             '${data[idx].toInt()}M',
                             style: TextStyle(
                               fontSize: AppTextTheme.bodySmall,
-                              color: AppColors.textSecondary,
+                              color: AppColors.textPrimary,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -340,7 +340,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             labels[idx],
                             style: TextStyle(
                               fontSize: AppTextTheme.bodySmall,
-                              color: AppColors.textSecondary,
+                              color: AppColors.textPrimary,
                             ),
                           ),
                         );
@@ -365,7 +365,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  List<BarChartGroupData> _buildBarGroups(Dashboard stats) {
+  List<BarChartGroupData> _buildBarGroups(BusinessDashboard stats) {
     final data = _selectedPeriod == 0
         ? [stats.tourRevenueM, stats.carRevenueM, stats.hotelRevenueM]
         : [
@@ -380,7 +380,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         barRods: [
           BarChartRodData(
             toY: data[i],
-            color: AppColors.primary,
+            color: AppColors.primaryDarkBlackBlue,
             width: 40,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(6),
@@ -395,10 +395,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ─────────────────────────────────────────────────────────────────────────
   // Operational health card
   // ─────────────────────────────────────────────────────────────────────────
-  Widget _buildOperationalHealthCard(Dashboard stats) {
+  Widget _buildOperationalHealthCard(BusinessDashboard stats) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Color(0xFFF1F3FF),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -432,7 +432,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   context.push(Routes.adminTourManagement);
                 },
                 icon: Icons.flag_outlined,
-                iconColor: AppColors.primary,
+                iconColor: AppColors.primaryDarkBlackBlue,
                 value: '${stats.ongoingTours}',
                 label: 'TOUR',
               ),
@@ -441,7 +441,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   context.push(Routes.adminVehicleManagement);
                 },
                 icon: Icons.directions_bus_outlined,
-                iconColor: AppColors.primary,
+                iconColor: AppColors.primaryDarkBlackBlue,
                 value: '${stats.vehicleUtilizationPercent.toInt()}%',
                 label: 'ĐỘI XE',
               ),
@@ -450,7 +450,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   context.push(Routes.adminHotelManagement);
                 },
                 icon: Icons.bed_outlined,
-                iconColor: AppColors.primary,
+                iconColor: AppColors.primaryDarkBlackBlue,
                 value: '${stats.hotelOccupancyPercent.toInt()}%',
                 label: 'PHÒNG',
               ),
@@ -637,7 +637,9 @@ class _PeriodToggleButton extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : Colors.transparent,
+          color: isSelected
+              ? AppColors.primaryDarkBlackBlue
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

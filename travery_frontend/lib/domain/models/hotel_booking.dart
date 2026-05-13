@@ -10,58 +10,54 @@ import 'user.dart';
 
 part 'hotel_booking.freezed.dart';
 part 'hotel_booking.g.dart';
-
-/// A reservation for lodging. Can be stand-alone or part of a TourInstance.
 @freezed
 class HotelBooking with _$HotelBooking {
   const factory HotelBooking({
     String? id,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'tour_instance_id') String? tourInstanceId,
+    String? tourInstanceId,
 
-    @JsonKey(name: 'room_id') String? roomId,
+    String? roomId,
 
-    @JsonKey(name: 'check_in_date') required DateTime checkInDate,
+    required DateTime checkInDate,
 
-    @JsonKey(name: 'check_out_date') required DateTime checkOutDate,
+    required DateTime checkOutDate,
 
-    @JsonKey(name: 'night_count') required int nightCount,
+    required int nightCount,
 
-    @JsonKey(name: 'guest_count') required int guestCount,
+    required int guestCount,
 
-    @JsonKey(name: 'total_price') required double totalPrice,
+    required double totalPrice,
 
-    @JsonKey(name: 'payment_deadline') DateTime? paymentDeadline,
+    DateTime? paymentDeadline,
 
-    @JsonKey(name: 'special_request') String? specialRequest,
+    String? specialRequest,
 
-    @JsonKey(name: 'late_checkout_fee') double? lateCheckoutFee,
+    double? lateCheckoutFee,
 
-    @JsonKey(name: 'addon_total') double? addonTotal,
+    double? addonTotal,
 
-    @JsonKey(name: 'no_show_note') String? noShowNote,
+    String? noShowNote,
 
-    @JsonKey(name: 'no_show_at') DateTime? noShowAt,
+    DateTime? noShowAt,
 
     required HotelBookingStatus status,
 
-    @JsonKey(name: 'actual_check_in_at') DateTime? actualCheckInAt,
+    DateTime? actualCheckInAt,
 
-    @JsonKey(name: 'actual_check_out_at') DateTime? actualCheckOutAt,
+    DateTime? actualCheckOutAt,
 
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
+    DateTime? cancelledAt,
 
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
+    String? cancellationReason,
 
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
+    String? cancelledBy,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     User? user,
     TourInstance? tourInstance,
     Room? room,

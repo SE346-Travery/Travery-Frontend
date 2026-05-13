@@ -5,26 +5,22 @@ import 'user.dart';
 
 part 'receptionist.freezed.dart';
 part 'receptionist.g.dart';
-
-/// Hotel-based staff responsible for check-ins and on-site service coordination.
 @freezed
 class Receptionist with _$Receptionist {
   const factory Receptionist({
     String? id,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'hotel_id') required String hotelId,
+    required String hotelId,
 
-    @JsonKey(name: 'employee_code') required String employeeCode,
+    required String employeeCode,
 
-    @JsonKey(name: 'shift_type') ShiftType? shiftType,
+    ShiftType? shiftType,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     User? user,
     Hotel? hotel,
   }) = _Receptionist;

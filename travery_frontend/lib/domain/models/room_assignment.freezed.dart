@@ -22,17 +22,11 @@ RoomAssignment _$RoomAssignmentFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RoomAssignment {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_booking_detail_id')
   String get hotelBookingDetailId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'room_id')
   String get roomId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'check_in_time')
   DateTime? get checkInTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'check_out_time')
   DateTime? get checkOutTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this RoomAssignment to a JSON map.
@@ -54,12 +48,12 @@ abstract class $RoomAssignmentCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_detail_id') String hotelBookingDetailId,
-    @JsonKey(name: 'room_id') String roomId,
-    @JsonKey(name: 'check_in_time') DateTime? checkInTime,
-    @JsonKey(name: 'check_out_time') DateTime? checkOutTime,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelBookingDetailId,
+    String roomId,
+    DateTime? checkInTime,
+    DateTime? checkOutTime,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -133,12 +127,12 @@ abstract class _$$RoomAssignmentImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_detail_id') String hotelBookingDetailId,
-    @JsonKey(name: 'room_id') String roomId,
-    @JsonKey(name: 'check_in_time') DateTime? checkInTime,
-    @JsonKey(name: 'check_out_time') DateTime? checkOutTime,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelBookingDetailId,
+    String roomId,
+    DateTime? checkInTime,
+    DateTime? checkOutTime,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -204,13 +198,12 @@ class __$$RoomAssignmentImplCopyWithImpl<$Res>
 class _$RoomAssignmentImpl implements _RoomAssignment {
   const _$RoomAssignmentImpl({
     this.id,
-    @JsonKey(name: 'hotel_booking_detail_id')
     required this.hotelBookingDetailId,
-    @JsonKey(name: 'room_id') required this.roomId,
-    @JsonKey(name: 'check_in_time') this.checkInTime,
-    @JsonKey(name: 'check_out_time') this.checkOutTime,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.roomId,
+    this.checkInTime,
+    this.checkOutTime,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$RoomAssignmentImpl.fromJson(Map<String, dynamic> json) =>
@@ -219,22 +212,16 @@ class _$RoomAssignmentImpl implements _RoomAssignment {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_booking_detail_id')
   final String hotelBookingDetailId;
   @override
-  @JsonKey(name: 'room_id')
   final String roomId;
   @override
-  @JsonKey(name: 'check_in_time')
   final DateTime? checkInTime;
   @override
-  @JsonKey(name: 'check_out_time')
   final DateTime? checkOutTime;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -294,13 +281,12 @@ class _$RoomAssignmentImpl implements _RoomAssignment {
 abstract class _RoomAssignment implements RoomAssignment {
   const factory _RoomAssignment({
     final String? id,
-    @JsonKey(name: 'hotel_booking_detail_id')
     required final String hotelBookingDetailId,
-    @JsonKey(name: 'room_id') required final String roomId,
-    @JsonKey(name: 'check_in_time') final DateTime? checkInTime,
-    @JsonKey(name: 'check_out_time') final DateTime? checkOutTime,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String roomId,
+    final DateTime? checkInTime,
+    final DateTime? checkOutTime,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$RoomAssignmentImpl;
 
   factory _RoomAssignment.fromJson(Map<String, dynamic> json) =
@@ -309,22 +295,16 @@ abstract class _RoomAssignment implements RoomAssignment {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_booking_detail_id')
   String get hotelBookingDetailId;
   @override
-  @JsonKey(name: 'room_id')
   String get roomId;
   @override
-  @JsonKey(name: 'check_in_time')
   DateTime? get checkInTime;
   @override
-  @JsonKey(name: 'check_out_time')
   DateTime? get checkOutTime;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of RoomAssignment

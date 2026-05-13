@@ -14,7 +14,7 @@ _$LaundryServiceImpl _$$LaundryServiceImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String?,
       serviceType: $enumDecode(
         _$LaundryServiceTypeEnumMap,
-        json['serviceType'],
+        json['service_type'],
       ),
       pricePerKg: (json['price_per_kg'] as num).toDouble(),
       isAvailable: json['is_available'] as bool? ?? true,
@@ -36,7 +36,7 @@ Map<String, dynamic> _$$LaundryServiceImplToJson(
   'hotel_id': instance.hotelId,
   'name': instance.name,
   'description': instance.description,
-  'serviceType': _$LaundryServiceTypeEnumMap[instance.serviceType]!,
+  'service_type': _$LaundryServiceTypeEnumMap[instance.serviceType]!,
   'price_per_kg': instance.pricePerKg,
   'is_available': instance.isAvailable,
   'created_at': instance.createdAt?.toIso8601String(),

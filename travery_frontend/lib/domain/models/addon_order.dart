@@ -5,38 +5,34 @@ import 'hotel_service.dart';
 
 part 'addon_order.freezed.dart';
 part 'addon_order.g.dart';
-
-/// A request for a HotelService during a stay.
 @freezed
 class AddonOrder with _$AddonOrder {
   const factory AddonOrder({
     String? id,
 
-    @JsonKey(name: 'hotel_booking_id') required String hotelBookingId,
+    required String hotelBookingId,
 
-    @JsonKey(name: 'hotel_service_id') required String hotelServiceId,
+    required String hotelServiceId,
 
-    @JsonKey(name: 'quantity') required int quantity,
+    required int quantity,
 
-    @JsonKey(name: 'unit_price') required double unitPrice,
+    required double unitPrice,
 
-    @JsonKey(name: 'total_price') required double totalPrice,
+    required double totalPrice,
 
-    @JsonKey(name: 'scheduled_at') DateTime? scheduledAt,
+    DateTime? scheduledAt,
 
-    @JsonKey(name: 'special_requests') String? specialRequests,
+    String? specialRequests,
 
     required AddonOrderStatus status,
 
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
+    DateTime? cancelledAt,
 
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
+    String? cancellationReason,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     HotelBooking? hotelBooking,
     HotelService? hotelService,
   }) = _AddonOrder;

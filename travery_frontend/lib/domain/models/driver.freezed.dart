@@ -22,20 +22,13 @@ Driver _$DriverFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Driver {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'full_name')
   String get fullName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phone_number')
   String get phoneNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'license_number')
   String get licenseNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'avatar_url')
   String? get avatarUrl => throw _privateConstructorUsedError;
   DriverStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Driver to a JSON map.
@@ -54,14 +47,14 @@ abstract class $DriverCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String? userId,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'phone_number') String phoneNumber,
-    @JsonKey(name: 'license_number') String licenseNumber,
-    @JsonKey(name: 'avatar_url') String? avatarUrl,
+    String? userId,
+    String fullName,
+    String phoneNumber,
+    String licenseNumber,
+    String? avatarUrl,
     DriverStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -144,14 +137,14 @@ abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String? userId,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'phone_number') String phoneNumber,
-    @JsonKey(name: 'license_number') String licenseNumber,
-    @JsonKey(name: 'avatar_url') String? avatarUrl,
+    String? userId,
+    String fullName,
+    String phoneNumber,
+    String licenseNumber,
+    String? avatarUrl,
     DriverStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -227,14 +220,14 @@ class __$$DriverImplCopyWithImpl<$Res>
 class _$DriverImpl implements _Driver {
   const _$DriverImpl({
     this.id,
-    @JsonKey(name: 'user_id') this.userId,
-    @JsonKey(name: 'full_name') required this.fullName,
-    @JsonKey(name: 'phone_number') required this.phoneNumber,
-    @JsonKey(name: 'license_number') required this.licenseNumber,
-    @JsonKey(name: 'avatar_url') this.avatarUrl,
+    this.userId,
+    required this.fullName,
+    required this.phoneNumber,
+    required this.licenseNumber,
+    this.avatarUrl,
     required this.status,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$DriverImpl.fromJson(Map<String, dynamic> json) =>
@@ -243,27 +236,20 @@ class _$DriverImpl implements _Driver {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String? userId;
   @override
-  @JsonKey(name: 'full_name')
   final String fullName;
   @override
-  @JsonKey(name: 'phone_number')
   final String phoneNumber;
   @override
-  @JsonKey(name: 'license_number')
   final String licenseNumber;
   @override
-  @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
   @override
   final DriverStatus status;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -325,14 +311,14 @@ class _$DriverImpl implements _Driver {
 abstract class _Driver implements Driver {
   const factory _Driver({
     final String? id,
-    @JsonKey(name: 'user_id') final String? userId,
-    @JsonKey(name: 'full_name') required final String fullName,
-    @JsonKey(name: 'phone_number') required final String phoneNumber,
-    @JsonKey(name: 'license_number') required final String licenseNumber,
-    @JsonKey(name: 'avatar_url') final String? avatarUrl,
+    final String? userId,
+    required final String fullName,
+    required final String phoneNumber,
+    required final String licenseNumber,
+    final String? avatarUrl,
     required final DriverStatus status,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$DriverImpl;
 
   factory _Driver.fromJson(Map<String, dynamic> json) = _$DriverImpl.fromJson;
@@ -340,27 +326,20 @@ abstract class _Driver implements Driver {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String? get userId;
   @override
-  @JsonKey(name: 'full_name')
   String get fullName;
   @override
-  @JsonKey(name: 'phone_number')
   String get phoneNumber;
   @override
-  @JsonKey(name: 'license_number')
   String get licenseNumber;
   @override
-  @JsonKey(name: 'avatar_url')
   String? get avatarUrl;
   @override
   DriverStatus get status;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of Driver

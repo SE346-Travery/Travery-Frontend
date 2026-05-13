@@ -29,17 +29,17 @@ _$RefundRequestImpl _$$RefundRequestImplFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      paymentTransaction: json['paymentTransaction'] == null
+      paymentTransaction: json['payment_transaction'] == null
           ? null
           : PaymentTransaction.fromJson(
-              json['paymentTransaction'] as Map<String, dynamic>,
+              json['payment_transaction'] as Map<String, dynamic>,
             ),
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      processedBy: json['processedBy'] == null
+      processedBy: json['processed_by'] == null
           ? null
-          : User.fromJson(json['processedBy'] as Map<String, dynamic>),
+          : User.fromJson(json['processed_by'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$RefundRequestImplToJson(_$RefundRequestImpl instance) =>
@@ -57,9 +57,9 @@ Map<String, dynamic> _$$RefundRequestImplToJson(_$RefundRequestImpl instance) =>
       'completed_at': instance.completedAt?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
-      'paymentTransaction': instance.paymentTransaction,
+      'payment_transaction': instance.paymentTransaction,
       'user': instance.user,
-      'processedBy': instance.processedBy,
+      'processed_by': instance.processedBy,
     };
 
 const _$RefundRequestStatusEnumMap = {

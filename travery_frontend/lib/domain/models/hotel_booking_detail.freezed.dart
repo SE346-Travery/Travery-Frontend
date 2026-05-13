@@ -22,21 +22,13 @@ HotelBookingDetail _$HotelBookingDetailFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HotelBookingDetail {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_booking_id')
   String get hotelBookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'room_type_id')
   String get roomTypeId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'quantity')
   int get quantity => throw _privateConstructorUsedError;
-  @JsonKey(name: 'price_at_booking')
   double get priceAtBooking => throw _privateConstructorUsedError;
-  @JsonKey(name: 'start_date')
   DateTime get startDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'end_date')
   DateTime get endDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this HotelBookingDetail to a JSON map.
@@ -58,14 +50,14 @@ abstract class $HotelBookingDetailCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_id') String hotelBookingId,
-    @JsonKey(name: 'room_type_id') String roomTypeId,
-    @JsonKey(name: 'quantity') int quantity,
-    @JsonKey(name: 'price_at_booking') double priceAtBooking,
-    @JsonKey(name: 'start_date') DateTime startDate,
-    @JsonKey(name: 'end_date') DateTime endDate,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelBookingId,
+    String roomTypeId,
+    int quantity,
+    double priceAtBooking,
+    DateTime startDate,
+    DateTime endDate,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -149,14 +141,14 @@ abstract class _$$HotelBookingDetailImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_id') String hotelBookingId,
-    @JsonKey(name: 'room_type_id') String roomTypeId,
-    @JsonKey(name: 'quantity') int quantity,
-    @JsonKey(name: 'price_at_booking') double priceAtBooking,
-    @JsonKey(name: 'start_date') DateTime startDate,
-    @JsonKey(name: 'end_date') DateTime endDate,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelBookingId,
+    String roomTypeId,
+    int quantity,
+    double priceAtBooking,
+    DateTime startDate,
+    DateTime endDate,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -232,14 +224,14 @@ class __$$HotelBookingDetailImplCopyWithImpl<$Res>
 class _$HotelBookingDetailImpl implements _HotelBookingDetail {
   const _$HotelBookingDetailImpl({
     this.id,
-    @JsonKey(name: 'hotel_booking_id') required this.hotelBookingId,
-    @JsonKey(name: 'room_type_id') required this.roomTypeId,
-    @JsonKey(name: 'quantity') required this.quantity,
-    @JsonKey(name: 'price_at_booking') required this.priceAtBooking,
-    @JsonKey(name: 'start_date') required this.startDate,
-    @JsonKey(name: 'end_date') required this.endDate,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.hotelBookingId,
+    required this.roomTypeId,
+    required this.quantity,
+    required this.priceAtBooking,
+    required this.startDate,
+    required this.endDate,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$HotelBookingDetailImpl.fromJson(Map<String, dynamic> json) =>
@@ -248,28 +240,20 @@ class _$HotelBookingDetailImpl implements _HotelBookingDetail {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   final String hotelBookingId;
   @override
-  @JsonKey(name: 'room_type_id')
   final String roomTypeId;
   @override
-  @JsonKey(name: 'quantity')
   final int quantity;
   @override
-  @JsonKey(name: 'price_at_booking')
   final double priceAtBooking;
   @override
-  @JsonKey(name: 'start_date')
   final DateTime startDate;
   @override
-  @JsonKey(name: 'end_date')
   final DateTime endDate;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -335,14 +319,14 @@ class _$HotelBookingDetailImpl implements _HotelBookingDetail {
 abstract class _HotelBookingDetail implements HotelBookingDetail {
   const factory _HotelBookingDetail({
     final String? id,
-    @JsonKey(name: 'hotel_booking_id') required final String hotelBookingId,
-    @JsonKey(name: 'room_type_id') required final String roomTypeId,
-    @JsonKey(name: 'quantity') required final int quantity,
-    @JsonKey(name: 'price_at_booking') required final double priceAtBooking,
-    @JsonKey(name: 'start_date') required final DateTime startDate,
-    @JsonKey(name: 'end_date') required final DateTime endDate,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String hotelBookingId,
+    required final String roomTypeId,
+    required final int quantity,
+    required final double priceAtBooking,
+    required final DateTime startDate,
+    required final DateTime endDate,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$HotelBookingDetailImpl;
 
   factory _HotelBookingDetail.fromJson(Map<String, dynamic> json) =
@@ -351,28 +335,20 @@ abstract class _HotelBookingDetail implements HotelBookingDetail {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   String get hotelBookingId;
   @override
-  @JsonKey(name: 'room_type_id')
   String get roomTypeId;
   @override
-  @JsonKey(name: 'quantity')
   int get quantity;
   @override
-  @JsonKey(name: 'price_at_booking')
   double get priceAtBooking;
   @override
-  @JsonKey(name: 'start_date')
   DateTime get startDate;
   @override
-  @JsonKey(name: 'end_date')
   DateTime get endDate;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of HotelBookingDetail

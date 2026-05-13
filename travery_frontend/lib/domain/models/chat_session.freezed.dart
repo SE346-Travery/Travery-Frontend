@@ -22,25 +22,15 @@ ChatSession _$ChatSessionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ChatSession {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cometchat_guid')
   String get cometchatGuid => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tour_id')
   String? get tourId => throw _privateConstructorUsedError;
   ChatSessionStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'last_message')
   String? get lastMessage => throw _privateConstructorUsedError;
-  @JsonKey(name: 'last_message_at')
   DateTime? get lastMessageAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   User? get user => throw _privateConstructorUsedError;
   User? get coordinator => throw _privateConstructorUsedError;
 
@@ -63,15 +53,15 @@ abstract class $ChatSessionCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'cometchat_guid') String cometchatGuid,
-    @JsonKey(name: 'tour_id') String? tourId,
+    String userId,
+    String? coordinatorId,
+    String cometchatGuid,
+    String? tourId,
     ChatSessionStatus status,
-    @JsonKey(name: 'last_message') String? lastMessage,
-    @JsonKey(name: 'last_message_at') DateTime? lastMessageAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String? lastMessage,
+    DateTime? lastMessageAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     User? coordinator,
   });
@@ -203,15 +193,15 @@ abstract class _$$ChatSessionImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'cometchat_guid') String cometchatGuid,
-    @JsonKey(name: 'tour_id') String? tourId,
+    String userId,
+    String? coordinatorId,
+    String cometchatGuid,
+    String? tourId,
     ChatSessionStatus status,
-    @JsonKey(name: 'last_message') String? lastMessage,
-    @JsonKey(name: 'last_message_at') DateTime? lastMessageAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String? lastMessage,
+    DateTime? lastMessageAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     User? coordinator,
   });
@@ -309,15 +299,15 @@ class __$$ChatSessionImplCopyWithImpl<$Res>
 class _$ChatSessionImpl implements _ChatSession {
   const _$ChatSessionImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'coordinator_id') this.coordinatorId,
-    @JsonKey(name: 'cometchat_guid') required this.cometchatGuid,
-    @JsonKey(name: 'tour_id') this.tourId,
+    required this.userId,
+    this.coordinatorId,
+    required this.cometchatGuid,
+    this.tourId,
     required this.status,
-    @JsonKey(name: 'last_message') this.lastMessage,
-    @JsonKey(name: 'last_message_at') this.lastMessageAt,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.lastMessage,
+    this.lastMessageAt,
+    this.createdAt,
+    this.updatedAt,
     this.user,
     this.coordinator,
   });
@@ -328,33 +318,23 @@ class _$ChatSessionImpl implements _ChatSession {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'coordinator_id')
   final String? coordinatorId;
   @override
-  @JsonKey(name: 'cometchat_guid')
   final String cometchatGuid;
   @override
-  @JsonKey(name: 'tour_id')
   final String? tourId;
   @override
   final ChatSessionStatus status;
   @override
-  @JsonKey(name: 'last_message')
   final String? lastMessage;
   @override
-  @JsonKey(name: 'last_message_at')
   final DateTime? lastMessageAt;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final User? user;
   @override
@@ -426,15 +406,15 @@ class _$ChatSessionImpl implements _ChatSession {
 abstract class _ChatSession implements ChatSession {
   const factory _ChatSession({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'coordinator_id') final String? coordinatorId,
-    @JsonKey(name: 'cometchat_guid') required final String cometchatGuid,
-    @JsonKey(name: 'tour_id') final String? tourId,
+    required final String userId,
+    final String? coordinatorId,
+    required final String cometchatGuid,
+    final String? tourId,
     required final ChatSessionStatus status,
-    @JsonKey(name: 'last_message') final String? lastMessage,
-    @JsonKey(name: 'last_message_at') final DateTime? lastMessageAt,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final String? lastMessage,
+    final DateTime? lastMessageAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
     final User? coordinator,
   }) = _$ChatSessionImpl;
@@ -445,33 +425,23 @@ abstract class _ChatSession implements ChatSession {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId;
   @override
-  @JsonKey(name: 'cometchat_guid')
   String get cometchatGuid;
   @override
-  @JsonKey(name: 'tour_id')
   String? get tourId;
   @override
   ChatSessionStatus get status;
   @override
-  @JsonKey(name: 'last_message')
   String? get lastMessage;
   @override
-  @JsonKey(name: 'last_message_at')
   DateTime? get lastMessageAt;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   User? get user;
   @override

@@ -22,24 +22,16 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'email')
   String? get email => throw _privateConstructorUsedError;
-  @JsonKey(name: 'password_hash')
   String? get passwordHash => throw _privateConstructorUsedError;
-  @JsonKey(name: 'full_name')
   String get fullName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phone_number')
   String? get phoneNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'avatar_url')
   String? get avatarUrl => throw _privateConstructorUsedError;
   UserRole get role => throw _privateConstructorUsedError;
   AuthProvider get authProvider => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cometchat_uid')
   String? get cometchatUid => throw _privateConstructorUsedError;
   UserStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
@@ -58,17 +50,17 @@ abstract class $UserCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'email') String? email,
-    @JsonKey(name: 'password_hash') String? passwordHash,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'phone_number') String? phoneNumber,
-    @JsonKey(name: 'avatar_url') String? avatarUrl,
+    String? email,
+    String? passwordHash,
+    String fullName,
+    String? phoneNumber,
+    String? avatarUrl,
     UserRole role,
     AuthProvider authProvider,
-    @JsonKey(name: 'cometchat_uid') String? cometchatUid,
+    String? cometchatUid,
     UserStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -166,17 +158,17 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'email') String? email,
-    @JsonKey(name: 'password_hash') String? passwordHash,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'phone_number') String? phoneNumber,
-    @JsonKey(name: 'avatar_url') String? avatarUrl,
+    String? email,
+    String? passwordHash,
+    String fullName,
+    String? phoneNumber,
+    String? avatarUrl,
     UserRole role,
     AuthProvider authProvider,
-    @JsonKey(name: 'cometchat_uid') String? cometchatUid,
+    String? cometchatUid,
     UserStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -265,17 +257,17 @@ class __$$UserImplCopyWithImpl<$Res>
 class _$UserImpl implements _User {
   const _$UserImpl({
     this.id,
-    @JsonKey(name: 'email') this.email,
-    @JsonKey(name: 'password_hash') this.passwordHash,
-    @JsonKey(name: 'full_name') required this.fullName,
-    @JsonKey(name: 'phone_number') this.phoneNumber,
-    @JsonKey(name: 'avatar_url') this.avatarUrl,
+    this.email,
+    this.passwordHash,
+    required this.fullName,
+    this.phoneNumber,
+    this.avatarUrl,
     required this.role,
     required this.authProvider,
-    @JsonKey(name: 'cometchat_uid') this.cometchatUid,
+    this.cometchatUid,
     required this.status,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -284,34 +276,26 @@ class _$UserImpl implements _User {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'email')
   final String? email;
   @override
-  @JsonKey(name: 'password_hash')
   final String? passwordHash;
   @override
-  @JsonKey(name: 'full_name')
   final String fullName;
   @override
-  @JsonKey(name: 'phone_number')
   final String? phoneNumber;
   @override
-  @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
   @override
   final UserRole role;
   @override
   final AuthProvider authProvider;
   @override
-  @JsonKey(name: 'cometchat_uid')
   final String? cometchatUid;
   @override
   final UserStatus status;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -381,17 +365,17 @@ class _$UserImpl implements _User {
 abstract class _User implements User {
   const factory _User({
     final String? id,
-    @JsonKey(name: 'email') final String? email,
-    @JsonKey(name: 'password_hash') final String? passwordHash,
-    @JsonKey(name: 'full_name') required final String fullName,
-    @JsonKey(name: 'phone_number') final String? phoneNumber,
-    @JsonKey(name: 'avatar_url') final String? avatarUrl,
+    final String? email,
+    final String? passwordHash,
+    required final String fullName,
+    final String? phoneNumber,
+    final String? avatarUrl,
     required final UserRole role,
     required final AuthProvider authProvider,
-    @JsonKey(name: 'cometchat_uid') final String? cometchatUid,
+    final String? cometchatUid,
     required final UserStatus status,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -399,34 +383,26 @@ abstract class _User implements User {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'email')
   String? get email;
   @override
-  @JsonKey(name: 'password_hash')
   String? get passwordHash;
   @override
-  @JsonKey(name: 'full_name')
   String get fullName;
   @override
-  @JsonKey(name: 'phone_number')
   String? get phoneNumber;
   @override
-  @JsonKey(name: 'avatar_url')
   String? get avatarUrl;
   @override
   UserRole get role;
   @override
   AuthProvider get authProvider;
   @override
-  @JsonKey(name: 'cometchat_uid')
   String? get cometchatUid;
   @override
   UserStatus get status;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of User

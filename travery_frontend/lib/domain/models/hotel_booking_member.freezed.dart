@@ -22,22 +22,13 @@ HotelBookingMember _$HotelBookingMemberFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HotelBookingMember {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_booking_id')
   String get hotelBookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'full_name')
   String get fullName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'passport_number')
   String get passportNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'date_of_birth')
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gender')
   String? get gender => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   HotelBooking? get hotelBooking => throw _privateConstructorUsedError;
 
   /// Serializes this HotelBookingMember to a JSON map.
@@ -59,13 +50,13 @@ abstract class $HotelBookingMemberCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_id') String hotelBookingId,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'passport_number') String passportNumber,
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') String? gender,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelBookingId,
+    String fullName,
+    String passportNumber,
+    DateTime? dateOfBirth,
+    String? gender,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     HotelBooking? hotelBooking,
   });
 
@@ -166,13 +157,13 @@ abstract class _$$HotelBookingMemberImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_id') String hotelBookingId,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'passport_number') String passportNumber,
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') String? gender,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelBookingId,
+    String fullName,
+    String passportNumber,
+    DateTime? dateOfBirth,
+    String? gender,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     HotelBooking? hotelBooking,
   });
 
@@ -252,13 +243,13 @@ class __$$HotelBookingMemberImplCopyWithImpl<$Res>
 class _$HotelBookingMemberImpl implements _HotelBookingMember {
   const _$HotelBookingMemberImpl({
     this.id,
-    @JsonKey(name: 'hotel_booking_id') required this.hotelBookingId,
-    @JsonKey(name: 'full_name') required this.fullName,
-    @JsonKey(name: 'passport_number') required this.passportNumber,
-    @JsonKey(name: 'date_of_birth') this.dateOfBirth,
-    @JsonKey(name: 'gender') this.gender,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.hotelBookingId,
+    required this.fullName,
+    required this.passportNumber,
+    this.dateOfBirth,
+    this.gender,
+    this.createdAt,
+    this.updatedAt,
     this.hotelBooking,
   });
 
@@ -268,28 +259,19 @@ class _$HotelBookingMemberImpl implements _HotelBookingMember {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   final String hotelBookingId;
   @override
-  @JsonKey(name: 'full_name')
   final String fullName;
   @override
-  @JsonKey(name: 'passport_number')
   final String passportNumber;
   @override
-  @JsonKey(name: 'date_of_birth')
   final DateTime? dateOfBirth;
   @override
-  @JsonKey(name: 'gender')
   final String? gender;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final HotelBooking? hotelBooking;
 
@@ -356,13 +338,13 @@ class _$HotelBookingMemberImpl implements _HotelBookingMember {
 abstract class _HotelBookingMember implements HotelBookingMember {
   const factory _HotelBookingMember({
     final String? id,
-    @JsonKey(name: 'hotel_booking_id') required final String hotelBookingId,
-    @JsonKey(name: 'full_name') required final String fullName,
-    @JsonKey(name: 'passport_number') required final String passportNumber,
-    @JsonKey(name: 'date_of_birth') final DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') final String? gender,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String hotelBookingId,
+    required final String fullName,
+    required final String passportNumber,
+    final DateTime? dateOfBirth,
+    final String? gender,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final HotelBooking? hotelBooking,
   }) = _$HotelBookingMemberImpl;
 
@@ -372,28 +354,19 @@ abstract class _HotelBookingMember implements HotelBookingMember {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   String get hotelBookingId;
   @override
-  @JsonKey(name: 'full_name')
   String get fullName;
   @override
-  @JsonKey(name: 'passport_number')
   String get passportNumber;
   @override
-  @JsonKey(name: 'date_of_birth')
   DateTime? get dateOfBirth;
   @override
-  @JsonKey(name: 'gender')
   String? get gender;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   HotelBooking? get hotelBooking;
 

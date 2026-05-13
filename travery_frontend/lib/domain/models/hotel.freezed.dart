@@ -22,35 +22,20 @@ Hotel _$HotelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Hotel {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'star_rating')
   int get starRating => throw _privateConstructorUsedError;
-  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'address')
   String get address => throw _privateConstructorUsedError;
-  @JsonKey(name: 'city_province')
   String get cityProvince => throw _privateConstructorUsedError;
-  @JsonKey(name: 'latitude')
   double? get latitude => throw _privateConstructorUsedError;
-  @JsonKey(name: 'longitude')
   double? get longitude => throw _privateConstructorUsedError;
-  @JsonKey(name: 'check_in_time')
   String? get checkInTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'check_out_time')
   String? get checkOutTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'refund_policy_id')
   String? get refundPolicyId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phone')
   String? get phone => throw _privateConstructorUsedError;
-  @JsonKey(name: 'email')
   String? get email => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Hotel to a JSON map.
@@ -69,21 +54,21 @@ abstract class $HotelCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'star_rating') int starRating,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'address') String address,
-    @JsonKey(name: 'city_province') String cityProvince,
-    @JsonKey(name: 'latitude') double? latitude,
-    @JsonKey(name: 'longitude') double? longitude,
-    @JsonKey(name: 'check_in_time') String? checkInTime,
-    @JsonKey(name: 'check_out_time') String? checkOutTime,
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
-    @JsonKey(name: 'phone') String? phone,
-    @JsonKey(name: 'email') String? email,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String name,
+    int starRating,
+    String? description,
+    String address,
+    String cityProvince,
+    double? latitude,
+    double? longitude,
+    String? checkInTime,
+    String? checkOutTime,
+    String? refundPolicyId,
+    String? phone,
+    String? email,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -201,21 +186,21 @@ abstract class _$$HotelImplCopyWith<$Res> implements $HotelCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'star_rating') int starRating,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'address') String address,
-    @JsonKey(name: 'city_province') String cityProvince,
-    @JsonKey(name: 'latitude') double? latitude,
-    @JsonKey(name: 'longitude') double? longitude,
-    @JsonKey(name: 'check_in_time') String? checkInTime,
-    @JsonKey(name: 'check_out_time') String? checkOutTime,
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
-    @JsonKey(name: 'phone') String? phone,
-    @JsonKey(name: 'email') String? email,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String name,
+    int starRating,
+    String? description,
+    String address,
+    String cityProvince,
+    double? latitude,
+    double? longitude,
+    String? checkInTime,
+    String? checkOutTime,
+    String? refundPolicyId,
+    String? phone,
+    String? email,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -326,21 +311,21 @@ class __$$HotelImplCopyWithImpl<$Res>
 class _$HotelImpl implements _Hotel {
   const _$HotelImpl({
     this.id,
-    @JsonKey(name: 'name') required this.name,
-    @JsonKey(name: 'star_rating') required this.starRating,
-    @JsonKey(name: 'description') this.description,
-    @JsonKey(name: 'address') required this.address,
-    @JsonKey(name: 'city_province') required this.cityProvince,
-    @JsonKey(name: 'latitude') this.latitude,
-    @JsonKey(name: 'longitude') this.longitude,
-    @JsonKey(name: 'check_in_time') this.checkInTime,
-    @JsonKey(name: 'check_out_time') this.checkOutTime,
-    @JsonKey(name: 'refund_policy_id') this.refundPolicyId,
-    @JsonKey(name: 'phone') this.phone,
-    @JsonKey(name: 'email') this.email,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.name,
+    required this.starRating,
+    this.description,
+    required this.address,
+    required this.cityProvince,
+    this.latitude,
+    this.longitude,
+    this.checkInTime,
+    this.checkOutTime,
+    this.refundPolicyId,
+    this.phone,
+    this.email,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$HotelImpl.fromJson(Map<String, dynamic> json) =>
@@ -349,49 +334,35 @@ class _$HotelImpl implements _Hotel {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'name')
   final String name;
   @override
-  @JsonKey(name: 'star_rating')
   final int starRating;
   @override
-  @JsonKey(name: 'description')
   final String? description;
   @override
-  @JsonKey(name: 'address')
   final String address;
   @override
-  @JsonKey(name: 'city_province')
   final String cityProvince;
   @override
-  @JsonKey(name: 'latitude')
   final double? latitude;
   @override
-  @JsonKey(name: 'longitude')
   final double? longitude;
   @override
-  @JsonKey(name: 'check_in_time')
   final String? checkInTime;
   @override
-  @JsonKey(name: 'check_out_time')
   final String? checkOutTime;
   @override
-  @JsonKey(name: 'refund_policy_id')
   final String? refundPolicyId;
   @override
-  @JsonKey(name: 'phone')
   final String? phone;
   @override
-  @JsonKey(name: 'email')
   final String? email;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -472,21 +443,21 @@ class _$HotelImpl implements _Hotel {
 abstract class _Hotel implements Hotel {
   const factory _Hotel({
     final String? id,
-    @JsonKey(name: 'name') required final String name,
-    @JsonKey(name: 'star_rating') required final int starRating,
-    @JsonKey(name: 'description') final String? description,
-    @JsonKey(name: 'address') required final String address,
-    @JsonKey(name: 'city_province') required final String cityProvince,
-    @JsonKey(name: 'latitude') final double? latitude,
-    @JsonKey(name: 'longitude') final double? longitude,
-    @JsonKey(name: 'check_in_time') final String? checkInTime,
-    @JsonKey(name: 'check_out_time') final String? checkOutTime,
-    @JsonKey(name: 'refund_policy_id') final String? refundPolicyId,
-    @JsonKey(name: 'phone') final String? phone,
-    @JsonKey(name: 'email') final String? email,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String name,
+    required final int starRating,
+    final String? description,
+    required final String address,
+    required final String cityProvince,
+    final double? latitude,
+    final double? longitude,
+    final String? checkInTime,
+    final String? checkOutTime,
+    final String? refundPolicyId,
+    final String? phone,
+    final String? email,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$HotelImpl;
 
   factory _Hotel.fromJson(Map<String, dynamic> json) = _$HotelImpl.fromJson;
@@ -494,49 +465,34 @@ abstract class _Hotel implements Hotel {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'name')
   String get name;
   @override
-  @JsonKey(name: 'star_rating')
   int get starRating;
   @override
-  @JsonKey(name: 'description')
   String? get description;
   @override
-  @JsonKey(name: 'address')
   String get address;
   @override
-  @JsonKey(name: 'city_province')
   String get cityProvince;
   @override
-  @JsonKey(name: 'latitude')
   double? get latitude;
   @override
-  @JsonKey(name: 'longitude')
   double? get longitude;
   @override
-  @JsonKey(name: 'check_in_time')
   String? get checkInTime;
   @override
-  @JsonKey(name: 'check_out_time')
   String? get checkOutTime;
   @override
-  @JsonKey(name: 'refund_policy_id')
   String? get refundPolicyId;
   @override
-  @JsonKey(name: 'phone')
   String? get phone;
   @override
-  @JsonKey(name: 'email')
   String? get email;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of Hotel

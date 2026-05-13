@@ -22,20 +22,12 @@ Tourist _$TouristFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Tourist {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'passport_number')
   String? get passportNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'date_of_birth')
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gender')
   TouristGender? get gender => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this Tourist to a JSON map.
@@ -54,12 +46,12 @@ abstract class $TouristCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'passport_number') String? passportNumber,
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') TouristGender? gender,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String? passportNumber,
+    DateTime? dateOfBirth,
+    TouristGender? gender,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -154,12 +146,12 @@ abstract class _$$TouristImplCopyWith<$Res> implements $TouristCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'passport_number') String? passportNumber,
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') TouristGender? gender,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String? passportNumber,
+    DateTime? dateOfBirth,
+    TouristGender? gender,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -234,12 +226,12 @@ class __$$TouristImplCopyWithImpl<$Res>
 class _$TouristImpl implements _Tourist {
   const _$TouristImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'passport_number') this.passportNumber,
-    @JsonKey(name: 'date_of_birth') this.dateOfBirth,
-    @JsonKey(name: 'gender') this.gender,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.userId,
+    this.passportNumber,
+    this.dateOfBirth,
+    this.gender,
+    this.createdAt,
+    this.updatedAt,
     this.user,
   });
 
@@ -249,25 +241,17 @@ class _$TouristImpl implements _Tourist {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'passport_number')
   final String? passportNumber;
   @override
-  @JsonKey(name: 'date_of_birth')
   final DateTime? dateOfBirth;
   @override
-  @JsonKey(name: 'gender')
   final TouristGender? gender;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final User? user;
 
@@ -326,12 +310,12 @@ class _$TouristImpl implements _Tourist {
 abstract class _Tourist implements Tourist {
   const factory _Tourist({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'passport_number') final String? passportNumber,
-    @JsonKey(name: 'date_of_birth') final DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') final TouristGender? gender,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String userId,
+    final String? passportNumber,
+    final DateTime? dateOfBirth,
+    final TouristGender? gender,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
   }) = _$TouristImpl;
 
@@ -340,25 +324,17 @@ abstract class _Tourist implements Tourist {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'passport_number')
   String? get passportNumber;
   @override
-  @JsonKey(name: 'date_of_birth')
   DateTime? get dateOfBirth;
   @override
-  @JsonKey(name: 'gender')
   TouristGender? get gender;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   User? get user;
 

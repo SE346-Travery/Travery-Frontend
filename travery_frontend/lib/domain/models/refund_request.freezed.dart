@@ -22,31 +22,18 @@ RefundRequest _$RefundRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RefundRequest {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'payment_transaction_id')
   String get paymentTransactionId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'processed_by_id')
   String? get processedById => throw _privateConstructorUsedError;
-  @JsonKey(name: 'requested_amount')
   double get requestedAmount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'actual_refunded')
   double? get actualRefunded => throw _privateConstructorUsedError;
-  @JsonKey(name: 'customer_reason')
   String? get customerReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'admin_response')
   String? get adminResponse => throw _privateConstructorUsedError;
   RefundRequestStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'processed_at')
   DateTime? get processedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'completed_at')
   DateTime? get completedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   PaymentTransaction? get paymentTransaction =>
       throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -71,18 +58,18 @@ abstract class $RefundRequestCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'payment_transaction_id') String paymentTransactionId,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'processed_by_id') String? processedById,
-    @JsonKey(name: 'requested_amount') double requestedAmount,
-    @JsonKey(name: 'actual_refunded') double? actualRefunded,
-    @JsonKey(name: 'customer_reason') String? customerReason,
-    @JsonKey(name: 'admin_response') String? adminResponse,
+    String paymentTransactionId,
+    String userId,
+    String? processedById,
+    double requestedAmount,
+    double? actualRefunded,
+    String? customerReason,
+    String? adminResponse,
     RefundRequestStatus status,
-    @JsonKey(name: 'processed_at') DateTime? processedAt,
-    @JsonKey(name: 'completed_at') DateTime? completedAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? processedAt,
+    DateTime? completedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     PaymentTransaction? paymentTransaction,
     User? user,
     User? processedBy,
@@ -252,18 +239,18 @@ abstract class _$$RefundRequestImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'payment_transaction_id') String paymentTransactionId,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'processed_by_id') String? processedById,
-    @JsonKey(name: 'requested_amount') double requestedAmount,
-    @JsonKey(name: 'actual_refunded') double? actualRefunded,
-    @JsonKey(name: 'customer_reason') String? customerReason,
-    @JsonKey(name: 'admin_response') String? adminResponse,
+    String paymentTransactionId,
+    String userId,
+    String? processedById,
+    double requestedAmount,
+    double? actualRefunded,
+    String? customerReason,
+    String? adminResponse,
     RefundRequestStatus status,
-    @JsonKey(name: 'processed_at') DateTime? processedAt,
-    @JsonKey(name: 'completed_at') DateTime? completedAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? processedAt,
+    DateTime? completedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     PaymentTransaction? paymentTransaction,
     User? user,
     User? processedBy,
@@ -384,18 +371,18 @@ class __$$RefundRequestImplCopyWithImpl<$Res>
 class _$RefundRequestImpl implements _RefundRequest {
   const _$RefundRequestImpl({
     this.id,
-    @JsonKey(name: 'payment_transaction_id') required this.paymentTransactionId,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'processed_by_id') this.processedById,
-    @JsonKey(name: 'requested_amount') required this.requestedAmount,
-    @JsonKey(name: 'actual_refunded') this.actualRefunded,
-    @JsonKey(name: 'customer_reason') this.customerReason,
-    @JsonKey(name: 'admin_response') this.adminResponse,
+    required this.paymentTransactionId,
+    required this.userId,
+    this.processedById,
+    required this.requestedAmount,
+    this.actualRefunded,
+    this.customerReason,
+    this.adminResponse,
     required this.status,
-    @JsonKey(name: 'processed_at') this.processedAt,
-    @JsonKey(name: 'completed_at') this.completedAt,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.processedAt,
+    this.completedAt,
+    this.createdAt,
+    this.updatedAt,
     this.paymentTransaction,
     this.user,
     this.processedBy,
@@ -407,42 +394,29 @@ class _$RefundRequestImpl implements _RefundRequest {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'payment_transaction_id')
   final String paymentTransactionId;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'processed_by_id')
   final String? processedById;
   @override
-  @JsonKey(name: 'requested_amount')
   final double requestedAmount;
   @override
-  @JsonKey(name: 'actual_refunded')
   final double? actualRefunded;
   @override
-  @JsonKey(name: 'customer_reason')
   final String? customerReason;
   @override
-  @JsonKey(name: 'admin_response')
   final String? adminResponse;
   @override
   final RefundRequestStatus status;
   @override
-  @JsonKey(name: 'processed_at')
   final DateTime? processedAt;
   @override
-  @JsonKey(name: 'completed_at')
   final DateTime? completedAt;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final PaymentTransaction? paymentTransaction;
   @override
@@ -529,19 +503,18 @@ class _$RefundRequestImpl implements _RefundRequest {
 abstract class _RefundRequest implements RefundRequest {
   const factory _RefundRequest({
     final String? id,
-    @JsonKey(name: 'payment_transaction_id')
     required final String paymentTransactionId,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'processed_by_id') final String? processedById,
-    @JsonKey(name: 'requested_amount') required final double requestedAmount,
-    @JsonKey(name: 'actual_refunded') final double? actualRefunded,
-    @JsonKey(name: 'customer_reason') final String? customerReason,
-    @JsonKey(name: 'admin_response') final String? adminResponse,
+    required final String userId,
+    final String? processedById,
+    required final double requestedAmount,
+    final double? actualRefunded,
+    final String? customerReason,
+    final String? adminResponse,
     required final RefundRequestStatus status,
-    @JsonKey(name: 'processed_at') final DateTime? processedAt,
-    @JsonKey(name: 'completed_at') final DateTime? completedAt,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? processedAt,
+    final DateTime? completedAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final PaymentTransaction? paymentTransaction,
     final User? user,
     final User? processedBy,
@@ -553,42 +526,29 @@ abstract class _RefundRequest implements RefundRequest {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'payment_transaction_id')
   String get paymentTransactionId;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'processed_by_id')
   String? get processedById;
   @override
-  @JsonKey(name: 'requested_amount')
   double get requestedAmount;
   @override
-  @JsonKey(name: 'actual_refunded')
   double? get actualRefunded;
   @override
-  @JsonKey(name: 'customer_reason')
   String? get customerReason;
   @override
-  @JsonKey(name: 'admin_response')
   String? get adminResponse;
   @override
   RefundRequestStatus get status;
   @override
-  @JsonKey(name: 'processed_at')
   DateTime? get processedAt;
   @override
-  @JsonKey(name: 'completed_at')
   DateTime? get completedAt;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   PaymentTransaction? get paymentTransaction;
   @override

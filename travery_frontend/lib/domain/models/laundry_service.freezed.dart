@@ -22,21 +22,14 @@ LaundryService _$LaundryServiceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LaundryService {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String get hotelId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   LaundryServiceType get serviceType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'price_per_kg')
   double get pricePerKg => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_available')
   bool get isAvailable => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   Hotel? get hotel => throw _privateConstructorUsedError;
 
   /// Serializes this LaundryService to a JSON map.
@@ -58,14 +51,14 @@ abstract class $LaundryServiceCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
+    String hotelId,
     String name,
     String? description,
     LaundryServiceType serviceType,
-    @JsonKey(name: 'price_per_kg') double pricePerKg,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    double pricePerKg,
+    bool isAvailable,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
   });
 
@@ -171,14 +164,14 @@ abstract class _$$LaundryServiceImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
+    String hotelId,
     String name,
     String? description,
     LaundryServiceType serviceType,
-    @JsonKey(name: 'price_per_kg') double pricePerKg,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    double pricePerKg,
+    bool isAvailable,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
   });
 
@@ -263,14 +256,14 @@ class __$$LaundryServiceImplCopyWithImpl<$Res>
 class _$LaundryServiceImpl implements _LaundryService {
   const _$LaundryServiceImpl({
     this.id,
-    @JsonKey(name: 'hotel_id') required this.hotelId,
+    required this.hotelId,
     required this.name,
     this.description,
     required this.serviceType,
-    @JsonKey(name: 'price_per_kg') required this.pricePerKg,
-    @JsonKey(name: 'is_available') this.isAvailable = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.pricePerKg,
+    this.isAvailable = true,
+    this.createdAt,
+    this.updatedAt,
     this.hotel,
   });
 
@@ -280,7 +273,6 @@ class _$LaundryServiceImpl implements _LaundryService {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_id')
   final String hotelId;
   @override
   final String name;
@@ -289,19 +281,14 @@ class _$LaundryServiceImpl implements _LaundryService {
   @override
   final LaundryServiceType serviceType;
   @override
-  @JsonKey(name: 'price_per_kg')
   final double pricePerKg;
   @override
-  @JsonKey(name: 'is_available')
+  @JsonKey()
   final bool isAvailable;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final Hotel? hotel;
 
@@ -369,14 +356,14 @@ class _$LaundryServiceImpl implements _LaundryService {
 abstract class _LaundryService implements LaundryService {
   const factory _LaundryService({
     final String? id,
-    @JsonKey(name: 'hotel_id') required final String hotelId,
+    required final String hotelId,
     required final String name,
     final String? description,
     required final LaundryServiceType serviceType,
-    @JsonKey(name: 'price_per_kg') required final double pricePerKg,
-    @JsonKey(name: 'is_available') final bool isAvailable,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final double pricePerKg,
+    final bool isAvailable,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Hotel? hotel,
   }) = _$LaundryServiceImpl;
 
@@ -386,7 +373,6 @@ abstract class _LaundryService implements LaundryService {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_id')
   String get hotelId;
   @override
   String get name;
@@ -395,19 +381,13 @@ abstract class _LaundryService implements LaundryService {
   @override
   LaundryServiceType get serviceType;
   @override
-  @JsonKey(name: 'price_per_kg')
   double get pricePerKg;
   @override
-  @JsonKey(name: 'is_available')
   bool get isAvailable;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   Hotel? get hotel;
 

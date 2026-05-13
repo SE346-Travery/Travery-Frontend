@@ -22,31 +22,18 @@ AddonOrder _$AddonOrderFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AddonOrder {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_booking_id')
   String get hotelBookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_service_id')
   String get hotelServiceId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'quantity')
   int get quantity => throw _privateConstructorUsedError;
-  @JsonKey(name: 'unit_price')
   double get unitPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_price')
   double get totalPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: 'scheduled_at')
   DateTime? get scheduledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'special_requests')
   String? get specialRequests => throw _privateConstructorUsedError;
   AddonOrderStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   HotelBooking? get hotelBooking => throw _privateConstructorUsedError;
   HotelService? get hotelService => throw _privateConstructorUsedError;
 
@@ -69,18 +56,18 @@ abstract class $AddonOrderCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_id') String hotelBookingId,
-    @JsonKey(name: 'hotel_service_id') String hotelServiceId,
-    @JsonKey(name: 'quantity') int quantity,
-    @JsonKey(name: 'unit_price') double unitPrice,
-    @JsonKey(name: 'total_price') double totalPrice,
-    @JsonKey(name: 'scheduled_at') DateTime? scheduledAt,
-    @JsonKey(name: 'special_requests') String? specialRequests,
+    String hotelBookingId,
+    String hotelServiceId,
+    int quantity,
+    double unitPrice,
+    double totalPrice,
+    DateTime? scheduledAt,
+    String? specialRequests,
     AddonOrderStatus status,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     HotelBooking? hotelBooking,
     HotelService? hotelService,
   });
@@ -227,18 +214,18 @@ abstract class _$$AddonOrderImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_booking_id') String hotelBookingId,
-    @JsonKey(name: 'hotel_service_id') String hotelServiceId,
-    @JsonKey(name: 'quantity') int quantity,
-    @JsonKey(name: 'unit_price') double unitPrice,
-    @JsonKey(name: 'total_price') double totalPrice,
-    @JsonKey(name: 'scheduled_at') DateTime? scheduledAt,
-    @JsonKey(name: 'special_requests') String? specialRequests,
+    String hotelBookingId,
+    String hotelServiceId,
+    int quantity,
+    double unitPrice,
+    double totalPrice,
+    DateTime? scheduledAt,
+    String? specialRequests,
     AddonOrderStatus status,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     HotelBooking? hotelBooking,
     HotelService? hotelService,
   });
@@ -351,18 +338,18 @@ class __$$AddonOrderImplCopyWithImpl<$Res>
 class _$AddonOrderImpl implements _AddonOrder {
   const _$AddonOrderImpl({
     this.id,
-    @JsonKey(name: 'hotel_booking_id') required this.hotelBookingId,
-    @JsonKey(name: 'hotel_service_id') required this.hotelServiceId,
-    @JsonKey(name: 'quantity') required this.quantity,
-    @JsonKey(name: 'unit_price') required this.unitPrice,
-    @JsonKey(name: 'total_price') required this.totalPrice,
-    @JsonKey(name: 'scheduled_at') this.scheduledAt,
-    @JsonKey(name: 'special_requests') this.specialRequests,
+    required this.hotelBookingId,
+    required this.hotelServiceId,
+    required this.quantity,
+    required this.unitPrice,
+    required this.totalPrice,
+    this.scheduledAt,
+    this.specialRequests,
     required this.status,
-    @JsonKey(name: 'cancelled_at') this.cancelledAt,
-    @JsonKey(name: 'cancellation_reason') this.cancellationReason,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.cancelledAt,
+    this.cancellationReason,
+    this.createdAt,
+    this.updatedAt,
     this.hotelBooking,
     this.hotelService,
   });
@@ -373,42 +360,29 @@ class _$AddonOrderImpl implements _AddonOrder {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   final String hotelBookingId;
   @override
-  @JsonKey(name: 'hotel_service_id')
   final String hotelServiceId;
   @override
-  @JsonKey(name: 'quantity')
   final int quantity;
   @override
-  @JsonKey(name: 'unit_price')
   final double unitPrice;
   @override
-  @JsonKey(name: 'total_price')
   final double totalPrice;
   @override
-  @JsonKey(name: 'scheduled_at')
   final DateTime? scheduledAt;
   @override
-  @JsonKey(name: 'special_requests')
   final String? specialRequests;
   @override
   final AddonOrderStatus status;
   @override
-  @JsonKey(name: 'cancelled_at')
   final DateTime? cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   final String? cancellationReason;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final HotelBooking? hotelBooking;
   @override
@@ -492,18 +466,18 @@ class _$AddonOrderImpl implements _AddonOrder {
 abstract class _AddonOrder implements AddonOrder {
   const factory _AddonOrder({
     final String? id,
-    @JsonKey(name: 'hotel_booking_id') required final String hotelBookingId,
-    @JsonKey(name: 'hotel_service_id') required final String hotelServiceId,
-    @JsonKey(name: 'quantity') required final int quantity,
-    @JsonKey(name: 'unit_price') required final double unitPrice,
-    @JsonKey(name: 'total_price') required final double totalPrice,
-    @JsonKey(name: 'scheduled_at') final DateTime? scheduledAt,
-    @JsonKey(name: 'special_requests') final String? specialRequests,
+    required final String hotelBookingId,
+    required final String hotelServiceId,
+    required final int quantity,
+    required final double unitPrice,
+    required final double totalPrice,
+    final DateTime? scheduledAt,
+    final String? specialRequests,
     required final AddonOrderStatus status,
-    @JsonKey(name: 'cancelled_at') final DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? cancelledAt,
+    final String? cancellationReason,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final HotelBooking? hotelBooking,
     final HotelService? hotelService,
   }) = _$AddonOrderImpl;
@@ -514,42 +488,29 @@ abstract class _AddonOrder implements AddonOrder {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   String get hotelBookingId;
   @override
-  @JsonKey(name: 'hotel_service_id')
   String get hotelServiceId;
   @override
-  @JsonKey(name: 'quantity')
   int get quantity;
   @override
-  @JsonKey(name: 'unit_price')
   double get unitPrice;
   @override
-  @JsonKey(name: 'total_price')
   double get totalPrice;
   @override
-  @JsonKey(name: 'scheduled_at')
   DateTime? get scheduledAt;
   @override
-  @JsonKey(name: 'special_requests')
   String? get specialRequests;
   @override
   AddonOrderStatus get status;
   @override
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   HotelBooking? get hotelBooking;
   @override

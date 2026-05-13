@@ -22,30 +22,19 @@ AppNotification _$AppNotificationFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppNotification {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'staff_id')
   String? get staffId => throw _privateConstructorUsedError;
   NotificationType get notificationType => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
-  @JsonKey(name: 'reference_type')
   String? get referenceType => throw _privateConstructorUsedError;
   String? get referenceId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'image_url')
   String? get imageUrl => throw _privateConstructorUsedError;
-  @JsonKey(name: 'action_url')
   String? get actionUrl => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_read')
   bool get isRead => throw _privateConstructorUsedError;
-  @JsonKey(name: 'read_at')
   DateTime? get readAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'sent_at')
   DateTime? get sentAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this AppNotification to a JSON map.
@@ -67,19 +56,19 @@ abstract class $AppNotificationCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String? userId,
-    @JsonKey(name: 'staff_id') String? staffId,
+    String? userId,
+    String? staffId,
     NotificationType notificationType,
     String title,
     String? body,
-    @JsonKey(name: 'reference_type') String? referenceType,
+    String? referenceType,
     String? referenceId,
-    @JsonKey(name: 'image_url') String? imageUrl,
-    @JsonKey(name: 'action_url') String? actionUrl,
-    @JsonKey(name: 'is_read') bool isRead,
-    @JsonKey(name: 'read_at') DateTime? readAt,
-    @JsonKey(name: 'sent_at') DateTime? sentAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    String? imageUrl,
+    String? actionUrl,
+    bool isRead,
+    DateTime? readAt,
+    DateTime? sentAt,
+    DateTime? createdAt,
     User? user,
   });
 
@@ -210,19 +199,19 @@ abstract class _$$AppNotificationImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String? userId,
-    @JsonKey(name: 'staff_id') String? staffId,
+    String? userId,
+    String? staffId,
     NotificationType notificationType,
     String title,
     String? body,
-    @JsonKey(name: 'reference_type') String? referenceType,
+    String? referenceType,
     String? referenceId,
-    @JsonKey(name: 'image_url') String? imageUrl,
-    @JsonKey(name: 'action_url') String? actionUrl,
-    @JsonKey(name: 'is_read') bool isRead,
-    @JsonKey(name: 'read_at') DateTime? readAt,
-    @JsonKey(name: 'sent_at') DateTime? sentAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    String? imageUrl,
+    String? actionUrl,
+    bool isRead,
+    DateTime? readAt,
+    DateTime? sentAt,
+    DateTime? createdAt,
     User? user,
   });
 
@@ -332,19 +321,19 @@ class __$$AppNotificationImplCopyWithImpl<$Res>
 class _$AppNotificationImpl implements _AppNotification {
   const _$AppNotificationImpl({
     this.id,
-    @JsonKey(name: 'user_id') this.userId,
-    @JsonKey(name: 'staff_id') this.staffId,
+    this.userId,
+    this.staffId,
     required this.notificationType,
     required this.title,
     this.body,
-    @JsonKey(name: 'reference_type') this.referenceType,
+    this.referenceType,
     this.referenceId,
-    @JsonKey(name: 'image_url') this.imageUrl,
-    @JsonKey(name: 'action_url') this.actionUrl,
-    @JsonKey(name: 'is_read') this.isRead = false,
-    @JsonKey(name: 'read_at') this.readAt,
-    @JsonKey(name: 'sent_at') this.sentAt,
-    @JsonKey(name: 'created_at') this.createdAt,
+    this.imageUrl,
+    this.actionUrl,
+    this.isRead = false,
+    this.readAt,
+    this.sentAt,
+    this.createdAt,
     this.user,
   });
 
@@ -354,10 +343,8 @@ class _$AppNotificationImpl implements _AppNotification {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String? userId;
   @override
-  @JsonKey(name: 'staff_id')
   final String? staffId;
   @override
   final NotificationType notificationType;
@@ -366,30 +353,22 @@ class _$AppNotificationImpl implements _AppNotification {
   @override
   final String? body;
   @override
-  @JsonKey(name: 'reference_type')
   final String? referenceType;
   @override
   final String? referenceId;
   @override
-  @JsonKey(name: 'image_url')
   final String? imageUrl;
   @override
-  @JsonKey(name: 'action_url')
   final String? actionUrl;
   @override
-  @JsonKey(name: 'is_read')
+  @JsonKey()
   final bool isRead;
   @override
-  @JsonKey(name: 'read_at')
   final DateTime? readAt;
   @override
-  @JsonKey(name: 'sent_at')
   final DateTime? sentAt;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
-
-  /// RELATION
   @override
   final User? user;
 
@@ -467,19 +446,19 @@ class _$AppNotificationImpl implements _AppNotification {
 abstract class _AppNotification implements AppNotification {
   const factory _AppNotification({
     final String? id,
-    @JsonKey(name: 'user_id') final String? userId,
-    @JsonKey(name: 'staff_id') final String? staffId,
+    final String? userId,
+    final String? staffId,
     required final NotificationType notificationType,
     required final String title,
     final String? body,
-    @JsonKey(name: 'reference_type') final String? referenceType,
+    final String? referenceType,
     final String? referenceId,
-    @JsonKey(name: 'image_url') final String? imageUrl,
-    @JsonKey(name: 'action_url') final String? actionUrl,
-    @JsonKey(name: 'is_read') final bool isRead,
-    @JsonKey(name: 'read_at') final DateTime? readAt,
-    @JsonKey(name: 'sent_at') final DateTime? sentAt,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
+    final String? imageUrl,
+    final String? actionUrl,
+    final bool isRead,
+    final DateTime? readAt,
+    final DateTime? sentAt,
+    final DateTime? createdAt,
     final User? user,
   }) = _$AppNotificationImpl;
 
@@ -489,10 +468,8 @@ abstract class _AppNotification implements AppNotification {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String? get userId;
   @override
-  @JsonKey(name: 'staff_id')
   String? get staffId;
   @override
   NotificationType get notificationType;
@@ -501,30 +478,21 @@ abstract class _AppNotification implements AppNotification {
   @override
   String? get body;
   @override
-  @JsonKey(name: 'reference_type')
   String? get referenceType;
   @override
   String? get referenceId;
   @override
-  @JsonKey(name: 'image_url')
   String? get imageUrl;
   @override
-  @JsonKey(name: 'action_url')
   String? get actionUrl;
   @override
-  @JsonKey(name: 'is_read')
   bool get isRead;
   @override
-  @JsonKey(name: 'read_at')
   DateTime? get readAt;
   @override
-  @JsonKey(name: 'sent_at')
   DateTime? get sentAt;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
-
-  /// RELATION
   @override
   User? get user;
 

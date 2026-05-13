@@ -1,4 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'guide_tour.dart';
 
@@ -117,42 +120,70 @@ class _$GuideTourCopyWithImpl<$Res, $Val extends GuideTour>
   }) {
     return _then(
       _value.copyWith(
-            id: freezed == id ? _value.id : id as String?,
+            id: freezed == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String?,
             tourInstanceId: null == tourInstanceId
                 ? _value.tourInstanceId
-                : tourInstanceId as String,
-            tourId: null == tourId ? _value.tourId : tourId as String,
-            tourName: null == tourName ? _value.tourName : tourName as String,
+                : tourInstanceId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            tourId: null == tourId
+                ? _value.tourId
+                : tourId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            tourName: null == tourName
+                ? _value.tourName
+                : tourName // ignore: cast_nullable_to_non_nullable
+                      as String,
             startDate: null == startDate
                 ? _value.startDate
-                : startDate as DateTime,
-            endDate: null == endDate ? _value.endDate : endDate as DateTime,
-            groupSize: null == groupSize ? _value.groupSize : groupSize as int,
+                : startDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            endDate: null == endDate
+                ? _value.endDate
+                : endDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            groupSize: null == groupSize
+                ? _value.groupSize
+                : groupSize // ignore: cast_nullable_to_non_nullable
+                      as int,
             groupDescription: null == groupDescription
                 ? _value.groupDescription
-                : groupDescription as String,
-            status: null == status ? _value.status : status as GuideTourStatus,
+                : groupDescription // ignore: cast_nullable_to_non_nullable
+                      as String,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as GuideTourStatus,
             bookingId: freezed == bookingId
                 ? _value.bookingId
-                : bookingId as String?,
+                : bookingId // ignore: cast_nullable_to_non_nullable
+                      as String?,
             customerName: freezed == customerName
                 ? _value.customerName
-                : customerName as String?,
+                : customerName // ignore: cast_nullable_to_non_nullable
+                      as String?,
             customerPhone: freezed == customerPhone
                 ? _value.customerPhone
-                : customerPhone as String?,
+                : customerPhone // ignore: cast_nullable_to_non_nullable
+                      as String?,
             vehiclePlate: freezed == vehiclePlate
                 ? _value.vehiclePlate
-                : vehiclePlate as String?,
+                : vehiclePlate // ignore: cast_nullable_to_non_nullable
+                      as String?,
             driverName: freezed == driverName
                 ? _value.driverName
-                : driverName as String?,
+                : driverName // ignore: cast_nullable_to_non_nullable
+                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
-                : createdAt as DateTime?,
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
             updatedAt: freezed == updatedAt
                 ? _value.updatedAt
-                : updatedAt as DateTime?,
+                : updatedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
           )
           as $Val,
     );
@@ -221,40 +252,70 @@ class __$$GuideTourImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$GuideTourImpl(
-        id: freezed == id ? _value.id : id as String?,
+        id: freezed == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String?,
         tourInstanceId: null == tourInstanceId
             ? _value.tourInstanceId
-            : tourInstanceId as String,
-        tourId: null == tourId ? _value.tourId : tourId as String,
-        tourName: null == tourName ? _value.tourName : tourName as String,
-        startDate: null == startDate ? _value.startDate : startDate as DateTime,
-        endDate: null == endDate ? _value.endDate : endDate as DateTime,
-        groupSize: null == groupSize ? _value.groupSize : groupSize as int,
+            : tourInstanceId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        tourId: null == tourId
+            ? _value.tourId
+            : tourId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        tourName: null == tourName
+            ? _value.tourName
+            : tourName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        startDate: null == startDate
+            ? _value.startDate
+            : startDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        endDate: null == endDate
+            ? _value.endDate
+            : endDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        groupSize: null == groupSize
+            ? _value.groupSize
+            : groupSize // ignore: cast_nullable_to_non_nullable
+                  as int,
         groupDescription: null == groupDescription
             ? _value.groupDescription
-            : groupDescription as String,
-        status: null == status ? _value.status : status as GuideTourStatus,
+            : groupDescription // ignore: cast_nullable_to_non_nullable
+                  as String,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as GuideTourStatus,
         bookingId: freezed == bookingId
             ? _value.bookingId
-            : bookingId as String?,
+            : bookingId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         customerName: freezed == customerName
             ? _value.customerName
-            : customerName as String?,
+            : customerName // ignore: cast_nullable_to_non_nullable
+                  as String?,
         customerPhone: freezed == customerPhone
             ? _value.customerPhone
-            : customerPhone as String?,
+            : customerPhone // ignore: cast_nullable_to_non_nullable
+                  as String?,
         vehiclePlate: freezed == vehiclePlate
             ? _value.vehiclePlate
-            : vehiclePlate as String?,
+            : vehiclePlate // ignore: cast_nullable_to_non_nullable
+                  as String?,
         driverName: freezed == driverName
             ? _value.driverName
-            : driverName as String?,
+            : driverName // ignore: cast_nullable_to_non_nullable
+                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
-            : createdAt as DateTime?,
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
         updatedAt: freezed == updatedAt
             ? _value.updatedAt
-            : updatedAt as DateTime?,
+            : updatedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
       ),
     );
   }
@@ -409,22 +470,22 @@ class _$GuideTourImpl implements _GuideTour {
 
 abstract class _GuideTour implements GuideTour {
   const factory _GuideTour({
-    String? id,
-    @JsonKey(name: 'tour_instance_id') required String tourInstanceId,
-    @JsonKey(name: 'tour_id') required String tourId,
-    required String tourName,
-    @JsonKey(name: 'start_date') required DateTime startDate,
-    @JsonKey(name: 'end_date') required DateTime endDate,
-    @JsonKey(name: 'group_size') required int groupSize,
-    @JsonKey(name: 'group_description') required String groupDescription,
-    required GuideTourStatus status,
-    @JsonKey(name: 'booking_id') String? bookingId,
-    @JsonKey(name: 'customer_name') String? customerName,
-    @JsonKey(name: 'customer_phone') String? customerPhone,
-    @JsonKey(name: 'vehicle_plate') String? vehiclePlate,
-    @JsonKey(name: 'driver_name') String? driverName,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    final String? id,
+    @JsonKey(name: 'tour_instance_id') required final String tourInstanceId,
+    @JsonKey(name: 'tour_id') required final String tourId,
+    required final String tourName,
+    @JsonKey(name: 'start_date') required final DateTime startDate,
+    @JsonKey(name: 'end_date') required final DateTime endDate,
+    @JsonKey(name: 'group_size') required final int groupSize,
+    @JsonKey(name: 'group_description') required final String groupDescription,
+    required final GuideTourStatus status,
+    @JsonKey(name: 'booking_id') final String? bookingId,
+    @JsonKey(name: 'customer_name') final String? customerName,
+    @JsonKey(name: 'customer_phone') final String? customerPhone,
+    @JsonKey(name: 'vehicle_plate') final String? vehiclePlate,
+    @JsonKey(name: 'driver_name') final String? driverName,
+    @JsonKey(name: 'created_at') final DateTime? createdAt,
+    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
   }) = _$GuideTourImpl;
 
   factory _GuideTour.fromJson(Map<String, dynamic> json) =

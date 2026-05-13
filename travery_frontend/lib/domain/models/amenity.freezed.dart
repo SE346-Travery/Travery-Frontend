@@ -23,14 +23,10 @@ Amenity _$AmenityFromJson(Map<String, dynamic> json) {
 mixin _$Amenity {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'icon_url')
   String? get iconUrl => throw _privateConstructorUsedError;
   AmenityType get type => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Amenity to a JSON map.
@@ -50,11 +46,11 @@ abstract class $AmenityCopyWith<$Res> {
   $Res call({
     String? id,
     String name,
-    @JsonKey(name: 'icon_url') String? iconUrl,
+    String? iconUrl,
     AmenityType type,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -128,11 +124,11 @@ abstract class _$$AmenityImplCopyWith<$Res> implements $AmenityCopyWith<$Res> {
   $Res call({
     String? id,
     String name,
-    @JsonKey(name: 'icon_url') String? iconUrl,
+    String? iconUrl,
     AmenityType type,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -199,11 +195,11 @@ class _$AmenityImpl implements _Amenity {
   const _$AmenityImpl({
     this.id,
     required this.name,
-    @JsonKey(name: 'icon_url') this.iconUrl,
+    this.iconUrl,
     required this.type,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$AmenityImpl.fromJson(Map<String, dynamic> json) =>
@@ -214,18 +210,15 @@ class _$AmenityImpl implements _Amenity {
   @override
   final String name;
   @override
-  @JsonKey(name: 'icon_url')
   final String? iconUrl;
   @override
   final AmenityType type;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -281,11 +274,11 @@ abstract class _Amenity implements Amenity {
   const factory _Amenity({
     final String? id,
     required final String name,
-    @JsonKey(name: 'icon_url') final String? iconUrl,
+    final String? iconUrl,
     required final AmenityType type,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$AmenityImpl;
 
   factory _Amenity.fromJson(Map<String, dynamic> json) = _$AmenityImpl.fromJson;
@@ -295,18 +288,14 @@ abstract class _Amenity implements Amenity {
   @override
   String get name;
   @override
-  @JsonKey(name: 'icon_url')
   String? get iconUrl;
   @override
   AmenityType get type;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of Amenity

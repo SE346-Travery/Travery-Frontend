@@ -22,25 +22,15 @@ Destination _$DestinationFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Destination {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'code')
   String get code => throw _privateConstructorUsedError;
-  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'region')
   DestinationRegion get region => throw _privateConstructorUsedError;
-  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'image_url')
   String? get imageUrl => throw _privateConstructorUsedError;
-  @JsonKey(name: 'latitude')
   double? get latitude => throw _privateConstructorUsedError;
-  @JsonKey(name: 'longitude')
   double? get longitude => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Destination to a JSON map.
@@ -62,16 +52,16 @@ abstract class $DestinationCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'code') String code,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'region') DestinationRegion region,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'image_url') String? imageUrl,
-    @JsonKey(name: 'latitude') double? latitude,
-    @JsonKey(name: 'longitude') double? longitude,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String code,
+    String name,
+    DestinationRegion region,
+    String? description,
+    String? imageUrl,
+    double? latitude,
+    double? longitude,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -165,16 +155,16 @@ abstract class _$$DestinationImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'code') String code,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'region') DestinationRegion region,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'image_url') String? imageUrl,
-    @JsonKey(name: 'latitude') double? latitude,
-    @JsonKey(name: 'longitude') double? longitude,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String code,
+    String name,
+    DestinationRegion region,
+    String? description,
+    String? imageUrl,
+    double? latitude,
+    double? longitude,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -260,16 +250,16 @@ class __$$DestinationImplCopyWithImpl<$Res>
 class _$DestinationImpl implements _Destination {
   const _$DestinationImpl({
     this.id,
-    @JsonKey(name: 'code') required this.code,
-    @JsonKey(name: 'name') required this.name,
-    @JsonKey(name: 'region') required this.region,
-    @JsonKey(name: 'description') this.description,
-    @JsonKey(name: 'image_url') this.imageUrl,
-    @JsonKey(name: 'latitude') this.latitude,
-    @JsonKey(name: 'longitude') this.longitude,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.code,
+    required this.name,
+    required this.region,
+    this.description,
+    this.imageUrl,
+    this.latitude,
+    this.longitude,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$DestinationImpl.fromJson(Map<String, dynamic> json) =>
@@ -278,34 +268,25 @@ class _$DestinationImpl implements _Destination {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'code')
   final String code;
   @override
-  @JsonKey(name: 'name')
   final String name;
   @override
-  @JsonKey(name: 'region')
   final DestinationRegion region;
   @override
-  @JsonKey(name: 'description')
   final String? description;
   @override
-  @JsonKey(name: 'image_url')
   final String? imageUrl;
   @override
-  @JsonKey(name: 'latitude')
   final double? latitude;
   @override
-  @JsonKey(name: 'longitude')
   final double? longitude;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -372,16 +353,16 @@ class _$DestinationImpl implements _Destination {
 abstract class _Destination implements Destination {
   const factory _Destination({
     final String? id,
-    @JsonKey(name: 'code') required final String code,
-    @JsonKey(name: 'name') required final String name,
-    @JsonKey(name: 'region') required final DestinationRegion region,
-    @JsonKey(name: 'description') final String? description,
-    @JsonKey(name: 'image_url') final String? imageUrl,
-    @JsonKey(name: 'latitude') final double? latitude,
-    @JsonKey(name: 'longitude') final double? longitude,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String code,
+    required final String name,
+    required final DestinationRegion region,
+    final String? description,
+    final String? imageUrl,
+    final double? latitude,
+    final double? longitude,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$DestinationImpl;
 
   factory _Destination.fromJson(Map<String, dynamic> json) =
@@ -390,34 +371,24 @@ abstract class _Destination implements Destination {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'code')
   String get code;
   @override
-  @JsonKey(name: 'name')
   String get name;
   @override
-  @JsonKey(name: 'region')
   DestinationRegion get region;
   @override
-  @JsonKey(name: 'description')
   String? get description;
   @override
-  @JsonKey(name: 'image_url')
   String? get imageUrl;
   @override
-  @JsonKey(name: 'latitude')
   double? get latitude;
   @override
-  @JsonKey(name: 'longitude')
   double? get longitude;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of Destination

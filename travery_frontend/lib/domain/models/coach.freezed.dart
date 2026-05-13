@@ -22,19 +22,13 @@ Coach _$CoachFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Coach {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'license_plate')
   String get licensePlate => throw _privateConstructorUsedError;
   CoachType get coachType => throw _privateConstructorUsedError;
   int get capacity => throw _privateConstructorUsedError;
   CoachStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'floor_count')
   int? get floorCount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   List<CoachSeat>? get seats => throw _privateConstructorUsedError;
   List<CoachTrip>? get trips => throw _privateConstructorUsedError;
 
@@ -54,13 +48,13 @@ abstract class $CoachCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'license_plate') String licensePlate,
+    String licensePlate,
     CoachType coachType,
     int capacity,
     CoachStatus status,
-    @JsonKey(name: 'floor_count') int? floorCount,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    int? floorCount,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     List<CoachSeat>? seats,
     List<CoachTrip>? trips,
   });
@@ -150,13 +144,13 @@ abstract class _$$CoachImplCopyWith<$Res> implements $CoachCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'license_plate') String licensePlate,
+    String licensePlate,
     CoachType coachType,
     int capacity,
     CoachStatus status,
-    @JsonKey(name: 'floor_count') int? floorCount,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    int? floorCount,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     List<CoachSeat>? seats,
     List<CoachTrip>? trips,
   });
@@ -239,13 +233,13 @@ class __$$CoachImplCopyWithImpl<$Res>
 class _$CoachImpl implements _Coach {
   const _$CoachImpl({
     this.id,
-    @JsonKey(name: 'license_plate') required this.licensePlate,
+    required this.licensePlate,
     required this.coachType,
     required this.capacity,
     required this.status,
-    @JsonKey(name: 'floor_count') this.floorCount,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.floorCount,
+    this.createdAt,
+    this.updatedAt,
     final List<CoachSeat>? seats,
     final List<CoachTrip>? trips,
   }) : _seats = seats,
@@ -257,7 +251,6 @@ class _$CoachImpl implements _Coach {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'license_plate')
   final String licensePlate;
   @override
   final CoachType coachType;
@@ -266,19 +259,12 @@ class _$CoachImpl implements _Coach {
   @override
   final CoachStatus status;
   @override
-  @JsonKey(name: 'floor_count')
   final int? floorCount;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   final List<CoachSeat>? _seats;
-
-  /// RELATIONS
   @override
   List<CoachSeat>? get seats {
     final value = _seats;
@@ -359,13 +345,13 @@ class _$CoachImpl implements _Coach {
 abstract class _Coach implements Coach {
   const factory _Coach({
     final String? id,
-    @JsonKey(name: 'license_plate') required final String licensePlate,
+    required final String licensePlate,
     required final CoachType coachType,
     required final int capacity,
     required final CoachStatus status,
-    @JsonKey(name: 'floor_count') final int? floorCount,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final int? floorCount,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final List<CoachSeat>? seats,
     final List<CoachTrip>? trips,
   }) = _$CoachImpl;
@@ -375,7 +361,6 @@ abstract class _Coach implements Coach {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'license_plate')
   String get licensePlate;
   @override
   CoachType get coachType;
@@ -384,16 +369,11 @@ abstract class _Coach implements Coach {
   @override
   CoachStatus get status;
   @override
-  @JsonKey(name: 'floor_count')
   int? get floorCount;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   List<CoachSeat>? get seats;
   @override

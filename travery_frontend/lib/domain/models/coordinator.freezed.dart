@@ -22,18 +22,11 @@ Coordinator _$CoordinatorFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Coordinator {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'employee_code')
   String get employeeCode => throw _privateConstructorUsedError;
-  @JsonKey(name: 'department')
   CoordinatorDepartment? get department => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this Coordinator to a JSON map.
@@ -55,11 +48,11 @@ abstract class $CoordinatorCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'employee_code') String employeeCode,
-    @JsonKey(name: 'department') CoordinatorDepartment? department,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String employeeCode,
+    CoordinatorDepartment? department,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -150,11 +143,11 @@ abstract class _$$CoordinatorImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'employee_code') String employeeCode,
-    @JsonKey(name: 'department') CoordinatorDepartment? department,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String employeeCode,
+    CoordinatorDepartment? department,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -224,11 +217,11 @@ class __$$CoordinatorImplCopyWithImpl<$Res>
 class _$CoordinatorImpl implements _Coordinator {
   const _$CoordinatorImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'employee_code') required this.employeeCode,
-    @JsonKey(name: 'department') this.department,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.userId,
+    required this.employeeCode,
+    this.department,
+    this.createdAt,
+    this.updatedAt,
     this.user,
   });
 
@@ -238,22 +231,15 @@ class _$CoordinatorImpl implements _Coordinator {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'employee_code')
   final String employeeCode;
   @override
-  @JsonKey(name: 'department')
   final CoordinatorDepartment? department;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final User? user;
 
@@ -310,11 +296,11 @@ class _$CoordinatorImpl implements _Coordinator {
 abstract class _Coordinator implements Coordinator {
   const factory _Coordinator({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'employee_code') required final String employeeCode,
-    @JsonKey(name: 'department') final CoordinatorDepartment? department,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String userId,
+    required final String employeeCode,
+    final CoordinatorDepartment? department,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
   }) = _$CoordinatorImpl;
 
@@ -324,22 +310,15 @@ abstract class _Coordinator implements Coordinator {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'employee_code')
   String get employeeCode;
   @override
-  @JsonKey(name: 'department')
   CoordinatorDepartment? get department;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   User? get user;
 

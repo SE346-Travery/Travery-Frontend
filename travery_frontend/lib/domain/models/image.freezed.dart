@@ -22,21 +22,14 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Image {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'entity_id')
   String get entityId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'entity_type')
   ImageEntityType get entityType => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   String? get caption => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_thumbnail')
   bool get isThumbnail => throw _privateConstructorUsedError;
-  @JsonKey(name: 'display_order')
   int get displayOrder => throw _privateConstructorUsedError;
-  @JsonKey(name: 'file_size')
   int? get fileSize => throw _privateConstructorUsedError;
-  @JsonKey(name: 'mime_type')
   String? get mimeType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Image to a JSON map.
@@ -55,15 +48,15 @@ abstract class $ImageCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'entity_id') String entityId,
-    @JsonKey(name: 'entity_type') ImageEntityType entityType,
+    String entityId,
+    ImageEntityType entityType,
     String url,
     String? caption,
-    @JsonKey(name: 'is_thumbnail') bool isThumbnail,
-    @JsonKey(name: 'display_order') int displayOrder,
-    @JsonKey(name: 'file_size') int? fileSize,
-    @JsonKey(name: 'mime_type') String? mimeType,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    bool isThumbnail,
+    int displayOrder,
+    int? fileSize,
+    String? mimeType,
+    DateTime? createdAt,
   });
 }
 
@@ -151,15 +144,15 @@ abstract class _$$ImageImplCopyWith<$Res> implements $ImageCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'entity_id') String entityId,
-    @JsonKey(name: 'entity_type') ImageEntityType entityType,
+    String entityId,
+    ImageEntityType entityType,
     String url,
     String? caption,
-    @JsonKey(name: 'is_thumbnail') bool isThumbnail,
-    @JsonKey(name: 'display_order') int displayOrder,
-    @JsonKey(name: 'file_size') int? fileSize,
-    @JsonKey(name: 'mime_type') String? mimeType,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    bool isThumbnail,
+    int displayOrder,
+    int? fileSize,
+    String? mimeType,
+    DateTime? createdAt,
   });
 }
 
@@ -240,15 +233,15 @@ class __$$ImageImplCopyWithImpl<$Res>
 class _$ImageImpl implements _Image {
   const _$ImageImpl({
     this.id,
-    @JsonKey(name: 'entity_id') required this.entityId,
-    @JsonKey(name: 'entity_type') required this.entityType,
+    required this.entityId,
+    required this.entityType,
     required this.url,
     this.caption,
-    @JsonKey(name: 'is_thumbnail') this.isThumbnail = false,
-    @JsonKey(name: 'display_order') this.displayOrder = 0,
-    @JsonKey(name: 'file_size') this.fileSize,
-    @JsonKey(name: 'mime_type') this.mimeType,
-    @JsonKey(name: 'created_at') this.createdAt,
+    this.isThumbnail = false,
+    this.displayOrder = 0,
+    this.fileSize,
+    this.mimeType,
+    this.createdAt,
   });
 
   factory _$ImageImpl.fromJson(Map<String, dynamic> json) =>
@@ -257,29 +250,24 @@ class _$ImageImpl implements _Image {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'entity_id')
   final String entityId;
   @override
-  @JsonKey(name: 'entity_type')
   final ImageEntityType entityType;
   @override
   final String url;
   @override
   final String? caption;
   @override
-  @JsonKey(name: 'is_thumbnail')
+  @JsonKey()
   final bool isThumbnail;
   @override
-  @JsonKey(name: 'display_order')
+  @JsonKey()
   final int displayOrder;
   @override
-  @JsonKey(name: 'file_size')
   final int? fileSize;
   @override
-  @JsonKey(name: 'mime_type')
   final String? mimeType;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
 
   @override
@@ -344,15 +332,15 @@ class _$ImageImpl implements _Image {
 abstract class _Image implements Image {
   const factory _Image({
     final String? id,
-    @JsonKey(name: 'entity_id') required final String entityId,
-    @JsonKey(name: 'entity_type') required final ImageEntityType entityType,
+    required final String entityId,
+    required final ImageEntityType entityType,
     required final String url,
     final String? caption,
-    @JsonKey(name: 'is_thumbnail') final bool isThumbnail,
-    @JsonKey(name: 'display_order') final int displayOrder,
-    @JsonKey(name: 'file_size') final int? fileSize,
-    @JsonKey(name: 'mime_type') final String? mimeType,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
+    final bool isThumbnail,
+    final int displayOrder,
+    final int? fileSize,
+    final String? mimeType,
+    final DateTime? createdAt,
   }) = _$ImageImpl;
 
   factory _Image.fromJson(Map<String, dynamic> json) = _$ImageImpl.fromJson;
@@ -360,29 +348,22 @@ abstract class _Image implements Image {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'entity_id')
   String get entityId;
   @override
-  @JsonKey(name: 'entity_type')
   ImageEntityType get entityType;
   @override
   String get url;
   @override
   String? get caption;
   @override
-  @JsonKey(name: 'is_thumbnail')
   bool get isThumbnail;
   @override
-  @JsonKey(name: 'display_order')
   int get displayOrder;
   @override
-  @JsonKey(name: 'file_size')
   int? get fileSize;
   @override
-  @JsonKey(name: 'mime_type')
   String? get mimeType;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
 
   /// Create a copy of Image

@@ -22,32 +22,18 @@ CoachTrip _$CoachTripFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CoachTrip {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'route_id')
   String get routeId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coach_id')
   String get coachId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'driver_id')
   String? get driverId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'departure_time')
   DateTime get departureTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'arrival_time')
   DateTime? get arrivalTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'status')
   CoachTripStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   Route? get route => throw _privateConstructorUsedError;
   Coach? get coach => throw _privateConstructorUsedError;
   Driver? get driver => throw _privateConstructorUsedError;
@@ -71,18 +57,18 @@ abstract class $CoachTripCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'route_id') String routeId,
-    @JsonKey(name: 'coach_id') String coachId,
-    @JsonKey(name: 'driver_id') String? driverId,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'departure_time') DateTime departureTime,
-    @JsonKey(name: 'arrival_time') DateTime? arrivalTime,
-    @JsonKey(name: 'status') CoachTripStatus status,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String routeId,
+    String coachId,
+    String? driverId,
+    String? coordinatorId,
+    DateTime departureTime,
+    DateTime? arrivalTime,
+    CoachTripStatus status,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Route? route,
     Coach? coach,
     Driver? driver,
@@ -277,18 +263,18 @@ abstract class _$$CoachTripImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'route_id') String routeId,
-    @JsonKey(name: 'coach_id') String coachId,
-    @JsonKey(name: 'driver_id') String? driverId,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'departure_time') DateTime departureTime,
-    @JsonKey(name: 'arrival_time') DateTime? arrivalTime,
-    @JsonKey(name: 'status') CoachTripStatus status,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String routeId,
+    String coachId,
+    String? driverId,
+    String? coordinatorId,
+    DateTime departureTime,
+    DateTime? arrivalTime,
+    CoachTripStatus status,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Route? route,
     Coach? coach,
     Driver? driver,
@@ -423,18 +409,18 @@ class __$$CoachTripImplCopyWithImpl<$Res>
 class _$CoachTripImpl implements _CoachTrip {
   const _$CoachTripImpl({
     this.id,
-    @JsonKey(name: 'route_id') required this.routeId,
-    @JsonKey(name: 'coach_id') required this.coachId,
-    @JsonKey(name: 'driver_id') this.driverId,
-    @JsonKey(name: 'coordinator_id') this.coordinatorId,
-    @JsonKey(name: 'departure_time') required this.departureTime,
-    @JsonKey(name: 'arrival_time') this.arrivalTime,
-    @JsonKey(name: 'status') required this.status,
-    @JsonKey(name: 'cancelled_at') this.cancelledAt,
-    @JsonKey(name: 'cancellation_reason') this.cancellationReason,
-    @JsonKey(name: 'cancelled_by') this.cancelledBy,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.routeId,
+    required this.coachId,
+    this.driverId,
+    this.coordinatorId,
+    required this.departureTime,
+    this.arrivalTime,
+    required this.status,
+    this.cancelledAt,
+    this.cancellationReason,
+    this.cancelledBy,
+    this.createdAt,
+    this.updatedAt,
     this.route,
     this.coach,
     this.driver,
@@ -448,43 +434,29 @@ class _$CoachTripImpl implements _CoachTrip {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'route_id')
   final String routeId;
   @override
-  @JsonKey(name: 'coach_id')
   final String coachId;
   @override
-  @JsonKey(name: 'driver_id')
   final String? driverId;
   @override
-  @JsonKey(name: 'coordinator_id')
   final String? coordinatorId;
   @override
-  @JsonKey(name: 'departure_time')
   final DateTime departureTime;
   @override
-  @JsonKey(name: 'arrival_time')
   final DateTime? arrivalTime;
   @override
-  @JsonKey(name: 'status')
   final CoachTripStatus status;
   @override
-  @JsonKey(name: 'cancelled_at')
   final DateTime? cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   final String? cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   final String? cancelledBy;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final Route? route;
   @override
@@ -584,18 +556,18 @@ class _$CoachTripImpl implements _CoachTrip {
 abstract class _CoachTrip implements CoachTrip {
   const factory _CoachTrip({
     final String? id,
-    @JsonKey(name: 'route_id') required final String routeId,
-    @JsonKey(name: 'coach_id') required final String coachId,
-    @JsonKey(name: 'driver_id') final String? driverId,
-    @JsonKey(name: 'coordinator_id') final String? coordinatorId,
-    @JsonKey(name: 'departure_time') required final DateTime departureTime,
-    @JsonKey(name: 'arrival_time') final DateTime? arrivalTime,
-    @JsonKey(name: 'status') required final CoachTripStatus status,
-    @JsonKey(name: 'cancelled_at') final DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') final String? cancelledBy,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String routeId,
+    required final String coachId,
+    final String? driverId,
+    final String? coordinatorId,
+    required final DateTime departureTime,
+    final DateTime? arrivalTime,
+    required final CoachTripStatus status,
+    final DateTime? cancelledAt,
+    final String? cancellationReason,
+    final String? cancelledBy,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Route? route,
     final Coach? coach,
     final Driver? driver,
@@ -609,43 +581,29 @@ abstract class _CoachTrip implements CoachTrip {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'route_id')
   String get routeId;
   @override
-  @JsonKey(name: 'coach_id')
   String get coachId;
   @override
-  @JsonKey(name: 'driver_id')
   String? get driverId;
   @override
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId;
   @override
-  @JsonKey(name: 'departure_time')
   DateTime get departureTime;
   @override
-  @JsonKey(name: 'arrival_time')
   DateTime? get arrivalTime;
   @override
-  @JsonKey(name: 'status')
   CoachTripStatus get status;
   @override
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   Route? get route;
   @override

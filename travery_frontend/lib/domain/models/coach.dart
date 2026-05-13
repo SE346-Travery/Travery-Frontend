@@ -6,14 +6,12 @@ import 'driver.dart';
 
 part 'coach.freezed.dart';
 part 'coach.g.dart';
-
-/// Physical vehicle assets owned by Travery.
 @freezed
 class Coach with _$Coach {
   const factory Coach({
     String? id,
 
-    @JsonKey(name: 'license_plate') required String licensePlate,
+    required String licensePlate,
 
     required CoachType coachType,
 
@@ -21,13 +19,11 @@ class Coach with _$Coach {
 
     required CoachStatus status,
 
-    @JsonKey(name: 'floor_count') int? floorCount,
+    int? floorCount,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     List<CoachSeat>? seats,
     List<CoachTrip>? trips,
   }) = _Coach;

@@ -12,7 +12,7 @@ _$VehicleSeatImpl _$$VehicleSeatImplFromJson(Map<String, dynamic> json) =>
       vehicleId: json['vehicle_id'] as String,
       seatCode: json['seat_code'] as String,
       floorNumber: (json['floor_number'] as num?)?.toInt(),
-      rowZone: $enumDecode(_$SeatRowZoneEnumMap, json['rowZone']),
+      rowZone: $enumDecode(_$SeatRowZoneEnumMap, json['row_zone']),
       isAvailable: json['is_available'] as bool? ?? true,
       createdAt: json['created_at'] == null
           ? null
@@ -31,7 +31,7 @@ Map<String, dynamic> _$$VehicleSeatImplToJson(_$VehicleSeatImpl instance) =>
       'vehicle_id': instance.vehicleId,
       'seat_code': instance.seatCode,
       'floor_number': instance.floorNumber,
-      'rowZone': _$SeatRowZoneEnumMap[instance.rowZone]!,
+      'row_zone': _$SeatRowZoneEnumMap[instance.rowZone]!,
       'is_available': instance.isAvailable,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),

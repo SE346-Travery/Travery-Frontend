@@ -8,38 +8,34 @@ import 'user.dart';
 
 part 'coach_trip.freezed.dart';
 part 'coach_trip.g.dart';
-
-/// A real-world execution of a Route on a specific time.
 @freezed
 class CoachTrip with _$CoachTrip {
   const factory CoachTrip({
     String? id,
 
-    @JsonKey(name: 'route_id') required String routeId,
+    required String routeId,
 
-    @JsonKey(name: 'coach_id') required String coachId,
+    required String coachId,
 
-    @JsonKey(name: 'driver_id') String? driverId,
+    String? driverId,
 
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
+    String? coordinatorId,
 
-    @JsonKey(name: 'departure_time') required DateTime departureTime,
+    required DateTime departureTime,
 
-    @JsonKey(name: 'arrival_time') DateTime? arrivalTime,
+    DateTime? arrivalTime,
 
-    @JsonKey(name: 'status') required CoachTripStatus status,
+    required CoachTripStatus status,
 
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
+    DateTime? cancelledAt,
 
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
+    String? cancellationReason,
 
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
+    String? cancelledBy,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     Route? route,
     Coach? coach,
     Driver? driver,

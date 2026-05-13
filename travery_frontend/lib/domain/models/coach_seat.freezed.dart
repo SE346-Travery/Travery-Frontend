@@ -22,22 +22,14 @@ CoachSeat _$CoachSeatFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CoachSeat {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coach_id')
   String get coachId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'seat_name')
   String get seatName => throw _privateConstructorUsedError;
   SeatTier get tier => throw _privateConstructorUsedError;
   SeatPosition get position => throw _privateConstructorUsedError;
-  @JsonKey(name: 'floor_number')
   int? get floorNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_available')
   bool get isAvailable => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   Coach? get coach => throw _privateConstructorUsedError;
 
   /// Serializes this CoachSeat to a JSON map.
@@ -57,14 +49,14 @@ abstract class $CoachSeatCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'coach_id') String coachId,
-    @JsonKey(name: 'seat_name') String seatName,
+    String coachId,
+    String seatName,
     SeatTier tier,
     SeatPosition position,
-    @JsonKey(name: 'floor_number') int? floorNumber,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    int? floorNumber,
+    bool isAvailable,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Coach? coach,
   });
 
@@ -170,14 +162,14 @@ abstract class _$$CoachSeatImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'coach_id') String coachId,
-    @JsonKey(name: 'seat_name') String seatName,
+    String coachId,
+    String seatName,
     SeatTier tier,
     SeatPosition position,
-    @JsonKey(name: 'floor_number') int? floorNumber,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    int? floorNumber,
+    bool isAvailable,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Coach? coach,
   });
 
@@ -262,14 +254,14 @@ class __$$CoachSeatImplCopyWithImpl<$Res>
 class _$CoachSeatImpl implements _CoachSeat {
   const _$CoachSeatImpl({
     this.id,
-    @JsonKey(name: 'coach_id') required this.coachId,
-    @JsonKey(name: 'seat_name') required this.seatName,
+    required this.coachId,
+    required this.seatName,
     required this.tier,
     required this.position,
-    @JsonKey(name: 'floor_number') this.floorNumber,
-    @JsonKey(name: 'is_available') this.isAvailable = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.floorNumber,
+    this.isAvailable = true,
+    this.createdAt,
+    this.updatedAt,
     this.coach,
   });
 
@@ -279,29 +271,22 @@ class _$CoachSeatImpl implements _CoachSeat {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'coach_id')
   final String coachId;
   @override
-  @JsonKey(name: 'seat_name')
   final String seatName;
   @override
   final SeatTier tier;
   @override
   final SeatPosition position;
   @override
-  @JsonKey(name: 'floor_number')
   final int? floorNumber;
   @override
-  @JsonKey(name: 'is_available')
+  @JsonKey()
   final bool isAvailable;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final Coach? coach;
 
@@ -366,14 +351,14 @@ class _$CoachSeatImpl implements _CoachSeat {
 abstract class _CoachSeat implements CoachSeat {
   const factory _CoachSeat({
     final String? id,
-    @JsonKey(name: 'coach_id') required final String coachId,
-    @JsonKey(name: 'seat_name') required final String seatName,
+    required final String coachId,
+    required final String seatName,
     required final SeatTier tier,
     required final SeatPosition position,
-    @JsonKey(name: 'floor_number') final int? floorNumber,
-    @JsonKey(name: 'is_available') final bool isAvailable,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final int? floorNumber,
+    final bool isAvailable,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Coach? coach,
   }) = _$CoachSeatImpl;
 
@@ -383,29 +368,21 @@ abstract class _CoachSeat implements CoachSeat {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'coach_id')
   String get coachId;
   @override
-  @JsonKey(name: 'seat_name')
   String get seatName;
   @override
   SeatTier get tier;
   @override
   SeatPosition get position;
   @override
-  @JsonKey(name: 'floor_number')
   int? get floorNumber;
   @override
-  @JsonKey(name: 'is_available')
   bool get isAvailable;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   Coach? get coach;
 

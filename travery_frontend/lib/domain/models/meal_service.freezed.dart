@@ -22,24 +22,16 @@ MealService _$MealServiceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MealService {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String get hotelId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   MealType get mealType => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_available')
   bool get isAvailable => throw _privateConstructorUsedError;
-  @JsonKey(name: 'start_time')
   String? get startTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'end_time')
   String? get endTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   Hotel? get hotel => throw _privateConstructorUsedError;
 
   /// Serializes this MealService to a JSON map.
@@ -61,16 +53,16 @@ abstract class $MealServiceCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
+    String hotelId,
     String name,
     MealType mealType,
     String? description,
     double price,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'start_time') String? startTime,
-    @JsonKey(name: 'end_time') String? endTime,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isAvailable,
+    String? startTime,
+    String? endTime,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
   });
 
@@ -186,16 +178,16 @@ abstract class _$$MealServiceImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
+    String hotelId,
     String name,
     MealType mealType,
     String? description,
     double price,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'start_time') String? startTime,
-    @JsonKey(name: 'end_time') String? endTime,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isAvailable,
+    String? startTime,
+    String? endTime,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
   });
 
@@ -290,16 +282,16 @@ class __$$MealServiceImplCopyWithImpl<$Res>
 class _$MealServiceImpl implements _MealService {
   const _$MealServiceImpl({
     this.id,
-    @JsonKey(name: 'hotel_id') required this.hotelId,
+    required this.hotelId,
     required this.name,
     required this.mealType,
     this.description,
     required this.price,
-    @JsonKey(name: 'is_available') this.isAvailable = true,
-    @JsonKey(name: 'start_time') this.startTime,
-    @JsonKey(name: 'end_time') this.endTime,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.isAvailable = true,
+    this.startTime,
+    this.endTime,
+    this.createdAt,
+    this.updatedAt,
     this.hotel,
   });
 
@@ -309,7 +301,6 @@ class _$MealServiceImpl implements _MealService {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_id')
   final String hotelId;
   @override
   final String name;
@@ -320,22 +311,16 @@ class _$MealServiceImpl implements _MealService {
   @override
   final double price;
   @override
-  @JsonKey(name: 'is_available')
+  @JsonKey()
   final bool isAvailable;
   @override
-  @JsonKey(name: 'start_time')
   final String? startTime;
   @override
-  @JsonKey(name: 'end_time')
   final String? endTime;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final Hotel? hotel;
 
@@ -404,16 +389,16 @@ class _$MealServiceImpl implements _MealService {
 abstract class _MealService implements MealService {
   const factory _MealService({
     final String? id,
-    @JsonKey(name: 'hotel_id') required final String hotelId,
+    required final String hotelId,
     required final String name,
     required final MealType mealType,
     final String? description,
     required final double price,
-    @JsonKey(name: 'is_available') final bool isAvailable,
-    @JsonKey(name: 'start_time') final String? startTime,
-    @JsonKey(name: 'end_time') final String? endTime,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final bool isAvailable,
+    final String? startTime,
+    final String? endTime,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Hotel? hotel,
   }) = _$MealServiceImpl;
 
@@ -423,7 +408,6 @@ abstract class _MealService implements MealService {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_id')
   String get hotelId;
   @override
   String get name;
@@ -434,22 +418,15 @@ abstract class _MealService implements MealService {
   @override
   double get price;
   @override
-  @JsonKey(name: 'is_available')
   bool get isAvailable;
   @override
-  @JsonKey(name: 'start_time')
   String? get startTime;
   @override
-  @JsonKey(name: 'end_time')
   String? get endTime;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   Hotel? get hotel;
 

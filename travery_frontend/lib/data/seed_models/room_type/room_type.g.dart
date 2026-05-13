@@ -15,7 +15,7 @@ _$RoomTypeImpl _$$RoomTypeImplFromJson(Map<String, dynamic> json) =>
       pricePerNight: (json['price_per_night'] as num).toDouble(),
       maxOccupancy: (json['max_occupancy'] as num).toInt(),
       bedCount: (json['bed_count'] as num).toInt(),
-      bedType: $enumDecode(_$BedTypeEnumMap, json['bedType']),
+      bedType: $enumDecode(_$BedTypeEnumMap, json['bed_type']),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -42,7 +42,7 @@ Map<String, dynamic> _$$RoomTypeImplToJson(_$RoomTypeImpl instance) =>
       'price_per_night': instance.pricePerNight,
       'max_occupancy': instance.maxOccupancy,
       'bed_count': instance.bedCount,
-      'bedType': _$BedTypeEnumMap[instance.bedType]!,
+      'bed_type': _$BedTypeEnumMap[instance.bedType]!,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'deleted_at': instance.deletedAt?.toIso8601String(),

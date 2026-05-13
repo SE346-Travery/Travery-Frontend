@@ -4,36 +4,32 @@ import 'user.dart';
 
 part 'review.freezed.dart';
 part 'review.g.dart';
-
-/// Polymorphic user feedback for completed services.
 @freezed
 class Review with _$Review {
   const factory Review({
     String? id,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'booking_id') String? bookingId,
+    String? bookingId,
 
-    @JsonKey(name: 'booking_type') String? bookingType,
+    String? bookingType,
 
-    @JsonKey(name: 'target_id') String? targetId,
+    String? targetId,
 
-    @JsonKey(name: 'target_type') required ReviewTargetType targetType,
+    required ReviewTargetType targetType,
 
-    @JsonKey(name: 'rating') required int rating,
+    required int rating,
 
-    @JsonKey(name: 'content') String? content,
+    String? content,
 
-    @JsonKey(name: 'images') List<String>? images,
+    List<String>? images,
 
-    @JsonKey(name: 'is_verified') @Default(false) bool isVerified,
+    @Default(false) bool isVerified,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     User? user,
   }) = _Review;
 

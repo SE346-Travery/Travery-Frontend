@@ -22,25 +22,15 @@ TourItineraryDay _$TourItineraryDayFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourItineraryDay {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'itinerary_id')
   String get itineraryId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'day_number')
   int get dayNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'title')
   String get title => throw _privateConstructorUsedError;
-  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'meal_count')
   int get mealCount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'start_time')
   String? get startTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'end_time')
   String? get endTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'location')
   String? get location => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this TourItineraryDay to a JSON map.
@@ -62,16 +52,16 @@ abstract class $TourItineraryDayCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'itinerary_id') String itineraryId,
-    @JsonKey(name: 'day_number') int dayNumber,
-    @JsonKey(name: 'title') String title,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'meal_count') int mealCount,
-    @JsonKey(name: 'start_time') String? startTime,
-    @JsonKey(name: 'end_time') String? endTime,
-    @JsonKey(name: 'location') String? location,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String itineraryId,
+    int dayNumber,
+    String title,
+    String? description,
+    int mealCount,
+    String? startTime,
+    String? endTime,
+    String? location,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -165,16 +155,16 @@ abstract class _$$TourItineraryDayImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'itinerary_id') String itineraryId,
-    @JsonKey(name: 'day_number') int dayNumber,
-    @JsonKey(name: 'title') String title,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'meal_count') int mealCount,
-    @JsonKey(name: 'start_time') String? startTime,
-    @JsonKey(name: 'end_time') String? endTime,
-    @JsonKey(name: 'location') String? location,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String itineraryId,
+    int dayNumber,
+    String title,
+    String? description,
+    int mealCount,
+    String? startTime,
+    String? endTime,
+    String? location,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -260,16 +250,16 @@ class __$$TourItineraryDayImplCopyWithImpl<$Res>
 class _$TourItineraryDayImpl implements _TourItineraryDay {
   const _$TourItineraryDayImpl({
     this.id,
-    @JsonKey(name: 'itinerary_id') required this.itineraryId,
-    @JsonKey(name: 'day_number') required this.dayNumber,
-    @JsonKey(name: 'title') required this.title,
-    @JsonKey(name: 'description') this.description,
-    @JsonKey(name: 'meal_count') this.mealCount = 0,
-    @JsonKey(name: 'start_time') this.startTime,
-    @JsonKey(name: 'end_time') this.endTime,
-    @JsonKey(name: 'location') this.location,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.itineraryId,
+    required this.dayNumber,
+    required this.title,
+    this.description,
+    this.mealCount = 0,
+    this.startTime,
+    this.endTime,
+    this.location,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$TourItineraryDayImpl.fromJson(Map<String, dynamic> json) =>
@@ -278,34 +268,25 @@ class _$TourItineraryDayImpl implements _TourItineraryDay {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'itinerary_id')
   final String itineraryId;
   @override
-  @JsonKey(name: 'day_number')
   final int dayNumber;
   @override
-  @JsonKey(name: 'title')
   final String title;
   @override
-  @JsonKey(name: 'description')
   final String? description;
   @override
-  @JsonKey(name: 'meal_count')
+  @JsonKey()
   final int mealCount;
   @override
-  @JsonKey(name: 'start_time')
   final String? startTime;
   @override
-  @JsonKey(name: 'end_time')
   final String? endTime;
   @override
-  @JsonKey(name: 'location')
   final String? location;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -376,16 +357,16 @@ class _$TourItineraryDayImpl implements _TourItineraryDay {
 abstract class _TourItineraryDay implements TourItineraryDay {
   const factory _TourItineraryDay({
     final String? id,
-    @JsonKey(name: 'itinerary_id') required final String itineraryId,
-    @JsonKey(name: 'day_number') required final int dayNumber,
-    @JsonKey(name: 'title') required final String title,
-    @JsonKey(name: 'description') final String? description,
-    @JsonKey(name: 'meal_count') final int mealCount,
-    @JsonKey(name: 'start_time') final String? startTime,
-    @JsonKey(name: 'end_time') final String? endTime,
-    @JsonKey(name: 'location') final String? location,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String itineraryId,
+    required final int dayNumber,
+    required final String title,
+    final String? description,
+    final int mealCount,
+    final String? startTime,
+    final String? endTime,
+    final String? location,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$TourItineraryDayImpl;
 
   factory _TourItineraryDay.fromJson(Map<String, dynamic> json) =
@@ -394,34 +375,24 @@ abstract class _TourItineraryDay implements TourItineraryDay {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'itinerary_id')
   String get itineraryId;
   @override
-  @JsonKey(name: 'day_number')
   int get dayNumber;
   @override
-  @JsonKey(name: 'title')
   String get title;
   @override
-  @JsonKey(name: 'description')
   String? get description;
   @override
-  @JsonKey(name: 'meal_count')
   int get mealCount;
   @override
-  @JsonKey(name: 'start_time')
   String? get startTime;
   @override
-  @JsonKey(name: 'end_time')
   String? get endTime;
   @override
-  @JsonKey(name: 'location')
   String? get location;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of TourItineraryDay

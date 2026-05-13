@@ -2,8 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'station.freezed.dart';
 part 'station.g.dart';
-
-/// Physical bus terminals or office locations acting as departure/arrival points.
 @freezed
 class Station with _$Station {
   const factory Station({
@@ -13,21 +11,21 @@ class Station with _$Station {
 
     required String address,
 
-    @JsonKey(name: 'city_province') required String cityProvince,
+    required String cityProvince,
 
-    @JsonKey(name: 'latitude') double? latitude,
+    double? latitude,
 
-    @JsonKey(name: 'longitude') double? longitude,
+    double? longitude,
 
-    @JsonKey(name: 'is_pickup_point') @Default(false) bool isPickupPoint,
+    @Default(false) bool isPickupPoint,
 
-    @JsonKey(name: 'is_dropoff_point') @Default(false) bool isDropoffPoint,
+    @Default(false) bool isDropoffPoint,
 
-    @JsonKey(name: 'is_active') @Default(true) bool isActive,
+    @Default(true) bool isActive,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? updatedAt,
   }) = _Station;
 
   factory Station.fromJson(Map<String, dynamic> json) =>

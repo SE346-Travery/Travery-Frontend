@@ -22,30 +22,19 @@ PaymentTransaction _$PaymentTransactionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PaymentTransaction {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_id')
   String? get bookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_type')
   String? get bookingType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'amount')
   double get amount => throw _privateConstructorUsedError;
   TransactionType get transactionType => throw _privateConstructorUsedError;
   PaymentMethod get paymentMethod => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gateway_trans_id')
   String? get gatewayTransId => throw _privateConstructorUsedError;
   PaymentStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gateway_response')
   Map<String, dynamic>? get gatewayResponse =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: 'paid_at')
   DateTime? get paidAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this PaymentTransaction to a JSON map.
@@ -67,18 +56,18 @@ abstract class $PaymentTransactionCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'booking_id') String? bookingId,
-    @JsonKey(name: 'booking_type') String? bookingType,
-    @JsonKey(name: 'amount') double amount,
+    String userId,
+    String? bookingId,
+    String? bookingType,
+    double amount,
     TransactionType transactionType,
     PaymentMethod paymentMethod,
-    @JsonKey(name: 'gateway_trans_id') String? gatewayTransId,
+    String? gatewayTransId,
     PaymentStatus status,
-    @JsonKey(name: 'gateway_response') Map<String, dynamic>? gatewayResponse,
-    @JsonKey(name: 'paid_at') DateTime? paidAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    Map<String, dynamic>? gatewayResponse,
+    DateTime? paidAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -204,18 +193,18 @@ abstract class _$$PaymentTransactionImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'booking_id') String? bookingId,
-    @JsonKey(name: 'booking_type') String? bookingType,
-    @JsonKey(name: 'amount') double amount,
+    String userId,
+    String? bookingId,
+    String? bookingType,
+    double amount,
     TransactionType transactionType,
     PaymentMethod paymentMethod,
-    @JsonKey(name: 'gateway_trans_id') String? gatewayTransId,
+    String? gatewayTransId,
     PaymentStatus status,
-    @JsonKey(name: 'gateway_response') Map<String, dynamic>? gatewayResponse,
-    @JsonKey(name: 'paid_at') DateTime? paidAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    Map<String, dynamic>? gatewayResponse,
+    DateTime? paidAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -320,19 +309,18 @@ class __$$PaymentTransactionImplCopyWithImpl<$Res>
 class _$PaymentTransactionImpl implements _PaymentTransaction {
   const _$PaymentTransactionImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'booking_id') this.bookingId,
-    @JsonKey(name: 'booking_type') this.bookingType,
-    @JsonKey(name: 'amount') required this.amount,
+    required this.userId,
+    this.bookingId,
+    this.bookingType,
+    required this.amount,
     required this.transactionType,
     required this.paymentMethod,
-    @JsonKey(name: 'gateway_trans_id') this.gatewayTransId,
+    this.gatewayTransId,
     required this.status,
-    @JsonKey(name: 'gateway_response')
     final Map<String, dynamic>? gatewayResponse,
-    @JsonKey(name: 'paid_at') this.paidAt,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.paidAt,
+    this.createdAt,
+    this.updatedAt,
     this.user,
   }) : _gatewayResponse = gatewayResponse;
 
@@ -342,29 +330,23 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'booking_id')
   final String? bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   final String? bookingType;
   @override
-  @JsonKey(name: 'amount')
   final double amount;
   @override
   final TransactionType transactionType;
   @override
   final PaymentMethod paymentMethod;
   @override
-  @JsonKey(name: 'gateway_trans_id')
   final String? gatewayTransId;
   @override
   final PaymentStatus status;
   final Map<String, dynamic>? _gatewayResponse;
   @override
-  @JsonKey(name: 'gateway_response')
   Map<String, dynamic>? get gatewayResponse {
     final value = _gatewayResponse;
     if (value == null) return null;
@@ -374,16 +356,11 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
   }
 
   @override
-  @JsonKey(name: 'paid_at')
   final DateTime? paidAt;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final User? user;
 
@@ -463,19 +440,18 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
 abstract class _PaymentTransaction implements PaymentTransaction {
   const factory _PaymentTransaction({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'booking_id') final String? bookingId,
-    @JsonKey(name: 'booking_type') final String? bookingType,
-    @JsonKey(name: 'amount') required final double amount,
+    required final String userId,
+    final String? bookingId,
+    final String? bookingType,
+    required final double amount,
     required final TransactionType transactionType,
     required final PaymentMethod paymentMethod,
-    @JsonKey(name: 'gateway_trans_id') final String? gatewayTransId,
+    final String? gatewayTransId,
     required final PaymentStatus status,
-    @JsonKey(name: 'gateway_response')
     final Map<String, dynamic>? gatewayResponse,
-    @JsonKey(name: 'paid_at') final DateTime? paidAt,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? paidAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
   }) = _$PaymentTransactionImpl;
 
@@ -485,40 +461,29 @@ abstract class _PaymentTransaction implements PaymentTransaction {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'booking_id')
   String? get bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   String? get bookingType;
   @override
-  @JsonKey(name: 'amount')
   double get amount;
   @override
   TransactionType get transactionType;
   @override
   PaymentMethod get paymentMethod;
   @override
-  @JsonKey(name: 'gateway_trans_id')
   String? get gatewayTransId;
   @override
   PaymentStatus get status;
   @override
-  @JsonKey(name: 'gateway_response')
   Map<String, dynamic>? get gatewayResponse;
   @override
-  @JsonKey(name: 'paid_at')
   DateTime? get paidAt;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   User? get user;
 

@@ -5,28 +5,24 @@ import 'vehicle_seat.dart';
 
 part 'vehicle.freezed.dart';
 part 'vehicle.g.dart';
-
-/// Represents a vehicle used for transporting passengers during a TourInstance.
 @freezed
 class Vehicle with _$Vehicle {
   const factory Vehicle({
     String? id,
 
-    @JsonKey(name: 'license_plate') required String licensePlate,
+    required String licensePlate,
 
     required VehicleType vehicleType,
 
     required int totalSeats,
 
-    @JsonKey(name: 'floor_count') int? floorCount,
+    int? floorCount,
 
     required VehicleStatus status,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     List<VehicleSeat>? seats,
     List<Driver>? assignedDrivers,
   }) = _Vehicle;

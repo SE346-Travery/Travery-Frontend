@@ -22,33 +22,21 @@ Incident _$IncidentFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Incident {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_id')
   String? get bookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_type')
   String? get bookingType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'reported_by_user_id')
   String? get reportedByUserId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'reported_by_staff_id')
   String? get reportedByStaffId => throw _privateConstructorUsedError;
   IncidentType get type => throw _privateConstructorUsedError;
   IncidentSeverity get severity => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'image_urls')
   List<String>? get imageUrls => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
-  @JsonKey(name: 'resolved_at')
   DateTime? get resolvedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'resolution_notes')
   String? get resolutionNotes => throw _privateConstructorUsedError;
   IncidentStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'reported_at')
   DateTime? get reportedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   User? get reportedByUser => throw _privateConstructorUsedError;
   User? get reportedByStaff => throw _privateConstructorUsedError;
   TourBooking? get tourBooking => throw _privateConstructorUsedError;
@@ -71,21 +59,21 @@ abstract class $IncidentCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'booking_id') String? bookingId,
-    @JsonKey(name: 'booking_type') String? bookingType,
-    @JsonKey(name: 'reported_by_user_id') String? reportedByUserId,
-    @JsonKey(name: 'reported_by_staff_id') String? reportedByStaffId,
+    String? bookingId,
+    String? bookingType,
+    String? reportedByUserId,
+    String? reportedByStaffId,
     IncidentType type,
     IncidentSeverity severity,
     String? description,
-    @JsonKey(name: 'image_urls') List<String>? imageUrls,
+    List<String>? imageUrls,
     String? location,
-    @JsonKey(name: 'resolved_at') DateTime? resolvedAt,
-    @JsonKey(name: 'resolution_notes') String? resolutionNotes,
+    DateTime? resolvedAt,
+    String? resolutionNotes,
     IncidentStatus status,
-    @JsonKey(name: 'reported_at') DateTime? reportedAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? reportedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? reportedByUser,
     User? reportedByStaff,
     TourBooking? tourBooking,
@@ -289,21 +277,21 @@ abstract class _$$IncidentImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'booking_id') String? bookingId,
-    @JsonKey(name: 'booking_type') String? bookingType,
-    @JsonKey(name: 'reported_by_user_id') String? reportedByUserId,
-    @JsonKey(name: 'reported_by_staff_id') String? reportedByStaffId,
+    String? bookingId,
+    String? bookingType,
+    String? reportedByUserId,
+    String? reportedByStaffId,
     IncidentType type,
     IncidentSeverity severity,
     String? description,
-    @JsonKey(name: 'image_urls') List<String>? imageUrls,
+    List<String>? imageUrls,
     String? location,
-    @JsonKey(name: 'resolved_at') DateTime? resolvedAt,
-    @JsonKey(name: 'resolution_notes') String? resolutionNotes,
+    DateTime? resolvedAt,
+    String? resolutionNotes,
     IncidentStatus status,
-    @JsonKey(name: 'reported_at') DateTime? reportedAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? reportedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? reportedByUser,
     User? reportedByStaff,
     TourBooking? tourBooking,
@@ -447,21 +435,21 @@ class __$$IncidentImplCopyWithImpl<$Res>
 class _$IncidentImpl implements _Incident {
   const _$IncidentImpl({
     this.id,
-    @JsonKey(name: 'booking_id') this.bookingId,
-    @JsonKey(name: 'booking_type') this.bookingType,
-    @JsonKey(name: 'reported_by_user_id') this.reportedByUserId,
-    @JsonKey(name: 'reported_by_staff_id') this.reportedByStaffId,
+    this.bookingId,
+    this.bookingType,
+    this.reportedByUserId,
+    this.reportedByStaffId,
     required this.type,
     required this.severity,
     this.description,
-    @JsonKey(name: 'image_urls') final List<String>? imageUrls,
+    final List<String>? imageUrls,
     this.location,
-    @JsonKey(name: 'resolved_at') this.resolvedAt,
-    @JsonKey(name: 'resolution_notes') this.resolutionNotes,
+    this.resolvedAt,
+    this.resolutionNotes,
     required this.status,
-    @JsonKey(name: 'reported_at') this.reportedAt,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.reportedAt,
+    this.createdAt,
+    this.updatedAt,
     this.reportedByUser,
     this.reportedByStaff,
     this.tourBooking,
@@ -474,16 +462,12 @@ class _$IncidentImpl implements _Incident {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'booking_id')
   final String? bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   final String? bookingType;
   @override
-  @JsonKey(name: 'reported_by_user_id')
   final String? reportedByUserId;
   @override
-  @JsonKey(name: 'reported_by_staff_id')
   final String? reportedByStaffId;
   @override
   final IncidentType type;
@@ -493,7 +477,6 @@ class _$IncidentImpl implements _Incident {
   final String? description;
   final List<String>? _imageUrls;
   @override
-  @JsonKey(name: 'image_urls')
   List<String>? get imageUrls {
     final value = _imageUrls;
     if (value == null) return null;
@@ -505,24 +488,17 @@ class _$IncidentImpl implements _Incident {
   @override
   final String? location;
   @override
-  @JsonKey(name: 'resolved_at')
   final DateTime? resolvedAt;
   @override
-  @JsonKey(name: 'resolution_notes')
   final String? resolutionNotes;
   @override
   final IncidentStatus status;
   @override
-  @JsonKey(name: 'reported_at')
   final DateTime? reportedAt;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final User? reportedByUser;
   @override
@@ -626,21 +602,21 @@ class _$IncidentImpl implements _Incident {
 abstract class _Incident implements Incident {
   const factory _Incident({
     final String? id,
-    @JsonKey(name: 'booking_id') final String? bookingId,
-    @JsonKey(name: 'booking_type') final String? bookingType,
-    @JsonKey(name: 'reported_by_user_id') final String? reportedByUserId,
-    @JsonKey(name: 'reported_by_staff_id') final String? reportedByStaffId,
+    final String? bookingId,
+    final String? bookingType,
+    final String? reportedByUserId,
+    final String? reportedByStaffId,
     required final IncidentType type,
     required final IncidentSeverity severity,
     final String? description,
-    @JsonKey(name: 'image_urls') final List<String>? imageUrls,
+    final List<String>? imageUrls,
     final String? location,
-    @JsonKey(name: 'resolved_at') final DateTime? resolvedAt,
-    @JsonKey(name: 'resolution_notes') final String? resolutionNotes,
+    final DateTime? resolvedAt,
+    final String? resolutionNotes,
     required final IncidentStatus status,
-    @JsonKey(name: 'reported_at') final DateTime? reportedAt,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? reportedAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? reportedByUser,
     final User? reportedByStaff,
     final TourBooking? tourBooking,
@@ -653,16 +629,12 @@ abstract class _Incident implements Incident {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'booking_id')
   String? get bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   String? get bookingType;
   @override
-  @JsonKey(name: 'reported_by_user_id')
   String? get reportedByUserId;
   @override
-  @JsonKey(name: 'reported_by_staff_id')
   String? get reportedByStaffId;
   @override
   IncidentType get type;
@@ -671,29 +643,21 @@ abstract class _Incident implements Incident {
   @override
   String? get description;
   @override
-  @JsonKey(name: 'image_urls')
   List<String>? get imageUrls;
   @override
   String? get location;
   @override
-  @JsonKey(name: 'resolved_at')
   DateTime? get resolvedAt;
   @override
-  @JsonKey(name: 'resolution_notes')
   String? get resolutionNotes;
   @override
   IncidentStatus get status;
   @override
-  @JsonKey(name: 'reported_at')
   DateTime? get reportedAt;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   User? get reportedByUser;
   @override

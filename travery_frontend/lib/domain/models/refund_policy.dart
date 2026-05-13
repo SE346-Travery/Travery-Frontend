@@ -4,8 +4,6 @@ import 'refund_policy_rule.dart';
 
 part 'refund_policy.freezed.dart';
 part 'refund_policy.g.dart';
-
-/// Defines named sets of cancellation rules for different services or periods.
 @freezed
 class RefundPolicy with _$RefundPolicy {
   const factory RefundPolicy({
@@ -13,17 +11,15 @@ class RefundPolicy with _$RefundPolicy {
 
     required String name,
 
-    @JsonKey(name: 'service_type') required ServiceType serviceType,
+    required ServiceType serviceType,
 
     String? description,
 
-    @JsonKey(name: 'is_active') @Default(true) bool isActive,
+    @Default(true) bool isActive,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     List<RefundPolicyRule>? rules,
   }) = _RefundPolicy;
 

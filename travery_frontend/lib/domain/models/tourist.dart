@@ -4,26 +4,22 @@ import 'user.dart';
 
 part 'tourist.freezed.dart';
 part 'tourist.g.dart';
-
-/// Specialized user entity for customers who book services.
 @freezed
 class Tourist with _$Tourist {
   const factory Tourist({
     String? id,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'passport_number') String? passportNumber,
+    String? passportNumber,
 
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
+    DateTime? dateOfBirth,
 
-    @JsonKey(name: 'gender') TouristGender? gender,
+    TouristGender? gender,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     User? user,
   }) = _Tourist;
 

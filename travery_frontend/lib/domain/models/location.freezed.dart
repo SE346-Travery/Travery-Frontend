@@ -26,11 +26,8 @@ mixin _$Location {
   String get name => throw _privateConstructorUsedError;
   LocationRegion get region => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Location to a JSON map.
@@ -54,9 +51,9 @@ abstract class $LocationCopyWith<$Res> {
     String name,
     LocationRegion region,
     String? description,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -139,9 +136,9 @@ abstract class _$$LocationImplCopyWith<$Res>
     String name,
     LocationRegion region,
     String? description,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -216,9 +213,9 @@ class _$LocationImpl implements _Location {
     required this.name,
     required this.region,
     this.description,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$LocationImpl.fromJson(Map<String, dynamic> json) =>
@@ -235,13 +232,11 @@ class _$LocationImpl implements _Location {
   @override
   final String? description;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -303,9 +298,9 @@ abstract class _Location implements Location {
     required final String name,
     required final LocationRegion region,
     final String? description,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$LocationImpl;
 
   factory _Location.fromJson(Map<String, dynamic> json) =
@@ -322,13 +317,10 @@ abstract class _Location implements Location {
   @override
   String? get description;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of Location

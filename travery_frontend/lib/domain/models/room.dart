@@ -5,28 +5,24 @@ import 'room_type.dart';
 
 part 'room.freezed.dart';
 part 'room.g.dart';
-
-/// A physical, uniquely numbered room within a Hotel.
 @freezed
 class Room with _$Room {
   const factory Room({
     String? id,
 
-    @JsonKey(name: 'hotel_id') required String hotelId,
+    required String hotelId,
 
-    @JsonKey(name: 'room_type_id') required String roomTypeId,
+    required String roomTypeId,
 
-    @JsonKey(name: 'room_number') required String roomNumber,
+    required String roomNumber,
 
-    @JsonKey(name: 'floor') int? floor,
+    int? floor,
 
     required RoomStatus status,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     Hotel? hotel,
     RoomType? roomType,
   }) = _Room;

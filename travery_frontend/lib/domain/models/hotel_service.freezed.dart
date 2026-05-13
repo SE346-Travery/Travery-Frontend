@@ -22,21 +22,15 @@ HotelService _$HotelServiceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HotelService {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String get hotelId => throw _privateConstructorUsedError;
   ServiceCategory get category => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   String get unit => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   Hotel? get hotel => throw _privateConstructorUsedError;
 
   /// Serializes this HotelService to a JSON map.
@@ -58,15 +52,15 @@ abstract class $HotelServiceCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
+    String hotelId,
     ServiceCategory category,
     String name,
     String? description,
     double price,
     String unit,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
   });
 
@@ -177,15 +171,15 @@ abstract class _$$HotelServiceImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
+    String hotelId,
     ServiceCategory category,
     String name,
     String? description,
     double price,
     String unit,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
   });
 
@@ -275,15 +269,15 @@ class __$$HotelServiceImplCopyWithImpl<$Res>
 class _$HotelServiceImpl implements _HotelService {
   const _$HotelServiceImpl({
     this.id,
-    @JsonKey(name: 'hotel_id') required this.hotelId,
+    required this.hotelId,
     required this.category,
     required this.name,
     this.description,
     required this.price,
     required this.unit,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
     this.hotel,
   });
 
@@ -293,7 +287,6 @@ class _$HotelServiceImpl implements _HotelService {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_id')
   final String hotelId;
   @override
   final ServiceCategory category;
@@ -306,16 +299,12 @@ class _$HotelServiceImpl implements _HotelService {
   @override
   final String unit;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final Hotel? hotel;
 
@@ -381,15 +370,15 @@ class _$HotelServiceImpl implements _HotelService {
 abstract class _HotelService implements HotelService {
   const factory _HotelService({
     final String? id,
-    @JsonKey(name: 'hotel_id') required final String hotelId,
+    required final String hotelId,
     required final ServiceCategory category,
     required final String name,
     final String? description,
     required final double price,
     required final String unit,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Hotel? hotel,
   }) = _$HotelServiceImpl;
 
@@ -399,7 +388,6 @@ abstract class _HotelService implements HotelService {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_id')
   String get hotelId;
   @override
   ServiceCategory get category;
@@ -412,16 +400,11 @@ abstract class _HotelService implements HotelService {
   @override
   String get unit;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   Hotel? get hotel;
 

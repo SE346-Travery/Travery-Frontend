@@ -34,18 +34,20 @@ _$IncidentImpl _$$IncidentImplFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      reportedByUser: json['reportedByUser'] == null
+      reportedByUser: json['reported_by_user'] == null
           ? null
-          : User.fromJson(json['reportedByUser'] as Map<String, dynamic>),
-      reportedByStaff: json['reportedByStaff'] == null
+          : User.fromJson(json['reported_by_user'] as Map<String, dynamic>),
+      reportedByStaff: json['reported_by_staff'] == null
           ? null
-          : User.fromJson(json['reportedByStaff'] as Map<String, dynamic>),
-      tourBooking: json['tourBooking'] == null
+          : User.fromJson(json['reported_by_staff'] as Map<String, dynamic>),
+      tourBooking: json['tour_booking'] == null
           ? null
-          : TourBooking.fromJson(json['tourBooking'] as Map<String, dynamic>),
-      hotelBooking: json['hotelBooking'] == null
+          : TourBooking.fromJson(json['tour_booking'] as Map<String, dynamic>),
+      hotelBooking: json['hotel_booking'] == null
           ? null
-          : HotelBooking.fromJson(json['hotelBooking'] as Map<String, dynamic>),
+          : HotelBooking.fromJson(
+              json['hotel_booking'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$$IncidentImplToJson(_$IncidentImpl instance) =>
@@ -66,10 +68,10 @@ Map<String, dynamic> _$$IncidentImplToJson(_$IncidentImpl instance) =>
       'reported_at': instance.reportedAt?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
-      'reportedByUser': instance.reportedByUser,
-      'reportedByStaff': instance.reportedByStaff,
-      'tourBooking': instance.tourBooking,
-      'hotelBooking': instance.hotelBooking,
+      'reported_by_user': instance.reportedByUser,
+      'reported_by_staff': instance.reportedByStaff,
+      'tour_booking': instance.tourBooking,
+      'hotel_booking': instance.hotelBooking,
     };
 
 const _$IncidentTypeEnumMap = {

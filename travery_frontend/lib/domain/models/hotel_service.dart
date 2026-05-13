@@ -4,14 +4,12 @@ import 'hotel.dart';
 
 part 'hotel_service.freezed.dart';
 part 'hotel_service.g.dart';
-
-/// Specific add-on services provided by a Hotel (e.g., Breakfast, Laundry).
 @freezed
 class HotelService with _$HotelService {
   const factory HotelService({
     String? id,
 
-    @JsonKey(name: 'hotel_id') required String hotelId,
+    required String hotelId,
 
     required ServiceCategory category,
 
@@ -23,13 +21,11 @@ class HotelService with _$HotelService {
 
     required String unit,
 
-    @JsonKey(name: 'is_active') @Default(true) bool isActive,
+    @Default(true) bool isActive,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     Hotel? hotel,
   }) = _HotelService;
 

@@ -4,38 +4,34 @@ import 'user.dart';
 
 part 'payment_transaction.freezed.dart';
 part 'payment_transaction.g.dart';
-
-/// Polymorphic transaction record for all cash flows.
 @freezed
 class PaymentTransaction with _$PaymentTransaction {
   const factory PaymentTransaction({
     String? id,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'booking_id') String? bookingId,
+    String? bookingId,
 
-    @JsonKey(name: 'booking_type') String? bookingType,
+    String? bookingType,
 
-    @JsonKey(name: 'amount') required double amount,
+    required double amount,
 
     required TransactionType transactionType,
 
     required PaymentMethod paymentMethod,
 
-    @JsonKey(name: 'gateway_trans_id') String? gatewayTransId,
+    String? gatewayTransId,
 
     required PaymentStatus status,
 
-    @JsonKey(name: 'gateway_response') Map<String, dynamic>? gatewayResponse,
+    Map<String, dynamic>? gatewayResponse,
 
-    @JsonKey(name: 'paid_at') DateTime? paidAt,
+    DateTime? paidAt,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     User? user,
   }) = _PaymentTransaction;
 

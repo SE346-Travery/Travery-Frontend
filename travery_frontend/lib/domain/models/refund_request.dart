@@ -5,39 +5,34 @@ import 'user.dart';
 
 part 'refund_request.freezed.dart';
 part 'refund_request.g.dart';
-
-/// A request to return funds for a cancelled service.
 @freezed
 class RefundRequest with _$RefundRequest {
   const factory RefundRequest({
     String? id,
 
-    @JsonKey(name: 'payment_transaction_id')
     required String paymentTransactionId,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'processed_by_id') String? processedById,
+    String? processedById,
 
-    @JsonKey(name: 'requested_amount') required double requestedAmount,
+    required double requestedAmount,
 
-    @JsonKey(name: 'actual_refunded') double? actualRefunded,
+    double? actualRefunded,
 
-    @JsonKey(name: 'customer_reason') String? customerReason,
+    String? customerReason,
 
-    @JsonKey(name: 'admin_response') String? adminResponse,
+    String? adminResponse,
 
     required RefundRequestStatus status,
 
-    @JsonKey(name: 'processed_at') DateTime? processedAt,
+    DateTime? processedAt,
 
-    @JsonKey(name: 'completed_at') DateTime? completedAt,
+    DateTime? completedAt,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     PaymentTransaction? paymentTransaction,
     User? user,
     User? processedBy,

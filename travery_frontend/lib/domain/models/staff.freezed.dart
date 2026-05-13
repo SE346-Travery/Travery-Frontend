@@ -22,34 +22,21 @@ Staff _$StaffFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Staff {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String? get hotelId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'full_name')
   String get fullName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  @JsonKey(name: 'phone_number')
   String? get phoneNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'password_hash')
   String? get passwordHash => throw _privateConstructorUsedError;
   StaffRole get role => throw _privateConstructorUsedError;
   StaffStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cometchat_uid')
   String? get cometchatUid => throw _privateConstructorUsedError;
-  @JsonKey(name: 'employee_code')
   String? get employeeCode => throw _privateConstructorUsedError;
-  @JsonKey(name: 'department')
   String? get department => throw _privateConstructorUsedError;
-  @JsonKey(name: 'guide_license')
   String? get guideLicense => throw _privateConstructorUsedError;
-  @JsonKey(name: 'languages')
   List<String>? get languages => throw _privateConstructorUsedError;
-  @JsonKey(name: 'years_experience')
   int? get yearsExperience => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'deleted_at')
   DateTime? get deletedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Staff to a JSON map.
@@ -68,22 +55,22 @@ abstract class $StaffCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String? hotelId,
-    @JsonKey(name: 'full_name') String fullName,
+    String? hotelId,
+    String fullName,
     String email,
-    @JsonKey(name: 'phone_number') String? phoneNumber,
-    @JsonKey(name: 'password_hash') String? passwordHash,
+    String? phoneNumber,
+    String? passwordHash,
     StaffRole role,
     StaffStatus status,
-    @JsonKey(name: 'cometchat_uid') String? cometchatUid,
-    @JsonKey(name: 'employee_code') String? employeeCode,
-    @JsonKey(name: 'department') String? department,
-    @JsonKey(name: 'guide_license') String? guideLicense,
-    @JsonKey(name: 'languages') List<String>? languages,
-    @JsonKey(name: 'years_experience') int? yearsExperience,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-    @JsonKey(name: 'deleted_at') DateTime? deletedAt,
+    String? cometchatUid,
+    String? employeeCode,
+    String? department,
+    String? guideLicense,
+    List<String>? languages,
+    int? yearsExperience,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
   });
 }
 
@@ -206,22 +193,22 @@ abstract class _$$StaffImplCopyWith<$Res> implements $StaffCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String? hotelId,
-    @JsonKey(name: 'full_name') String fullName,
+    String? hotelId,
+    String fullName,
     String email,
-    @JsonKey(name: 'phone_number') String? phoneNumber,
-    @JsonKey(name: 'password_hash') String? passwordHash,
+    String? phoneNumber,
+    String? passwordHash,
     StaffRole role,
     StaffStatus status,
-    @JsonKey(name: 'cometchat_uid') String? cometchatUid,
-    @JsonKey(name: 'employee_code') String? employeeCode,
-    @JsonKey(name: 'department') String? department,
-    @JsonKey(name: 'guide_license') String? guideLicense,
-    @JsonKey(name: 'languages') List<String>? languages,
-    @JsonKey(name: 'years_experience') int? yearsExperience,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-    @JsonKey(name: 'deleted_at') DateTime? deletedAt,
+    String? cometchatUid,
+    String? employeeCode,
+    String? department,
+    String? guideLicense,
+    List<String>? languages,
+    int? yearsExperience,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? deletedAt,
   });
 }
 
@@ -337,22 +324,22 @@ class __$$StaffImplCopyWithImpl<$Res>
 class _$StaffImpl implements _Staff {
   const _$StaffImpl({
     this.id,
-    @JsonKey(name: 'hotel_id') this.hotelId,
-    @JsonKey(name: 'full_name') required this.fullName,
+    this.hotelId,
+    required this.fullName,
     required this.email,
-    @JsonKey(name: 'phone_number') this.phoneNumber,
-    @JsonKey(name: 'password_hash') this.passwordHash,
+    this.phoneNumber,
+    this.passwordHash,
     required this.role,
     required this.status,
-    @JsonKey(name: 'cometchat_uid') this.cometchatUid,
-    @JsonKey(name: 'employee_code') this.employeeCode,
-    @JsonKey(name: 'department') this.department,
-    @JsonKey(name: 'guide_license') this.guideLicense,
-    @JsonKey(name: 'languages') final List<String>? languages,
-    @JsonKey(name: 'years_experience') this.yearsExperience,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
-    @JsonKey(name: 'deleted_at') this.deletedAt,
+    this.cometchatUid,
+    this.employeeCode,
+    this.department,
+    this.guideLicense,
+    final List<String>? languages,
+    this.yearsExperience,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
   }) : _languages = languages;
 
   factory _$StaffImpl.fromJson(Map<String, dynamic> json) =>
@@ -361,38 +348,29 @@ class _$StaffImpl implements _Staff {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_id')
   final String? hotelId;
   @override
-  @JsonKey(name: 'full_name')
   final String fullName;
   @override
   final String email;
   @override
-  @JsonKey(name: 'phone_number')
   final String? phoneNumber;
   @override
-  @JsonKey(name: 'password_hash')
   final String? passwordHash;
   @override
   final StaffRole role;
   @override
   final StaffStatus status;
   @override
-  @JsonKey(name: 'cometchat_uid')
   final String? cometchatUid;
   @override
-  @JsonKey(name: 'employee_code')
   final String? employeeCode;
   @override
-  @JsonKey(name: 'department')
   final String? department;
   @override
-  @JsonKey(name: 'guide_license')
   final String? guideLicense;
   final List<String>? _languages;
   @override
-  @JsonKey(name: 'languages')
   List<String>? get languages {
     final value = _languages;
     if (value == null) return null;
@@ -402,16 +380,12 @@ class _$StaffImpl implements _Staff {
   }
 
   @override
-  @JsonKey(name: 'years_experience')
   final int? yearsExperience;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
   @override
-  @JsonKey(name: 'deleted_at')
   final DateTime? deletedAt;
 
   @override
@@ -497,22 +471,22 @@ class _$StaffImpl implements _Staff {
 abstract class _Staff implements Staff {
   const factory _Staff({
     final String? id,
-    @JsonKey(name: 'hotel_id') final String? hotelId,
-    @JsonKey(name: 'full_name') required final String fullName,
+    final String? hotelId,
+    required final String fullName,
     required final String email,
-    @JsonKey(name: 'phone_number') final String? phoneNumber,
-    @JsonKey(name: 'password_hash') final String? passwordHash,
+    final String? phoneNumber,
+    final String? passwordHash,
     required final StaffRole role,
     required final StaffStatus status,
-    @JsonKey(name: 'cometchat_uid') final String? cometchatUid,
-    @JsonKey(name: 'employee_code') final String? employeeCode,
-    @JsonKey(name: 'department') final String? department,
-    @JsonKey(name: 'guide_license') final String? guideLicense,
-    @JsonKey(name: 'languages') final List<String>? languages,
-    @JsonKey(name: 'years_experience') final int? yearsExperience,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
-    @JsonKey(name: 'deleted_at') final DateTime? deletedAt,
+    final String? cometchatUid,
+    final String? employeeCode,
+    final String? department,
+    final String? guideLicense,
+    final List<String>? languages,
+    final int? yearsExperience,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
+    final DateTime? deletedAt,
   }) = _$StaffImpl;
 
   factory _Staff.fromJson(Map<String, dynamic> json) = _$StaffImpl.fromJson;
@@ -520,49 +494,36 @@ abstract class _Staff implements Staff {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_id')
   String? get hotelId;
   @override
-  @JsonKey(name: 'full_name')
   String get fullName;
   @override
   String get email;
   @override
-  @JsonKey(name: 'phone_number')
   String? get phoneNumber;
   @override
-  @JsonKey(name: 'password_hash')
   String? get passwordHash;
   @override
   StaffRole get role;
   @override
   StaffStatus get status;
   @override
-  @JsonKey(name: 'cometchat_uid')
   String? get cometchatUid;
   @override
-  @JsonKey(name: 'employee_code')
   String? get employeeCode;
   @override
-  @JsonKey(name: 'department')
   String? get department;
   @override
-  @JsonKey(name: 'guide_license')
   String? get guideLicense;
   @override
-  @JsonKey(name: 'languages')
   List<String>? get languages;
   @override
-  @JsonKey(name: 'years_experience')
   int? get yearsExperience;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
   @override
-  @JsonKey(name: 'deleted_at')
   DateTime? get deletedAt;
 
   /// Create a copy of Staff

@@ -5,32 +5,28 @@ import 'coach_seat.dart';
 
 part 'coach_ticket.freezed.dart';
 part 'coach_ticket.g.dart';
-
-/// Specific ticket for an individual seat on a CoachTrip.
 @freezed
 class CoachTicket with _$CoachTicket {
   const factory CoachTicket({
     String? id,
 
-    @JsonKey(name: 'coach_booking_id') required String coachBookingId,
+    required String coachBookingId,
 
-    @JsonKey(name: 'coach_seat_id') required String coachSeatId,
+    required String coachSeatId,
 
-    @JsonKey(name: 'passenger_name') String? passengerName,
+    String? passengerName,
 
-    @JsonKey(name: 'passenger_phone') String? passengerPhone,
+    String? passengerPhone,
 
-    @JsonKey(name: 'price_at_booking') required double priceAtBooking,
+    required double priceAtBooking,
 
-    @JsonKey(name: 'is_checked_in') @Default(false) bool isCheckedIn,
+    @Default(false) bool isCheckedIn,
 
-    @JsonKey(name: 'checked_in_at') DateTime? checkedInAt,
+    DateTime? checkedInAt,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     CoachBooking? booking,
     CoachSeat? seat,
   }) = _CoachTicket;

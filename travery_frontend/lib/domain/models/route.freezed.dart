@@ -22,26 +22,15 @@ Route _$RouteFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Route {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'origin_station_id')
   String get originStationId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'destination_station_id')
   String get destinationStationId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'distance_km')
   double? get distanceKm => throw _privateConstructorUsedError;
-  @JsonKey(name: 'estimated_hours')
   double? get estimatedHours => throw _privateConstructorUsedError;
-  @JsonKey(name: 'base_price')
   double get basePrice => throw _privateConstructorUsedError;
-  @JsonKey(name: 'refund_policy_id')
   String? get refundPolicyId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   Station? get originStation => throw _privateConstructorUsedError;
   Station? get destinationStation => throw _privateConstructorUsedError;
   RefundPolicy? get refundPolicy => throw _privateConstructorUsedError;
@@ -63,15 +52,15 @@ abstract class $RouteCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'origin_station_id') String originStationId,
-    @JsonKey(name: 'destination_station_id') String destinationStationId,
-    @JsonKey(name: 'distance_km') double? distanceKm,
-    @JsonKey(name: 'estimated_hours') double? estimatedHours,
-    @JsonKey(name: 'base_price') double basePrice,
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String originStationId,
+    String destinationStationId,
+    double? distanceKm,
+    double? estimatedHours,
+    double basePrice,
+    String? refundPolicyId,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Station? originStation,
     Station? destinationStation,
     RefundPolicy? refundPolicy,
@@ -229,15 +218,15 @@ abstract class _$$RouteImplCopyWith<$Res> implements $RouteCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'origin_station_id') String originStationId,
-    @JsonKey(name: 'destination_station_id') String destinationStationId,
-    @JsonKey(name: 'distance_km') double? distanceKm,
-    @JsonKey(name: 'estimated_hours') double? estimatedHours,
-    @JsonKey(name: 'base_price') double basePrice,
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String originStationId,
+    String destinationStationId,
+    double? distanceKm,
+    double? estimatedHours,
+    double basePrice,
+    String? refundPolicyId,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Station? originStation,
     Station? destinationStation,
     RefundPolicy? refundPolicy,
@@ -349,15 +338,15 @@ class __$$RouteImplCopyWithImpl<$Res>
 class _$RouteImpl implements _Route {
   const _$RouteImpl({
     this.id,
-    @JsonKey(name: 'origin_station_id') required this.originStationId,
-    @JsonKey(name: 'destination_station_id') required this.destinationStationId,
-    @JsonKey(name: 'distance_km') this.distanceKm,
-    @JsonKey(name: 'estimated_hours') this.estimatedHours,
-    @JsonKey(name: 'base_price') required this.basePrice,
-    @JsonKey(name: 'refund_policy_id') this.refundPolicyId,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.originStationId,
+    required this.destinationStationId,
+    this.distanceKm,
+    this.estimatedHours,
+    required this.basePrice,
+    this.refundPolicyId,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
     this.originStation,
     this.destinationStation,
     this.refundPolicy,
@@ -370,34 +359,24 @@ class _$RouteImpl implements _Route {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'origin_station_id')
   final String originStationId;
   @override
-  @JsonKey(name: 'destination_station_id')
   final String destinationStationId;
   @override
-  @JsonKey(name: 'distance_km')
   final double? distanceKm;
   @override
-  @JsonKey(name: 'estimated_hours')
   final double? estimatedHours;
   @override
-  @JsonKey(name: 'base_price')
   final double basePrice;
   @override
-  @JsonKey(name: 'refund_policy_id')
   final String? refundPolicyId;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final Station? originStation;
   @override
@@ -489,16 +468,15 @@ class _$RouteImpl implements _Route {
 abstract class _Route implements Route {
   const factory _Route({
     final String? id,
-    @JsonKey(name: 'origin_station_id') required final String originStationId,
-    @JsonKey(name: 'destination_station_id')
+    required final String originStationId,
     required final String destinationStationId,
-    @JsonKey(name: 'distance_km') final double? distanceKm,
-    @JsonKey(name: 'estimated_hours') final double? estimatedHours,
-    @JsonKey(name: 'base_price') required final double basePrice,
-    @JsonKey(name: 'refund_policy_id') final String? refundPolicyId,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final double? distanceKm,
+    final double? estimatedHours,
+    required final double basePrice,
+    final String? refundPolicyId,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Station? originStation,
     final Station? destinationStation,
     final RefundPolicy? refundPolicy,
@@ -510,34 +488,23 @@ abstract class _Route implements Route {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'origin_station_id')
   String get originStationId;
   @override
-  @JsonKey(name: 'destination_station_id')
   String get destinationStationId;
   @override
-  @JsonKey(name: 'distance_km')
   double? get distanceKm;
   @override
-  @JsonKey(name: 'estimated_hours')
   double? get estimatedHours;
   @override
-  @JsonKey(name: 'base_price')
   double get basePrice;
   @override
-  @JsonKey(name: 'refund_policy_id')
   String? get refundPolicyId;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   Station? get originStation;
   @override

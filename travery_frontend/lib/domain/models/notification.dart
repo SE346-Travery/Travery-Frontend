@@ -4,16 +4,14 @@ import 'user.dart';
 
 part 'notification.freezed.dart';
 part 'notification.g.dart';
-
-/// System notification for users.
 @freezed
 class AppNotification with _$AppNotification {
   const factory AppNotification({
     String? id,
 
-    @JsonKey(name: 'user_id') String? userId,
+    String? userId,
 
-    @JsonKey(name: 'staff_id') String? staffId,
+    String? staffId,
 
     required NotificationType notificationType,
 
@@ -21,23 +19,21 @@ class AppNotification with _$AppNotification {
 
     String? body,
 
-    @JsonKey(name: 'reference_type') String? referenceType,
+    String? referenceType,
 
     String? referenceId,
 
-    @JsonKey(name: 'image_url') String? imageUrl,
+    String? imageUrl,
 
-    @JsonKey(name: 'action_url') String? actionUrl,
+    String? actionUrl,
 
-    @JsonKey(name: 'is_read') @Default(false) bool isRead,
+    @Default(false) bool isRead,
 
-    @JsonKey(name: 'read_at') DateTime? readAt,
+    DateTime? readAt,
 
-    @JsonKey(name: 'sent_at') DateTime? sentAt,
+    DateTime? sentAt,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-
-    /// RELATION
+    DateTime? createdAt,
     User? user,
   }) = _AppNotification;
 

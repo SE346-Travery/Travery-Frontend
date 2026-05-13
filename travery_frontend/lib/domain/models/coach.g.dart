@@ -9,7 +9,7 @@ part of 'coach.dart';
 _$CoachImpl _$$CoachImplFromJson(Map<String, dynamic> json) => _$CoachImpl(
   id: json['id'] as String?,
   licensePlate: json['license_plate'] as String,
-  coachType: $enumDecode(_$CoachTypeEnumMap, json['coachType']),
+  coachType: $enumDecode(_$CoachTypeEnumMap, json['coach_type']),
   capacity: (json['capacity'] as num).toInt(),
   status: $enumDecode(_$CoachStatusEnumMap, json['status']),
   floorCount: (json['floor_count'] as num?)?.toInt(),
@@ -31,7 +31,7 @@ Map<String, dynamic> _$$CoachImplToJson(_$CoachImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'license_plate': instance.licensePlate,
-      'coachType': _$CoachTypeEnumMap[instance.coachType]!,
+      'coach_type': _$CoachTypeEnumMap[instance.coachType]!,
       'capacity': instance.capacity,
       'status': _$CoachStatusEnumMap[instance.status]!,
       'floor_count': instance.floorCount,

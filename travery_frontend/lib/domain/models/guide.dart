@@ -4,28 +4,24 @@ import 'user.dart';
 
 part 'guide.freezed.dart';
 part 'guide.g.dart';
-
-/// Field-based staff who interact directly with customers during tours.
 @freezed
 class Guide with _$Guide {
   const factory Guide({
     String? id,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'employee_code') required String employeeCode,
+    required String employeeCode,
 
-    @JsonKey(name: 'guide_license') required String guideLicense,
+    required String guideLicense,
 
-    @JsonKey(name: 'languages') List<String>? languages,
+    List<String>? languages,
 
-    @JsonKey(name: 'years_experience') @Default(0) int yearsExperience,
+    @Default(0) int yearsExperience,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     User? user,
   }) = _Guide;
 

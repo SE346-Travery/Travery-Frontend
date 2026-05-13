@@ -22,14 +22,9 @@ Admin _$AdminFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Admin {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this Admin to a JSON map.
@@ -48,9 +43,9 @@ abstract class $AdminCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -130,9 +125,9 @@ abstract class _$$AdminImplCopyWith<$Res> implements $AdminCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -192,9 +187,9 @@ class __$$AdminImplCopyWithImpl<$Res>
 class _$AdminImpl implements _Admin {
   const _$AdminImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.userId,
+    this.createdAt,
+    this.updatedAt,
     this.user,
   });
 
@@ -204,16 +199,11 @@ class _$AdminImpl implements _Admin {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final User? user;
 
@@ -258,9 +248,9 @@ class _$AdminImpl implements _Admin {
 abstract class _Admin implements Admin {
   const factory _Admin({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String userId,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
   }) = _$AdminImpl;
 
@@ -269,16 +259,11 @@ abstract class _Admin implements Admin {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   User? get user;
 

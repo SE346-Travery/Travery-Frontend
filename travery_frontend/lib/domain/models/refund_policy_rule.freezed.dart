@@ -22,20 +22,12 @@ RefundPolicyRule _$RefundPolicyRuleFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RefundPolicyRule {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'refund_policy_id')
   String get refundPolicyId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hours_before_departure')
   int get hoursBeforeDeparture => throw _privateConstructorUsedError;
-  @JsonKey(name: 'refund_percentage')
   double get refundPercentage => throw _privateConstructorUsedError;
-  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   RefundPolicy? get refundPolicy => throw _privateConstructorUsedError;
 
   /// Serializes this RefundPolicyRule to a JSON map.
@@ -57,12 +49,12 @@ abstract class $RefundPolicyRuleCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'refund_policy_id') String refundPolicyId,
-    @JsonKey(name: 'hours_before_departure') int hoursBeforeDeparture,
-    @JsonKey(name: 'refund_percentage') double refundPercentage,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String refundPolicyId,
+    int hoursBeforeDeparture,
+    double refundPercentage,
+    String? description,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     RefundPolicy? refundPolicy,
   });
 
@@ -158,12 +150,12 @@ abstract class _$$RefundPolicyRuleImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'refund_policy_id') String refundPolicyId,
-    @JsonKey(name: 'hours_before_departure') int hoursBeforeDeparture,
-    @JsonKey(name: 'refund_percentage') double refundPercentage,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String refundPolicyId,
+    int hoursBeforeDeparture,
+    double refundPercentage,
+    String? description,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     RefundPolicy? refundPolicy,
   });
 
@@ -238,12 +230,12 @@ class __$$RefundPolicyRuleImplCopyWithImpl<$Res>
 class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
   const _$RefundPolicyRuleImpl({
     this.id,
-    @JsonKey(name: 'refund_policy_id') required this.refundPolicyId,
-    @JsonKey(name: 'hours_before_departure') required this.hoursBeforeDeparture,
-    @JsonKey(name: 'refund_percentage') required this.refundPercentage,
-    @JsonKey(name: 'description') this.description,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.refundPolicyId,
+    required this.hoursBeforeDeparture,
+    required this.refundPercentage,
+    this.description,
+    this.createdAt,
+    this.updatedAt,
     this.refundPolicy,
   });
 
@@ -253,25 +245,17 @@ class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'refund_policy_id')
   final String refundPolicyId;
   @override
-  @JsonKey(name: 'hours_before_departure')
   final int hoursBeforeDeparture;
   @override
-  @JsonKey(name: 'refund_percentage')
   final double refundPercentage;
   @override
-  @JsonKey(name: 'description')
   final String? description;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final RefundPolicy? refundPolicy;
 
@@ -336,13 +320,12 @@ class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
 abstract class _RefundPolicyRule implements RefundPolicyRule {
   const factory _RefundPolicyRule({
     final String? id,
-    @JsonKey(name: 'refund_policy_id') required final String refundPolicyId,
-    @JsonKey(name: 'hours_before_departure')
+    required final String refundPolicyId,
     required final int hoursBeforeDeparture,
-    @JsonKey(name: 'refund_percentage') required final double refundPercentage,
-    @JsonKey(name: 'description') final String? description,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final double refundPercentage,
+    final String? description,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final RefundPolicy? refundPolicy,
   }) = _$RefundPolicyRuleImpl;
 
@@ -352,25 +335,17 @@ abstract class _RefundPolicyRule implements RefundPolicyRule {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'refund_policy_id')
   String get refundPolicyId;
   @override
-  @JsonKey(name: 'hours_before_departure')
   int get hoursBeforeDeparture;
   @override
-  @JsonKey(name: 'refund_percentage')
   double get refundPercentage;
   @override
-  @JsonKey(name: 'description')
   String? get description;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   RefundPolicy? get refundPolicy;
 

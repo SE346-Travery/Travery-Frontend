@@ -55,12 +55,3 @@ const _$GuideTourStatusEnumMap = {
   GuideTourStatus.completed: 'completed',
   GuideTourStatus.upcoming: 'upcoming',
 };
-
-T $enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
-  for (final entry in enumValues.entries) {
-    if (entry.value == source) {
-      return entry.key;
-    }
-  }
-  throw ArgumentError('Unknown enum value: $source');
-}

@@ -23,17 +23,11 @@ RefundPolicy _$RefundPolicyFromJson(Map<String, dynamic> json) {
 mixin _$RefundPolicy {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'service_type')
   ServiceType get serviceType => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   List<RefundPolicyRule>? get rules => throw _privateConstructorUsedError;
 
   /// Serializes this RefundPolicy to a JSON map.
@@ -56,11 +50,11 @@ abstract class $RefundPolicyCopyWith<$Res> {
   $Res call({
     String? id,
     String name,
-    @JsonKey(name: 'service_type') ServiceType serviceType,
+    ServiceType serviceType,
     String? description,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     List<RefundPolicyRule>? rules,
   });
 }
@@ -141,11 +135,11 @@ abstract class _$$RefundPolicyImplCopyWith<$Res>
   $Res call({
     String? id,
     String name,
-    @JsonKey(name: 'service_type') ServiceType serviceType,
+    ServiceType serviceType,
     String? description,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     List<RefundPolicyRule>? rules,
   });
 }
@@ -218,11 +212,11 @@ class _$RefundPolicyImpl implements _RefundPolicy {
   const _$RefundPolicyImpl({
     this.id,
     required this.name,
-    @JsonKey(name: 'service_type') required this.serviceType,
+    required this.serviceType,
     this.description,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
     final List<RefundPolicyRule>? rules,
   }) : _rules = rules;
 
@@ -234,24 +228,17 @@ class _$RefundPolicyImpl implements _RefundPolicy {
   @override
   final String name;
   @override
-  @JsonKey(name: 'service_type')
   final ServiceType serviceType;
   @override
   final String? description;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   final List<RefundPolicyRule>? _rules;
-
-  /// RELATION
   @override
   List<RefundPolicyRule>? get rules {
     final value = _rules;
@@ -318,11 +305,11 @@ abstract class _RefundPolicy implements RefundPolicy {
   const factory _RefundPolicy({
     final String? id,
     required final String name,
-    @JsonKey(name: 'service_type') required final ServiceType serviceType,
+    required final ServiceType serviceType,
     final String? description,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final List<RefundPolicyRule>? rules,
   }) = _$RefundPolicyImpl;
 
@@ -334,21 +321,15 @@ abstract class _RefundPolicy implements RefundPolicy {
   @override
   String get name;
   @override
-  @JsonKey(name: 'service_type')
   ServiceType get serviceType;
   @override
   String? get description;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   List<RefundPolicyRule>? get rules;
 

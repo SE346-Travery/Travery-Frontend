@@ -4,44 +4,42 @@ import 'user.dart';
 
 part 'staff.freezed.dart';
 part 'staff.g.dart';
-
-/// Generic staff entity combining all staff roles.
 @freezed
 class Staff with _$Staff {
   const factory Staff({
     String? id,
 
-    @JsonKey(name: 'hotel_id') String? hotelId,
+    String? hotelId,
 
-    @JsonKey(name: 'full_name') required String fullName,
+    required String fullName,
 
     required String email,
 
-    @JsonKey(name: 'phone_number') String? phoneNumber,
+    String? phoneNumber,
 
-    @JsonKey(name: 'password_hash') String? passwordHash,
+    String? passwordHash,
 
     required StaffRole role,
 
     required StaffStatus status,
 
-    @JsonKey(name: 'cometchat_uid') String? cometchatUid,
+    String? cometchatUid,
 
-    @JsonKey(name: 'employee_code') String? employeeCode,
+    String? employeeCode,
 
-    @JsonKey(name: 'department') String? department,
+    String? department,
 
-    @JsonKey(name: 'guide_license') String? guideLicense,
+    String? guideLicense,
 
-    @JsonKey(name: 'languages') List<String>? languages,
+    List<String>? languages,
 
-    @JsonKey(name: 'years_experience') int? yearsExperience,
+    int? yearsExperience,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? updatedAt,
 
-    @JsonKey(name: 'deleted_at') DateTime? deletedAt,
+    DateTime? deletedAt,
   }) = _Staff;
 
   factory Staff.fromJson(Map<String, dynamic> json) => _$StaffFromJson(json);

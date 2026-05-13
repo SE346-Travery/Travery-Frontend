@@ -6,33 +6,28 @@ import 'station.dart';
 
 part 'route.freezed.dart';
 part 'route.g.dart';
-
-/// Logical fixed-route connecting two Stations.
 @freezed
 class Route with _$Route {
   const factory Route({
     String? id,
 
-    @JsonKey(name: 'origin_station_id') required String originStationId,
+    required String originStationId,
 
-    @JsonKey(name: 'destination_station_id')
     required String destinationStationId,
 
-    @JsonKey(name: 'distance_km') double? distanceKm,
+    double? distanceKm,
 
-    @JsonKey(name: 'estimated_hours') double? estimatedHours,
+    double? estimatedHours,
 
-    @JsonKey(name: 'base_price') required double basePrice,
+    required double basePrice,
 
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
+    String? refundPolicyId,
 
-    @JsonKey(name: 'is_active') @Default(true) bool isActive,
+    @Default(true) bool isActive,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     Station? originStation,
     Station? destinationStation,
     RefundPolicy? refundPolicy,

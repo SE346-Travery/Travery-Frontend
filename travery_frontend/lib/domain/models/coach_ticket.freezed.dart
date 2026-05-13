@@ -22,26 +22,15 @@ CoachTicket _$CoachTicketFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CoachTicket {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coach_booking_id')
   String get coachBookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coach_seat_id')
   String get coachSeatId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'passenger_name')
   String? get passengerName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'passenger_phone')
   String? get passengerPhone => throw _privateConstructorUsedError;
-  @JsonKey(name: 'price_at_booking')
   double get priceAtBooking => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_checked_in')
   bool get isCheckedIn => throw _privateConstructorUsedError;
-  @JsonKey(name: 'checked_in_at')
   DateTime? get checkedInAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   CoachBooking? get booking => throw _privateConstructorUsedError;
   CoachSeat? get seat => throw _privateConstructorUsedError;
 
@@ -64,15 +53,15 @@ abstract class $CoachTicketCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'coach_booking_id') String coachBookingId,
-    @JsonKey(name: 'coach_seat_id') String coachSeatId,
-    @JsonKey(name: 'passenger_name') String? passengerName,
-    @JsonKey(name: 'passenger_phone') String? passengerPhone,
-    @JsonKey(name: 'price_at_booking') double priceAtBooking,
-    @JsonKey(name: 'is_checked_in') bool isCheckedIn,
-    @JsonKey(name: 'checked_in_at') DateTime? checkedInAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String coachBookingId,
+    String coachSeatId,
+    String? passengerName,
+    String? passengerPhone,
+    double priceAtBooking,
+    bool isCheckedIn,
+    DateTime? checkedInAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     CoachBooking? booking,
     CoachSeat? seat,
   });
@@ -204,15 +193,15 @@ abstract class _$$CoachTicketImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'coach_booking_id') String coachBookingId,
-    @JsonKey(name: 'coach_seat_id') String coachSeatId,
-    @JsonKey(name: 'passenger_name') String? passengerName,
-    @JsonKey(name: 'passenger_phone') String? passengerPhone,
-    @JsonKey(name: 'price_at_booking') double priceAtBooking,
-    @JsonKey(name: 'is_checked_in') bool isCheckedIn,
-    @JsonKey(name: 'checked_in_at') DateTime? checkedInAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String coachBookingId,
+    String coachSeatId,
+    String? passengerName,
+    String? passengerPhone,
+    double priceAtBooking,
+    bool isCheckedIn,
+    DateTime? checkedInAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     CoachBooking? booking,
     CoachSeat? seat,
   });
@@ -310,15 +299,15 @@ class __$$CoachTicketImplCopyWithImpl<$Res>
 class _$CoachTicketImpl implements _CoachTicket {
   const _$CoachTicketImpl({
     this.id,
-    @JsonKey(name: 'coach_booking_id') required this.coachBookingId,
-    @JsonKey(name: 'coach_seat_id') required this.coachSeatId,
-    @JsonKey(name: 'passenger_name') this.passengerName,
-    @JsonKey(name: 'passenger_phone') this.passengerPhone,
-    @JsonKey(name: 'price_at_booking') required this.priceAtBooking,
-    @JsonKey(name: 'is_checked_in') this.isCheckedIn = false,
-    @JsonKey(name: 'checked_in_at') this.checkedInAt,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.coachBookingId,
+    required this.coachSeatId,
+    this.passengerName,
+    this.passengerPhone,
+    required this.priceAtBooking,
+    this.isCheckedIn = false,
+    this.checkedInAt,
+    this.createdAt,
+    this.updatedAt,
     this.booking,
     this.seat,
   });
@@ -329,34 +318,24 @@ class _$CoachTicketImpl implements _CoachTicket {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'coach_booking_id')
   final String coachBookingId;
   @override
-  @JsonKey(name: 'coach_seat_id')
   final String coachSeatId;
   @override
-  @JsonKey(name: 'passenger_name')
   final String? passengerName;
   @override
-  @JsonKey(name: 'passenger_phone')
   final String? passengerPhone;
   @override
-  @JsonKey(name: 'price_at_booking')
   final double priceAtBooking;
   @override
-  @JsonKey(name: 'is_checked_in')
+  @JsonKey()
   final bool isCheckedIn;
   @override
-  @JsonKey(name: 'checked_in_at')
   final DateTime? checkedInAt;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final CoachBooking? booking;
   @override
@@ -430,15 +409,15 @@ class _$CoachTicketImpl implements _CoachTicket {
 abstract class _CoachTicket implements CoachTicket {
   const factory _CoachTicket({
     final String? id,
-    @JsonKey(name: 'coach_booking_id') required final String coachBookingId,
-    @JsonKey(name: 'coach_seat_id') required final String coachSeatId,
-    @JsonKey(name: 'passenger_name') final String? passengerName,
-    @JsonKey(name: 'passenger_phone') final String? passengerPhone,
-    @JsonKey(name: 'price_at_booking') required final double priceAtBooking,
-    @JsonKey(name: 'is_checked_in') final bool isCheckedIn,
-    @JsonKey(name: 'checked_in_at') final DateTime? checkedInAt,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String coachBookingId,
+    required final String coachSeatId,
+    final String? passengerName,
+    final String? passengerPhone,
+    required final double priceAtBooking,
+    final bool isCheckedIn,
+    final DateTime? checkedInAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final CoachBooking? booking,
     final CoachSeat? seat,
   }) = _$CoachTicketImpl;
@@ -449,34 +428,23 @@ abstract class _CoachTicket implements CoachTicket {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'coach_booking_id')
   String get coachBookingId;
   @override
-  @JsonKey(name: 'coach_seat_id')
   String get coachSeatId;
   @override
-  @JsonKey(name: 'passenger_name')
   String? get passengerName;
   @override
-  @JsonKey(name: 'passenger_phone')
   String? get passengerPhone;
   @override
-  @JsonKey(name: 'price_at_booking')
   double get priceAtBooking;
   @override
-  @JsonKey(name: 'is_checked_in')
   bool get isCheckedIn;
   @override
-  @JsonKey(name: 'checked_in_at')
   DateTime? get checkedInAt;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   CoachBooking? get booking;
   @override

@@ -22,31 +22,18 @@ Tour _$TourFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Tour {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String? get hotelId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'requested_by_user_id')
   String? get requestedByUserId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'destination_id')
   String? get destinationId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'pickup_location')
   String? get pickupLocation => throw _privateConstructorUsedError;
-  @JsonKey(name: 'price_per_adult')
   double get pricePerAdult => throw _privateConstructorUsedError;
-  @JsonKey(name: 'price_per_child')
   double get pricePerChild => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_custom')
   bool get isCustom => throw _privateConstructorUsedError;
-  @JsonKey(name: 'refund_policy_id')
   String? get refundPolicyId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Tour to a JSON map.
@@ -65,19 +52,19 @@ abstract class $TourCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'hotel_id') String? hotelId,
-    @JsonKey(name: 'requested_by_user_id') String? requestedByUserId,
-    @JsonKey(name: 'destination_id') String? destinationId,
-    @JsonKey(name: 'pickup_location') String? pickupLocation,
-    @JsonKey(name: 'price_per_adult') double pricePerAdult,
-    @JsonKey(name: 'price_per_child') double pricePerChild,
-    @JsonKey(name: 'is_custom') bool isCustom,
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String name,
+    String? description,
+    String? coordinatorId,
+    String? hotelId,
+    String? requestedByUserId,
+    String? destinationId,
+    String? pickupLocation,
+    double pricePerAdult,
+    double pricePerChild,
+    bool isCustom,
+    String? refundPolicyId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -185,19 +172,19 @@ abstract class _$$TourImplCopyWith<$Res> implements $TourCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'hotel_id') String? hotelId,
-    @JsonKey(name: 'requested_by_user_id') String? requestedByUserId,
-    @JsonKey(name: 'destination_id') String? destinationId,
-    @JsonKey(name: 'pickup_location') String? pickupLocation,
-    @JsonKey(name: 'price_per_adult') double pricePerAdult,
-    @JsonKey(name: 'price_per_child') double pricePerChild,
-    @JsonKey(name: 'is_custom') bool isCustom,
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String name,
+    String? description,
+    String? coordinatorId,
+    String? hotelId,
+    String? requestedByUserId,
+    String? destinationId,
+    String? pickupLocation,
+    double pricePerAdult,
+    double pricePerChild,
+    bool isCustom,
+    String? refundPolicyId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -296,19 +283,19 @@ class __$$TourImplCopyWithImpl<$Res>
 class _$TourImpl implements _Tour {
   const _$TourImpl({
     this.id,
-    @JsonKey(name: 'name') required this.name,
-    @JsonKey(name: 'description') this.description,
-    @JsonKey(name: 'coordinator_id') this.coordinatorId,
-    @JsonKey(name: 'hotel_id') this.hotelId,
-    @JsonKey(name: 'requested_by_user_id') this.requestedByUserId,
-    @JsonKey(name: 'destination_id') this.destinationId,
-    @JsonKey(name: 'pickup_location') this.pickupLocation,
-    @JsonKey(name: 'price_per_adult') required this.pricePerAdult,
-    @JsonKey(name: 'price_per_child') required this.pricePerChild,
-    @JsonKey(name: 'is_custom') this.isCustom = false,
-    @JsonKey(name: 'refund_policy_id') this.refundPolicyId,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.name,
+    this.description,
+    this.coordinatorId,
+    this.hotelId,
+    this.requestedByUserId,
+    this.destinationId,
+    this.pickupLocation,
+    required this.pricePerAdult,
+    required this.pricePerChild,
+    this.isCustom = false,
+    this.refundPolicyId,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$TourImpl.fromJson(Map<String, dynamic> json) =>
@@ -317,43 +304,31 @@ class _$TourImpl implements _Tour {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'name')
   final String name;
   @override
-  @JsonKey(name: 'description')
   final String? description;
   @override
-  @JsonKey(name: 'coordinator_id')
   final String? coordinatorId;
   @override
-  @JsonKey(name: 'hotel_id')
   final String? hotelId;
   @override
-  @JsonKey(name: 'requested_by_user_id')
   final String? requestedByUserId;
   @override
-  @JsonKey(name: 'destination_id')
   final String? destinationId;
   @override
-  @JsonKey(name: 'pickup_location')
   final String? pickupLocation;
   @override
-  @JsonKey(name: 'price_per_adult')
   final double pricePerAdult;
   @override
-  @JsonKey(name: 'price_per_child')
   final double pricePerChild;
   @override
-  @JsonKey(name: 'is_custom')
+  @JsonKey()
   final bool isCustom;
   @override
-  @JsonKey(name: 'refund_policy_id')
   final String? refundPolicyId;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -430,19 +405,19 @@ class _$TourImpl implements _Tour {
 abstract class _Tour implements Tour {
   const factory _Tour({
     final String? id,
-    @JsonKey(name: 'name') required final String name,
-    @JsonKey(name: 'description') final String? description,
-    @JsonKey(name: 'coordinator_id') final String? coordinatorId,
-    @JsonKey(name: 'hotel_id') final String? hotelId,
-    @JsonKey(name: 'requested_by_user_id') final String? requestedByUserId,
-    @JsonKey(name: 'destination_id') final String? destinationId,
-    @JsonKey(name: 'pickup_location') final String? pickupLocation,
-    @JsonKey(name: 'price_per_adult') required final double pricePerAdult,
-    @JsonKey(name: 'price_per_child') required final double pricePerChild,
-    @JsonKey(name: 'is_custom') final bool isCustom,
-    @JsonKey(name: 'refund_policy_id') final String? refundPolicyId,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String name,
+    final String? description,
+    final String? coordinatorId,
+    final String? hotelId,
+    final String? requestedByUserId,
+    final String? destinationId,
+    final String? pickupLocation,
+    required final double pricePerAdult,
+    required final double pricePerChild,
+    final bool isCustom,
+    final String? refundPolicyId,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$TourImpl;
 
   factory _Tour.fromJson(Map<String, dynamic> json) = _$TourImpl.fromJson;
@@ -450,43 +425,30 @@ abstract class _Tour implements Tour {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'name')
   String get name;
   @override
-  @JsonKey(name: 'description')
   String? get description;
   @override
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId;
   @override
-  @JsonKey(name: 'hotel_id')
   String? get hotelId;
   @override
-  @JsonKey(name: 'requested_by_user_id')
   String? get requestedByUserId;
   @override
-  @JsonKey(name: 'destination_id')
   String? get destinationId;
   @override
-  @JsonKey(name: 'pickup_location')
   String? get pickupLocation;
   @override
-  @JsonKey(name: 'price_per_adult')
   double get pricePerAdult;
   @override
-  @JsonKey(name: 'price_per_child')
   double get pricePerChild;
   @override
-  @JsonKey(name: 'is_custom')
   bool get isCustom;
   @override
-  @JsonKey(name: 'refund_policy_id')
   String? get refundPolicyId;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of Tour

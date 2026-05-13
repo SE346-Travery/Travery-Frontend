@@ -22,9 +22,9 @@ _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
   hotel: json['hotel'] == null
       ? null
       : Hotel.fromJson(json['hotel'] as Map<String, dynamic>),
-  roomType: json['roomType'] == null
+  roomType: json['room_type'] == null
       ? null
-      : RoomType.fromJson(json['roomType'] as Map<String, dynamic>),
+      : RoomType.fromJson(json['room_type'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
@@ -38,7 +38,7 @@ Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'hotel': instance.hotel,
-      'roomType': instance.roomType,
+      'room_type': instance.roomType,
     };
 
 const _$RoomStatusEnumMap = {

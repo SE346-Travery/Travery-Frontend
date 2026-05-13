@@ -10,54 +10,50 @@ import 'user.dart';
 
 part 'tour_instance.freezed.dart';
 part 'tour_instance.g.dart';
-
-/// A real-world departure of a Tour on a specific date.
 @freezed
 class TourInstance with _$TourInstance {
   const factory TourInstance({
     String? id,
 
-    @JsonKey(name: 'tour_id') required String tourId,
+    required String tourId,
 
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
+    String? coordinatorId,
 
-    @JsonKey(name: 'guide_id') String? guideId,
+    String? guideId,
 
-    @JsonKey(name: 'coach_id') String? coachId,
+    String? coachId,
 
-    @JsonKey(name: 'driver_id') String? driverId,
+    String? driverId,
 
-    @JsonKey(name: 'hotel_booking_id') String? hotelBookingId,
+    String? hotelBookingId,
 
-    @JsonKey(name: 'start_date') required DateTime startDate,
+    required DateTime startDate,
 
-    @JsonKey(name: 'end_date') required DateTime endDate,
+    required DateTime endDate,
 
-    @JsonKey(name: 'min_participants') @Default(10) int minParticipants,
+    @Default(10) int minParticipants,
 
-    @JsonKey(name: 'max_participants') @Default(30) int maxParticipants,
+    @Default(30) int maxParticipants,
 
-    @JsonKey(name: 'current_participants') @Default(0) int currentParticipants,
+    @Default(0) int currentParticipants,
 
     required TourInstanceStatus status,
 
-    @JsonKey(name: 'postponement_reason') String? postponementReason,
+    String? postponementReason,
 
-    @JsonKey(name: 'postponed_at') DateTime? postponedAt,
+    DateTime? postponedAt,
 
-    @JsonKey(name: 'postponed_by') String? postponedBy,
+    String? postponedBy,
 
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
+    DateTime? cancelledAt,
 
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
+    String? cancellationReason,
 
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
+    String? cancelledBy,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     Tour? tour,
     User? coordinator,
     User? guide,

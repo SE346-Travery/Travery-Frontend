@@ -22,26 +22,15 @@ TourReview _$TourReviewFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourReview {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_id')
   String get bookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_type')
   String get bookingType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tour_id')
   String get tourId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'rating')
   int get rating => throw _privateConstructorUsedError;
-  @JsonKey(name: 'content')
   String? get content => throw _privateConstructorUsedError;
-  @JsonKey(name: 'images')
   List<String>? get images => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   TourBooking? get booking => throw _privateConstructorUsedError;
 
   /// Serializes this TourReview to a JSON map.
@@ -63,15 +52,15 @@ abstract class $TourReviewCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'booking_id') String bookingId,
-    @JsonKey(name: 'booking_type') String bookingType,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'rating') int rating,
-    @JsonKey(name: 'content') String? content,
-    @JsonKey(name: 'images') List<String>? images,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String bookingId,
+    String bookingType,
+    String userId,
+    String tourId,
+    int rating,
+    String? content,
+    List<String>? images,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     TourBooking? booking,
   });
 
@@ -182,15 +171,15 @@ abstract class _$$TourReviewImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'booking_id') String bookingId,
-    @JsonKey(name: 'booking_type') String bookingType,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'rating') int rating,
-    @JsonKey(name: 'content') String? content,
-    @JsonKey(name: 'images') List<String>? images,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String bookingId,
+    String bookingType,
+    String userId,
+    String tourId,
+    int rating,
+    String? content,
+    List<String>? images,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     TourBooking? booking,
   });
 
@@ -280,15 +269,15 @@ class __$$TourReviewImplCopyWithImpl<$Res>
 class _$TourReviewImpl implements _TourReview {
   const _$TourReviewImpl({
     this.id,
-    @JsonKey(name: 'booking_id') required this.bookingId,
-    @JsonKey(name: 'booking_type') required this.bookingType,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'tour_id') required this.tourId,
-    @JsonKey(name: 'rating') required this.rating,
-    @JsonKey(name: 'content') this.content,
-    @JsonKey(name: 'images') final List<String>? images,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.bookingId,
+    required this.bookingType,
+    required this.userId,
+    required this.tourId,
+    required this.rating,
+    this.content,
+    final List<String>? images,
+    this.createdAt,
+    this.updatedAt,
     this.booking,
   }) : _images = images;
 
@@ -298,26 +287,19 @@ class _$TourReviewImpl implements _TourReview {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'booking_id')
   final String bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   final String bookingType;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'tour_id')
   final String tourId;
   @override
-  @JsonKey(name: 'rating')
   final int rating;
   @override
-  @JsonKey(name: 'content')
   final String? content;
   final List<String>? _images;
   @override
-  @JsonKey(name: 'images')
   List<String>? get images {
     final value = _images;
     if (value == null) return null;
@@ -327,13 +309,9 @@ class _$TourReviewImpl implements _TourReview {
   }
 
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final TourBooking? booking;
 
@@ -398,15 +376,15 @@ class _$TourReviewImpl implements _TourReview {
 abstract class _TourReview implements TourReview {
   const factory _TourReview({
     final String? id,
-    @JsonKey(name: 'booking_id') required final String bookingId,
-    @JsonKey(name: 'booking_type') required final String bookingType,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'tour_id') required final String tourId,
-    @JsonKey(name: 'rating') required final int rating,
-    @JsonKey(name: 'content') final String? content,
-    @JsonKey(name: 'images') final List<String>? images,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String bookingId,
+    required final String bookingType,
+    required final String userId,
+    required final String tourId,
+    required final int rating,
+    final String? content,
+    final List<String>? images,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final TourBooking? booking,
   }) = _$TourReviewImpl;
 
@@ -416,34 +394,23 @@ abstract class _TourReview implements TourReview {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'booking_id')
   String get bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   String get bookingType;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'tour_id')
   String get tourId;
   @override
-  @JsonKey(name: 'rating')
   int get rating;
   @override
-  @JsonKey(name: 'content')
   String? get content;
   @override
-  @JsonKey(name: 'images')
   List<String>? get images;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   TourBooking? get booking;
 

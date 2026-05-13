@@ -4,24 +4,20 @@ import 'user.dart';
 
 part 'coordinator.freezed.dart';
 part 'coordinator.g.dart';
-
-/// Office-based staff responsible for operational management and customer care.
 @freezed
 class Coordinator with _$Coordinator {
   const factory Coordinator({
     String? id,
 
-    @JsonKey(name: 'user_id') required String userId,
+    required String userId,
 
-    @JsonKey(name: 'employee_code') required String employeeCode,
+    required String employeeCode,
 
-    @JsonKey(name: 'department') CoordinatorDepartment? department,
+    CoordinatorDepartment? department,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     User? user,
   }) = _Coordinator;
 

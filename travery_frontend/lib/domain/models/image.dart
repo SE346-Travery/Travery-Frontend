@@ -2,30 +2,28 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'image.freezed.dart';
 part 'image.g.dart';
-
-/// Polymorphic gallery management for various assets.
 @freezed
 class Image with _$Image {
   const factory Image({
     String? id,
 
-    @JsonKey(name: 'entity_id') required String entityId,
+    required String entityId,
 
-    @JsonKey(name: 'entity_type') required ImageEntityType entityType,
+    required ImageEntityType entityType,
 
     required String url,
 
     String? caption,
 
-    @JsonKey(name: 'is_thumbnail') @Default(false) bool isThumbnail,
+    @Default(false) bool isThumbnail,
 
-    @JsonKey(name: 'display_order') @Default(0) int displayOrder,
+    @Default(0) int displayOrder,
 
-    @JsonKey(name: 'file_size') int? fileSize,
+    int? fileSize,
 
-    @JsonKey(name: 'mime_type') String? mimeType,
+    String? mimeType,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
   }) = _Image;
 
   factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);

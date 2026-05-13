@@ -22,19 +22,13 @@ Vehicle _$VehicleFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Vehicle {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'license_plate')
   String get licensePlate => throw _privateConstructorUsedError;
   VehicleType get vehicleType => throw _privateConstructorUsedError;
   int get totalSeats => throw _privateConstructorUsedError;
-  @JsonKey(name: 'floor_count')
   int? get floorCount => throw _privateConstructorUsedError;
   VehicleStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   List<VehicleSeat>? get seats => throw _privateConstructorUsedError;
   List<Driver>? get assignedDrivers => throw _privateConstructorUsedError;
 
@@ -54,13 +48,13 @@ abstract class $VehicleCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'license_plate') String licensePlate,
+    String licensePlate,
     VehicleType vehicleType,
     int totalSeats,
-    @JsonKey(name: 'floor_count') int? floorCount,
+    int? floorCount,
     VehicleStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     List<VehicleSeat>? seats,
     List<Driver>? assignedDrivers,
   });
@@ -150,13 +144,13 @@ abstract class _$$VehicleImplCopyWith<$Res> implements $VehicleCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'license_plate') String licensePlate,
+    String licensePlate,
     VehicleType vehicleType,
     int totalSeats,
-    @JsonKey(name: 'floor_count') int? floorCount,
+    int? floorCount,
     VehicleStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     List<VehicleSeat>? seats,
     List<Driver>? assignedDrivers,
   });
@@ -239,13 +233,13 @@ class __$$VehicleImplCopyWithImpl<$Res>
 class _$VehicleImpl implements _Vehicle {
   const _$VehicleImpl({
     this.id,
-    @JsonKey(name: 'license_plate') required this.licensePlate,
+    required this.licensePlate,
     required this.vehicleType,
     required this.totalSeats,
-    @JsonKey(name: 'floor_count') this.floorCount,
+    this.floorCount,
     required this.status,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
     final List<VehicleSeat>? seats,
     final List<Driver>? assignedDrivers,
   }) : _seats = seats,
@@ -257,28 +251,20 @@ class _$VehicleImpl implements _Vehicle {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'license_plate')
   final String licensePlate;
   @override
   final VehicleType vehicleType;
   @override
   final int totalSeats;
   @override
-  @JsonKey(name: 'floor_count')
   final int? floorCount;
   @override
   final VehicleStatus status;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   final List<VehicleSeat>? _seats;
-
-  /// RELATIONS
   @override
   List<VehicleSeat>? get seats {
     final value = _seats;
@@ -362,13 +348,13 @@ class _$VehicleImpl implements _Vehicle {
 abstract class _Vehicle implements Vehicle {
   const factory _Vehicle({
     final String? id,
-    @JsonKey(name: 'license_plate') required final String licensePlate,
+    required final String licensePlate,
     required final VehicleType vehicleType,
     required final int totalSeats,
-    @JsonKey(name: 'floor_count') final int? floorCount,
+    final int? floorCount,
     required final VehicleStatus status,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final List<VehicleSeat>? seats,
     final List<Driver>? assignedDrivers,
   }) = _$VehicleImpl;
@@ -378,25 +364,19 @@ abstract class _Vehicle implements Vehicle {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'license_plate')
   String get licensePlate;
   @override
   VehicleType get vehicleType;
   @override
   int get totalSeats;
   @override
-  @JsonKey(name: 'floor_count')
   int? get floorCount;
   @override
   VehicleStatus get status;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   List<VehicleSeat>? get seats;
   @override

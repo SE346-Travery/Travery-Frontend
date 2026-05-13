@@ -24,21 +24,13 @@ mixin _$Station {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
-  @JsonKey(name: 'city_province')
   String get cityProvince => throw _privateConstructorUsedError;
-  @JsonKey(name: 'latitude')
   double? get latitude => throw _privateConstructorUsedError;
-  @JsonKey(name: 'longitude')
   double? get longitude => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_pickup_point')
   bool get isPickupPoint => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_dropoff_point')
   bool get isDropoffPoint => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Station to a JSON map.
@@ -59,14 +51,14 @@ abstract class $StationCopyWith<$Res> {
     String? id,
     String name,
     String address,
-    @JsonKey(name: 'city_province') String cityProvince,
-    @JsonKey(name: 'latitude') double? latitude,
-    @JsonKey(name: 'longitude') double? longitude,
-    @JsonKey(name: 'is_pickup_point') bool isPickupPoint,
-    @JsonKey(name: 'is_dropoff_point') bool isDropoffPoint,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String cityProvince,
+    double? latitude,
+    double? longitude,
+    bool isPickupPoint,
+    bool isDropoffPoint,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -161,14 +153,14 @@ abstract class _$$StationImplCopyWith<$Res> implements $StationCopyWith<$Res> {
     String? id,
     String name,
     String address,
-    @JsonKey(name: 'city_province') String cityProvince,
-    @JsonKey(name: 'latitude') double? latitude,
-    @JsonKey(name: 'longitude') double? longitude,
-    @JsonKey(name: 'is_pickup_point') bool isPickupPoint,
-    @JsonKey(name: 'is_dropoff_point') bool isDropoffPoint,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String cityProvince,
+    double? latitude,
+    double? longitude,
+    bool isPickupPoint,
+    bool isDropoffPoint,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -256,14 +248,14 @@ class _$StationImpl implements _Station {
     this.id,
     required this.name,
     required this.address,
-    @JsonKey(name: 'city_province') required this.cityProvince,
-    @JsonKey(name: 'latitude') this.latitude,
-    @JsonKey(name: 'longitude') this.longitude,
-    @JsonKey(name: 'is_pickup_point') this.isPickupPoint = false,
-    @JsonKey(name: 'is_dropoff_point') this.isDropoffPoint = false,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.cityProvince,
+    this.latitude,
+    this.longitude,
+    this.isPickupPoint = false,
+    this.isDropoffPoint = false,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$StationImpl.fromJson(Map<String, dynamic> json) =>
@@ -276,28 +268,23 @@ class _$StationImpl implements _Station {
   @override
   final String address;
   @override
-  @JsonKey(name: 'city_province')
   final String cityProvince;
   @override
-  @JsonKey(name: 'latitude')
   final double? latitude;
   @override
-  @JsonKey(name: 'longitude')
   final double? longitude;
   @override
-  @JsonKey(name: 'is_pickup_point')
+  @JsonKey()
   final bool isPickupPoint;
   @override
-  @JsonKey(name: 'is_dropoff_point')
+  @JsonKey()
   final bool isDropoffPoint;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -367,14 +354,14 @@ abstract class _Station implements Station {
     final String? id,
     required final String name,
     required final String address,
-    @JsonKey(name: 'city_province') required final String cityProvince,
-    @JsonKey(name: 'latitude') final double? latitude,
-    @JsonKey(name: 'longitude') final double? longitude,
-    @JsonKey(name: 'is_pickup_point') final bool isPickupPoint,
-    @JsonKey(name: 'is_dropoff_point') final bool isDropoffPoint,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String cityProvince,
+    final double? latitude,
+    final double? longitude,
+    final bool isPickupPoint,
+    final bool isDropoffPoint,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$StationImpl;
 
   factory _Station.fromJson(Map<String, dynamic> json) = _$StationImpl.fromJson;
@@ -386,28 +373,20 @@ abstract class _Station implements Station {
   @override
   String get address;
   @override
-  @JsonKey(name: 'city_province')
   String get cityProvince;
   @override
-  @JsonKey(name: 'latitude')
   double? get latitude;
   @override
-  @JsonKey(name: 'longitude')
   double? get longitude;
   @override
-  @JsonKey(name: 'is_pickup_point')
   bool get isPickupPoint;
   @override
-  @JsonKey(name: 'is_dropoff_point')
   bool get isDropoffPoint;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of Station

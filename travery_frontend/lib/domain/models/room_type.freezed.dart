@@ -22,29 +22,17 @@ RoomType _$RoomTypeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RoomType {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String get hotelId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'name')
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'base_price')
   double get basePrice => throw _privateConstructorUsedError;
-  @JsonKey(name: 'capacity_adults')
   int get capacityAdults => throw _privateConstructorUsedError;
-  @JsonKey(name: 'capacity_children')
   int get capacityChildren => throw _privateConstructorUsedError;
-  @JsonKey(name: 'bed_type')
   BedType get bedType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_rooms')
   int? get totalRooms => throw _privateConstructorUsedError;
-  @JsonKey(name: 'available_rooms')
   int? get availableRooms => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this RoomType to a JSON map.
@@ -64,18 +52,18 @@ abstract class $RoomTypeCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'base_price') double basePrice,
-    @JsonKey(name: 'capacity_adults') int capacityAdults,
-    @JsonKey(name: 'capacity_children') int capacityChildren,
-    @JsonKey(name: 'bed_type') BedType bedType,
-    @JsonKey(name: 'total_rooms') int? totalRooms,
-    @JsonKey(name: 'available_rooms') int? availableRooms,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelId,
+    String name,
+    String? description,
+    double basePrice,
+    int capacityAdults,
+    int capacityChildren,
+    BedType bedType,
+    int? totalRooms,
+    int? availableRooms,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -179,18 +167,18 @@ abstract class _$$RoomTypeImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
-    @JsonKey(name: 'name') String name,
-    @JsonKey(name: 'description') String? description,
-    @JsonKey(name: 'base_price') double basePrice,
-    @JsonKey(name: 'capacity_adults') int capacityAdults,
-    @JsonKey(name: 'capacity_children') int capacityChildren,
-    @JsonKey(name: 'bed_type') BedType bedType,
-    @JsonKey(name: 'total_rooms') int? totalRooms,
-    @JsonKey(name: 'available_rooms') int? availableRooms,
-    @JsonKey(name: 'is_active') bool isActive,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String hotelId,
+    String name,
+    String? description,
+    double basePrice,
+    int capacityAdults,
+    int capacityChildren,
+    BedType bedType,
+    int? totalRooms,
+    int? availableRooms,
+    bool isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -286,18 +274,18 @@ class __$$RoomTypeImplCopyWithImpl<$Res>
 class _$RoomTypeImpl implements _RoomType {
   const _$RoomTypeImpl({
     this.id,
-    @JsonKey(name: 'hotel_id') required this.hotelId,
-    @JsonKey(name: 'name') required this.name,
-    @JsonKey(name: 'description') this.description,
-    @JsonKey(name: 'base_price') required this.basePrice,
-    @JsonKey(name: 'capacity_adults') required this.capacityAdults,
-    @JsonKey(name: 'capacity_children') this.capacityChildren = 0,
-    @JsonKey(name: 'bed_type') required this.bedType,
-    @JsonKey(name: 'total_rooms') this.totalRooms,
-    @JsonKey(name: 'available_rooms') this.availableRooms,
-    @JsonKey(name: 'is_active') this.isActive = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.hotelId,
+    required this.name,
+    this.description,
+    required this.basePrice,
+    required this.capacityAdults,
+    this.capacityChildren = 0,
+    required this.bedType,
+    this.totalRooms,
+    this.availableRooms,
+    this.isActive = true,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$RoomTypeImpl.fromJson(Map<String, dynamic> json) =>
@@ -306,40 +294,30 @@ class _$RoomTypeImpl implements _RoomType {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_id')
   final String hotelId;
   @override
-  @JsonKey(name: 'name')
   final String name;
   @override
-  @JsonKey(name: 'description')
   final String? description;
   @override
-  @JsonKey(name: 'base_price')
   final double basePrice;
   @override
-  @JsonKey(name: 'capacity_adults')
   final int capacityAdults;
   @override
-  @JsonKey(name: 'capacity_children')
+  @JsonKey()
   final int capacityChildren;
   @override
-  @JsonKey(name: 'bed_type')
   final BedType bedType;
   @override
-  @JsonKey(name: 'total_rooms')
   final int? totalRooms;
   @override
-  @JsonKey(name: 'available_rooms')
   final int? availableRooms;
   @override
-  @JsonKey(name: 'is_active')
+  @JsonKey()
   final bool isActive;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -412,18 +390,18 @@ class _$RoomTypeImpl implements _RoomType {
 abstract class _RoomType implements RoomType {
   const factory _RoomType({
     final String? id,
-    @JsonKey(name: 'hotel_id') required final String hotelId,
-    @JsonKey(name: 'name') required final String name,
-    @JsonKey(name: 'description') final String? description,
-    @JsonKey(name: 'base_price') required final double basePrice,
-    @JsonKey(name: 'capacity_adults') required final int capacityAdults,
-    @JsonKey(name: 'capacity_children') final int capacityChildren,
-    @JsonKey(name: 'bed_type') required final BedType bedType,
-    @JsonKey(name: 'total_rooms') final int? totalRooms,
-    @JsonKey(name: 'available_rooms') final int? availableRooms,
-    @JsonKey(name: 'is_active') final bool isActive,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String hotelId,
+    required final String name,
+    final String? description,
+    required final double basePrice,
+    required final int capacityAdults,
+    final int capacityChildren,
+    required final BedType bedType,
+    final int? totalRooms,
+    final int? availableRooms,
+    final bool isActive,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$RoomTypeImpl;
 
   factory _RoomType.fromJson(Map<String, dynamic> json) =
@@ -432,40 +410,28 @@ abstract class _RoomType implements RoomType {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_id')
   String get hotelId;
   @override
-  @JsonKey(name: 'name')
   String get name;
   @override
-  @JsonKey(name: 'description')
   String? get description;
   @override
-  @JsonKey(name: 'base_price')
   double get basePrice;
   @override
-  @JsonKey(name: 'capacity_adults')
   int get capacityAdults;
   @override
-  @JsonKey(name: 'capacity_children')
   int get capacityChildren;
   @override
-  @JsonKey(name: 'bed_type')
   BedType get bedType;
   @override
-  @JsonKey(name: 'total_rooms')
   int? get totalRooms;
   @override
-  @JsonKey(name: 'available_rooms')
   int? get availableRooms;
   @override
-  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of RoomType

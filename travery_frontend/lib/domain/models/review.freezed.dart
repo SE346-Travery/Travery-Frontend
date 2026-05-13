@@ -22,30 +22,17 @@ Review _$ReviewFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Review {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_id')
   String? get bookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_type')
   String? get bookingType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'target_id')
   String? get targetId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'target_type')
   ReviewTargetType get targetType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'rating')
   int get rating => throw _privateConstructorUsedError;
-  @JsonKey(name: 'content')
   String? get content => throw _privateConstructorUsedError;
-  @JsonKey(name: 'images')
   List<String>? get images => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_verified')
   bool get isVerified => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this Review to a JSON map.
@@ -64,17 +51,17 @@ abstract class $ReviewCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'booking_id') String? bookingId,
-    @JsonKey(name: 'booking_type') String? bookingType,
-    @JsonKey(name: 'target_id') String? targetId,
-    @JsonKey(name: 'target_type') ReviewTargetType targetType,
-    @JsonKey(name: 'rating') int rating,
-    @JsonKey(name: 'content') String? content,
-    @JsonKey(name: 'images') List<String>? images,
-    @JsonKey(name: 'is_verified') bool isVerified,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String? bookingId,
+    String? bookingType,
+    String? targetId,
+    ReviewTargetType targetType,
+    int rating,
+    String? content,
+    List<String>? images,
+    bool isVerified,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -194,17 +181,17 @@ abstract class _$$ReviewImplCopyWith<$Res> implements $ReviewCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'booking_id') String? bookingId,
-    @JsonKey(name: 'booking_type') String? bookingType,
-    @JsonKey(name: 'target_id') String? targetId,
-    @JsonKey(name: 'target_type') ReviewTargetType targetType,
-    @JsonKey(name: 'rating') int rating,
-    @JsonKey(name: 'content') String? content,
-    @JsonKey(name: 'images') List<String>? images,
-    @JsonKey(name: 'is_verified') bool isVerified,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String? bookingId,
+    String? bookingType,
+    String? targetId,
+    ReviewTargetType targetType,
+    int rating,
+    String? content,
+    List<String>? images,
+    bool isVerified,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -304,17 +291,17 @@ class __$$ReviewImplCopyWithImpl<$Res>
 class _$ReviewImpl implements _Review {
   const _$ReviewImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'booking_id') this.bookingId,
-    @JsonKey(name: 'booking_type') this.bookingType,
-    @JsonKey(name: 'target_id') this.targetId,
-    @JsonKey(name: 'target_type') required this.targetType,
-    @JsonKey(name: 'rating') required this.rating,
-    @JsonKey(name: 'content') this.content,
-    @JsonKey(name: 'images') final List<String>? images,
-    @JsonKey(name: 'is_verified') this.isVerified = false,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.userId,
+    this.bookingId,
+    this.bookingType,
+    this.targetId,
+    required this.targetType,
+    required this.rating,
+    this.content,
+    final List<String>? images,
+    this.isVerified = false,
+    this.createdAt,
+    this.updatedAt,
     this.user,
   }) : _images = images;
 
@@ -324,29 +311,21 @@ class _$ReviewImpl implements _Review {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'booking_id')
   final String? bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   final String? bookingType;
   @override
-  @JsonKey(name: 'target_id')
   final String? targetId;
   @override
-  @JsonKey(name: 'target_type')
   final ReviewTargetType targetType;
   @override
-  @JsonKey(name: 'rating')
   final int rating;
   @override
-  @JsonKey(name: 'content')
   final String? content;
   final List<String>? _images;
   @override
-  @JsonKey(name: 'images')
   List<String>? get images {
     final value = _images;
     if (value == null) return null;
@@ -356,16 +335,12 @@ class _$ReviewImpl implements _Review {
   }
 
   @override
-  @JsonKey(name: 'is_verified')
+  @JsonKey()
   final bool isVerified;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final User? user;
 
@@ -437,17 +412,17 @@ class _$ReviewImpl implements _Review {
 abstract class _Review implements Review {
   const factory _Review({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'booking_id') final String? bookingId,
-    @JsonKey(name: 'booking_type') final String? bookingType,
-    @JsonKey(name: 'target_id') final String? targetId,
-    @JsonKey(name: 'target_type') required final ReviewTargetType targetType,
-    @JsonKey(name: 'rating') required final int rating,
-    @JsonKey(name: 'content') final String? content,
-    @JsonKey(name: 'images') final List<String>? images,
-    @JsonKey(name: 'is_verified') final bool isVerified,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String userId,
+    final String? bookingId,
+    final String? bookingType,
+    final String? targetId,
+    required final ReviewTargetType targetType,
+    required final int rating,
+    final String? content,
+    final List<String>? images,
+    final bool isVerified,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
   }) = _$ReviewImpl;
 
@@ -456,40 +431,27 @@ abstract class _Review implements Review {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'booking_id')
   String? get bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   String? get bookingType;
   @override
-  @JsonKey(name: 'target_id')
   String? get targetId;
   @override
-  @JsonKey(name: 'target_type')
   ReviewTargetType get targetType;
   @override
-  @JsonKey(name: 'rating')
   int get rating;
   @override
-  @JsonKey(name: 'content')
   String? get content;
   @override
-  @JsonKey(name: 'images')
   List<String>? get images;
   @override
-  @JsonKey(name: 'is_verified')
   bool get isVerified;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   User? get user;
 

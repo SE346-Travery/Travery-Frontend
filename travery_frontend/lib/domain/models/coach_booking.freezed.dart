@@ -22,41 +22,23 @@ CoachBooking _$CoachBookingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CoachBooking {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coach_trip_id')
   String get coachTripId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'pickup_station_id')
   String? get pickupStationId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'dropoff_station_id')
   String? get dropoffStationId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_price')
   double get totalPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: 'payment_deadline')
   DateTime? get paymentDeadline => throw _privateConstructorUsedError;
-  @JsonKey(name: 'luggage_weight')
   double? get luggageWeight => throw _privateConstructorUsedError;
-  @JsonKey(name: 'special_requests')
   String? get specialRequests => throw _privateConstructorUsedError;
-  @JsonKey(name: 'no_show_note')
   String? get noShowNote => throw _privateConstructorUsedError;
-  @JsonKey(name: 'no_show_at')
   DateTime? get noShowAt => throw _privateConstructorUsedError;
   CoachBookingStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'refund_request_id')
   String? get refundRequestId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   User? get user => throw _privateConstructorUsedError;
   CoachTrip? get coachTrip => throw _privateConstructorUsedError;
   Station? get pickupStation => throw _privateConstructorUsedError;
@@ -84,23 +66,23 @@ abstract class $CoachBookingCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'coach_trip_id') String coachTripId,
-    @JsonKey(name: 'pickup_station_id') String? pickupStationId,
-    @JsonKey(name: 'dropoff_station_id') String? dropoffStationId,
-    @JsonKey(name: 'total_price') double totalPrice,
-    @JsonKey(name: 'payment_deadline') DateTime? paymentDeadline,
-    @JsonKey(name: 'luggage_weight') double? luggageWeight,
-    @JsonKey(name: 'special_requests') String? specialRequests,
-    @JsonKey(name: 'no_show_note') String? noShowNote,
-    @JsonKey(name: 'no_show_at') DateTime? noShowAt,
+    String userId,
+    String coachTripId,
+    String? pickupStationId,
+    String? dropoffStationId,
+    double totalPrice,
+    DateTime? paymentDeadline,
+    double? luggageWeight,
+    String? specialRequests,
+    String? noShowNote,
+    DateTime? noShowAt,
     CoachBookingStatus status,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'refund_request_id') String? refundRequestId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    String? refundRequestId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     CoachTrip? coachTrip,
     Station? pickupStation,
@@ -347,23 +329,23 @@ abstract class _$$CoachBookingImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'coach_trip_id') String coachTripId,
-    @JsonKey(name: 'pickup_station_id') String? pickupStationId,
-    @JsonKey(name: 'dropoff_station_id') String? dropoffStationId,
-    @JsonKey(name: 'total_price') double totalPrice,
-    @JsonKey(name: 'payment_deadline') DateTime? paymentDeadline,
-    @JsonKey(name: 'luggage_weight') double? luggageWeight,
-    @JsonKey(name: 'special_requests') String? specialRequests,
-    @JsonKey(name: 'no_show_note') String? noShowNote,
-    @JsonKey(name: 'no_show_at') DateTime? noShowAt,
+    String userId,
+    String coachTripId,
+    String? pickupStationId,
+    String? dropoffStationId,
+    double totalPrice,
+    DateTime? paymentDeadline,
+    double? luggageWeight,
+    String? specialRequests,
+    String? noShowNote,
+    DateTime? noShowAt,
     CoachBookingStatus status,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'refund_request_id') String? refundRequestId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    String? refundRequestId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     CoachTrip? coachTrip,
     Station? pickupStation,
@@ -537,23 +519,23 @@ class __$$CoachBookingImplCopyWithImpl<$Res>
 class _$CoachBookingImpl implements _CoachBooking {
   const _$CoachBookingImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'coach_trip_id') required this.coachTripId,
-    @JsonKey(name: 'pickup_station_id') this.pickupStationId,
-    @JsonKey(name: 'dropoff_station_id') this.dropoffStationId,
-    @JsonKey(name: 'total_price') required this.totalPrice,
-    @JsonKey(name: 'payment_deadline') this.paymentDeadline,
-    @JsonKey(name: 'luggage_weight') this.luggageWeight,
-    @JsonKey(name: 'special_requests') this.specialRequests,
-    @JsonKey(name: 'no_show_note') this.noShowNote,
-    @JsonKey(name: 'no_show_at') this.noShowAt,
+    required this.userId,
+    required this.coachTripId,
+    this.pickupStationId,
+    this.dropoffStationId,
+    required this.totalPrice,
+    this.paymentDeadline,
+    this.luggageWeight,
+    this.specialRequests,
+    this.noShowNote,
+    this.noShowAt,
     required this.status,
-    @JsonKey(name: 'cancelled_at') this.cancelledAt,
-    @JsonKey(name: 'cancellation_reason') this.cancellationReason,
-    @JsonKey(name: 'cancelled_by') this.cancelledBy,
-    @JsonKey(name: 'refund_request_id') this.refundRequestId,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.cancelledAt,
+    this.cancellationReason,
+    this.cancelledBy,
+    this.refundRequestId,
+    this.createdAt,
+    this.updatedAt,
     this.user,
     this.coachTrip,
     this.pickupStation,
@@ -570,57 +552,39 @@ class _$CoachBookingImpl implements _CoachBooking {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'coach_trip_id')
   final String coachTripId;
   @override
-  @JsonKey(name: 'pickup_station_id')
   final String? pickupStationId;
   @override
-  @JsonKey(name: 'dropoff_station_id')
   final String? dropoffStationId;
   @override
-  @JsonKey(name: 'total_price')
   final double totalPrice;
   @override
-  @JsonKey(name: 'payment_deadline')
   final DateTime? paymentDeadline;
   @override
-  @JsonKey(name: 'luggage_weight')
   final double? luggageWeight;
   @override
-  @JsonKey(name: 'special_requests')
   final String? specialRequests;
   @override
-  @JsonKey(name: 'no_show_note')
   final String? noShowNote;
   @override
-  @JsonKey(name: 'no_show_at')
   final DateTime? noShowAt;
   @override
   final CoachBookingStatus status;
   @override
-  @JsonKey(name: 'cancelled_at')
   final DateTime? cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   final String? cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   final String? cancelledBy;
   @override
-  @JsonKey(name: 'refund_request_id')
   final String? refundRequestId;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final User? user;
   @override
@@ -756,23 +720,23 @@ class _$CoachBookingImpl implements _CoachBooking {
 abstract class _CoachBooking implements CoachBooking {
   const factory _CoachBooking({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'coach_trip_id') required final String coachTripId,
-    @JsonKey(name: 'pickup_station_id') final String? pickupStationId,
-    @JsonKey(name: 'dropoff_station_id') final String? dropoffStationId,
-    @JsonKey(name: 'total_price') required final double totalPrice,
-    @JsonKey(name: 'payment_deadline') final DateTime? paymentDeadline,
-    @JsonKey(name: 'luggage_weight') final double? luggageWeight,
-    @JsonKey(name: 'special_requests') final String? specialRequests,
-    @JsonKey(name: 'no_show_note') final String? noShowNote,
-    @JsonKey(name: 'no_show_at') final DateTime? noShowAt,
+    required final String userId,
+    required final String coachTripId,
+    final String? pickupStationId,
+    final String? dropoffStationId,
+    required final double totalPrice,
+    final DateTime? paymentDeadline,
+    final double? luggageWeight,
+    final String? specialRequests,
+    final String? noShowNote,
+    final DateTime? noShowAt,
     required final CoachBookingStatus status,
-    @JsonKey(name: 'cancelled_at') final DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') final String? cancelledBy,
-    @JsonKey(name: 'refund_request_id') final String? refundRequestId,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? cancelledAt,
+    final String? cancellationReason,
+    final String? cancelledBy,
+    final String? refundRequestId,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
     final CoachTrip? coachTrip,
     final Station? pickupStation,
@@ -788,57 +752,39 @@ abstract class _CoachBooking implements CoachBooking {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'coach_trip_id')
   String get coachTripId;
   @override
-  @JsonKey(name: 'pickup_station_id')
   String? get pickupStationId;
   @override
-  @JsonKey(name: 'dropoff_station_id')
   String? get dropoffStationId;
   @override
-  @JsonKey(name: 'total_price')
   double get totalPrice;
   @override
-  @JsonKey(name: 'payment_deadline')
   DateTime? get paymentDeadline;
   @override
-  @JsonKey(name: 'luggage_weight')
   double? get luggageWeight;
   @override
-  @JsonKey(name: 'special_requests')
   String? get specialRequests;
   @override
-  @JsonKey(name: 'no_show_note')
   String? get noShowNote;
   @override
-  @JsonKey(name: 'no_show_at')
   DateTime? get noShowAt;
   @override
   CoachBookingStatus get status;
   @override
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy;
   @override
-  @JsonKey(name: 'refund_request_id')
   String? get refundRequestId;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   User? get user;
   @override

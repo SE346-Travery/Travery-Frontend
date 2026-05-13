@@ -28,13 +28,9 @@ class Dashboard {
   final double vehicleUtilizationPercent;
   final double hotelOccupancyPercent;
   final double systemStabilityPercent;
-
-  // Revenue chart data (monthly)
   final double tourRevenueM;
   final double carRevenueM;
   final double hotelRevenueM;
-
-  // Revenue chart data (quarterly)
   final double tourRevenueQuarterM;
   final double carRevenueQuarterM;
   final double hotelRevenueQuarterM;

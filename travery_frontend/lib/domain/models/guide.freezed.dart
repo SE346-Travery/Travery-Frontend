@@ -22,22 +22,13 @@ Guide _$GuideFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Guide {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'employee_code')
   String get employeeCode => throw _privateConstructorUsedError;
-  @JsonKey(name: 'guide_license')
   String get guideLicense => throw _privateConstructorUsedError;
-  @JsonKey(name: 'languages')
   List<String>? get languages => throw _privateConstructorUsedError;
-  @JsonKey(name: 'years_experience')
   int get yearsExperience => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   User? get user => throw _privateConstructorUsedError;
 
   /// Serializes this Guide to a JSON map.
@@ -56,13 +47,13 @@ abstract class $GuideCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'employee_code') String employeeCode,
-    @JsonKey(name: 'guide_license') String guideLicense,
-    @JsonKey(name: 'languages') List<String>? languages,
-    @JsonKey(name: 'years_experience') int yearsExperience,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String employeeCode,
+    String guideLicense,
+    List<String>? languages,
+    int yearsExperience,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -162,13 +153,13 @@ abstract class _$$GuideImplCopyWith<$Res> implements $GuideCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'employee_code') String employeeCode,
-    @JsonKey(name: 'guide_license') String guideLicense,
-    @JsonKey(name: 'languages') List<String>? languages,
-    @JsonKey(name: 'years_experience') int yearsExperience,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String employeeCode,
+    String guideLicense,
+    List<String>? languages,
+    int yearsExperience,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
   });
 
@@ -248,13 +239,13 @@ class __$$GuideImplCopyWithImpl<$Res>
 class _$GuideImpl implements _Guide {
   const _$GuideImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'employee_code') required this.employeeCode,
-    @JsonKey(name: 'guide_license') required this.guideLicense,
-    @JsonKey(name: 'languages') final List<String>? languages,
-    @JsonKey(name: 'years_experience') this.yearsExperience = 0,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.userId,
+    required this.employeeCode,
+    required this.guideLicense,
+    final List<String>? languages,
+    this.yearsExperience = 0,
+    this.createdAt,
+    this.updatedAt,
     this.user,
   }) : _languages = languages;
 
@@ -264,17 +255,13 @@ class _$GuideImpl implements _Guide {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'employee_code')
   final String employeeCode;
   @override
-  @JsonKey(name: 'guide_license')
   final String guideLicense;
   final List<String>? _languages;
   @override
-  @JsonKey(name: 'languages')
   List<String>? get languages {
     final value = _languages;
     if (value == null) return null;
@@ -284,16 +271,12 @@ class _$GuideImpl implements _Guide {
   }
 
   @override
-  @JsonKey(name: 'years_experience')
+  @JsonKey()
   final int yearsExperience;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final User? user;
 
@@ -358,13 +341,13 @@ class _$GuideImpl implements _Guide {
 abstract class _Guide implements Guide {
   const factory _Guide({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'employee_code') required final String employeeCode,
-    @JsonKey(name: 'guide_license') required final String guideLicense,
-    @JsonKey(name: 'languages') final List<String>? languages,
-    @JsonKey(name: 'years_experience') final int yearsExperience,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String userId,
+    required final String employeeCode,
+    required final String guideLicense,
+    final List<String>? languages,
+    final int yearsExperience,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
   }) = _$GuideImpl;
 
@@ -373,28 +356,19 @@ abstract class _Guide implements Guide {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'employee_code')
   String get employeeCode;
   @override
-  @JsonKey(name: 'guide_license')
   String get guideLicense;
   @override
-  @JsonKey(name: 'languages')
   List<String>? get languages;
   @override
-  @JsonKey(name: 'years_experience')
   int get yearsExperience;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   User? get user;
 

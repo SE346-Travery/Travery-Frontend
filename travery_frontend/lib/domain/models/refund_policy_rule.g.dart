@@ -20,9 +20,9 @@ _$RefundPolicyRuleImpl _$$RefundPolicyRuleImplFromJson(
   updatedAt: json['updated_at'] == null
       ? null
       : DateTime.parse(json['updated_at'] as String),
-  refundPolicy: json['refundPolicy'] == null
+  refundPolicy: json['refund_policy'] == null
       ? null
-      : RefundPolicy.fromJson(json['refundPolicy'] as Map<String, dynamic>),
+      : RefundPolicy.fromJson(json['refund_policy'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$$RefundPolicyRuleImplToJson(
@@ -35,5 +35,5 @@ Map<String, dynamic> _$$RefundPolicyRuleImplToJson(
   'description': instance.description,
   'created_at': instance.createdAt?.toIso8601String(),
   'updated_at': instance.updatedAt?.toIso8601String(),
-  'refundPolicy': instance.refundPolicy,
+  'refund_policy': instance.refundPolicy,
 };

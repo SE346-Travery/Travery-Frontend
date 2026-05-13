@@ -6,20 +6,18 @@ import 'user.dart';
 
 part 'incident.freezed.dart';
 part 'incident.g.dart';
-
-/// Represents an incident or issue reported during a booking.
 @freezed
 class Incident with _$Incident {
   const factory Incident({
     String? id,
 
-    @JsonKey(name: 'booking_id') String? bookingId,
+    String? bookingId,
 
-    @JsonKey(name: 'booking_type') String? bookingType,
+    String? bookingType,
 
-    @JsonKey(name: 'reported_by_user_id') String? reportedByUserId,
+    String? reportedByUserId,
 
-    @JsonKey(name: 'reported_by_staff_id') String? reportedByStaffId,
+    String? reportedByStaffId,
 
     required IncidentType type,
 
@@ -27,23 +25,21 @@ class Incident with _$Incident {
 
     String? description,
 
-    @JsonKey(name: 'image_urls') List<String>? imageUrls,
+    List<String>? imageUrls,
 
     String? location,
 
-    @JsonKey(name: 'resolved_at') DateTime? resolvedAt,
+    DateTime? resolvedAt,
 
-    @JsonKey(name: 'resolution_notes') String? resolutionNotes,
+    String? resolutionNotes,
 
     required IncidentStatus status,
 
-    @JsonKey(name: 'reported_at') DateTime? reportedAt,
+    DateTime? reportedAt,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATIONS
+    DateTime? updatedAt,
     User? reportedByUser,
     User? reportedByStaff,
     TourBooking? tourBooking,

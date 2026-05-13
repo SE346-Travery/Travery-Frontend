@@ -2,38 +2,36 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'tour.freezed.dart';
 part 'tour.g.dart';
-
-/// Defines a tour package template. Can be a standard offering or a custom tour.
 @freezed
 class Tour with _$Tour {
   const factory Tour({
     String? id,
 
-    @JsonKey(name: 'name') required String name,
+    required String name,
 
-    @JsonKey(name: 'description') String? description,
+    String? description,
 
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
+    String? coordinatorId,
 
-    @JsonKey(name: 'hotel_id') String? hotelId,
+    String? hotelId,
 
-    @JsonKey(name: 'requested_by_user_id') String? requestedByUserId,
+    String? requestedByUserId,
 
-    @JsonKey(name: 'destination_id') String? destinationId,
+    String? destinationId,
 
-    @JsonKey(name: 'pickup_location') String? pickupLocation,
+    String? pickupLocation,
 
-    @JsonKey(name: 'price_per_adult') required double pricePerAdult,
+    required double pricePerAdult,
 
-    @JsonKey(name: 'price_per_child') required double pricePerChild,
+    required double pricePerChild,
 
-    @JsonKey(name: 'is_custom') @Default(false) bool isCustom,
+    @Default(false) bool isCustom,
 
-    @JsonKey(name: 'refund_policy_id') String? refundPolicyId,
+    String? refundPolicyId,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? updatedAt,
   }) = _Tour;
 
   factory Tour.fromJson(Map<String, dynamic> json) => _$TourFromJson(json);

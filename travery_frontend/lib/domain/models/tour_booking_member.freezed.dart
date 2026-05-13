@@ -22,28 +22,16 @@ TourBookingMember _$TourBookingMemberFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourBookingMember {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_id')
   String get bookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'booking_type')
   String get bookingType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'full_name')
   String get fullName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'passport_number')
   String? get passportNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'date_of_birth')
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
-  @JsonKey(name: 'gender')
   String? get gender => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_child')
   bool get isChild => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   TourBooking? get booking => throw _privateConstructorUsedError;
 
   /// Serializes this TourBookingMember to a JSON map.
@@ -65,16 +53,16 @@ abstract class $TourBookingMemberCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'booking_id') String bookingId,
-    @JsonKey(name: 'booking_type') String bookingType,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'passport_number') String? passportNumber,
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') String? gender,
-    @JsonKey(name: 'is_child') bool isChild,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String bookingId,
+    String bookingType,
+    String fullName,
+    String? passportNumber,
+    DateTime? dateOfBirth,
+    String? gender,
+    bool isChild,
+    DateTime? cancelledAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     TourBooking? booking,
   });
 
@@ -190,16 +178,16 @@ abstract class _$$TourBookingMemberImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'booking_id') String bookingId,
-    @JsonKey(name: 'booking_type') String bookingType,
-    @JsonKey(name: 'full_name') String fullName,
-    @JsonKey(name: 'passport_number') String? passportNumber,
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') String? gender,
-    @JsonKey(name: 'is_child') bool isChild,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String bookingId,
+    String bookingType,
+    String fullName,
+    String? passportNumber,
+    DateTime? dateOfBirth,
+    String? gender,
+    bool isChild,
+    DateTime? cancelledAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     TourBooking? booking,
   });
 
@@ -294,16 +282,16 @@ class __$$TourBookingMemberImplCopyWithImpl<$Res>
 class _$TourBookingMemberImpl implements _TourBookingMember {
   const _$TourBookingMemberImpl({
     this.id,
-    @JsonKey(name: 'booking_id') required this.bookingId,
-    @JsonKey(name: 'booking_type') required this.bookingType,
-    @JsonKey(name: 'full_name') required this.fullName,
-    @JsonKey(name: 'passport_number') this.passportNumber,
-    @JsonKey(name: 'date_of_birth') this.dateOfBirth,
-    @JsonKey(name: 'gender') this.gender,
-    @JsonKey(name: 'is_child') this.isChild = false,
-    @JsonKey(name: 'cancelled_at') this.cancelledAt,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.bookingId,
+    required this.bookingType,
+    required this.fullName,
+    this.passportNumber,
+    this.dateOfBirth,
+    this.gender,
+    this.isChild = false,
+    this.cancelledAt,
+    this.createdAt,
+    this.updatedAt,
     this.booking,
   });
 
@@ -313,37 +301,26 @@ class _$TourBookingMemberImpl implements _TourBookingMember {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'booking_id')
   final String bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   final String bookingType;
   @override
-  @JsonKey(name: 'full_name')
   final String fullName;
   @override
-  @JsonKey(name: 'passport_number')
   final String? passportNumber;
   @override
-  @JsonKey(name: 'date_of_birth')
   final DateTime? dateOfBirth;
   @override
-  @JsonKey(name: 'gender')
   final String? gender;
   @override
-  @JsonKey(name: 'is_child')
+  @JsonKey()
   final bool isChild;
   @override
-  @JsonKey(name: 'cancelled_at')
   final DateTime? cancelledAt;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final TourBooking? booking;
 
@@ -417,16 +394,16 @@ class _$TourBookingMemberImpl implements _TourBookingMember {
 abstract class _TourBookingMember implements TourBookingMember {
   const factory _TourBookingMember({
     final String? id,
-    @JsonKey(name: 'booking_id') required final String bookingId,
-    @JsonKey(name: 'booking_type') required final String bookingType,
-    @JsonKey(name: 'full_name') required final String fullName,
-    @JsonKey(name: 'passport_number') final String? passportNumber,
-    @JsonKey(name: 'date_of_birth') final DateTime? dateOfBirth,
-    @JsonKey(name: 'gender') final String? gender,
-    @JsonKey(name: 'is_child') final bool isChild,
-    @JsonKey(name: 'cancelled_at') final DateTime? cancelledAt,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String bookingId,
+    required final String bookingType,
+    required final String fullName,
+    final String? passportNumber,
+    final DateTime? dateOfBirth,
+    final String? gender,
+    final bool isChild,
+    final DateTime? cancelledAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final TourBooking? booking,
   }) = _$TourBookingMemberImpl;
 
@@ -436,37 +413,25 @@ abstract class _TourBookingMember implements TourBookingMember {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'booking_id')
   String get bookingId;
   @override
-  @JsonKey(name: 'booking_type')
   String get bookingType;
   @override
-  @JsonKey(name: 'full_name')
   String get fullName;
   @override
-  @JsonKey(name: 'passport_number')
   String? get passportNumber;
   @override
-  @JsonKey(name: 'date_of_birth')
   DateTime? get dateOfBirth;
   @override
-  @JsonKey(name: 'gender')
   String? get gender;
   @override
-  @JsonKey(name: 'is_child')
   bool get isChild;
   @override
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   TourBooking? get booking;
 

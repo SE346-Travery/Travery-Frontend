@@ -4,34 +4,30 @@ import 'tour_booking.dart';
 
 part 'tour_booking_member.freezed.dart';
 part 'tour_booking_member.g.dart';
-
-/// Polymorphic entity representing an individual passenger in a tour booking.
 @freezed
 class TourBookingMember with _$TourBookingMember {
   const factory TourBookingMember({
     String? id,
 
-    @JsonKey(name: 'booking_id') required String bookingId,
+    required String bookingId,
 
-    @JsonKey(name: 'booking_type') required String bookingType,
+    required String bookingType,
 
-    @JsonKey(name: 'full_name') required String fullName,
+    required String fullName,
 
-    @JsonKey(name: 'passport_number') String? passportNumber,
+    String? passportNumber,
 
-    @JsonKey(name: 'date_of_birth') DateTime? dateOfBirth,
+    DateTime? dateOfBirth,
 
-    @JsonKey(name: 'gender') String? gender,
+    String? gender,
 
-    @JsonKey(name: 'is_child') @Default(false) bool isChild,
+    @Default(false) bool isChild,
 
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
+    DateTime? cancelledAt,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     TourBooking? booking,
   }) = _TourBookingMember;
 

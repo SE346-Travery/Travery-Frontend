@@ -14,7 +14,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
   phoneNumber: json['phone_number'] as String?,
   avatarUrl: json['avatar_url'] as String?,
   role: $enumDecode(_$UserRoleEnumMap, json['role']),
-  authProvider: $enumDecode(_$AuthProviderEnumMap, json['authProvider']),
+  authProvider: $enumDecode(_$AuthProviderEnumMap, json['auth_provider']),
   cometchatUid: json['cometchat_uid'] as String?,
   status: $enumDecode(_$UserStatusEnumMap, json['status']),
   createdAt: json['created_at'] == null
@@ -34,7 +34,7 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'phone_number': instance.phoneNumber,
       'avatar_url': instance.avatarUrl,
       'role': _$UserRoleEnumMap[instance.role]!,
-      'authProvider': _$AuthProviderEnumMap[instance.authProvider]!,
+      'auth_provider': _$AuthProviderEnumMap[instance.authProvider]!,
       'cometchat_uid': instance.cometchatUid,
       'status': _$UserStatusEnumMap[instance.status]!,
       'created_at': instance.createdAt?.toIso8601String(),

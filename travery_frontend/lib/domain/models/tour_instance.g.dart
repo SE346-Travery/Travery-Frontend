@@ -52,9 +52,11 @@ _$TourInstanceImpl _$$TourInstanceImplFromJson(Map<String, dynamic> json) =>
       driver: json['driver'] == null
           ? null
           : Driver.fromJson(json['driver'] as Map<String, dynamic>),
-      hotelBooking: json['hotelBooking'] == null
+      hotelBooking: json['hotel_booking'] == null
           ? null
-          : HotelBooking.fromJson(json['hotelBooking'] as Map<String, dynamic>),
+          : HotelBooking.fromJson(
+              json['hotel_booking'] as Map<String, dynamic>,
+            ),
       bookings: (json['bookings'] as List<dynamic>?)
           ?.map((e) => TourBooking.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -88,7 +90,7 @@ Map<String, dynamic> _$$TourInstanceImplToJson(_$TourInstanceImpl instance) =>
       'guide': instance.guide,
       'coach': instance.coach,
       'driver': instance.driver,
-      'hotelBooking': instance.hotelBooking,
+      'hotel_booking': instance.hotelBooking,
       'bookings': instance.bookings,
     };
 

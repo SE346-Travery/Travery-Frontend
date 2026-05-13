@@ -22,19 +22,12 @@ TourItinerary _$TourItineraryFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourItinerary {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tour_id')
   String get tourId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'day_number')
   int get dayNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'title')
   String get title => throw _privateConstructorUsedError;
-  @JsonKey(name: 'description')
   String get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'meal_included')
   bool get mealIncluded => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this TourItinerary to a JSON map.
@@ -56,13 +49,13 @@ abstract class $TourItineraryCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'day_number') int dayNumber,
-    @JsonKey(name: 'title') String title,
-    @JsonKey(name: 'description') String description,
-    @JsonKey(name: 'meal_included') bool mealIncluded,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String tourId,
+    int dayNumber,
+    String title,
+    String description,
+    bool mealIncluded,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -141,13 +134,13 @@ abstract class _$$TourItineraryImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'day_number') int dayNumber,
-    @JsonKey(name: 'title') String title,
-    @JsonKey(name: 'description') String description,
-    @JsonKey(name: 'meal_included') bool mealIncluded,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String tourId,
+    int dayNumber,
+    String title,
+    String description,
+    bool mealIncluded,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
 }
 
@@ -218,13 +211,13 @@ class __$$TourItineraryImplCopyWithImpl<$Res>
 class _$TourItineraryImpl implements _TourItinerary {
   const _$TourItineraryImpl({
     this.id,
-    @JsonKey(name: 'tour_id') required this.tourId,
-    @JsonKey(name: 'day_number') required this.dayNumber,
-    @JsonKey(name: 'title') required this.title,
-    @JsonKey(name: 'description') required this.description,
-    @JsonKey(name: 'meal_included') this.mealIncluded = false,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.tourId,
+    required this.dayNumber,
+    required this.title,
+    required this.description,
+    this.mealIncluded = false,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory _$TourItineraryImpl.fromJson(Map<String, dynamic> json) =>
@@ -233,25 +226,19 @@ class _$TourItineraryImpl implements _TourItinerary {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'tour_id')
   final String tourId;
   @override
-  @JsonKey(name: 'day_number')
   final int dayNumber;
   @override
-  @JsonKey(name: 'title')
   final String title;
   @override
-  @JsonKey(name: 'description')
   final String description;
   @override
-  @JsonKey(name: 'meal_included')
+  @JsonKey()
   final bool mealIncluded;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
 
   @override
@@ -310,13 +297,13 @@ class _$TourItineraryImpl implements _TourItinerary {
 abstract class _TourItinerary implements TourItinerary {
   const factory _TourItinerary({
     final String? id,
-    @JsonKey(name: 'tour_id') required final String tourId,
-    @JsonKey(name: 'day_number') required final int dayNumber,
-    @JsonKey(name: 'title') required final String title,
-    @JsonKey(name: 'description') required final String description,
-    @JsonKey(name: 'meal_included') final bool mealIncluded,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String tourId,
+    required final int dayNumber,
+    required final String title,
+    required final String description,
+    final bool mealIncluded,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
   }) = _$TourItineraryImpl;
 
   factory _TourItinerary.fromJson(Map<String, dynamic> json) =
@@ -325,25 +312,18 @@ abstract class _TourItinerary implements TourItinerary {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'tour_id')
   String get tourId;
   @override
-  @JsonKey(name: 'day_number')
   int get dayNumber;
   @override
-  @JsonKey(name: 'title')
   String get title;
   @override
-  @JsonKey(name: 'description')
   String get description;
   @override
-  @JsonKey(name: 'meal_included')
   bool get mealIncluded;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
 
   /// Create a copy of TourItinerary

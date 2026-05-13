@@ -22,21 +22,13 @@ VehicleSeat _$VehicleSeatFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$VehicleSeat {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'vehicle_id')
   String get vehicleId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'seat_code')
   String get seatCode => throw _privateConstructorUsedError;
-  @JsonKey(name: 'floor_number')
   int? get floorNumber => throw _privateConstructorUsedError;
   SeatRowZone get rowZone => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_available')
   bool get isAvailable => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATION
   Vehicle? get vehicle => throw _privateConstructorUsedError;
 
   /// Serializes this VehicleSeat to a JSON map.
@@ -58,13 +50,13 @@ abstract class $VehicleSeatCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'vehicle_id') String vehicleId,
-    @JsonKey(name: 'seat_code') String seatCode,
-    @JsonKey(name: 'floor_number') int? floorNumber,
+    String vehicleId,
+    String seatCode,
+    int? floorNumber,
     SeatRowZone rowZone,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isAvailable,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Vehicle? vehicle,
   });
 
@@ -165,13 +157,13 @@ abstract class _$$VehicleSeatImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'vehicle_id') String vehicleId,
-    @JsonKey(name: 'seat_code') String seatCode,
-    @JsonKey(name: 'floor_number') int? floorNumber,
+    String vehicleId,
+    String seatCode,
+    int? floorNumber,
     SeatRowZone rowZone,
-    @JsonKey(name: 'is_available') bool isAvailable,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    bool isAvailable,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Vehicle? vehicle,
   });
 
@@ -251,13 +243,13 @@ class __$$VehicleSeatImplCopyWithImpl<$Res>
 class _$VehicleSeatImpl implements _VehicleSeat {
   const _$VehicleSeatImpl({
     this.id,
-    @JsonKey(name: 'vehicle_id') required this.vehicleId,
-    @JsonKey(name: 'seat_code') required this.seatCode,
-    @JsonKey(name: 'floor_number') this.floorNumber,
+    required this.vehicleId,
+    required this.seatCode,
+    this.floorNumber,
     required this.rowZone,
-    @JsonKey(name: 'is_available') this.isAvailable = true,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.isAvailable = true,
+    this.createdAt,
+    this.updatedAt,
     this.vehicle,
   });
 
@@ -267,27 +259,20 @@ class _$VehicleSeatImpl implements _VehicleSeat {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'vehicle_id')
   final String vehicleId;
   @override
-  @JsonKey(name: 'seat_code')
   final String seatCode;
   @override
-  @JsonKey(name: 'floor_number')
   final int? floorNumber;
   @override
   final SeatRowZone rowZone;
   @override
-  @JsonKey(name: 'is_available')
+  @JsonKey()
   final bool isAvailable;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATION
   @override
   final Vehicle? vehicle;
 
@@ -350,13 +335,13 @@ class _$VehicleSeatImpl implements _VehicleSeat {
 abstract class _VehicleSeat implements VehicleSeat {
   const factory _VehicleSeat({
     final String? id,
-    @JsonKey(name: 'vehicle_id') required final String vehicleId,
-    @JsonKey(name: 'seat_code') required final String seatCode,
-    @JsonKey(name: 'floor_number') final int? floorNumber,
+    required final String vehicleId,
+    required final String seatCode,
+    final int? floorNumber,
     required final SeatRowZone rowZone,
-    @JsonKey(name: 'is_available') final bool isAvailable,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final bool isAvailable,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Vehicle? vehicle,
   }) = _$VehicleSeatImpl;
 
@@ -366,27 +351,19 @@ abstract class _VehicleSeat implements VehicleSeat {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'vehicle_id')
   String get vehicleId;
   @override
-  @JsonKey(name: 'seat_code')
   String get seatCode;
   @override
-  @JsonKey(name: 'floor_number')
   int? get floorNumber;
   @override
   SeatRowZone get rowZone;
   @override
-  @JsonKey(name: 'is_available')
   bool get isAvailable;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATION
   @override
   Vehicle? get vehicle;
 

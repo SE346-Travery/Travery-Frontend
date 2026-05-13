@@ -22,20 +22,12 @@ Receptionist _$ReceptionistFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Receptionist {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String get hotelId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'employee_code')
   String get employeeCode => throw _privateConstructorUsedError;
-  @JsonKey(name: 'shift_type')
   ShiftType? get shiftType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   User? get user => throw _privateConstructorUsedError;
   Hotel? get hotel => throw _privateConstructorUsedError;
 
@@ -58,12 +50,12 @@ abstract class $ReceptionistCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'hotel_id') String hotelId,
-    @JsonKey(name: 'employee_code') String employeeCode,
-    @JsonKey(name: 'shift_type') ShiftType? shiftType,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String hotelId,
+    String employeeCode,
+    ShiftType? shiftType,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     Hotel? hotel,
   });
@@ -180,12 +172,12 @@ abstract class _$$ReceptionistImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'hotel_id') String hotelId,
-    @JsonKey(name: 'employee_code') String employeeCode,
-    @JsonKey(name: 'shift_type') ShiftType? shiftType,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String userId,
+    String hotelId,
+    String employeeCode,
+    ShiftType? shiftType,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     Hotel? hotel,
   });
@@ -268,12 +260,12 @@ class __$$ReceptionistImplCopyWithImpl<$Res>
 class _$ReceptionistImpl implements _Receptionist {
   const _$ReceptionistImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'hotel_id') required this.hotelId,
-    @JsonKey(name: 'employee_code') required this.employeeCode,
-    @JsonKey(name: 'shift_type') this.shiftType,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    required this.userId,
+    required this.hotelId,
+    required this.employeeCode,
+    this.shiftType,
+    this.createdAt,
+    this.updatedAt,
     this.user,
     this.hotel,
   });
@@ -284,25 +276,17 @@ class _$ReceptionistImpl implements _Receptionist {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'hotel_id')
   final String hotelId;
   @override
-  @JsonKey(name: 'employee_code')
   final String employeeCode;
   @override
-  @JsonKey(name: 'shift_type')
   final ShiftType? shiftType;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final User? user;
   @override
@@ -365,12 +349,12 @@ class _$ReceptionistImpl implements _Receptionist {
 abstract class _Receptionist implements Receptionist {
   const factory _Receptionist({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'hotel_id') required final String hotelId,
-    @JsonKey(name: 'employee_code') required final String employeeCode,
-    @JsonKey(name: 'shift_type') final ShiftType? shiftType,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    required final String userId,
+    required final String hotelId,
+    required final String employeeCode,
+    final ShiftType? shiftType,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
     final Hotel? hotel,
   }) = _$ReceptionistImpl;
@@ -381,25 +365,17 @@ abstract class _Receptionist implements Receptionist {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'hotel_id')
   String get hotelId;
   @override
-  @JsonKey(name: 'employee_code')
   String get employeeCode;
   @override
-  @JsonKey(name: 'shift_type')
   ShiftType? get shiftType;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   User? get user;
   @override

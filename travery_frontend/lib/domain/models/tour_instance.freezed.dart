@@ -22,47 +22,26 @@ TourInstance _$TourInstanceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourInstance {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tour_id')
   String get tourId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'guide_id')
   String? get guideId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'coach_id')
   String? get coachId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'driver_id')
   String? get driverId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_booking_id')
   String? get hotelBookingId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'start_date')
   DateTime get startDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'end_date')
   DateTime get endDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'min_participants')
   int get minParticipants => throw _privateConstructorUsedError;
-  @JsonKey(name: 'max_participants')
   int get maxParticipants => throw _privateConstructorUsedError;
-  @JsonKey(name: 'current_participants')
   int get currentParticipants => throw _privateConstructorUsedError;
   TourInstanceStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'postponement_reason')
   String? get postponementReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'postponed_at')
   DateTime? get postponedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'postponed_by')
   String? get postponedBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   Tour? get tour => throw _privateConstructorUsedError;
   User? get coordinator => throw _privateConstructorUsedError;
   User? get guide => throw _privateConstructorUsedError;
@@ -90,26 +69,26 @@ abstract class $TourInstanceCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'guide_id') String? guideId,
-    @JsonKey(name: 'coach_id') String? coachId,
-    @JsonKey(name: 'driver_id') String? driverId,
-    @JsonKey(name: 'hotel_booking_id') String? hotelBookingId,
-    @JsonKey(name: 'start_date') DateTime startDate,
-    @JsonKey(name: 'end_date') DateTime endDate,
-    @JsonKey(name: 'min_participants') int minParticipants,
-    @JsonKey(name: 'max_participants') int maxParticipants,
-    @JsonKey(name: 'current_participants') int currentParticipants,
+    String tourId,
+    String? coordinatorId,
+    String? guideId,
+    String? coachId,
+    String? driverId,
+    String? hotelBookingId,
+    DateTime startDate,
+    DateTime endDate,
+    int minParticipants,
+    int maxParticipants,
+    int currentParticipants,
     TourInstanceStatus status,
-    @JsonKey(name: 'postponement_reason') String? postponementReason,
-    @JsonKey(name: 'postponed_at') DateTime? postponedAt,
-    @JsonKey(name: 'postponed_by') String? postponedBy,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String? postponementReason,
+    DateTime? postponedAt,
+    String? postponedBy,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Tour? tour,
     User? coordinator,
     User? guide,
@@ -386,26 +365,26 @@ abstract class _$$TourInstanceImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'coordinator_id') String? coordinatorId,
-    @JsonKey(name: 'guide_id') String? guideId,
-    @JsonKey(name: 'coach_id') String? coachId,
-    @JsonKey(name: 'driver_id') String? driverId,
-    @JsonKey(name: 'hotel_booking_id') String? hotelBookingId,
-    @JsonKey(name: 'start_date') DateTime startDate,
-    @JsonKey(name: 'end_date') DateTime endDate,
-    @JsonKey(name: 'min_participants') int minParticipants,
-    @JsonKey(name: 'max_participants') int maxParticipants,
-    @JsonKey(name: 'current_participants') int currentParticipants,
+    String tourId,
+    String? coordinatorId,
+    String? guideId,
+    String? coachId,
+    String? driverId,
+    String? hotelBookingId,
+    DateTime startDate,
+    DateTime endDate,
+    int minParticipants,
+    int maxParticipants,
+    int currentParticipants,
     TourInstanceStatus status,
-    @JsonKey(name: 'postponement_reason') String? postponementReason,
-    @JsonKey(name: 'postponed_at') DateTime? postponedAt,
-    @JsonKey(name: 'postponed_by') String? postponedBy,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String? postponementReason,
+    DateTime? postponedAt,
+    String? postponedBy,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Tour? tour,
     User? coordinator,
     User? guide,
@@ -596,26 +575,26 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
 class _$TourInstanceImpl implements _TourInstance {
   const _$TourInstanceImpl({
     this.id,
-    @JsonKey(name: 'tour_id') required this.tourId,
-    @JsonKey(name: 'coordinator_id') this.coordinatorId,
-    @JsonKey(name: 'guide_id') this.guideId,
-    @JsonKey(name: 'coach_id') this.coachId,
-    @JsonKey(name: 'driver_id') this.driverId,
-    @JsonKey(name: 'hotel_booking_id') this.hotelBookingId,
-    @JsonKey(name: 'start_date') required this.startDate,
-    @JsonKey(name: 'end_date') required this.endDate,
-    @JsonKey(name: 'min_participants') this.minParticipants = 10,
-    @JsonKey(name: 'max_participants') this.maxParticipants = 30,
-    @JsonKey(name: 'current_participants') this.currentParticipants = 0,
+    required this.tourId,
+    this.coordinatorId,
+    this.guideId,
+    this.coachId,
+    this.driverId,
+    this.hotelBookingId,
+    required this.startDate,
+    required this.endDate,
+    this.minParticipants = 10,
+    this.maxParticipants = 30,
+    this.currentParticipants = 0,
     required this.status,
-    @JsonKey(name: 'postponement_reason') this.postponementReason,
-    @JsonKey(name: 'postponed_at') this.postponedAt,
-    @JsonKey(name: 'postponed_by') this.postponedBy,
-    @JsonKey(name: 'cancelled_at') this.cancelledAt,
-    @JsonKey(name: 'cancellation_reason') this.cancellationReason,
-    @JsonKey(name: 'cancelled_by') this.cancelledBy,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.postponementReason,
+    this.postponedAt,
+    this.postponedBy,
+    this.cancelledAt,
+    this.cancellationReason,
+    this.cancelledBy,
+    this.createdAt,
+    this.updatedAt,
     this.tour,
     this.coordinator,
     this.guide,
@@ -631,66 +610,48 @@ class _$TourInstanceImpl implements _TourInstance {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'tour_id')
   final String tourId;
   @override
-  @JsonKey(name: 'coordinator_id')
   final String? coordinatorId;
   @override
-  @JsonKey(name: 'guide_id')
   final String? guideId;
   @override
-  @JsonKey(name: 'coach_id')
   final String? coachId;
   @override
-  @JsonKey(name: 'driver_id')
   final String? driverId;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   final String? hotelBookingId;
   @override
-  @JsonKey(name: 'start_date')
   final DateTime startDate;
   @override
-  @JsonKey(name: 'end_date')
   final DateTime endDate;
   @override
-  @JsonKey(name: 'min_participants')
+  @JsonKey()
   final int minParticipants;
   @override
-  @JsonKey(name: 'max_participants')
+  @JsonKey()
   final int maxParticipants;
   @override
-  @JsonKey(name: 'current_participants')
+  @JsonKey()
   final int currentParticipants;
   @override
   final TourInstanceStatus status;
   @override
-  @JsonKey(name: 'postponement_reason')
   final String? postponementReason;
   @override
-  @JsonKey(name: 'postponed_at')
   final DateTime? postponedAt;
   @override
-  @JsonKey(name: 'postponed_by')
   final String? postponedBy;
   @override
-  @JsonKey(name: 'cancelled_at')
   final DateTime? cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   final String? cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   final String? cancelledBy;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final Tour? tour;
   @override
@@ -821,26 +782,26 @@ class _$TourInstanceImpl implements _TourInstance {
 abstract class _TourInstance implements TourInstance {
   const factory _TourInstance({
     final String? id,
-    @JsonKey(name: 'tour_id') required final String tourId,
-    @JsonKey(name: 'coordinator_id') final String? coordinatorId,
-    @JsonKey(name: 'guide_id') final String? guideId,
-    @JsonKey(name: 'coach_id') final String? coachId,
-    @JsonKey(name: 'driver_id') final String? driverId,
-    @JsonKey(name: 'hotel_booking_id') final String? hotelBookingId,
-    @JsonKey(name: 'start_date') required final DateTime startDate,
-    @JsonKey(name: 'end_date') required final DateTime endDate,
-    @JsonKey(name: 'min_participants') final int minParticipants,
-    @JsonKey(name: 'max_participants') final int maxParticipants,
-    @JsonKey(name: 'current_participants') final int currentParticipants,
+    required final String tourId,
+    final String? coordinatorId,
+    final String? guideId,
+    final String? coachId,
+    final String? driverId,
+    final String? hotelBookingId,
+    required final DateTime startDate,
+    required final DateTime endDate,
+    final int minParticipants,
+    final int maxParticipants,
+    final int currentParticipants,
     required final TourInstanceStatus status,
-    @JsonKey(name: 'postponement_reason') final String? postponementReason,
-    @JsonKey(name: 'postponed_at') final DateTime? postponedAt,
-    @JsonKey(name: 'postponed_by') final String? postponedBy,
-    @JsonKey(name: 'cancelled_at') final DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') final String? cancelledBy,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final String? postponementReason,
+    final DateTime? postponedAt,
+    final String? postponedBy,
+    final DateTime? cancelledAt,
+    final String? cancellationReason,
+    final String? cancelledBy,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Tour? tour,
     final User? coordinator,
     final User? guide,
@@ -856,66 +817,45 @@ abstract class _TourInstance implements TourInstance {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'tour_id')
   String get tourId;
   @override
-  @JsonKey(name: 'coordinator_id')
   String? get coordinatorId;
   @override
-  @JsonKey(name: 'guide_id')
   String? get guideId;
   @override
-  @JsonKey(name: 'coach_id')
   String? get coachId;
   @override
-  @JsonKey(name: 'driver_id')
   String? get driverId;
   @override
-  @JsonKey(name: 'hotel_booking_id')
   String? get hotelBookingId;
   @override
-  @JsonKey(name: 'start_date')
   DateTime get startDate;
   @override
-  @JsonKey(name: 'end_date')
   DateTime get endDate;
   @override
-  @JsonKey(name: 'min_participants')
   int get minParticipants;
   @override
-  @JsonKey(name: 'max_participants')
   int get maxParticipants;
   @override
-  @JsonKey(name: 'current_participants')
   int get currentParticipants;
   @override
   TourInstanceStatus get status;
   @override
-  @JsonKey(name: 'postponement_reason')
   String? get postponementReason;
   @override
-  @JsonKey(name: 'postponed_at')
   DateTime? get postponedAt;
   @override
-  @JsonKey(name: 'postponed_by')
   String? get postponedBy;
   @override
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   Tour? get tour;
   @override

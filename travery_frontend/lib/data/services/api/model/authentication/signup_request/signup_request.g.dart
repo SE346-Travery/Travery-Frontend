@@ -10,14 +10,14 @@ _$SignupRequestImpl _$$SignupRequestImplFromJson(Map<String, dynamic> json) =>
     _$SignupRequestImpl(
       email: json['email'] as String,
       password: json['password'] as String,
-      confirmPassword: json['confirmPassword'] as String,
-      fullName: json['fullName'] as String,
+      confirmPassword: json['confirm_password'] as String,
+      fullName: json['full_name'] as String,
     );
 
 Map<String, dynamic> _$$SignupRequestImplToJson(_$SignupRequestImpl instance) =>
     <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
-      'confirmPassword': instance.confirmPassword,
-      'fullName': instance.fullName,
+      'confirm_password': instance.confirmPassword,
+      'full_name': instance.fullName,
     };

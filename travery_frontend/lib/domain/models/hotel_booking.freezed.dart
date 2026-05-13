@@ -22,51 +22,28 @@ HotelBooking _$HotelBookingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HotelBooking {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tour_instance_id')
   String? get tourInstanceId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'room_id')
   String? get roomId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'check_in_date')
   DateTime get checkInDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'check_out_date')
   DateTime get checkOutDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'night_count')
   int get nightCount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'guest_count')
   int get guestCount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_price')
   double get totalPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: 'payment_deadline')
   DateTime? get paymentDeadline => throw _privateConstructorUsedError;
-  @JsonKey(name: 'special_request')
   String? get specialRequest => throw _privateConstructorUsedError;
-  @JsonKey(name: 'late_checkout_fee')
   double? get lateCheckoutFee => throw _privateConstructorUsedError;
-  @JsonKey(name: 'addon_total')
   double? get addonTotal => throw _privateConstructorUsedError;
-  @JsonKey(name: 'no_show_note')
   String? get noShowNote => throw _privateConstructorUsedError;
-  @JsonKey(name: 'no_show_at')
   DateTime? get noShowAt => throw _privateConstructorUsedError;
   HotelBookingStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'actual_check_in_at')
   DateTime? get actualCheckInAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'actual_check_out_at')
   DateTime? get actualCheckOutAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   User? get user => throw _privateConstructorUsedError;
   TourInstance? get tourInstance => throw _privateConstructorUsedError;
   Room? get room => throw _privateConstructorUsedError;
@@ -94,28 +71,28 @@ abstract class $HotelBookingCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'tour_instance_id') String? tourInstanceId,
-    @JsonKey(name: 'room_id') String? roomId,
-    @JsonKey(name: 'check_in_date') DateTime checkInDate,
-    @JsonKey(name: 'check_out_date') DateTime checkOutDate,
-    @JsonKey(name: 'night_count') int nightCount,
-    @JsonKey(name: 'guest_count') int guestCount,
-    @JsonKey(name: 'total_price') double totalPrice,
-    @JsonKey(name: 'payment_deadline') DateTime? paymentDeadline,
-    @JsonKey(name: 'special_request') String? specialRequest,
-    @JsonKey(name: 'late_checkout_fee') double? lateCheckoutFee,
-    @JsonKey(name: 'addon_total') double? addonTotal,
-    @JsonKey(name: 'no_show_note') String? noShowNote,
-    @JsonKey(name: 'no_show_at') DateTime? noShowAt,
+    String userId,
+    String? tourInstanceId,
+    String? roomId,
+    DateTime checkInDate,
+    DateTime checkOutDate,
+    int nightCount,
+    int guestCount,
+    double totalPrice,
+    DateTime? paymentDeadline,
+    String? specialRequest,
+    double? lateCheckoutFee,
+    double? addonTotal,
+    String? noShowNote,
+    DateTime? noShowAt,
     HotelBookingStatus status,
-    @JsonKey(name: 'actual_check_in_at') DateTime? actualCheckInAt,
-    @JsonKey(name: 'actual_check_out_at') DateTime? actualCheckOutAt,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? actualCheckInAt,
+    DateTime? actualCheckOutAt,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     TourInstance? tourInstance,
     Room? room,
@@ -372,28 +349,28 @@ abstract class _$$HotelBookingImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
-    @JsonKey(name: 'tour_instance_id') String? tourInstanceId,
-    @JsonKey(name: 'room_id') String? roomId,
-    @JsonKey(name: 'check_in_date') DateTime checkInDate,
-    @JsonKey(name: 'check_out_date') DateTime checkOutDate,
-    @JsonKey(name: 'night_count') int nightCount,
-    @JsonKey(name: 'guest_count') int guestCount,
-    @JsonKey(name: 'total_price') double totalPrice,
-    @JsonKey(name: 'payment_deadline') DateTime? paymentDeadline,
-    @JsonKey(name: 'special_request') String? specialRequest,
-    @JsonKey(name: 'late_checkout_fee') double? lateCheckoutFee,
-    @JsonKey(name: 'addon_total') double? addonTotal,
-    @JsonKey(name: 'no_show_note') String? noShowNote,
-    @JsonKey(name: 'no_show_at') DateTime? noShowAt,
+    String userId,
+    String? tourInstanceId,
+    String? roomId,
+    DateTime checkInDate,
+    DateTime checkOutDate,
+    int nightCount,
+    int guestCount,
+    double totalPrice,
+    DateTime? paymentDeadline,
+    String? specialRequest,
+    double? lateCheckoutFee,
+    double? addonTotal,
+    String? noShowNote,
+    DateTime? noShowAt,
     HotelBookingStatus status,
-    @JsonKey(name: 'actual_check_in_at') DateTime? actualCheckInAt,
-    @JsonKey(name: 'actual_check_out_at') DateTime? actualCheckOutAt,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? actualCheckInAt,
+    DateTime? actualCheckOutAt,
+    DateTime? cancelledAt,
+    String? cancellationReason,
+    String? cancelledBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     User? user,
     TourInstance? tourInstance,
     Room? room,
@@ -590,28 +567,28 @@ class __$$HotelBookingImplCopyWithImpl<$Res>
 class _$HotelBookingImpl implements _HotelBooking {
   const _$HotelBookingImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
-    @JsonKey(name: 'tour_instance_id') this.tourInstanceId,
-    @JsonKey(name: 'room_id') this.roomId,
-    @JsonKey(name: 'check_in_date') required this.checkInDate,
-    @JsonKey(name: 'check_out_date') required this.checkOutDate,
-    @JsonKey(name: 'night_count') required this.nightCount,
-    @JsonKey(name: 'guest_count') required this.guestCount,
-    @JsonKey(name: 'total_price') required this.totalPrice,
-    @JsonKey(name: 'payment_deadline') this.paymentDeadline,
-    @JsonKey(name: 'special_request') this.specialRequest,
-    @JsonKey(name: 'late_checkout_fee') this.lateCheckoutFee,
-    @JsonKey(name: 'addon_total') this.addonTotal,
-    @JsonKey(name: 'no_show_note') this.noShowNote,
-    @JsonKey(name: 'no_show_at') this.noShowAt,
+    required this.userId,
+    this.tourInstanceId,
+    this.roomId,
+    required this.checkInDate,
+    required this.checkOutDate,
+    required this.nightCount,
+    required this.guestCount,
+    required this.totalPrice,
+    this.paymentDeadline,
+    this.specialRequest,
+    this.lateCheckoutFee,
+    this.addonTotal,
+    this.noShowNote,
+    this.noShowAt,
     required this.status,
-    @JsonKey(name: 'actual_check_in_at') this.actualCheckInAt,
-    @JsonKey(name: 'actual_check_out_at') this.actualCheckOutAt,
-    @JsonKey(name: 'cancelled_at') this.cancelledAt,
-    @JsonKey(name: 'cancellation_reason') this.cancellationReason,
-    @JsonKey(name: 'cancelled_by') this.cancelledBy,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.actualCheckInAt,
+    this.actualCheckOutAt,
+    this.cancelledAt,
+    this.cancellationReason,
+    this.cancelledBy,
+    this.createdAt,
+    this.updatedAt,
     this.user,
     this.tourInstance,
     this.room,
@@ -629,72 +606,49 @@ class _$HotelBookingImpl implements _HotelBooking {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
-  @JsonKey(name: 'tour_instance_id')
   final String? tourInstanceId;
   @override
-  @JsonKey(name: 'room_id')
   final String? roomId;
   @override
-  @JsonKey(name: 'check_in_date')
   final DateTime checkInDate;
   @override
-  @JsonKey(name: 'check_out_date')
   final DateTime checkOutDate;
   @override
-  @JsonKey(name: 'night_count')
   final int nightCount;
   @override
-  @JsonKey(name: 'guest_count')
   final int guestCount;
   @override
-  @JsonKey(name: 'total_price')
   final double totalPrice;
   @override
-  @JsonKey(name: 'payment_deadline')
   final DateTime? paymentDeadline;
   @override
-  @JsonKey(name: 'special_request')
   final String? specialRequest;
   @override
-  @JsonKey(name: 'late_checkout_fee')
   final double? lateCheckoutFee;
   @override
-  @JsonKey(name: 'addon_total')
   final double? addonTotal;
   @override
-  @JsonKey(name: 'no_show_note')
   final String? noShowNote;
   @override
-  @JsonKey(name: 'no_show_at')
   final DateTime? noShowAt;
   @override
   final HotelBookingStatus status;
   @override
-  @JsonKey(name: 'actual_check_in_at')
   final DateTime? actualCheckInAt;
   @override
-  @JsonKey(name: 'actual_check_out_at')
   final DateTime? actualCheckOutAt;
   @override
-  @JsonKey(name: 'cancelled_at')
   final DateTime? cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   final String? cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   final String? cancelledBy;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final User? user;
   @override
@@ -852,28 +806,28 @@ class _$HotelBookingImpl implements _HotelBooking {
 abstract class _HotelBooking implements HotelBooking {
   const factory _HotelBooking({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
-    @JsonKey(name: 'tour_instance_id') final String? tourInstanceId,
-    @JsonKey(name: 'room_id') final String? roomId,
-    @JsonKey(name: 'check_in_date') required final DateTime checkInDate,
-    @JsonKey(name: 'check_out_date') required final DateTime checkOutDate,
-    @JsonKey(name: 'night_count') required final int nightCount,
-    @JsonKey(name: 'guest_count') required final int guestCount,
-    @JsonKey(name: 'total_price') required final double totalPrice,
-    @JsonKey(name: 'payment_deadline') final DateTime? paymentDeadline,
-    @JsonKey(name: 'special_request') final String? specialRequest,
-    @JsonKey(name: 'late_checkout_fee') final double? lateCheckoutFee,
-    @JsonKey(name: 'addon_total') final double? addonTotal,
-    @JsonKey(name: 'no_show_note') final String? noShowNote,
-    @JsonKey(name: 'no_show_at') final DateTime? noShowAt,
+    required final String userId,
+    final String? tourInstanceId,
+    final String? roomId,
+    required final DateTime checkInDate,
+    required final DateTime checkOutDate,
+    required final int nightCount,
+    required final int guestCount,
+    required final double totalPrice,
+    final DateTime? paymentDeadline,
+    final String? specialRequest,
+    final double? lateCheckoutFee,
+    final double? addonTotal,
+    final String? noShowNote,
+    final DateTime? noShowAt,
     required final HotelBookingStatus status,
-    @JsonKey(name: 'actual_check_in_at') final DateTime? actualCheckInAt,
-    @JsonKey(name: 'actual_check_out_at') final DateTime? actualCheckOutAt,
-    @JsonKey(name: 'cancelled_at') final DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') final String? cancelledBy,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? actualCheckInAt,
+    final DateTime? actualCheckOutAt,
+    final DateTime? cancelledAt,
+    final String? cancellationReason,
+    final String? cancelledBy,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final User? user,
     final TourInstance? tourInstance,
     final Room? room,
@@ -889,72 +843,49 @@ abstract class _HotelBooking implements HotelBooking {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
-  @JsonKey(name: 'tour_instance_id')
   String? get tourInstanceId;
   @override
-  @JsonKey(name: 'room_id')
   String? get roomId;
   @override
-  @JsonKey(name: 'check_in_date')
   DateTime get checkInDate;
   @override
-  @JsonKey(name: 'check_out_date')
   DateTime get checkOutDate;
   @override
-  @JsonKey(name: 'night_count')
   int get nightCount;
   @override
-  @JsonKey(name: 'guest_count')
   int get guestCount;
   @override
-  @JsonKey(name: 'total_price')
   double get totalPrice;
   @override
-  @JsonKey(name: 'payment_deadline')
   DateTime? get paymentDeadline;
   @override
-  @JsonKey(name: 'special_request')
   String? get specialRequest;
   @override
-  @JsonKey(name: 'late_checkout_fee')
   double? get lateCheckoutFee;
   @override
-  @JsonKey(name: 'addon_total')
   double? get addonTotal;
   @override
-  @JsonKey(name: 'no_show_note')
   String? get noShowNote;
   @override
-  @JsonKey(name: 'no_show_at')
   DateTime? get noShowAt;
   @override
   HotelBookingStatus get status;
   @override
-  @JsonKey(name: 'actual_check_in_at')
   DateTime? get actualCheckInAt;
   @override
-  @JsonKey(name: 'actual_check_out_at')
   DateTime? get actualCheckOutAt;
   @override
-  @JsonKey(name: 'cancelled_at')
   DateTime? get cancelledAt;
   @override
-  @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason;
   @override
-  @JsonKey(name: 'cancelled_by')
   String? get cancelledBy;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   User? get user;
   @override

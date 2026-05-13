@@ -2,8 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'location.freezed.dart';
 part 'location.g.dart';
-
-/// Represents a geographical region/location served by Travery.
 @freezed
 class Location with _$Location {
   const factory Location({
@@ -17,11 +15,11 @@ class Location with _$Location {
 
     String? description,
 
-    @JsonKey(name: 'is_active') @Default(true) bool isActive,
+    @Default(true) bool isActive,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? updatedAt,
   }) = _Location;
 
   factory Location.fromJson(Map<String, dynamic> json) =>

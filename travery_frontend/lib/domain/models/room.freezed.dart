@@ -22,21 +22,13 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Room {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
   String get hotelId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'room_type_id')
   String get roomTypeId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'room_number')
   String get roomNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: 'floor')
   int? get floor => throw _privateConstructorUsedError;
   RoomStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// RELATIONS
   Hotel? get hotel => throw _privateConstructorUsedError;
   RoomType? get roomType => throw _privateConstructorUsedError;
 
@@ -56,13 +48,13 @@ abstract class $RoomCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
-    @JsonKey(name: 'room_type_id') String roomTypeId,
-    @JsonKey(name: 'room_number') String roomNumber,
-    @JsonKey(name: 'floor') int? floor,
+    String hotelId,
+    String roomTypeId,
+    String roomNumber,
+    int? floor,
     RoomStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
     RoomType? roomType,
   });
@@ -183,13 +175,13 @@ abstract class _$$RoomImplCopyWith<$Res> implements $RoomCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'hotel_id') String hotelId,
-    @JsonKey(name: 'room_type_id') String roomTypeId,
-    @JsonKey(name: 'room_number') String roomNumber,
-    @JsonKey(name: 'floor') int? floor,
+    String hotelId,
+    String roomTypeId,
+    String roomNumber,
+    int? floor,
     RoomStatus status,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Hotel? hotel,
     RoomType? roomType,
   });
@@ -275,13 +267,13 @@ class __$$RoomImplCopyWithImpl<$Res>
 class _$RoomImpl implements _Room {
   const _$RoomImpl({
     this.id,
-    @JsonKey(name: 'hotel_id') required this.hotelId,
-    @JsonKey(name: 'room_type_id') required this.roomTypeId,
-    @JsonKey(name: 'room_number') required this.roomNumber,
-    @JsonKey(name: 'floor') this.floor,
+    required this.hotelId,
+    required this.roomTypeId,
+    required this.roomNumber,
+    this.floor,
     required this.status,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
     this.hotel,
     this.roomType,
   });
@@ -292,27 +284,19 @@ class _$RoomImpl implements _Room {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'hotel_id')
   final String hotelId;
   @override
-  @JsonKey(name: 'room_type_id')
   final String roomTypeId;
   @override
-  @JsonKey(name: 'room_number')
   final String roomNumber;
   @override
-  @JsonKey(name: 'floor')
   final int? floor;
   @override
   final RoomStatus status;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
-
-  /// RELATIONS
   @override
   final Hotel? hotel;
   @override
@@ -378,13 +362,13 @@ class _$RoomImpl implements _Room {
 abstract class _Room implements Room {
   const factory _Room({
     final String? id,
-    @JsonKey(name: 'hotel_id') required final String hotelId,
-    @JsonKey(name: 'room_type_id') required final String roomTypeId,
-    @JsonKey(name: 'room_number') required final String roomNumber,
-    @JsonKey(name: 'floor') final int? floor,
+    required final String hotelId,
+    required final String roomTypeId,
+    required final String roomNumber,
+    final int? floor,
     required final RoomStatus status,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final DateTime? createdAt,
+    final DateTime? updatedAt,
     final Hotel? hotel,
     final RoomType? roomType,
   }) = _$RoomImpl;
@@ -394,27 +378,19 @@ abstract class _Room implements Room {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'hotel_id')
   String get hotelId;
   @override
-  @JsonKey(name: 'room_type_id')
   String get roomTypeId;
   @override
-  @JsonKey(name: 'room_number')
   String get roomNumber;
   @override
-  @JsonKey(name: 'floor')
   int? get floor;
   @override
   RoomStatus get status;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
-
-  /// RELATIONS
   @override
   Hotel? get hotel;
   @override

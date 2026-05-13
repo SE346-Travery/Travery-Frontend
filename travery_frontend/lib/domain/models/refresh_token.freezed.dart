@@ -22,18 +22,12 @@ RefreshToken _$RefreshTokenFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RefreshToken {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   String get token => throw _privateConstructorUsedError;
-  @JsonKey(name: 'expiry_date')
   DateTime get expiryDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'revoked')
   bool get revoked => throw _privateConstructorUsedError;
-  @JsonKey(name: 'device_info')
   String? get deviceInfo => throw _privateConstructorUsedError;
-  @JsonKey(name: 'ip_address')
   String? get ipAddress => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this RefreshToken to a JSON map.
@@ -55,13 +49,13 @@ abstract class $RefreshTokenCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
+    String userId,
     String token,
-    @JsonKey(name: 'expiry_date') DateTime expiryDate,
-    @JsonKey(name: 'revoked') bool revoked,
-    @JsonKey(name: 'device_info') String? deviceInfo,
-    @JsonKey(name: 'ip_address') String? ipAddress,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime expiryDate,
+    bool revoked,
+    String? deviceInfo,
+    String? ipAddress,
+    DateTime? createdAt,
   });
 }
 
@@ -140,13 +134,13 @@ abstract class _$$RefreshTokenImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'user_id') String userId,
+    String userId,
     String token,
-    @JsonKey(name: 'expiry_date') DateTime expiryDate,
-    @JsonKey(name: 'revoked') bool revoked,
-    @JsonKey(name: 'device_info') String? deviceInfo,
-    @JsonKey(name: 'ip_address') String? ipAddress,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime expiryDate,
+    bool revoked,
+    String? deviceInfo,
+    String? ipAddress,
+    DateTime? createdAt,
   });
 }
 
@@ -217,13 +211,13 @@ class __$$RefreshTokenImplCopyWithImpl<$Res>
 class _$RefreshTokenImpl implements _RefreshToken {
   const _$RefreshTokenImpl({
     this.id,
-    @JsonKey(name: 'user_id') required this.userId,
+    required this.userId,
     required this.token,
-    @JsonKey(name: 'expiry_date') required this.expiryDate,
-    @JsonKey(name: 'revoked') this.revoked = false,
-    @JsonKey(name: 'device_info') this.deviceInfo,
-    @JsonKey(name: 'ip_address') this.ipAddress,
-    @JsonKey(name: 'created_at') this.createdAt,
+    required this.expiryDate,
+    this.revoked = false,
+    this.deviceInfo,
+    this.ipAddress,
+    this.createdAt,
   });
 
   factory _$RefreshTokenImpl.fromJson(Map<String, dynamic> json) =>
@@ -232,24 +226,19 @@ class _$RefreshTokenImpl implements _RefreshToken {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'user_id')
   final String userId;
   @override
   final String token;
   @override
-  @JsonKey(name: 'expiry_date')
   final DateTime expiryDate;
   @override
-  @JsonKey(name: 'revoked')
+  @JsonKey()
   final bool revoked;
   @override
-  @JsonKey(name: 'device_info')
   final String? deviceInfo;
   @override
-  @JsonKey(name: 'ip_address')
   final String? ipAddress;
   @override
-  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
 
   @override
@@ -307,13 +296,13 @@ class _$RefreshTokenImpl implements _RefreshToken {
 abstract class _RefreshToken implements RefreshToken {
   const factory _RefreshToken({
     final String? id,
-    @JsonKey(name: 'user_id') required final String userId,
+    required final String userId,
     required final String token,
-    @JsonKey(name: 'expiry_date') required final DateTime expiryDate,
-    @JsonKey(name: 'revoked') final bool revoked,
-    @JsonKey(name: 'device_info') final String? deviceInfo,
-    @JsonKey(name: 'ip_address') final String? ipAddress,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
+    required final DateTime expiryDate,
+    final bool revoked,
+    final String? deviceInfo,
+    final String? ipAddress,
+    final DateTime? createdAt,
   }) = _$RefreshTokenImpl;
 
   factory _RefreshToken.fromJson(Map<String, dynamic> json) =
@@ -322,24 +311,18 @@ abstract class _RefreshToken implements RefreshToken {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'user_id')
   String get userId;
   @override
   String get token;
   @override
-  @JsonKey(name: 'expiry_date')
   DateTime get expiryDate;
   @override
-  @JsonKey(name: 'revoked')
   bool get revoked;
   @override
-  @JsonKey(name: 'device_info')
   String? get deviceInfo;
   @override
-  @JsonKey(name: 'ip_address')
   String? get ipAddress;
   @override
-  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
 
   /// Create a copy of RefreshToken

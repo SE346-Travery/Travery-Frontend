@@ -379,4 +379,3 @@ abstract class _Vehicle implements Vehicle {
   _$$VehicleImplCopyWith<_$VehicleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
-

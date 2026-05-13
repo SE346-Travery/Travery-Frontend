@@ -39,25 +39,25 @@ _$CoachBookingImpl _$$CoachBookingImplFromJson(Map<String, dynamic> json) =>
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      coachTrip: json['coachTrip'] == null
+      coachTrip: json['coach_trip'] == null
           ? null
-          : CoachTrip.fromJson(json['coachTrip'] as Map<String, dynamic>),
-      pickupStation: json['pickupStation'] == null
+          : CoachTrip.fromJson(json['coach_trip'] as Map<String, dynamic>),
+      pickupStation: json['pickup_station'] == null
           ? null
-          : Station.fromJson(json['pickupStation'] as Map<String, dynamic>),
-      dropoffStation: json['dropoffStation'] == null
+          : Station.fromJson(json['pickup_station'] as Map<String, dynamic>),
+      dropoffStation: json['dropoff_station'] == null
           ? null
-          : Station.fromJson(json['dropoffStation'] as Map<String, dynamic>),
+          : Station.fromJson(json['dropoff_station'] as Map<String, dynamic>),
       tickets: (json['tickets'] as List<dynamic>?)
           ?.map((e) => CoachTicket.fromJson(e as Map<String, dynamic>))
           .toList(),
       payments: (json['payments'] as List<dynamic>?)
           ?.map((e) => PaymentTransaction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      refundRequest: json['refundRequest'] == null
+      refundRequest: json['refund_request'] == null
           ? null
           : RefundRequest.fromJson(
-              json['refundRequest'] as Map<String, dynamic>,
+              json['refund_request'] as Map<String, dynamic>,
             ),
     );
 
@@ -82,12 +82,12 @@ Map<String, dynamic> _$$CoachBookingImplToJson(_$CoachBookingImpl instance) =>
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'user': instance.user,
-      'coachTrip': instance.coachTrip,
-      'pickupStation': instance.pickupStation,
-      'dropoffStation': instance.dropoffStation,
+      'coach_trip': instance.coachTrip,
+      'pickup_station': instance.pickupStation,
+      'dropoff_station': instance.dropoffStation,
       'tickets': instance.tickets,
       'payments': instance.payments,
-      'refundRequest': instance.refundRequest,
+      'refund_request': instance.refundRequest,
     };
 
 const _$CoachBookingStatusEnumMap = {

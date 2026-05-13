@@ -4,28 +4,24 @@ import 'vehicle.dart';
 
 part 'vehicle_seat.freezed.dart';
 part 'vehicle_seat.g.dart';
-
-/// Seat configuration for a Vehicle.
 @freezed
 class VehicleSeat with _$VehicleSeat {
   const factory VehicleSeat({
     String? id,
 
-    @JsonKey(name: 'vehicle_id') required String vehicleId,
+    required String vehicleId,
 
-    @JsonKey(name: 'seat_code') required String seatCode,
+    required String seatCode,
 
-    @JsonKey(name: 'floor_number') int? floorNumber,
+    int? floorNumber,
 
     required SeatRowZone rowZone,
 
-    @JsonKey(name: 'is_available') @Default(true) bool isAvailable,
+    @Default(true) bool isAvailable,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     Vehicle? vehicle,
   }) = _VehicleSeat;
 

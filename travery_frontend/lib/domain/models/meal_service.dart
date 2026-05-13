@@ -4,14 +4,12 @@ import 'hotel.dart';
 
 part 'meal_service.freezed.dart';
 part 'meal_service.g.dart';
-
-/// Meal service provided by a Hotel.
 @freezed
 class MealService with _$MealService {
   const factory MealService({
     String? id,
 
-    @JsonKey(name: 'hotel_id') required String hotelId,
+    required String hotelId,
 
     required String name,
 
@@ -21,17 +19,15 @@ class MealService with _$MealService {
 
     required double price,
 
-    @JsonKey(name: 'is_available') @Default(true) bool isAvailable,
+    @Default(true) bool isAvailable,
 
-    @JsonKey(name: 'start_time') String? startTime,
+    String? startTime,
 
-    @JsonKey(name: 'end_time') String? endTime,
+    String? endTime,
 
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    DateTime? createdAt,
 
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
-
-    /// RELATION
+    DateTime? updatedAt,
     Hotel? hotel,
   }) = _MealService;
 

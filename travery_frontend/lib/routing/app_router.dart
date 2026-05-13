@@ -251,6 +251,22 @@ GoRouter appRouter(AuthRepository authRepository) {
         builder: (context, state) => CreateAccountScreen(),
       ),
       GoRoute(
+        path: Routes.adminCreateHotel,
+        builder: (context, state) => CreateHotelScreen(),
+      ),
+      GoRoute(
+        path: Routes.adminHotelManagement,
+        builder: (context, state) => HotelManagementScreen(),
+      ),
+      GoRoute(
+        path: Routes.adminCreateHotel,
+        builder: (context, state) => CreateHotelScreen(),
+      ),
+      GoRoute(
+        path: Routes.adminCreateVehicle,
+        builder: (context, state) => CreateVehicleScreen(),
+      ),
+      GoRoute(
         path: Routes.adminAccountManagement,
         builder: (context, state) => const AccountManagementScreen(),
       ),

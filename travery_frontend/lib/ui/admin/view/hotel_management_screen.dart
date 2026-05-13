@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/admin/view/widgets/small_button.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -112,7 +113,9 @@ class _HotelManagementScreenState extends State<HotelManagementScreen> {
                                     color: Colors.white,
                                   ),
                                   label: 'Thêm',
-                                  onTap: () => {},
+                                  onTap: () => {
+                                    context.push(Routes.adminCreateHotel),
+                                  },
                                 ),
                               ],
                             ),

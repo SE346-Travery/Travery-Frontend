@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
+import 'package:travery_frontend/routing/routes.dart';
+import 'package:travery_frontend/ui/admin/view/widgets/small_button.dart';
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import '../../core/themes/app_colors.dart';
@@ -19,7 +21,12 @@ class VehicleManagementScreen extends StatefulWidget {
 }
 
 class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
-  static const _filterLabels = ['Tất cả', 'Đang chạy', 'Sẵn sàng'];
+  static const _filterLabels = [
+    'Tất cả',
+    'Limousine',
+    'Giường nằm',
+    'Ghế ngồi',
+  ];
 
   int _selectedFilterIndex = 0;
   String _searchQuery = '';
@@ -83,13 +90,25 @@ class _VehicleManagementScreenState extends State<VehicleManagementScreen> {
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () => context.pop(),
                   ),
-                  Text(
-                    'Quản lý đội xe',
-                    style: TextStyle(
-                      fontSize: AppTextTheme.headlineLarge,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Quản lý đội xe',
+                        style: TextStyle(
+                          fontSize: AppTextTheme.headlineLarge,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      SmallButton(
+                        label: 'Thêm phương tiện',
+                        prefixIcon: Icon(Icons.add, color: Colors.white),
+                        onTap: () {
+                          context.push(Routes.adminCreateVehicle);
+                        },
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 2),
                   Text(

@@ -10,19 +10,11 @@ part 'coach.g.dart';
 class Coach with _$Coach {
   const factory Coach({
     String? id,
-
     required String licensePlate,
-
     required CoachType coachType,
-
     required int capacity,
-
     required CoachStatus status,
-
-    int? floorCount,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     List<CoachSeat>? seats,
     List<CoachTrip>? trips,

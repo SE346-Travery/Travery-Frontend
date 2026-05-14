@@ -26,8 +26,6 @@ mixin _$CoachSeat {
   String get seatName => throw _privateConstructorUsedError;
   SeatTier get tier => throw _privateConstructorUsedError;
   SeatPosition get position => throw _privateConstructorUsedError;
-  int? get floorNumber => throw _privateConstructorUsedError;
-  bool get isAvailable => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   Coach? get coach => throw _privateConstructorUsedError;
@@ -53,8 +51,6 @@ abstract class $CoachSeatCopyWith<$Res> {
     String seatName,
     SeatTier tier,
     SeatPosition position,
-    int? floorNumber,
-    bool isAvailable,
     DateTime? createdAt,
     DateTime? updatedAt,
     Coach? coach,
@@ -83,8 +79,6 @@ class _$CoachSeatCopyWithImpl<$Res, $Val extends CoachSeat>
     Object? seatName = null,
     Object? tier = null,
     Object? position = null,
-    Object? floorNumber = freezed,
-    Object? isAvailable = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? coach = freezed,
@@ -111,14 +105,6 @@ class _$CoachSeatCopyWithImpl<$Res, $Val extends CoachSeat>
                 ? _value.position
                 : position // ignore: cast_nullable_to_non_nullable
                       as SeatPosition,
-            floorNumber: freezed == floorNumber
-                ? _value.floorNumber
-                : floorNumber // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            isAvailable: null == isAvailable
-                ? _value.isAvailable
-                : isAvailable // ignore: cast_nullable_to_non_nullable
-                      as bool,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -166,8 +152,6 @@ abstract class _$$CoachSeatImplCopyWith<$Res>
     String seatName,
     SeatTier tier,
     SeatPosition position,
-    int? floorNumber,
-    bool isAvailable,
     DateTime? createdAt,
     DateTime? updatedAt,
     Coach? coach,
@@ -196,8 +180,6 @@ class __$$CoachSeatImplCopyWithImpl<$Res>
     Object? seatName = null,
     Object? tier = null,
     Object? position = null,
-    Object? floorNumber = freezed,
-    Object? isAvailable = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? coach = freezed,
@@ -224,14 +206,6 @@ class __$$CoachSeatImplCopyWithImpl<$Res>
             ? _value.position
             : position // ignore: cast_nullable_to_non_nullable
                   as SeatPosition,
-        floorNumber: freezed == floorNumber
-            ? _value.floorNumber
-            : floorNumber // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        isAvailable: null == isAvailable
-            ? _value.isAvailable
-            : isAvailable // ignore: cast_nullable_to_non_nullable
-                  as bool,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -258,8 +232,6 @@ class _$CoachSeatImpl implements _CoachSeat {
     required this.seatName,
     required this.tier,
     required this.position,
-    this.floorNumber,
-    this.isAvailable = true,
     this.createdAt,
     this.updatedAt,
     this.coach,
@@ -279,11 +251,6 @@ class _$CoachSeatImpl implements _CoachSeat {
   @override
   final SeatPosition position;
   @override
-  final int? floorNumber;
-  @override
-  @JsonKey()
-  final bool isAvailable;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
@@ -292,7 +259,7 @@ class _$CoachSeatImpl implements _CoachSeat {
 
   @override
   String toString() {
-    return 'CoachSeat(id: $id, coachId: $coachId, seatName: $seatName, tier: $tier, position: $position, floorNumber: $floorNumber, isAvailable: $isAvailable, createdAt: $createdAt, updatedAt: $updatedAt, coach: $coach)';
+    return 'CoachSeat(id: $id, coachId: $coachId, seatName: $seatName, tier: $tier, position: $position, createdAt: $createdAt, updatedAt: $updatedAt, coach: $coach)';
   }
 
   @override
@@ -307,10 +274,6 @@ class _$CoachSeatImpl implements _CoachSeat {
             (identical(other.tier, tier) || other.tier == tier) &&
             (identical(other.position, position) ||
                 other.position == position) &&
-            (identical(other.floorNumber, floorNumber) ||
-                other.floorNumber == floorNumber) &&
-            (identical(other.isAvailable, isAvailable) ||
-                other.isAvailable == isAvailable) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -327,8 +290,6 @@ class _$CoachSeatImpl implements _CoachSeat {
     seatName,
     tier,
     position,
-    floorNumber,
-    isAvailable,
     createdAt,
     updatedAt,
     coach,
@@ -355,8 +316,6 @@ abstract class _CoachSeat implements CoachSeat {
     required final String seatName,
     required final SeatTier tier,
     required final SeatPosition position,
-    final int? floorNumber,
-    final bool isAvailable,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final Coach? coach,
@@ -375,10 +334,6 @@ abstract class _CoachSeat implements CoachSeat {
   SeatTier get tier;
   @override
   SeatPosition get position;
-  @override
-  int? get floorNumber;
-  @override
-  bool get isAvailable;
   @override
   DateTime? get createdAt;
   @override

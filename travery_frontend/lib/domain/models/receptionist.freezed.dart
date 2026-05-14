@@ -21,7 +21,6 @@ Receptionist _$ReceptionistFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Receptionist {
-  String? get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get hotelId => throw _privateConstructorUsedError;
   String get employeeCode => throw _privateConstructorUsedError;
@@ -49,7 +48,6 @@ abstract class $ReceptionistCopyWith<$Res> {
   ) = _$ReceptionistCopyWithImpl<$Res, Receptionist>;
   @useResult
   $Res call({
-    String? id,
     String userId,
     String hotelId,
     String employeeCode,
@@ -79,7 +77,6 @@ class _$ReceptionistCopyWithImpl<$Res, $Val extends Receptionist>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? userId = null,
     Object? hotelId = null,
     Object? employeeCode = null,
@@ -91,10 +88,6 @@ class _$ReceptionistCopyWithImpl<$Res, $Val extends Receptionist>
   }) {
     return _then(
       _value.copyWith(
-            id: freezed == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String?,
             userId: null == userId
                 ? _value.userId
                 : userId // ignore: cast_nullable_to_non_nullable
@@ -171,7 +164,6 @@ abstract class _$$ReceptionistImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    String? id,
     String userId,
     String hotelId,
     String employeeCode,
@@ -202,7 +194,6 @@ class __$$ReceptionistImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? userId = null,
     Object? hotelId = null,
     Object? employeeCode = null,
@@ -214,10 +205,6 @@ class __$$ReceptionistImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ReceptionistImpl(
-        id: freezed == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String?,
         userId: null == userId
             ? _value.userId
             : userId // ignore: cast_nullable_to_non_nullable
@@ -259,7 +246,6 @@ class __$$ReceptionistImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ReceptionistImpl implements _Receptionist {
   const _$ReceptionistImpl({
-    this.id,
     required this.userId,
     required this.hotelId,
     required this.employeeCode,
@@ -273,8 +259,6 @@ class _$ReceptionistImpl implements _Receptionist {
   factory _$ReceptionistImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReceptionistImplFromJson(json);
 
-  @override
-  final String? id;
   @override
   final String userId;
   @override
@@ -294,7 +278,7 @@ class _$ReceptionistImpl implements _Receptionist {
 
   @override
   String toString() {
-    return 'Receptionist(id: $id, userId: $userId, hotelId: $hotelId, employeeCode: $employeeCode, shiftType: $shiftType, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, hotel: $hotel)';
+    return 'Receptionist(userId: $userId, hotelId: $hotelId, employeeCode: $employeeCode, shiftType: $shiftType, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, hotel: $hotel)';
   }
 
   @override
@@ -302,7 +286,6 @@ class _$ReceptionistImpl implements _Receptionist {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReceptionistImpl &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.hotelId, hotelId) || other.hotelId == hotelId) &&
             (identical(other.employeeCode, employeeCode) ||
@@ -321,7 +304,6 @@ class _$ReceptionistImpl implements _Receptionist {
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    id,
     userId,
     hotelId,
     employeeCode,
@@ -348,7 +330,6 @@ class _$ReceptionistImpl implements _Receptionist {
 
 abstract class _Receptionist implements Receptionist {
   const factory _Receptionist({
-    final String? id,
     required final String userId,
     required final String hotelId,
     required final String employeeCode,
@@ -362,8 +343,6 @@ abstract class _Receptionist implements Receptionist {
   factory _Receptionist.fromJson(Map<String, dynamic> json) =
       _$ReceptionistImpl.fromJson;
 
-  @override
-  String? get id;
   @override
   String get userId;
   @override

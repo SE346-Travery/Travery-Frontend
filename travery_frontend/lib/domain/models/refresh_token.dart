@@ -8,19 +8,10 @@ part 'refresh_token.g.dart';
 class RefreshToken with _$RefreshToken {
   const factory RefreshToken({
     String? id,
-
     required String userId,
-
     required String token,
-
     required DateTime expiryDate,
-
     @Default(false) bool revoked,
-
-    String? deviceInfo,
-
-    String? ipAddress,
-
     DateTime? createdAt,
   }) = _RefreshToken;
 

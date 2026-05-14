@@ -8,19 +8,11 @@ part 'guide.g.dart';
 class Guide with _$Guide {
   const factory Guide({
     String? id,
-
-    required String userId,
-
     required String employeeCode,
-
     required String guideLicense,
-
     List<String>? languages,
-
     @Default(0) int yearsExperience,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
   }) = _Guide;

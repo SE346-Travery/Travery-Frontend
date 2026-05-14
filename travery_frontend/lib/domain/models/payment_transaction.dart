@@ -8,29 +8,16 @@ part 'payment_transaction.g.dart';
 class PaymentTransaction with _$PaymentTransaction {
   const factory PaymentTransaction({
     String? id,
-
     required String userId,
-
     String? bookingId,
-
     String? bookingType,
-
     required double amount,
-
     required TransactionType transactionType,
-
     required PaymentMethod paymentMethod,
-
     String? gatewayTransId,
-
     required PaymentStatus status,
-
-    Map<String, dynamic>? gatewayResponse,
-
     DateTime? paidAt,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
   }) = _PaymentTransaction;

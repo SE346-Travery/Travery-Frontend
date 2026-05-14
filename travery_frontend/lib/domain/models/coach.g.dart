@@ -8,17 +8,16 @@ part of 'coach.dart';
 
 _$CoachImpl _$$CoachImplFromJson(Map<String, dynamic> json) => _$CoachImpl(
   id: json['id'] as String?,
-  licensePlate: json['license_plate'] as String,
-  coachType: $enumDecode(_$CoachTypeEnumMap, json['coach_type']),
+  licensePlate: json['licensePlate'] as String,
+  coachType: $enumDecode(_$CoachTypeEnumMap, json['coachType']),
   capacity: (json['capacity'] as num).toInt(),
   status: $enumDecode(_$CoachStatusEnumMap, json['status']),
-  floorCount: (json['floor_count'] as num?)?.toInt(),
-  createdAt: json['created_at'] == null
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
   seats: (json['seats'] as List<dynamic>?)
       ?.map((e) => CoachSeat.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -30,13 +29,12 @@ _$CoachImpl _$$CoachImplFromJson(Map<String, dynamic> json) => _$CoachImpl(
 Map<String, dynamic> _$$CoachImplToJson(_$CoachImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'license_plate': instance.licensePlate,
-      'coach_type': _$CoachTypeEnumMap[instance.coachType]!,
+      'licensePlate': instance.licensePlate,
+      'coachType': _$CoachTypeEnumMap[instance.coachType]!,
       'capacity': instance.capacity,
       'status': _$CoachStatusEnumMap[instance.status]!,
-      'floor_count': instance.floorCount,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'seats': instance.seats,
       'trips': instance.trips,
     };

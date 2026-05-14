@@ -8,17 +8,10 @@ part 'refund_policy.g.dart';
 class RefundPolicy with _$RefundPolicy {
   const factory RefundPolicy({
     String? id,
-
     required String name,
-
     required ServiceType serviceType,
-
-    String? description,
-
     @Default(true) bool isActive,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     List<RefundPolicyRule>? rules,
   }) = _RefundPolicy;

@@ -8,28 +8,28 @@ part of 'route.dart';
 
 _$RouteImpl _$$RouteImplFromJson(Map<String, dynamic> json) => _$RouteImpl(
   id: json['id'] as String?,
-  originStationId: json['origin_station_id'] as String,
-  destinationStationId: json['destination_station_id'] as String,
-  distanceKm: (json['distance_km'] as num?)?.toDouble(),
-  estimatedHours: (json['estimated_hours'] as num?)?.toDouble(),
-  basePrice: (json['base_price'] as num).toDouble(),
-  refundPolicyId: json['refund_policy_id'] as String?,
-  isActive: json['is_active'] as bool? ?? true,
-  createdAt: json['created_at'] == null
+  originStationId: json['originStationId'] as String,
+  destinationStationId: json['destinationStationId'] as String,
+  distanceKm: (json['distanceKm'] as num?)?.toDouble(),
+  estimatedHours: (json['estimatedHours'] as num?)?.toDouble(),
+  basePrice: (json['basePrice'] as num).toDouble(),
+  refundPolicyId: json['refundPolicyId'] as String?,
+  isActive: json['isActive'] as bool? ?? true,
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
-  originStation: json['origin_station'] == null
+      : DateTime.parse(json['updatedAt'] as String),
+  originStation: json['originStation'] == null
       ? null
-      : Station.fromJson(json['origin_station'] as Map<String, dynamic>),
-  destinationStation: json['destination_station'] == null
+      : Station.fromJson(json['originStation'] as Map<String, dynamic>),
+  destinationStation: json['destinationStation'] == null
       ? null
-      : Station.fromJson(json['destination_station'] as Map<String, dynamic>),
-  refundPolicy: json['refund_policy'] == null
+      : Station.fromJson(json['destinationStation'] as Map<String, dynamic>),
+  refundPolicy: json['refundPolicy'] == null
       ? null
-      : RefundPolicy.fromJson(json['refund_policy'] as Map<String, dynamic>),
+      : RefundPolicy.fromJson(json['refundPolicy'] as Map<String, dynamic>),
   trips: (json['trips'] as List<dynamic>?)
       ?.map((e) => CoachTrip.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -38,17 +38,17 @@ _$RouteImpl _$$RouteImplFromJson(Map<String, dynamic> json) => _$RouteImpl(
 Map<String, dynamic> _$$RouteImplToJson(_$RouteImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'origin_station_id': instance.originStationId,
-      'destination_station_id': instance.destinationStationId,
-      'distance_km': instance.distanceKm,
-      'estimated_hours': instance.estimatedHours,
-      'base_price': instance.basePrice,
-      'refund_policy_id': instance.refundPolicyId,
-      'is_active': instance.isActive,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
-      'origin_station': instance.originStation,
-      'destination_station': instance.destinationStation,
-      'refund_policy': instance.refundPolicy,
+      'originStationId': instance.originStationId,
+      'destinationStationId': instance.destinationStationId,
+      'distanceKm': instance.distanceKm,
+      'estimatedHours': instance.estimatedHours,
+      'basePrice': instance.basePrice,
+      'refundPolicyId': instance.refundPolicyId,
+      'isActive': instance.isActive,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'originStation': instance.originStation,
+      'destinationStation': instance.destinationStation,
+      'refundPolicy': instance.refundPolicy,
       'trips': instance.trips,
     };

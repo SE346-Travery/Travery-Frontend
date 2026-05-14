@@ -26,8 +26,6 @@ mixin _$RefreshToken {
   String get token => throw _privateConstructorUsedError;
   DateTime get expiryDate => throw _privateConstructorUsedError;
   bool get revoked => throw _privateConstructorUsedError;
-  String? get deviceInfo => throw _privateConstructorUsedError;
-  String? get ipAddress => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this RefreshToken to a JSON map.
@@ -53,8 +51,6 @@ abstract class $RefreshTokenCopyWith<$Res> {
     String token,
     DateTime expiryDate,
     bool revoked,
-    String? deviceInfo,
-    String? ipAddress,
     DateTime? createdAt,
   });
 }
@@ -79,8 +75,6 @@ class _$RefreshTokenCopyWithImpl<$Res, $Val extends RefreshToken>
     Object? token = null,
     Object? expiryDate = null,
     Object? revoked = null,
-    Object? deviceInfo = freezed,
-    Object? ipAddress = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
@@ -105,14 +99,6 @@ class _$RefreshTokenCopyWithImpl<$Res, $Val extends RefreshToken>
                 ? _value.revoked
                 : revoked // ignore: cast_nullable_to_non_nullable
                       as bool,
-            deviceInfo: freezed == deviceInfo
-                ? _value.deviceInfo
-                : deviceInfo // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            ipAddress: freezed == ipAddress
-                ? _value.ipAddress
-                : ipAddress // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -138,8 +124,6 @@ abstract class _$$RefreshTokenImplCopyWith<$Res>
     String token,
     DateTime expiryDate,
     bool revoked,
-    String? deviceInfo,
-    String? ipAddress,
     DateTime? createdAt,
   });
 }
@@ -163,8 +147,6 @@ class __$$RefreshTokenImplCopyWithImpl<$Res>
     Object? token = null,
     Object? expiryDate = null,
     Object? revoked = null,
-    Object? deviceInfo = freezed,
-    Object? ipAddress = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
@@ -189,14 +171,6 @@ class __$$RefreshTokenImplCopyWithImpl<$Res>
             ? _value.revoked
             : revoked // ignore: cast_nullable_to_non_nullable
                   as bool,
-        deviceInfo: freezed == deviceInfo
-            ? _value.deviceInfo
-            : deviceInfo // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        ipAddress: freezed == ipAddress
-            ? _value.ipAddress
-            : ipAddress // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -215,8 +189,6 @@ class _$RefreshTokenImpl implements _RefreshToken {
     required this.token,
     required this.expiryDate,
     this.revoked = false,
-    this.deviceInfo,
-    this.ipAddress,
     this.createdAt,
   });
 
@@ -235,15 +207,11 @@ class _$RefreshTokenImpl implements _RefreshToken {
   @JsonKey()
   final bool revoked;
   @override
-  final String? deviceInfo;
-  @override
-  final String? ipAddress;
-  @override
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'RefreshToken(id: $id, userId: $userId, token: $token, expiryDate: $expiryDate, revoked: $revoked, deviceInfo: $deviceInfo, ipAddress: $ipAddress, createdAt: $createdAt)';
+    return 'RefreshToken(id: $id, userId: $userId, token: $token, expiryDate: $expiryDate, revoked: $revoked, createdAt: $createdAt)';
   }
 
   @override
@@ -257,10 +225,6 @@ class _$RefreshTokenImpl implements _RefreshToken {
             (identical(other.expiryDate, expiryDate) ||
                 other.expiryDate == expiryDate) &&
             (identical(other.revoked, revoked) || other.revoked == revoked) &&
-            (identical(other.deviceInfo, deviceInfo) ||
-                other.deviceInfo == deviceInfo) &&
-            (identical(other.ipAddress, ipAddress) ||
-                other.ipAddress == ipAddress) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -274,8 +238,6 @@ class _$RefreshTokenImpl implements _RefreshToken {
     token,
     expiryDate,
     revoked,
-    deviceInfo,
-    ipAddress,
     createdAt,
   );
 
@@ -300,8 +262,6 @@ abstract class _RefreshToken implements RefreshToken {
     required final String token,
     required final DateTime expiryDate,
     final bool revoked,
-    final String? deviceInfo,
-    final String? ipAddress,
     final DateTime? createdAt,
   }) = _$RefreshTokenImpl;
 
@@ -318,10 +278,6 @@ abstract class _RefreshToken implements RefreshToken {
   DateTime get expiryDate;
   @override
   bool get revoked;
-  @override
-  String? get deviceInfo;
-  @override
-  String? get ipAddress;
   @override
   DateTime? get createdAt;
 

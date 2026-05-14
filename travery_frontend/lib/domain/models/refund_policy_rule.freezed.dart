@@ -23,9 +23,8 @@ RefundPolicyRule _$RefundPolicyRuleFromJson(Map<String, dynamic> json) {
 mixin _$RefundPolicyRule {
   String? get id => throw _privateConstructorUsedError;
   String get refundPolicyId => throw _privateConstructorUsedError;
-  int get hoursBeforeDeparture => throw _privateConstructorUsedError;
+  int get daysBefore => throw _privateConstructorUsedError;
   double get refundPercentage => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   RefundPolicy? get refundPolicy => throw _privateConstructorUsedError;
@@ -50,9 +49,8 @@ abstract class $RefundPolicyRuleCopyWith<$Res> {
   $Res call({
     String? id,
     String refundPolicyId,
-    int hoursBeforeDeparture,
+    int daysBefore,
     double refundPercentage,
-    String? description,
     DateTime? createdAt,
     DateTime? updatedAt,
     RefundPolicy? refundPolicy,
@@ -78,9 +76,8 @@ class _$RefundPolicyRuleCopyWithImpl<$Res, $Val extends RefundPolicyRule>
   $Res call({
     Object? id = freezed,
     Object? refundPolicyId = null,
-    Object? hoursBeforeDeparture = null,
+    Object? daysBefore = null,
     Object? refundPercentage = null,
-    Object? description = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? refundPolicy = freezed,
@@ -95,18 +92,14 @@ class _$RefundPolicyRuleCopyWithImpl<$Res, $Val extends RefundPolicyRule>
                 ? _value.refundPolicyId
                 : refundPolicyId // ignore: cast_nullable_to_non_nullable
                       as String,
-            hoursBeforeDeparture: null == hoursBeforeDeparture
-                ? _value.hoursBeforeDeparture
-                : hoursBeforeDeparture // ignore: cast_nullable_to_non_nullable
+            daysBefore: null == daysBefore
+                ? _value.daysBefore
+                : daysBefore // ignore: cast_nullable_to_non_nullable
                       as int,
             refundPercentage: null == refundPercentage
                 ? _value.refundPercentage
                 : refundPercentage // ignore: cast_nullable_to_non_nullable
                       as double,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -151,9 +144,8 @@ abstract class _$$RefundPolicyRuleImplCopyWith<$Res>
   $Res call({
     String? id,
     String refundPolicyId,
-    int hoursBeforeDeparture,
+    int daysBefore,
     double refundPercentage,
-    String? description,
     DateTime? createdAt,
     DateTime? updatedAt,
     RefundPolicy? refundPolicy,
@@ -179,9 +171,8 @@ class __$$RefundPolicyRuleImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? refundPolicyId = null,
-    Object? hoursBeforeDeparture = null,
+    Object? daysBefore = null,
     Object? refundPercentage = null,
-    Object? description = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? refundPolicy = freezed,
@@ -196,18 +187,14 @@ class __$$RefundPolicyRuleImplCopyWithImpl<$Res>
             ? _value.refundPolicyId
             : refundPolicyId // ignore: cast_nullable_to_non_nullable
                   as String,
-        hoursBeforeDeparture: null == hoursBeforeDeparture
-            ? _value.hoursBeforeDeparture
-            : hoursBeforeDeparture // ignore: cast_nullable_to_non_nullable
+        daysBefore: null == daysBefore
+            ? _value.daysBefore
+            : daysBefore // ignore: cast_nullable_to_non_nullable
                   as int,
         refundPercentage: null == refundPercentage
             ? _value.refundPercentage
             : refundPercentage // ignore: cast_nullable_to_non_nullable
                   as double,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -231,9 +218,8 @@ class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
   const _$RefundPolicyRuleImpl({
     this.id,
     required this.refundPolicyId,
-    required this.hoursBeforeDeparture,
+    required this.daysBefore,
     required this.refundPercentage,
-    this.description,
     this.createdAt,
     this.updatedAt,
     this.refundPolicy,
@@ -247,11 +233,9 @@ class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
   @override
   final String refundPolicyId;
   @override
-  final int hoursBeforeDeparture;
+  final int daysBefore;
   @override
   final double refundPercentage;
-  @override
-  final String? description;
   @override
   final DateTime? createdAt;
   @override
@@ -261,7 +245,7 @@ class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
 
   @override
   String toString() {
-    return 'RefundPolicyRule(id: $id, refundPolicyId: $refundPolicyId, hoursBeforeDeparture: $hoursBeforeDeparture, refundPercentage: $refundPercentage, description: $description, createdAt: $createdAt, updatedAt: $updatedAt, refundPolicy: $refundPolicy)';
+    return 'RefundPolicyRule(id: $id, refundPolicyId: $refundPolicyId, daysBefore: $daysBefore, refundPercentage: $refundPercentage, createdAt: $createdAt, updatedAt: $updatedAt, refundPolicy: $refundPolicy)';
   }
 
   @override
@@ -272,12 +256,10 @@ class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.refundPolicyId, refundPolicyId) ||
                 other.refundPolicyId == refundPolicyId) &&
-            (identical(other.hoursBeforeDeparture, hoursBeforeDeparture) ||
-                other.hoursBeforeDeparture == hoursBeforeDeparture) &&
+            (identical(other.daysBefore, daysBefore) ||
+                other.daysBefore == daysBefore) &&
             (identical(other.refundPercentage, refundPercentage) ||
                 other.refundPercentage == refundPercentage) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -292,9 +274,8 @@ class _$RefundPolicyRuleImpl implements _RefundPolicyRule {
     runtimeType,
     id,
     refundPolicyId,
-    hoursBeforeDeparture,
+    daysBefore,
     refundPercentage,
-    description,
     createdAt,
     updatedAt,
     refundPolicy,
@@ -321,9 +302,8 @@ abstract class _RefundPolicyRule implements RefundPolicyRule {
   const factory _RefundPolicyRule({
     final String? id,
     required final String refundPolicyId,
-    required final int hoursBeforeDeparture,
+    required final int daysBefore,
     required final double refundPercentage,
-    final String? description,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final RefundPolicy? refundPolicy,
@@ -337,11 +317,9 @@ abstract class _RefundPolicyRule implements RefundPolicyRule {
   @override
   String get refundPolicyId;
   @override
-  int get hoursBeforeDeparture;
+  int get daysBefore;
   @override
   double get refundPercentage;
-  @override
-  String? get description;
   @override
   DateTime? get createdAt;
   @override

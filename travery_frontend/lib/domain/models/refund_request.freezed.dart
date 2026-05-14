@@ -28,10 +28,7 @@ mixin _$RefundRequest {
   double get requestedAmount => throw _privateConstructorUsedError;
   double? get actualRefunded => throw _privateConstructorUsedError;
   String? get customerReason => throw _privateConstructorUsedError;
-  String? get adminResponse => throw _privateConstructorUsedError;
   RefundRequestStatus get status => throw _privateConstructorUsedError;
-  DateTime? get processedAt => throw _privateConstructorUsedError;
-  DateTime? get completedAt => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   PaymentTransaction? get paymentTransaction =>
@@ -64,10 +61,7 @@ abstract class $RefundRequestCopyWith<$Res> {
     double requestedAmount,
     double? actualRefunded,
     String? customerReason,
-    String? adminResponse,
     RefundRequestStatus status,
-    DateTime? processedAt,
-    DateTime? completedAt,
     DateTime? createdAt,
     DateTime? updatedAt,
     PaymentTransaction? paymentTransaction,
@@ -102,10 +96,7 @@ class _$RefundRequestCopyWithImpl<$Res, $Val extends RefundRequest>
     Object? requestedAmount = null,
     Object? actualRefunded = freezed,
     Object? customerReason = freezed,
-    Object? adminResponse = freezed,
     Object? status = null,
-    Object? processedAt = freezed,
-    Object? completedAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? paymentTransaction = freezed,
@@ -142,22 +133,10 @@ class _$RefundRequestCopyWithImpl<$Res, $Val extends RefundRequest>
                 ? _value.customerReason
                 : customerReason // ignore: cast_nullable_to_non_nullable
                       as String?,
-            adminResponse: freezed == adminResponse
-                ? _value.adminResponse
-                : adminResponse // ignore: cast_nullable_to_non_nullable
-                      as String?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as RefundRequestStatus,
-            processedAt: freezed == processedAt
-                ? _value.processedAt
-                : processedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            completedAt: freezed == completedAt
-                ? _value.completedAt
-                : completedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -245,10 +224,7 @@ abstract class _$$RefundRequestImplCopyWith<$Res>
     double requestedAmount,
     double? actualRefunded,
     String? customerReason,
-    String? adminResponse,
     RefundRequestStatus status,
-    DateTime? processedAt,
-    DateTime? completedAt,
     DateTime? createdAt,
     DateTime? updatedAt,
     PaymentTransaction? paymentTransaction,
@@ -285,10 +261,7 @@ class __$$RefundRequestImplCopyWithImpl<$Res>
     Object? requestedAmount = null,
     Object? actualRefunded = freezed,
     Object? customerReason = freezed,
-    Object? adminResponse = freezed,
     Object? status = null,
-    Object? processedAt = freezed,
-    Object? completedAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? paymentTransaction = freezed,
@@ -325,22 +298,10 @@ class __$$RefundRequestImplCopyWithImpl<$Res>
             ? _value.customerReason
             : customerReason // ignore: cast_nullable_to_non_nullable
                   as String?,
-        adminResponse: freezed == adminResponse
-            ? _value.adminResponse
-            : adminResponse // ignore: cast_nullable_to_non_nullable
-                  as String?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as RefundRequestStatus,
-        processedAt: freezed == processedAt
-            ? _value.processedAt
-            : processedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        completedAt: freezed == completedAt
-            ? _value.completedAt
-            : completedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -377,10 +338,7 @@ class _$RefundRequestImpl implements _RefundRequest {
     required this.requestedAmount,
     this.actualRefunded,
     this.customerReason,
-    this.adminResponse,
     required this.status,
-    this.processedAt,
-    this.completedAt,
     this.createdAt,
     this.updatedAt,
     this.paymentTransaction,
@@ -406,13 +364,7 @@ class _$RefundRequestImpl implements _RefundRequest {
   @override
   final String? customerReason;
   @override
-  final String? adminResponse;
-  @override
   final RefundRequestStatus status;
-  @override
-  final DateTime? processedAt;
-  @override
-  final DateTime? completedAt;
   @override
   final DateTime? createdAt;
   @override
@@ -426,7 +378,7 @@ class _$RefundRequestImpl implements _RefundRequest {
 
   @override
   String toString() {
-    return 'RefundRequest(id: $id, paymentTransactionId: $paymentTransactionId, userId: $userId, processedById: $processedById, requestedAmount: $requestedAmount, actualRefunded: $actualRefunded, customerReason: $customerReason, adminResponse: $adminResponse, status: $status, processedAt: $processedAt, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt, paymentTransaction: $paymentTransaction, user: $user, processedBy: $processedBy)';
+    return 'RefundRequest(id: $id, paymentTransactionId: $paymentTransactionId, userId: $userId, processedById: $processedById, requestedAmount: $requestedAmount, actualRefunded: $actualRefunded, customerReason: $customerReason, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, paymentTransaction: $paymentTransaction, user: $user, processedBy: $processedBy)';
   }
 
   @override
@@ -446,13 +398,7 @@ class _$RefundRequestImpl implements _RefundRequest {
                 other.actualRefunded == actualRefunded) &&
             (identical(other.customerReason, customerReason) ||
                 other.customerReason == customerReason) &&
-            (identical(other.adminResponse, adminResponse) ||
-                other.adminResponse == adminResponse) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.processedAt, processedAt) ||
-                other.processedAt == processedAt) &&
-            (identical(other.completedAt, completedAt) ||
-                other.completedAt == completedAt) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -475,10 +421,7 @@ class _$RefundRequestImpl implements _RefundRequest {
     requestedAmount,
     actualRefunded,
     customerReason,
-    adminResponse,
     status,
-    processedAt,
-    completedAt,
     createdAt,
     updatedAt,
     paymentTransaction,
@@ -509,10 +452,7 @@ abstract class _RefundRequest implements RefundRequest {
     required final double requestedAmount,
     final double? actualRefunded,
     final String? customerReason,
-    final String? adminResponse,
     required final RefundRequestStatus status,
-    final DateTime? processedAt,
-    final DateTime? completedAt,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final PaymentTransaction? paymentTransaction,
@@ -538,13 +478,7 @@ abstract class _RefundRequest implements RefundRequest {
   @override
   String? get customerReason;
   @override
-  String? get adminResponse;
-  @override
   RefundRequestStatus get status;
-  @override
-  DateTime? get processedAt;
-  @override
-  DateTime? get completedAt;
   @override
   DateTime? get createdAt;
   @override

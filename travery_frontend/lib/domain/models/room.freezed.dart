@@ -25,7 +25,6 @@ mixin _$Room {
   String get hotelId => throw _privateConstructorUsedError;
   String get roomTypeId => throw _privateConstructorUsedError;
   String get roomNumber => throw _privateConstructorUsedError;
-  int? get floor => throw _privateConstructorUsedError;
   RoomStatus get status => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -51,7 +50,6 @@ abstract class $RoomCopyWith<$Res> {
     String hotelId,
     String roomTypeId,
     String roomNumber,
-    int? floor,
     RoomStatus status,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -82,7 +80,6 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
     Object? hotelId = null,
     Object? roomTypeId = null,
     Object? roomNumber = null,
-    Object? floor = freezed,
     Object? status = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -107,10 +104,6 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
                 ? _value.roomNumber
                 : roomNumber // ignore: cast_nullable_to_non_nullable
                       as String,
-            floor: freezed == floor
-                ? _value.floor
-                : floor // ignore: cast_nullable_to_non_nullable
-                      as int?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
@@ -178,7 +171,6 @@ abstract class _$$RoomImplCopyWith<$Res> implements $RoomCopyWith<$Res> {
     String hotelId,
     String roomTypeId,
     String roomNumber,
-    int? floor,
     RoomStatus status,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -208,7 +200,6 @@ class __$$RoomImplCopyWithImpl<$Res>
     Object? hotelId = null,
     Object? roomTypeId = null,
     Object? roomNumber = null,
-    Object? floor = freezed,
     Object? status = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -233,10 +224,6 @@ class __$$RoomImplCopyWithImpl<$Res>
             ? _value.roomNumber
             : roomNumber // ignore: cast_nullable_to_non_nullable
                   as String,
-        floor: freezed == floor
-            ? _value.floor
-            : floor // ignore: cast_nullable_to_non_nullable
-                  as int?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
@@ -270,7 +257,6 @@ class _$RoomImpl implements _Room {
     required this.hotelId,
     required this.roomTypeId,
     required this.roomNumber,
-    this.floor,
     required this.status,
     this.createdAt,
     this.updatedAt,
@@ -290,8 +276,6 @@ class _$RoomImpl implements _Room {
   @override
   final String roomNumber;
   @override
-  final int? floor;
-  @override
   final RoomStatus status;
   @override
   final DateTime? createdAt;
@@ -304,7 +288,7 @@ class _$RoomImpl implements _Room {
 
   @override
   String toString() {
-    return 'Room(id: $id, hotelId: $hotelId, roomTypeId: $roomTypeId, roomNumber: $roomNumber, floor: $floor, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, hotel: $hotel, roomType: $roomType)';
+    return 'Room(id: $id, hotelId: $hotelId, roomTypeId: $roomTypeId, roomNumber: $roomNumber, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, hotel: $hotel, roomType: $roomType)';
   }
 
   @override
@@ -318,7 +302,6 @@ class _$RoomImpl implements _Room {
                 other.roomTypeId == roomTypeId) &&
             (identical(other.roomNumber, roomNumber) ||
                 other.roomNumber == roomNumber) &&
-            (identical(other.floor, floor) || other.floor == floor) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -337,7 +320,6 @@ class _$RoomImpl implements _Room {
     hotelId,
     roomTypeId,
     roomNumber,
-    floor,
     status,
     createdAt,
     updatedAt,
@@ -365,7 +347,6 @@ abstract class _Room implements Room {
     required final String hotelId,
     required final String roomTypeId,
     required final String roomNumber,
-    final int? floor,
     required final RoomStatus status,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -383,8 +364,6 @@ abstract class _Room implements Room {
   String get roomTypeId;
   @override
   String get roomNumber;
-  @override
-  int? get floor;
   @override
   RoomStatus get status;
   @override

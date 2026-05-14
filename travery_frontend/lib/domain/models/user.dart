@@ -6,27 +6,16 @@ part 'user.g.dart';
 class User with _$User {
   const factory User({
     String? id,
-
     String? email,
-
-    String? passwordHash,
-
+    String? passwordHashed,
     required String fullName,
-
     String? phoneNumber,
-
     String? avatarUrl,
-
     required UserRole role,
-
     required AuthProvider authProvider,
-
     String? cometchatUid,
-
     required UserStatus status,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _User;
 

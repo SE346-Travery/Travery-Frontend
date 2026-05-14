@@ -26,14 +26,7 @@ mixin _$TourBooking {
   String get tourInstanceId => throw _privateConstructorUsedError;
   double get totalPrice => throw _privateConstructorUsedError;
   DateTime? get paymentDeadline => throw _privateConstructorUsedError;
-  String? get specialRequests => throw _privateConstructorUsedError;
-  String? get noShowNote => throw _privateConstructorUsedError;
-  DateTime? get noShowAt => throw _privateConstructorUsedError;
   TourBookingStatus get status => throw _privateConstructorUsedError;
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  String? get cancellationReason => throw _privateConstructorUsedError;
-  String? get cancelledBy => throw _privateConstructorUsedError;
-  String? get refundRequestId => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -66,14 +59,7 @@ abstract class $TourBookingCopyWith<$Res> {
     String tourInstanceId,
     double totalPrice,
     DateTime? paymentDeadline,
-    String? specialRequests,
-    String? noShowNote,
-    DateTime? noShowAt,
     TourBookingStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
-    String? refundRequestId,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -110,14 +96,7 @@ class _$TourBookingCopyWithImpl<$Res, $Val extends TourBooking>
     Object? tourInstanceId = null,
     Object? totalPrice = null,
     Object? paymentDeadline = freezed,
-    Object? specialRequests = freezed,
-    Object? noShowNote = freezed,
-    Object? noShowAt = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
-    Object? refundRequestId = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -149,38 +128,10 @@ class _$TourBookingCopyWithImpl<$Res, $Val extends TourBooking>
                 ? _value.paymentDeadline
                 : paymentDeadline // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
-            specialRequests: freezed == specialRequests
-                ? _value.specialRequests
-                : specialRequests // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            noShowNote: freezed == noShowNote
-                ? _value.noShowNote
-                : noShowNote // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            noShowAt: freezed == noShowAt
-                ? _value.noShowAt
-                : noShowAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as TourBookingStatus,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancellationReason: freezed == cancellationReason
-                ? _value.cancellationReason
-                : cancellationReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledBy: freezed == cancelledBy
-                ? _value.cancelledBy
-                : cancelledBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            refundRequestId: freezed == refundRequestId
-                ? _value.refundRequestId
-                : refundRequestId // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -290,14 +241,7 @@ abstract class _$$TourBookingImplCopyWith<$Res>
     String tourInstanceId,
     double totalPrice,
     DateTime? paymentDeadline,
-    String? specialRequests,
-    String? noShowNote,
-    DateTime? noShowAt,
     TourBookingStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
-    String? refundRequestId,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -337,14 +281,7 @@ class __$$TourBookingImplCopyWithImpl<$Res>
     Object? tourInstanceId = null,
     Object? totalPrice = null,
     Object? paymentDeadline = freezed,
-    Object? specialRequests = freezed,
-    Object? noShowNote = freezed,
-    Object? noShowAt = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
-    Object? refundRequestId = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -376,38 +313,10 @@ class __$$TourBookingImplCopyWithImpl<$Res>
             ? _value.paymentDeadline
             : paymentDeadline // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
-        specialRequests: freezed == specialRequests
-            ? _value.specialRequests
-            : specialRequests // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        noShowNote: freezed == noShowNote
-            ? _value.noShowNote
-            : noShowNote // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        noShowAt: freezed == noShowAt
-            ? _value.noShowAt
-            : noShowAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as TourBookingStatus,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancellationReason: freezed == cancellationReason
-            ? _value.cancellationReason
-            : cancellationReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledBy: freezed == cancelledBy
-            ? _value.cancelledBy
-            : cancelledBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        refundRequestId: freezed == refundRequestId
-            ? _value.refundRequestId
-            : refundRequestId // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -454,14 +363,7 @@ class _$TourBookingImpl implements _TourBooking {
     required this.tourInstanceId,
     required this.totalPrice,
     this.paymentDeadline,
-    this.specialRequests,
-    this.noShowNote,
-    this.noShowAt,
     required this.status,
-    this.cancelledAt,
-    this.cancellationReason,
-    this.cancelledBy,
-    this.refundRequestId,
     this.createdAt,
     this.updatedAt,
     this.user,
@@ -487,21 +389,7 @@ class _$TourBookingImpl implements _TourBooking {
   @override
   final DateTime? paymentDeadline;
   @override
-  final String? specialRequests;
-  @override
-  final String? noShowNote;
-  @override
-  final DateTime? noShowAt;
-  @override
   final TourBookingStatus status;
-  @override
-  final DateTime? cancelledAt;
-  @override
-  final String? cancellationReason;
-  @override
-  final String? cancelledBy;
-  @override
-  final String? refundRequestId;
   @override
   final DateTime? createdAt;
   @override
@@ -537,7 +425,7 @@ class _$TourBookingImpl implements _TourBooking {
 
   @override
   String toString() {
-    return 'TourBooking(id: $id, userId: $userId, tourInstanceId: $tourInstanceId, totalPrice: $totalPrice, paymentDeadline: $paymentDeadline, specialRequests: $specialRequests, noShowNote: $noShowNote, noShowAt: $noShowAt, status: $status, cancelledAt: $cancelledAt, cancellationReason: $cancellationReason, cancelledBy: $cancelledBy, refundRequestId: $refundRequestId, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, tourInstance: $tourInstance, members: $members, payments: $payments, refundRequest: $refundRequest, review: $review)';
+    return 'TourBooking(id: $id, userId: $userId, tourInstanceId: $tourInstanceId, totalPrice: $totalPrice, paymentDeadline: $paymentDeadline, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, tourInstance: $tourInstance, members: $members, payments: $payments, refundRequest: $refundRequest, review: $review)';
   }
 
   @override
@@ -553,21 +441,7 @@ class _$TourBookingImpl implements _TourBooking {
                 other.totalPrice == totalPrice) &&
             (identical(other.paymentDeadline, paymentDeadline) ||
                 other.paymentDeadline == paymentDeadline) &&
-            (identical(other.specialRequests, specialRequests) ||
-                other.specialRequests == specialRequests) &&
-            (identical(other.noShowNote, noShowNote) ||
-                other.noShowNote == noShowNote) &&
-            (identical(other.noShowAt, noShowAt) ||
-                other.noShowAt == noShowAt) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
-            (identical(other.cancellationReason, cancellationReason) ||
-                other.cancellationReason == cancellationReason) &&
-            (identical(other.cancelledBy, cancelledBy) ||
-                other.cancelledBy == cancelledBy) &&
-            (identical(other.refundRequestId, refundRequestId) ||
-                other.refundRequestId == refundRequestId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -584,21 +458,14 @@ class _$TourBookingImpl implements _TourBooking {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
+  int get hashCode => Object.hash(
     runtimeType,
     id,
     userId,
     tourInstanceId,
     totalPrice,
     paymentDeadline,
-    specialRequests,
-    noShowNote,
-    noShowAt,
     status,
-    cancelledAt,
-    cancellationReason,
-    cancelledBy,
-    refundRequestId,
     createdAt,
     updatedAt,
     user,
@@ -607,7 +474,7 @@ class _$TourBookingImpl implements _TourBooking {
     const DeepCollectionEquality().hash(_payments),
     refundRequest,
     review,
-  ]);
+  );
 
   /// Create a copy of TourBooking
   /// with the given fields replaced by the non-null parameter values.
@@ -630,14 +497,7 @@ abstract class _TourBooking implements TourBooking {
     required final String tourInstanceId,
     required final double totalPrice,
     final DateTime? paymentDeadline,
-    final String? specialRequests,
-    final String? noShowNote,
-    final DateTime? noShowAt,
     required final TourBookingStatus status,
-    final DateTime? cancelledAt,
-    final String? cancellationReason,
-    final String? cancelledBy,
-    final String? refundRequestId,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final User? user,
@@ -662,21 +522,7 @@ abstract class _TourBooking implements TourBooking {
   @override
   DateTime? get paymentDeadline;
   @override
-  String? get specialRequests;
-  @override
-  String? get noShowNote;
-  @override
-  DateTime? get noShowAt;
-  @override
   TourBookingStatus get status;
-  @override
-  DateTime? get cancelledAt;
-  @override
-  String? get cancellationReason;
-  @override
-  String? get cancelledBy;
-  @override
-  String? get refundRequestId;
   @override
   DateTime? get createdAt;
   @override

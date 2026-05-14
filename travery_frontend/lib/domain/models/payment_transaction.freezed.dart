@@ -30,8 +30,6 @@ mixin _$PaymentTransaction {
   PaymentMethod get paymentMethod => throw _privateConstructorUsedError;
   String? get gatewayTransId => throw _privateConstructorUsedError;
   PaymentStatus get status => throw _privateConstructorUsedError;
-  Map<String, dynamic>? get gatewayResponse =>
-      throw _privateConstructorUsedError;
   DateTime? get paidAt => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -64,7 +62,6 @@ abstract class $PaymentTransactionCopyWith<$Res> {
     PaymentMethod paymentMethod,
     String? gatewayTransId,
     PaymentStatus status,
-    Map<String, dynamic>? gatewayResponse,
     DateTime? paidAt,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -98,7 +95,6 @@ class _$PaymentTransactionCopyWithImpl<$Res, $Val extends PaymentTransaction>
     Object? paymentMethod = null,
     Object? gatewayTransId = freezed,
     Object? status = null,
-    Object? gatewayResponse = freezed,
     Object? paidAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -142,10 +138,6 @@ class _$PaymentTransactionCopyWithImpl<$Res, $Val extends PaymentTransaction>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as PaymentStatus,
-            gatewayResponse: freezed == gatewayResponse
-                ? _value.gatewayResponse
-                : gatewayResponse // ignore: cast_nullable_to_non_nullable
-                      as Map<String, dynamic>?,
             paidAt: freezed == paidAt
                 ? _value.paidAt
                 : paidAt // ignore: cast_nullable_to_non_nullable
@@ -201,7 +193,6 @@ abstract class _$$PaymentTransactionImplCopyWith<$Res>
     PaymentMethod paymentMethod,
     String? gatewayTransId,
     PaymentStatus status,
-    Map<String, dynamic>? gatewayResponse,
     DateTime? paidAt,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -235,7 +226,6 @@ class __$$PaymentTransactionImplCopyWithImpl<$Res>
     Object? paymentMethod = null,
     Object? gatewayTransId = freezed,
     Object? status = null,
-    Object? gatewayResponse = freezed,
     Object? paidAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -279,10 +269,6 @@ class __$$PaymentTransactionImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as PaymentStatus,
-        gatewayResponse: freezed == gatewayResponse
-            ? _value._gatewayResponse
-            : gatewayResponse // ignore: cast_nullable_to_non_nullable
-                  as Map<String, dynamic>?,
         paidAt: freezed == paidAt
             ? _value.paidAt
             : paidAt // ignore: cast_nullable_to_non_nullable
@@ -317,12 +303,11 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
     required this.paymentMethod,
     this.gatewayTransId,
     required this.status,
-    final Map<String, dynamic>? gatewayResponse,
     this.paidAt,
     this.createdAt,
     this.updatedAt,
     this.user,
-  }) : _gatewayResponse = gatewayResponse;
+  });
 
   factory _$PaymentTransactionImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaymentTransactionImplFromJson(json);
@@ -345,16 +330,6 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
   final String? gatewayTransId;
   @override
   final PaymentStatus status;
-  final Map<String, dynamic>? _gatewayResponse;
-  @override
-  Map<String, dynamic>? get gatewayResponse {
-    final value = _gatewayResponse;
-    if (value == null) return null;
-    if (_gatewayResponse is EqualUnmodifiableMapView) return _gatewayResponse;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
-
   @override
   final DateTime? paidAt;
   @override
@@ -366,7 +341,7 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
 
   @override
   String toString() {
-    return 'PaymentTransaction(id: $id, userId: $userId, bookingId: $bookingId, bookingType: $bookingType, amount: $amount, transactionType: $transactionType, paymentMethod: $paymentMethod, gatewayTransId: $gatewayTransId, status: $status, gatewayResponse: $gatewayResponse, paidAt: $paidAt, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
+    return 'PaymentTransaction(id: $id, userId: $userId, bookingId: $bookingId, bookingType: $bookingType, amount: $amount, transactionType: $transactionType, paymentMethod: $paymentMethod, gatewayTransId: $gatewayTransId, status: $status, paidAt: $paidAt, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
   }
 
   @override
@@ -388,10 +363,6 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
             (identical(other.gatewayTransId, gatewayTransId) ||
                 other.gatewayTransId == gatewayTransId) &&
             (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(
-              other._gatewayResponse,
-              _gatewayResponse,
-            ) &&
             (identical(other.paidAt, paidAt) || other.paidAt == paidAt) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -413,7 +384,6 @@ class _$PaymentTransactionImpl implements _PaymentTransaction {
     paymentMethod,
     gatewayTransId,
     status,
-    const DeepCollectionEquality().hash(_gatewayResponse),
     paidAt,
     createdAt,
     updatedAt,
@@ -448,7 +418,6 @@ abstract class _PaymentTransaction implements PaymentTransaction {
     required final PaymentMethod paymentMethod,
     final String? gatewayTransId,
     required final PaymentStatus status,
-    final Map<String, dynamic>? gatewayResponse,
     final DateTime? paidAt,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -476,8 +445,6 @@ abstract class _PaymentTransaction implements PaymentTransaction {
   String? get gatewayTransId;
   @override
   PaymentStatus get status;
-  @override
-  Map<String, dynamic>? get gatewayResponse;
   @override
   DateTime? get paidAt;
   @override

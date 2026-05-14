@@ -10,30 +10,30 @@ _$HotelBookingDetailImpl _$$HotelBookingDetailImplFromJson(
   Map<String, dynamic> json,
 ) => _$HotelBookingDetailImpl(
   id: json['id'] as String?,
-  hotelBookingId: json['hotel_booking_id'] as String,
-  roomTypeId: json['room_type_id'] as String,
+  hotelBookingId: json['hotelBookingId'] as String,
+  roomTypeId: json['roomTypeId'] as String,
   quantity: (json['quantity'] as num).toInt(),
-  priceAtBooking: (json['price_at_booking'] as num).toDouble(),
-  startDate: DateTime.parse(json['start_date'] as String),
-  endDate: DateTime.parse(json['end_date'] as String),
-  createdAt: json['created_at'] == null
+  priceAtBooking: (json['priceAtBooking'] as num).toDouble(),
+  startDate: DateTime.parse(json['startDate'] as String),
+  endDate: DateTime.parse(json['endDate'] as String),
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$$HotelBookingDetailImplToJson(
   _$HotelBookingDetailImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'hotel_booking_id': instance.hotelBookingId,
-  'room_type_id': instance.roomTypeId,
+  'hotelBookingId': instance.hotelBookingId,
+  'roomTypeId': instance.roomTypeId,
   'quantity': instance.quantity,
-  'price_at_booking': instance.priceAtBooking,
-  'start_date': instance.startDate.toIso8601String(),
-  'end_date': instance.endDate.toIso8601String(),
-  'created_at': instance.createdAt?.toIso8601String(),
-  'updated_at': instance.updatedAt?.toIso8601String(),
+  'priceAtBooking': instance.priceAtBooking,
+  'startDate': instance.startDate.toIso8601String(),
+  'endDate': instance.endDate.toIso8601String(),
+  'createdAt': instance.createdAt?.toIso8601String(),
+  'updatedAt': instance.updatedAt?.toIso8601String(),
 };

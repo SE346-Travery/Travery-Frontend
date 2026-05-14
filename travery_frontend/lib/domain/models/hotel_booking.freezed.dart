@@ -24,24 +24,9 @@ mixin _$HotelBooking {
   String? get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String? get tourInstanceId => throw _privateConstructorUsedError;
-  String? get roomId => throw _privateConstructorUsedError;
-  DateTime get checkInDate => throw _privateConstructorUsedError;
-  DateTime get checkOutDate => throw _privateConstructorUsedError;
-  int get nightCount => throw _privateConstructorUsedError;
-  int get guestCount => throw _privateConstructorUsedError;
   double get totalPrice => throw _privateConstructorUsedError;
   DateTime? get paymentDeadline => throw _privateConstructorUsedError;
-  String? get specialRequest => throw _privateConstructorUsedError;
-  double? get lateCheckoutFee => throw _privateConstructorUsedError;
-  double? get addonTotal => throw _privateConstructorUsedError;
-  String? get noShowNote => throw _privateConstructorUsedError;
-  DateTime? get noShowAt => throw _privateConstructorUsedError;
   HotelBookingStatus get status => throw _privateConstructorUsedError;
-  DateTime? get actualCheckInAt => throw _privateConstructorUsedError;
-  DateTime? get actualCheckOutAt => throw _privateConstructorUsedError;
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  String? get cancellationReason => throw _privateConstructorUsedError;
-  String? get cancelledBy => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -73,24 +58,9 @@ abstract class $HotelBookingCopyWith<$Res> {
     String? id,
     String userId,
     String? tourInstanceId,
-    String? roomId,
-    DateTime checkInDate,
-    DateTime checkOutDate,
-    int nightCount,
-    int guestCount,
     double totalPrice,
     DateTime? paymentDeadline,
-    String? specialRequest,
-    double? lateCheckoutFee,
-    double? addonTotal,
-    String? noShowNote,
-    DateTime? noShowAt,
     HotelBookingStatus status,
-    DateTime? actualCheckInAt,
-    DateTime? actualCheckOutAt,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -126,24 +96,9 @@ class _$HotelBookingCopyWithImpl<$Res, $Val extends HotelBooking>
     Object? id = freezed,
     Object? userId = null,
     Object? tourInstanceId = freezed,
-    Object? roomId = freezed,
-    Object? checkInDate = null,
-    Object? checkOutDate = null,
-    Object? nightCount = null,
-    Object? guestCount = null,
     Object? totalPrice = null,
     Object? paymentDeadline = freezed,
-    Object? specialRequest = freezed,
-    Object? lateCheckoutFee = freezed,
-    Object? addonTotal = freezed,
-    Object? noShowNote = freezed,
-    Object? noShowAt = freezed,
     Object? status = null,
-    Object? actualCheckInAt = freezed,
-    Object? actualCheckOutAt = freezed,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -168,26 +123,6 @@ class _$HotelBookingCopyWithImpl<$Res, $Val extends HotelBooking>
                 ? _value.tourInstanceId
                 : tourInstanceId // ignore: cast_nullable_to_non_nullable
                       as String?,
-            roomId: freezed == roomId
-                ? _value.roomId
-                : roomId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            checkInDate: null == checkInDate
-                ? _value.checkInDate
-                : checkInDate // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            checkOutDate: null == checkOutDate
-                ? _value.checkOutDate
-                : checkOutDate // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            nightCount: null == nightCount
-                ? _value.nightCount
-                : nightCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            guestCount: null == guestCount
-                ? _value.guestCount
-                : guestCount // ignore: cast_nullable_to_non_nullable
-                      as int,
             totalPrice: null == totalPrice
                 ? _value.totalPrice
                 : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -196,50 +131,10 @@ class _$HotelBookingCopyWithImpl<$Res, $Val extends HotelBooking>
                 ? _value.paymentDeadline
                 : paymentDeadline // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
-            specialRequest: freezed == specialRequest
-                ? _value.specialRequest
-                : specialRequest // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            lateCheckoutFee: freezed == lateCheckoutFee
-                ? _value.lateCheckoutFee
-                : lateCheckoutFee // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            addonTotal: freezed == addonTotal
-                ? _value.addonTotal
-                : addonTotal // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            noShowNote: freezed == noShowNote
-                ? _value.noShowNote
-                : noShowNote // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            noShowAt: freezed == noShowAt
-                ? _value.noShowAt
-                : noShowAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as HotelBookingStatus,
-            actualCheckInAt: freezed == actualCheckInAt
-                ? _value.actualCheckInAt
-                : actualCheckInAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            actualCheckOutAt: freezed == actualCheckOutAt
-                ? _value.actualCheckOutAt
-                : actualCheckOutAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancellationReason: freezed == cancellationReason
-                ? _value.cancellationReason
-                : cancellationReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledBy: freezed == cancelledBy
-                ? _value.cancelledBy
-                : cancelledBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -351,24 +246,9 @@ abstract class _$$HotelBookingImplCopyWith<$Res>
     String? id,
     String userId,
     String? tourInstanceId,
-    String? roomId,
-    DateTime checkInDate,
-    DateTime checkOutDate,
-    int nightCount,
-    int guestCount,
     double totalPrice,
     DateTime? paymentDeadline,
-    String? specialRequest,
-    double? lateCheckoutFee,
-    double? addonTotal,
-    String? noShowNote,
-    DateTime? noShowAt,
     HotelBookingStatus status,
-    DateTime? actualCheckInAt,
-    DateTime? actualCheckOutAt,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -407,24 +287,9 @@ class __$$HotelBookingImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? userId = null,
     Object? tourInstanceId = freezed,
-    Object? roomId = freezed,
-    Object? checkInDate = null,
-    Object? checkOutDate = null,
-    Object? nightCount = null,
-    Object? guestCount = null,
     Object? totalPrice = null,
     Object? paymentDeadline = freezed,
-    Object? specialRequest = freezed,
-    Object? lateCheckoutFee = freezed,
-    Object? addonTotal = freezed,
-    Object? noShowNote = freezed,
-    Object? noShowAt = freezed,
     Object? status = null,
-    Object? actualCheckInAt = freezed,
-    Object? actualCheckOutAt = freezed,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -449,26 +314,6 @@ class __$$HotelBookingImplCopyWithImpl<$Res>
             ? _value.tourInstanceId
             : tourInstanceId // ignore: cast_nullable_to_non_nullable
                   as String?,
-        roomId: freezed == roomId
-            ? _value.roomId
-            : roomId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        checkInDate: null == checkInDate
-            ? _value.checkInDate
-            : checkInDate // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        checkOutDate: null == checkOutDate
-            ? _value.checkOutDate
-            : checkOutDate // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        nightCount: null == nightCount
-            ? _value.nightCount
-            : nightCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        guestCount: null == guestCount
-            ? _value.guestCount
-            : guestCount // ignore: cast_nullable_to_non_nullable
-                  as int,
         totalPrice: null == totalPrice
             ? _value.totalPrice
             : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -477,50 +322,10 @@ class __$$HotelBookingImplCopyWithImpl<$Res>
             ? _value.paymentDeadline
             : paymentDeadline // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
-        specialRequest: freezed == specialRequest
-            ? _value.specialRequest
-            : specialRequest // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        lateCheckoutFee: freezed == lateCheckoutFee
-            ? _value.lateCheckoutFee
-            : lateCheckoutFee // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        addonTotal: freezed == addonTotal
-            ? _value.addonTotal
-            : addonTotal // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        noShowNote: freezed == noShowNote
-            ? _value.noShowNote
-            : noShowNote // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        noShowAt: freezed == noShowAt
-            ? _value.noShowAt
-            : noShowAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as HotelBookingStatus,
-        actualCheckInAt: freezed == actualCheckInAt
-            ? _value.actualCheckInAt
-            : actualCheckInAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        actualCheckOutAt: freezed == actualCheckOutAt
-            ? _value.actualCheckOutAt
-            : actualCheckOutAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancellationReason: freezed == cancellationReason
-            ? _value.cancellationReason
-            : cancellationReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledBy: freezed == cancelledBy
-            ? _value.cancelledBy
-            : cancelledBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -569,24 +374,9 @@ class _$HotelBookingImpl implements _HotelBooking {
     this.id,
     required this.userId,
     this.tourInstanceId,
-    this.roomId,
-    required this.checkInDate,
-    required this.checkOutDate,
-    required this.nightCount,
-    required this.guestCount,
     required this.totalPrice,
     this.paymentDeadline,
-    this.specialRequest,
-    this.lateCheckoutFee,
-    this.addonTotal,
-    this.noShowNote,
-    this.noShowAt,
     required this.status,
-    this.actualCheckInAt,
-    this.actualCheckOutAt,
-    this.cancelledAt,
-    this.cancellationReason,
-    this.cancelledBy,
     this.createdAt,
     this.updatedAt,
     this.user,
@@ -610,41 +400,11 @@ class _$HotelBookingImpl implements _HotelBooking {
   @override
   final String? tourInstanceId;
   @override
-  final String? roomId;
-  @override
-  final DateTime checkInDate;
-  @override
-  final DateTime checkOutDate;
-  @override
-  final int nightCount;
-  @override
-  final int guestCount;
-  @override
   final double totalPrice;
   @override
   final DateTime? paymentDeadline;
   @override
-  final String? specialRequest;
-  @override
-  final double? lateCheckoutFee;
-  @override
-  final double? addonTotal;
-  @override
-  final String? noShowNote;
-  @override
-  final DateTime? noShowAt;
-  @override
   final HotelBookingStatus status;
-  @override
-  final DateTime? actualCheckInAt;
-  @override
-  final DateTime? actualCheckOutAt;
-  @override
-  final DateTime? cancelledAt;
-  @override
-  final String? cancellationReason;
-  @override
-  final String? cancelledBy;
   @override
   final DateTime? createdAt;
   @override
@@ -690,7 +450,7 @@ class _$HotelBookingImpl implements _HotelBooking {
 
   @override
   String toString() {
-    return 'HotelBooking(id: $id, userId: $userId, tourInstanceId: $tourInstanceId, roomId: $roomId, checkInDate: $checkInDate, checkOutDate: $checkOutDate, nightCount: $nightCount, guestCount: $guestCount, totalPrice: $totalPrice, paymentDeadline: $paymentDeadline, specialRequest: $specialRequest, lateCheckoutFee: $lateCheckoutFee, addonTotal: $addonTotal, noShowNote: $noShowNote, noShowAt: $noShowAt, status: $status, actualCheckInAt: $actualCheckInAt, actualCheckOutAt: $actualCheckOutAt, cancelledAt: $cancelledAt, cancellationReason: $cancellationReason, cancelledBy: $cancelledBy, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, tourInstance: $tourInstance, room: $room, details: $details, members: $members, addonOrders: $addonOrders, review: $review)';
+    return 'HotelBooking(id: $id, userId: $userId, tourInstanceId: $tourInstanceId, totalPrice: $totalPrice, paymentDeadline: $paymentDeadline, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, tourInstance: $tourInstance, room: $room, details: $details, members: $members, addonOrders: $addonOrders, review: $review)';
   }
 
   @override
@@ -702,40 +462,11 @@ class _$HotelBookingImpl implements _HotelBooking {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.tourInstanceId, tourInstanceId) ||
                 other.tourInstanceId == tourInstanceId) &&
-            (identical(other.roomId, roomId) || other.roomId == roomId) &&
-            (identical(other.checkInDate, checkInDate) ||
-                other.checkInDate == checkInDate) &&
-            (identical(other.checkOutDate, checkOutDate) ||
-                other.checkOutDate == checkOutDate) &&
-            (identical(other.nightCount, nightCount) ||
-                other.nightCount == nightCount) &&
-            (identical(other.guestCount, guestCount) ||
-                other.guestCount == guestCount) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice) &&
             (identical(other.paymentDeadline, paymentDeadline) ||
                 other.paymentDeadline == paymentDeadline) &&
-            (identical(other.specialRequest, specialRequest) ||
-                other.specialRequest == specialRequest) &&
-            (identical(other.lateCheckoutFee, lateCheckoutFee) ||
-                other.lateCheckoutFee == lateCheckoutFee) &&
-            (identical(other.addonTotal, addonTotal) ||
-                other.addonTotal == addonTotal) &&
-            (identical(other.noShowNote, noShowNote) ||
-                other.noShowNote == noShowNote) &&
-            (identical(other.noShowAt, noShowAt) ||
-                other.noShowAt == noShowAt) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.actualCheckInAt, actualCheckInAt) ||
-                other.actualCheckInAt == actualCheckInAt) &&
-            (identical(other.actualCheckOutAt, actualCheckOutAt) ||
-                other.actualCheckOutAt == actualCheckOutAt) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
-            (identical(other.cancellationReason, cancellationReason) ||
-                other.cancellationReason == cancellationReason) &&
-            (identical(other.cancelledBy, cancelledBy) ||
-                other.cancelledBy == cancelledBy) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -755,29 +486,14 @@ class _$HotelBookingImpl implements _HotelBooking {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
+  int get hashCode => Object.hash(
     runtimeType,
     id,
     userId,
     tourInstanceId,
-    roomId,
-    checkInDate,
-    checkOutDate,
-    nightCount,
-    guestCount,
     totalPrice,
     paymentDeadline,
-    specialRequest,
-    lateCheckoutFee,
-    addonTotal,
-    noShowNote,
-    noShowAt,
     status,
-    actualCheckInAt,
-    actualCheckOutAt,
-    cancelledAt,
-    cancellationReason,
-    cancelledBy,
     createdAt,
     updatedAt,
     user,
@@ -787,7 +503,7 @@ class _$HotelBookingImpl implements _HotelBooking {
     const DeepCollectionEquality().hash(_members),
     const DeepCollectionEquality().hash(_addonOrders),
     review,
-  ]);
+  );
 
   /// Create a copy of HotelBooking
   /// with the given fields replaced by the non-null parameter values.
@@ -808,24 +524,9 @@ abstract class _HotelBooking implements HotelBooking {
     final String? id,
     required final String userId,
     final String? tourInstanceId,
-    final String? roomId,
-    required final DateTime checkInDate,
-    required final DateTime checkOutDate,
-    required final int nightCount,
-    required final int guestCount,
     required final double totalPrice,
     final DateTime? paymentDeadline,
-    final String? specialRequest,
-    final double? lateCheckoutFee,
-    final double? addonTotal,
-    final String? noShowNote,
-    final DateTime? noShowAt,
     required final HotelBookingStatus status,
-    final DateTime? actualCheckInAt,
-    final DateTime? actualCheckOutAt,
-    final DateTime? cancelledAt,
-    final String? cancellationReason,
-    final String? cancelledBy,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final User? user,
@@ -847,41 +548,11 @@ abstract class _HotelBooking implements HotelBooking {
   @override
   String? get tourInstanceId;
   @override
-  String? get roomId;
-  @override
-  DateTime get checkInDate;
-  @override
-  DateTime get checkOutDate;
-  @override
-  int get nightCount;
-  @override
-  int get guestCount;
-  @override
   double get totalPrice;
   @override
   DateTime? get paymentDeadline;
   @override
-  String? get specialRequest;
-  @override
-  double? get lateCheckoutFee;
-  @override
-  double? get addonTotal;
-  @override
-  String? get noShowNote;
-  @override
-  DateTime? get noShowAt;
-  @override
   HotelBookingStatus get status;
-  @override
-  DateTime? get actualCheckInAt;
-  @override
-  DateTime? get actualCheckOutAt;
-  @override
-  DateTime? get cancelledAt;
-  @override
-  String? get cancellationReason;
-  @override
-  String? get cancelledBy;
   @override
   DateTime? get createdAt;
   @override

@@ -26,7 +26,6 @@ mixin _$TourItinerary {
   int get dayNumber => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  bool get mealIncluded => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -53,7 +52,6 @@ abstract class $TourItineraryCopyWith<$Res> {
     int dayNumber,
     String title,
     String description,
-    bool mealIncluded,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -79,7 +77,6 @@ class _$TourItineraryCopyWithImpl<$Res, $Val extends TourItinerary>
     Object? dayNumber = null,
     Object? title = null,
     Object? description = null,
-    Object? mealIncluded = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -105,10 +102,6 @@ class _$TourItineraryCopyWithImpl<$Res, $Val extends TourItinerary>
                 ? _value.description
                 : description // ignore: cast_nullable_to_non_nullable
                       as String,
-            mealIncluded: null == mealIncluded
-                ? _value.mealIncluded
-                : mealIncluded // ignore: cast_nullable_to_non_nullable
-                      as bool,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -138,7 +131,6 @@ abstract class _$$TourItineraryImplCopyWith<$Res>
     int dayNumber,
     String title,
     String description,
-    bool mealIncluded,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -163,7 +155,6 @@ class __$$TourItineraryImplCopyWithImpl<$Res>
     Object? dayNumber = null,
     Object? title = null,
     Object? description = null,
-    Object? mealIncluded = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -189,10 +180,6 @@ class __$$TourItineraryImplCopyWithImpl<$Res>
             ? _value.description
             : description // ignore: cast_nullable_to_non_nullable
                   as String,
-        mealIncluded: null == mealIncluded
-            ? _value.mealIncluded
-            : mealIncluded // ignore: cast_nullable_to_non_nullable
-                  as bool,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -215,7 +202,6 @@ class _$TourItineraryImpl implements _TourItinerary {
     required this.dayNumber,
     required this.title,
     required this.description,
-    this.mealIncluded = false,
     this.createdAt,
     this.updatedAt,
   });
@@ -234,16 +220,13 @@ class _$TourItineraryImpl implements _TourItinerary {
   @override
   final String description;
   @override
-  @JsonKey()
-  final bool mealIncluded;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'TourItinerary(id: $id, tourId: $tourId, dayNumber: $dayNumber, title: $title, description: $description, mealIncluded: $mealIncluded, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'TourItinerary(id: $id, tourId: $tourId, dayNumber: $dayNumber, title: $title, description: $description, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -258,8 +241,6 @@ class _$TourItineraryImpl implements _TourItinerary {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.mealIncluded, mealIncluded) ||
-                other.mealIncluded == mealIncluded) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -275,7 +256,6 @@ class _$TourItineraryImpl implements _TourItinerary {
     dayNumber,
     title,
     description,
-    mealIncluded,
     createdAt,
     updatedAt,
   );
@@ -301,7 +281,6 @@ abstract class _TourItinerary implements TourItinerary {
     required final int dayNumber,
     required final String title,
     required final String description,
-    final bool mealIncluded,
     final DateTime? createdAt,
     final DateTime? updatedAt,
   }) = _$TourItineraryImpl;
@@ -319,8 +298,6 @@ abstract class _TourItinerary implements TourItinerary {
   String get title;
   @override
   String get description;
-  @override
-  bool get mealIncluded;
   @override
   DateTime? get createdAt;
   @override

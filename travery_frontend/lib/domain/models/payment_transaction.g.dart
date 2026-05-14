@@ -10,27 +10,26 @@ _$PaymentTransactionImpl _$$PaymentTransactionImplFromJson(
   Map<String, dynamic> json,
 ) => _$PaymentTransactionImpl(
   id: json['id'] as String?,
-  userId: json['user_id'] as String,
-  bookingId: json['booking_id'] as String?,
-  bookingType: json['booking_type'] as String?,
+  userId: json['userId'] as String,
+  bookingId: json['bookingId'] as String?,
+  bookingType: json['bookingType'] as String?,
   amount: (json['amount'] as num).toDouble(),
   transactionType: $enumDecode(
     _$TransactionTypeEnumMap,
-    json['transaction_type'],
+    json['transactionType'],
   ),
-  paymentMethod: $enumDecode(_$PaymentMethodEnumMap, json['payment_method']),
-  gatewayTransId: json['gateway_trans_id'] as String?,
+  paymentMethod: $enumDecode(_$PaymentMethodEnumMap, json['paymentMethod']),
+  gatewayTransId: json['gatewayTransId'] as String?,
   status: $enumDecode(_$PaymentStatusEnumMap, json['status']),
-  gatewayResponse: json['gateway_response'] as Map<String, dynamic>?,
-  paidAt: json['paid_at'] == null
+  paidAt: json['paidAt'] == null
       ? null
-      : DateTime.parse(json['paid_at'] as String),
-  createdAt: json['created_at'] == null
+      : DateTime.parse(json['paidAt'] as String),
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
   user: json['user'] == null
       ? null
       : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -40,18 +39,17 @@ Map<String, dynamic> _$$PaymentTransactionImplToJson(
   _$PaymentTransactionImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'user_id': instance.userId,
-  'booking_id': instance.bookingId,
-  'booking_type': instance.bookingType,
+  'userId': instance.userId,
+  'bookingId': instance.bookingId,
+  'bookingType': instance.bookingType,
   'amount': instance.amount,
-  'transaction_type': _$TransactionTypeEnumMap[instance.transactionType]!,
-  'payment_method': _$PaymentMethodEnumMap[instance.paymentMethod]!,
-  'gateway_trans_id': instance.gatewayTransId,
+  'transactionType': _$TransactionTypeEnumMap[instance.transactionType]!,
+  'paymentMethod': _$PaymentMethodEnumMap[instance.paymentMethod]!,
+  'gatewayTransId': instance.gatewayTransId,
   'status': _$PaymentStatusEnumMap[instance.status]!,
-  'gateway_response': instance.gatewayResponse,
-  'paid_at': instance.paidAt?.toIso8601String(),
-  'created_at': instance.createdAt?.toIso8601String(),
-  'updated_at': instance.updatedAt?.toIso8601String(),
+  'paidAt': instance.paidAt?.toIso8601String(),
+  'createdAt': instance.createdAt?.toIso8601String(),
+  'updatedAt': instance.updatedAt?.toIso8601String(),
   'user': instance.user,
 };
 

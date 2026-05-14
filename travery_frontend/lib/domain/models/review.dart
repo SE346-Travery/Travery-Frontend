@@ -8,27 +8,15 @@ part 'review.g.dart';
 class Review with _$Review {
   const factory Review({
     String? id,
-
     required String userId,
-
     String? bookingId,
-
     String? bookingType,
-
     String? targetId,
-
     required ReviewTargetType targetType,
-
-    required int rating,
-
+    required int averageRating,
     String? content,
-
     List<String>? images,
-
-    @Default(false) bool isVerified,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
   }) = _Review;

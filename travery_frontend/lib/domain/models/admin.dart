@@ -8,11 +8,7 @@ part 'admin.g.dart';
 class Admin with _$Admin {
   const factory Admin({
     String? id,
-
-    required String userId,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
   }) = _Admin;

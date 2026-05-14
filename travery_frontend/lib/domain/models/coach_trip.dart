@@ -12,29 +12,14 @@ part 'coach_trip.g.dart';
 class CoachTrip with _$CoachTrip {
   const factory CoachTrip({
     String? id,
-
     required String routeId,
-
     required String coachId,
-
     String? driverId,
-
     String? coordinatorId,
-
     required DateTime departureTime,
-
     DateTime? arrivalTime,
-
     required CoachTripStatus status,
-
-    DateTime? cancelledAt,
-
-    String? cancellationReason,
-
-    String? cancelledBy,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     Route? route,
     Coach? coach,

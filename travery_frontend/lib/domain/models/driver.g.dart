@@ -8,31 +8,27 @@ part of 'driver.dart';
 
 _$DriverImpl _$$DriverImplFromJson(Map<String, dynamic> json) => _$DriverImpl(
   id: json['id'] as String?,
-  userId: json['user_id'] as String?,
-  fullName: json['full_name'] as String,
-  phoneNumber: json['phone_number'] as String,
-  licenseNumber: json['license_number'] as String,
-  avatarUrl: json['avatar_url'] as String?,
+  fullName: json['fullName'] as String,
+  phoneNumber: json['phoneNumber'] as String,
+  licenseNumber: json['licenseNumber'] as String,
   status: $enumDecode(_$DriverStatusEnumMap, json['status']),
-  createdAt: json['created_at'] == null
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$$DriverImplToJson(_$DriverImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user_id': instance.userId,
-      'full_name': instance.fullName,
-      'phone_number': instance.phoneNumber,
-      'license_number': instance.licenseNumber,
-      'avatar_url': instance.avatarUrl,
+      'fullName': instance.fullName,
+      'phoneNumber': instance.phoneNumber,
+      'licenseNumber': instance.licenseNumber,
       'status': _$DriverStatusEnumMap[instance.status]!,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 const _$DriverStatusEnumMap = {

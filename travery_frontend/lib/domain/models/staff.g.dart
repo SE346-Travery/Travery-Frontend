@@ -8,51 +8,51 @@ part of 'staff.dart';
 
 _$StaffImpl _$$StaffImplFromJson(Map<String, dynamic> json) => _$StaffImpl(
   id: json['id'] as String?,
-  hotelId: json['hotel_id'] as String?,
-  fullName: json['full_name'] as String,
+  hotelId: json['hotelId'] as String?,
+  fullName: json['fullName'] as String,
   email: json['email'] as String,
-  phoneNumber: json['phone_number'] as String?,
-  passwordHash: json['password_hash'] as String?,
+  phoneNumber: json['phoneNumber'] as String?,
+  passwordHash: json['passwordHash'] as String?,
   role: $enumDecode(_$StaffRoleEnumMap, json['role']),
   status: $enumDecode(_$StaffStatusEnumMap, json['status']),
-  cometchatUid: json['cometchat_uid'] as String?,
-  employeeCode: json['employee_code'] as String?,
+  cometchatUid: json['cometchatUid'] as String?,
+  employeeCode: json['employeeCode'] as String?,
   department: json['department'] as String?,
-  guideLicense: json['guide_license'] as String?,
+  guideLicense: json['guideLicense'] as String?,
   languages: (json['languages'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
-  yearsExperience: (json['years_experience'] as num?)?.toInt(),
-  createdAt: json['created_at'] == null
+  yearsExperience: (json['yearsExperience'] as num?)?.toInt(),
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
-  deletedAt: json['deleted_at'] == null
+      : DateTime.parse(json['updatedAt'] as String),
+  deletedAt: json['deletedAt'] == null
       ? null
-      : DateTime.parse(json['deleted_at'] as String),
+      : DateTime.parse(json['deletedAt'] as String),
 );
 
 Map<String, dynamic> _$$StaffImplToJson(_$StaffImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'hotel_id': instance.hotelId,
-      'full_name': instance.fullName,
+      'hotelId': instance.hotelId,
+      'fullName': instance.fullName,
       'email': instance.email,
-      'phone_number': instance.phoneNumber,
-      'password_hash': instance.passwordHash,
+      'phoneNumber': instance.phoneNumber,
+      'passwordHash': instance.passwordHash,
       'role': _$StaffRoleEnumMap[instance.role]!,
       'status': _$StaffStatusEnumMap[instance.status]!,
-      'cometchat_uid': instance.cometchatUid,
-      'employee_code': instance.employeeCode,
+      'cometchatUid': instance.cometchatUid,
+      'employeeCode': instance.employeeCode,
       'department': instance.department,
-      'guide_license': instance.guideLicense,
+      'guideLicense': instance.guideLicense,
       'languages': instance.languages,
-      'years_experience': instance.yearsExperience,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
-      'deleted_at': instance.deletedAt?.toIso8601String(),
+      'yearsExperience': instance.yearsExperience,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'deletedAt': instance.deletedAt?.toIso8601String(),
     };
 
 const _$StaffRoleEnumMap = {

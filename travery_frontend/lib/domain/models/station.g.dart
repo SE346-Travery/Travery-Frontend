@@ -11,18 +11,16 @@ _$StationImpl _$$StationImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       name: json['name'] as String,
       address: json['address'] as String,
-      cityProvince: json['city_province'] as String,
+      cityProvince: json['cityProvince'] as String,
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
-      isPickupPoint: json['is_pickup_point'] as bool? ?? false,
-      isDropoffPoint: json['is_dropoff_point'] as bool? ?? false,
-      isActive: json['is_active'] as bool? ?? true,
-      createdAt: json['created_at'] == null
+      isActive: json['isActive'] as bool? ?? true,
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$StationImplToJson(_$StationImpl instance) =>
@@ -30,12 +28,10 @@ Map<String, dynamic> _$$StationImplToJson(_$StationImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'address': instance.address,
-      'city_province': instance.cityProvince,
+      'cityProvince': instance.cityProvince,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
-      'is_pickup_point': instance.isPickupPoint,
-      'is_dropoff_point': instance.isDropoffPoint,
-      'is_active': instance.isActive,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'isActive': instance.isActive,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };

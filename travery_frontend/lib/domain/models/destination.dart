@@ -6,25 +6,13 @@ part 'destination.g.dart';
 class Destination with _$Destination {
   const factory Destination({
     String? id,
-
     required String code,
-
     required String name,
-
     required DestinationRegion region,
-
-    String? description,
-
     String? imageUrl,
-
-    double? latitude,
-
-    double? longitude,
-
+    String? description,
     @Default(true) bool isActive,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _Destination;
 

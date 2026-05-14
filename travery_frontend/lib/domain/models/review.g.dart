@@ -8,21 +8,20 @@ part of 'review.dart';
 
 _$ReviewImpl _$$ReviewImplFromJson(Map<String, dynamic> json) => _$ReviewImpl(
   id: json['id'] as String?,
-  userId: json['user_id'] as String,
-  bookingId: json['booking_id'] as String?,
-  bookingType: json['booking_type'] as String?,
-  targetId: json['target_id'] as String?,
-  targetType: $enumDecode(_$ReviewTargetTypeEnumMap, json['target_type']),
-  rating: (json['rating'] as num).toInt(),
+  userId: json['userId'] as String,
+  bookingId: json['bookingId'] as String?,
+  bookingType: json['bookingType'] as String?,
+  targetId: json['targetId'] as String?,
+  targetType: $enumDecode(_$ReviewTargetTypeEnumMap, json['targetType']),
+  averageRating: (json['averageRating'] as num).toInt(),
   content: json['content'] as String?,
   images: (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  isVerified: json['is_verified'] as bool? ?? false,
-  createdAt: json['created_at'] == null
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
   user: json['user'] == null
       ? null
       : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -31,17 +30,16 @@ _$ReviewImpl _$$ReviewImplFromJson(Map<String, dynamic> json) => _$ReviewImpl(
 Map<String, dynamic> _$$ReviewImplToJson(_$ReviewImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user_id': instance.userId,
-      'booking_id': instance.bookingId,
-      'booking_type': instance.bookingType,
-      'target_id': instance.targetId,
-      'target_type': _$ReviewTargetTypeEnumMap[instance.targetType]!,
-      'rating': instance.rating,
+      'userId': instance.userId,
+      'bookingId': instance.bookingId,
+      'bookingType': instance.bookingType,
+      'targetId': instance.targetId,
+      'targetType': _$ReviewTargetTypeEnumMap[instance.targetType]!,
+      'averageRating': instance.averageRating,
       'content': instance.content,
       'images': instance.images,
-      'is_verified': instance.isVerified,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'user': instance.user,
     };
 

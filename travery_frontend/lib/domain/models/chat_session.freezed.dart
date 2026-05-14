@@ -27,8 +27,6 @@ mixin _$ChatSession {
   String get cometchatGuid => throw _privateConstructorUsedError;
   String? get tourId => throw _privateConstructorUsedError;
   ChatSessionStatus get status => throw _privateConstructorUsedError;
-  String? get lastMessage => throw _privateConstructorUsedError;
-  DateTime? get lastMessageAt => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -58,8 +56,6 @@ abstract class $ChatSessionCopyWith<$Res> {
     String cometchatGuid,
     String? tourId,
     ChatSessionStatus status,
-    String? lastMessage,
-    DateTime? lastMessageAt,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -91,8 +87,6 @@ class _$ChatSessionCopyWithImpl<$Res, $Val extends ChatSession>
     Object? cometchatGuid = null,
     Object? tourId = freezed,
     Object? status = null,
-    Object? lastMessage = freezed,
-    Object? lastMessageAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -124,14 +118,6 @@ class _$ChatSessionCopyWithImpl<$Res, $Val extends ChatSession>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as ChatSessionStatus,
-            lastMessage: freezed == lastMessage
-                ? _value.lastMessage
-                : lastMessage // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            lastMessageAt: freezed == lastMessageAt
-                ? _value.lastMessageAt
-                : lastMessageAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -198,8 +184,6 @@ abstract class _$$ChatSessionImplCopyWith<$Res>
     String cometchatGuid,
     String? tourId,
     ChatSessionStatus status,
-    String? lastMessage,
-    DateTime? lastMessageAt,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -232,8 +216,6 @@ class __$$ChatSessionImplCopyWithImpl<$Res>
     Object? cometchatGuid = null,
     Object? tourId = freezed,
     Object? status = null,
-    Object? lastMessage = freezed,
-    Object? lastMessageAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -265,14 +247,6 @@ class __$$ChatSessionImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as ChatSessionStatus,
-        lastMessage: freezed == lastMessage
-            ? _value.lastMessage
-            : lastMessage // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        lastMessageAt: freezed == lastMessageAt
-            ? _value.lastMessageAt
-            : lastMessageAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -304,8 +278,6 @@ class _$ChatSessionImpl implements _ChatSession {
     required this.cometchatGuid,
     this.tourId,
     required this.status,
-    this.lastMessage,
-    this.lastMessageAt,
     this.createdAt,
     this.updatedAt,
     this.user,
@@ -328,10 +300,6 @@ class _$ChatSessionImpl implements _ChatSession {
   @override
   final ChatSessionStatus status;
   @override
-  final String? lastMessage;
-  @override
-  final DateTime? lastMessageAt;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
@@ -342,7 +310,7 @@ class _$ChatSessionImpl implements _ChatSession {
 
   @override
   String toString() {
-    return 'ChatSession(id: $id, userId: $userId, coordinatorId: $coordinatorId, cometchatGuid: $cometchatGuid, tourId: $tourId, status: $status, lastMessage: $lastMessage, lastMessageAt: $lastMessageAt, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, coordinator: $coordinator)';
+    return 'ChatSession(id: $id, userId: $userId, coordinatorId: $coordinatorId, cometchatGuid: $cometchatGuid, tourId: $tourId, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, coordinator: $coordinator)';
   }
 
   @override
@@ -358,10 +326,6 @@ class _$ChatSessionImpl implements _ChatSession {
                 other.cometchatGuid == cometchatGuid) &&
             (identical(other.tourId, tourId) || other.tourId == tourId) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.lastMessage, lastMessage) ||
-                other.lastMessage == lastMessage) &&
-            (identical(other.lastMessageAt, lastMessageAt) ||
-                other.lastMessageAt == lastMessageAt) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -381,8 +345,6 @@ class _$ChatSessionImpl implements _ChatSession {
     cometchatGuid,
     tourId,
     status,
-    lastMessage,
-    lastMessageAt,
     createdAt,
     updatedAt,
     user,
@@ -411,8 +373,6 @@ abstract class _ChatSession implements ChatSession {
     required final String cometchatGuid,
     final String? tourId,
     required final ChatSessionStatus status,
-    final String? lastMessage,
-    final DateTime? lastMessageAt,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final User? user,
@@ -434,10 +394,6 @@ abstract class _ChatSession implements ChatSession {
   String? get tourId;
   @override
   ChatSessionStatus get status;
-  @override
-  String? get lastMessage;
-  @override
-  DateTime? get lastMessageAt;
   @override
   DateTime? get createdAt;
   @override

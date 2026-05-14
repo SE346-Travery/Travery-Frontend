@@ -29,9 +29,6 @@ mixin _$CoachTrip {
   DateTime get departureTime => throw _privateConstructorUsedError;
   DateTime? get arrivalTime => throw _privateConstructorUsedError;
   CoachTripStatus get status => throw _privateConstructorUsedError;
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  String? get cancellationReason => throw _privateConstructorUsedError;
-  String? get cancelledBy => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   Route? get route => throw _privateConstructorUsedError;
@@ -64,9 +61,6 @@ abstract class $CoachTripCopyWith<$Res> {
     DateTime departureTime,
     DateTime? arrivalTime,
     CoachTripStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
     DateTime? createdAt,
     DateTime? updatedAt,
     Route? route,
@@ -105,9 +99,6 @@ class _$CoachTripCopyWithImpl<$Res, $Val extends CoachTrip>
     Object? departureTime = null,
     Object? arrivalTime = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? route = freezed,
@@ -150,18 +141,6 @@ class _$CoachTripCopyWithImpl<$Res, $Val extends CoachTrip>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as CoachTripStatus,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancellationReason: freezed == cancellationReason
-                ? _value.cancellationReason
-                : cancellationReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledBy: freezed == cancelledBy
-                ? _value.cancelledBy
-                : cancelledBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -270,9 +249,6 @@ abstract class _$$CoachTripImplCopyWith<$Res>
     DateTime departureTime,
     DateTime? arrivalTime,
     CoachTripStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
     DateTime? createdAt,
     DateTime? updatedAt,
     Route? route,
@@ -314,9 +290,6 @@ class __$$CoachTripImplCopyWithImpl<$Res>
     Object? departureTime = null,
     Object? arrivalTime = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? route = freezed,
@@ -359,18 +332,6 @@ class __$$CoachTripImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as CoachTripStatus,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancellationReason: freezed == cancellationReason
-            ? _value.cancellationReason
-            : cancellationReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledBy: freezed == cancelledBy
-            ? _value.cancelledBy
-            : cancelledBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -416,9 +377,6 @@ class _$CoachTripImpl implements _CoachTrip {
     required this.departureTime,
     this.arrivalTime,
     required this.status,
-    this.cancelledAt,
-    this.cancellationReason,
-    this.cancelledBy,
     this.createdAt,
     this.updatedAt,
     this.route,
@@ -448,12 +406,6 @@ class _$CoachTripImpl implements _CoachTrip {
   @override
   final CoachTripStatus status;
   @override
-  final DateTime? cancelledAt;
-  @override
-  final String? cancellationReason;
-  @override
-  final String? cancelledBy;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
@@ -477,7 +429,7 @@ class _$CoachTripImpl implements _CoachTrip {
 
   @override
   String toString() {
-    return 'CoachTrip(id: $id, routeId: $routeId, coachId: $coachId, driverId: $driverId, coordinatorId: $coordinatorId, departureTime: $departureTime, arrivalTime: $arrivalTime, status: $status, cancelledAt: $cancelledAt, cancellationReason: $cancellationReason, cancelledBy: $cancelledBy, createdAt: $createdAt, updatedAt: $updatedAt, route: $route, coach: $coach, driver: $driver, coordinator: $coordinator, bookings: $bookings)';
+    return 'CoachTrip(id: $id, routeId: $routeId, coachId: $coachId, driverId: $driverId, coordinatorId: $coordinatorId, departureTime: $departureTime, arrivalTime: $arrivalTime, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, route: $route, coach: $coach, driver: $driver, coordinator: $coordinator, bookings: $bookings)';
   }
 
   @override
@@ -497,12 +449,6 @@ class _$CoachTripImpl implements _CoachTrip {
             (identical(other.arrivalTime, arrivalTime) ||
                 other.arrivalTime == arrivalTime) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
-            (identical(other.cancellationReason, cancellationReason) ||
-                other.cancellationReason == cancellationReason) &&
-            (identical(other.cancelledBy, cancelledBy) ||
-                other.cancelledBy == cancelledBy) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -527,9 +473,6 @@ class _$CoachTripImpl implements _CoachTrip {
     departureTime,
     arrivalTime,
     status,
-    cancelledAt,
-    cancellationReason,
-    cancelledBy,
     createdAt,
     updatedAt,
     route,
@@ -563,9 +506,6 @@ abstract class _CoachTrip implements CoachTrip {
     required final DateTime departureTime,
     final DateTime? arrivalTime,
     required final CoachTripStatus status,
-    final DateTime? cancelledAt,
-    final String? cancellationReason,
-    final String? cancelledBy,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final Route? route,
@@ -594,12 +534,6 @@ abstract class _CoachTrip implements CoachTrip {
   DateTime? get arrivalTime;
   @override
   CoachTripStatus get status;
-  @override
-  DateTime? get cancelledAt;
-  @override
-  String? get cancellationReason;
-  @override
-  String? get cancelledBy;
   @override
   DateTime? get createdAt;
   @override

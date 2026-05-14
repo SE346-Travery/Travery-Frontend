@@ -9,26 +9,21 @@ part of 'coach_trip.dart';
 _$CoachTripImpl _$$CoachTripImplFromJson(Map<String, dynamic> json) =>
     _$CoachTripImpl(
       id: json['id'] as String?,
-      routeId: json['route_id'] as String,
-      coachId: json['coach_id'] as String,
-      driverId: json['driver_id'] as String?,
-      coordinatorId: json['coordinator_id'] as String?,
-      departureTime: DateTime.parse(json['departure_time'] as String),
-      arrivalTime: json['arrival_time'] == null
+      routeId: json['routeId'] as String,
+      coachId: json['coachId'] as String,
+      driverId: json['driverId'] as String?,
+      coordinatorId: json['coordinatorId'] as String?,
+      departureTime: DateTime.parse(json['departureTime'] as String),
+      arrivalTime: json['arrivalTime'] == null
           ? null
-          : DateTime.parse(json['arrival_time'] as String),
+          : DateTime.parse(json['arrivalTime'] as String),
       status: $enumDecode(_$CoachTripStatusEnumMap, json['status']),
-      cancelledAt: json['cancelled_at'] == null
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['cancelled_at'] as String),
-      cancellationReason: json['cancellation_reason'] as String?,
-      cancelledBy: json['cancelled_by'] as String?,
-      createdAt: json['created_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
-          ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       route: json['route'] == null
           ? null
           : Route.fromJson(json['route'] as Map<String, dynamic>),
@@ -49,18 +44,15 @@ _$CoachTripImpl _$$CoachTripImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$CoachTripImplToJson(_$CoachTripImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'route_id': instance.routeId,
-      'coach_id': instance.coachId,
-      'driver_id': instance.driverId,
-      'coordinator_id': instance.coordinatorId,
-      'departure_time': instance.departureTime.toIso8601String(),
-      'arrival_time': instance.arrivalTime?.toIso8601String(),
+      'routeId': instance.routeId,
+      'coachId': instance.coachId,
+      'driverId': instance.driverId,
+      'coordinatorId': instance.coordinatorId,
+      'departureTime': instance.departureTime.toIso8601String(),
+      'arrivalTime': instance.arrivalTime?.toIso8601String(),
       'status': _$CoachTripStatusEnumMap[instance.status]!,
-      'cancelled_at': instance.cancelledAt?.toIso8601String(),
-      'cancellation_reason': instance.cancellationReason,
-      'cancelled_by': instance.cancelledBy,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'route': instance.route,
       'coach': instance.coach,
       'driver': instance.driver,

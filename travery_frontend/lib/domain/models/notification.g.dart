@@ -10,28 +10,28 @@ _$AppNotificationImpl _$$AppNotificationImplFromJson(
   Map<String, dynamic> json,
 ) => _$AppNotificationImpl(
   id: json['id'] as String?,
-  userId: json['user_id'] as String?,
-  staffId: json['staff_id'] as String?,
+  userId: json['userId'] as String?,
+  staffId: json['staffId'] as String?,
   notificationType: $enumDecode(
     _$NotificationTypeEnumMap,
-    json['notification_type'],
+    json['notificationType'],
   ),
   title: json['title'] as String,
   body: json['body'] as String?,
-  referenceType: json['reference_type'] as String?,
-  referenceId: json['reference_id'] as String?,
-  imageUrl: json['image_url'] as String?,
-  actionUrl: json['action_url'] as String?,
-  isRead: json['is_read'] as bool? ?? false,
-  readAt: json['read_at'] == null
+  referenceType: json['referenceType'] as String?,
+  referenceId: json['referenceId'] as String?,
+  imageUrl: json['imageUrl'] as String?,
+  actionUrl: json['actionUrl'] as String?,
+  isRead: json['isRead'] as bool? ?? false,
+  readAt: json['readAt'] == null
       ? null
-      : DateTime.parse(json['read_at'] as String),
-  sentAt: json['sent_at'] == null
+      : DateTime.parse(json['readAt'] as String),
+  sentAt: json['sentAt'] == null
       ? null
-      : DateTime.parse(json['sent_at'] as String),
-  createdAt: json['created_at'] == null
+      : DateTime.parse(json['sentAt'] as String),
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
+      : DateTime.parse(json['createdAt'] as String),
   user: json['user'] == null
       ? null
       : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -41,19 +41,19 @@ Map<String, dynamic> _$$AppNotificationImplToJson(
   _$AppNotificationImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'user_id': instance.userId,
-  'staff_id': instance.staffId,
-  'notification_type': _$NotificationTypeEnumMap[instance.notificationType]!,
+  'userId': instance.userId,
+  'staffId': instance.staffId,
+  'notificationType': _$NotificationTypeEnumMap[instance.notificationType]!,
   'title': instance.title,
   'body': instance.body,
-  'reference_type': instance.referenceType,
-  'reference_id': instance.referenceId,
-  'image_url': instance.imageUrl,
-  'action_url': instance.actionUrl,
-  'is_read': instance.isRead,
-  'read_at': instance.readAt?.toIso8601String(),
-  'sent_at': instance.sentAt?.toIso8601String(),
-  'created_at': instance.createdAt?.toIso8601String(),
+  'referenceType': instance.referenceType,
+  'referenceId': instance.referenceId,
+  'imageUrl': instance.imageUrl,
+  'actionUrl': instance.actionUrl,
+  'isRead': instance.isRead,
+  'readAt': instance.readAt?.toIso8601String(),
+  'sentAt': instance.sentAt?.toIso8601String(),
+  'createdAt': instance.createdAt?.toIso8601String(),
   'user': instance.user,
 };
 

@@ -9,17 +9,17 @@ part of 'vehicle_seat.dart';
 _$VehicleSeatImpl _$$VehicleSeatImplFromJson(Map<String, dynamic> json) =>
     _$VehicleSeatImpl(
       id: json['id'] as String?,
-      vehicleId: json['vehicle_id'] as String,
-      seatCode: json['seat_code'] as String,
-      floorNumber: (json['floor_number'] as num?)?.toInt(),
-      rowZone: $enumDecode(_$SeatRowZoneEnumMap, json['row_zone']),
-      isAvailable: json['is_available'] as bool? ?? true,
-      createdAt: json['created_at'] == null
+      vehicleId: json['vehicleId'] as String,
+      seatCode: json['seatCode'] as String,
+      floorNumber: (json['floorNumber'] as num?)?.toInt(),
+      rowZone: $enumDecode(_$SeatRowZoneEnumMap, json['rowZone']),
+      isAvailable: json['isAvailable'] as bool? ?? true,
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       vehicle: json['vehicle'] == null
           ? null
           : Vehicle.fromJson(json['vehicle'] as Map<String, dynamic>),
@@ -28,13 +28,13 @@ _$VehicleSeatImpl _$$VehicleSeatImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$VehicleSeatImplToJson(_$VehicleSeatImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'vehicle_id': instance.vehicleId,
-      'seat_code': instance.seatCode,
-      'floor_number': instance.floorNumber,
-      'row_zone': _$SeatRowZoneEnumMap[instance.rowZone]!,
-      'is_available': instance.isAvailable,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'vehicleId': instance.vehicleId,
+      'seatCode': instance.seatCode,
+      'floorNumber': instance.floorNumber,
+      'rowZone': _$SeatRowZoneEnumMap[instance.rowZone]!,
+      'isAvailable': instance.isAvailable,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'vehicle': instance.vehicle,
     };
 

@@ -8,25 +8,12 @@ part 'tour_booking_member.g.dart';
 class TourBookingMember with _$TourBookingMember {
   const factory TourBookingMember({
     String? id,
-
-    required String bookingId,
-
-    required String bookingType,
-
     required String fullName,
-
-    String? passportNumber,
-
-    DateTime? dateOfBirth,
-
-    String? gender,
-
+    String? identityNumber,
+    IdentityType? identityType,
     @Default(false) bool isChild,
-
-    DateTime? cancelledAt,
-
+    required BookingMemberStatus status,
     DateTime? createdAt,
-
     DateTime? updatedAt,
     TourBooking? booking,
   }) = _TourBookingMember;

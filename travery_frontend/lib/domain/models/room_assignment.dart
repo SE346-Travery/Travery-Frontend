@@ -6,17 +6,9 @@ part 'room_assignment.g.dart';
 class RoomAssignment with _$RoomAssignment {
   const factory RoomAssignment({
     String? id,
-
     required String hotelBookingDetailId,
-
     required String roomId,
-
-    DateTime? checkInTime,
-
-    DateTime? checkOutTime,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _RoomAssignment;
 

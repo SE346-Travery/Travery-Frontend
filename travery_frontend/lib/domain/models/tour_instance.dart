@@ -14,45 +14,17 @@ part 'tour_instance.g.dart';
 class TourInstance with _$TourInstance {
   const factory TourInstance({
     String? id,
-
     required String tourId,
-
     String? coordinatorId,
-
     String? guideId,
-
     String? coachId,
-
     String? driverId,
-
     String? hotelBookingId,
-
     required DateTime startDate,
-
     required DateTime endDate,
-
-    @Default(10) int minParticipants,
-
-    @Default(30) int maxParticipants,
-
     @Default(0) int currentParticipants,
-
     required TourInstanceStatus status,
-
-    String? postponementReason,
-
-    DateTime? postponedAt,
-
-    String? postponedBy,
-
-    DateTime? cancelledAt,
-
-    String? cancellationReason,
-
-    String? cancelledBy,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     Tour? tour,
     User? coordinator,

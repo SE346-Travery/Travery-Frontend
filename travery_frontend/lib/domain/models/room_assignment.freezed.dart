@@ -24,8 +24,6 @@ mixin _$RoomAssignment {
   String? get id => throw _privateConstructorUsedError;
   String get hotelBookingDetailId => throw _privateConstructorUsedError;
   String get roomId => throw _privateConstructorUsedError;
-  DateTime? get checkInTime => throw _privateConstructorUsedError;
-  DateTime? get checkOutTime => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -50,8 +48,6 @@ abstract class $RoomAssignmentCopyWith<$Res> {
     String? id,
     String hotelBookingDetailId,
     String roomId,
-    DateTime? checkInTime,
-    DateTime? checkOutTime,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -75,8 +71,6 @@ class _$RoomAssignmentCopyWithImpl<$Res, $Val extends RoomAssignment>
     Object? id = freezed,
     Object? hotelBookingDetailId = null,
     Object? roomId = null,
-    Object? checkInTime = freezed,
-    Object? checkOutTime = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -94,14 +88,6 @@ class _$RoomAssignmentCopyWithImpl<$Res, $Val extends RoomAssignment>
                 ? _value.roomId
                 : roomId // ignore: cast_nullable_to_non_nullable
                       as String,
-            checkInTime: freezed == checkInTime
-                ? _value.checkInTime
-                : checkInTime // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            checkOutTime: freezed == checkOutTime
-                ? _value.checkOutTime
-                : checkOutTime // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -129,8 +115,6 @@ abstract class _$$RoomAssignmentImplCopyWith<$Res>
     String? id,
     String hotelBookingDetailId,
     String roomId,
-    DateTime? checkInTime,
-    DateTime? checkOutTime,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -153,8 +137,6 @@ class __$$RoomAssignmentImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? hotelBookingDetailId = null,
     Object? roomId = null,
-    Object? checkInTime = freezed,
-    Object? checkOutTime = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -172,14 +154,6 @@ class __$$RoomAssignmentImplCopyWithImpl<$Res>
             ? _value.roomId
             : roomId // ignore: cast_nullable_to_non_nullable
                   as String,
-        checkInTime: freezed == checkInTime
-            ? _value.checkInTime
-            : checkInTime // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        checkOutTime: freezed == checkOutTime
-            ? _value.checkOutTime
-            : checkOutTime // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -200,8 +174,6 @@ class _$RoomAssignmentImpl implements _RoomAssignment {
     this.id,
     required this.hotelBookingDetailId,
     required this.roomId,
-    this.checkInTime,
-    this.checkOutTime,
     this.createdAt,
     this.updatedAt,
   });
@@ -216,17 +188,13 @@ class _$RoomAssignmentImpl implements _RoomAssignment {
   @override
   final String roomId;
   @override
-  final DateTime? checkInTime;
-  @override
-  final DateTime? checkOutTime;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'RoomAssignment(id: $id, hotelBookingDetailId: $hotelBookingDetailId, roomId: $roomId, checkInTime: $checkInTime, checkOutTime: $checkOutTime, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'RoomAssignment(id: $id, hotelBookingDetailId: $hotelBookingDetailId, roomId: $roomId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -238,10 +206,6 @@ class _$RoomAssignmentImpl implements _RoomAssignment {
             (identical(other.hotelBookingDetailId, hotelBookingDetailId) ||
                 other.hotelBookingDetailId == hotelBookingDetailId) &&
             (identical(other.roomId, roomId) || other.roomId == roomId) &&
-            (identical(other.checkInTime, checkInTime) ||
-                other.checkInTime == checkInTime) &&
-            (identical(other.checkOutTime, checkOutTime) ||
-                other.checkOutTime == checkOutTime) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -255,8 +219,6 @@ class _$RoomAssignmentImpl implements _RoomAssignment {
     id,
     hotelBookingDetailId,
     roomId,
-    checkInTime,
-    checkOutTime,
     createdAt,
     updatedAt,
   );
@@ -283,8 +245,6 @@ abstract class _RoomAssignment implements RoomAssignment {
     final String? id,
     required final String hotelBookingDetailId,
     required final String roomId,
-    final DateTime? checkInTime,
-    final DateTime? checkOutTime,
     final DateTime? createdAt,
     final DateTime? updatedAt,
   }) = _$RoomAssignmentImpl;
@@ -298,10 +258,6 @@ abstract class _RoomAssignment implements RoomAssignment {
   String get hotelBookingDetailId;
   @override
   String get roomId;
-  @override
-  DateTime? get checkInTime;
-  @override
-  DateTime? get checkOutTime;
   @override
   DateTime? get createdAt;
   @override

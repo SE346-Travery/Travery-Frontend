@@ -8,18 +8,11 @@ part 'receptionist.g.dart';
 @freezed
 class Receptionist with _$Receptionist {
   const factory Receptionist({
-    String? id,
-
     required String userId,
-
     required String hotelId,
-
     required String employeeCode,
-
     ShiftType? shiftType,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
     Hotel? hotel,

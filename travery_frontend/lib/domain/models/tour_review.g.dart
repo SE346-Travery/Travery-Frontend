@@ -9,21 +9,21 @@ part of 'tour_review.dart';
 _$TourReviewImpl _$$TourReviewImplFromJson(Map<String, dynamic> json) =>
     _$TourReviewImpl(
       id: json['id'] as String?,
-      bookingId: json['booking_id'] as String,
-      bookingType: json['booking_type'] as String,
-      userId: json['user_id'] as String,
-      tourId: json['tour_id'] as String,
+      bookingId: json['bookingId'] as String,
+      bookingType: json['bookingType'] as String,
+      userId: json['userId'] as String,
+      tourId: json['tourId'] as String,
       rating: (json['rating'] as num).toInt(),
       content: json['content'] as String?,
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      createdAt: json['created_at'] == null
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       booking: json['booking'] == null
           ? null
           : TourBooking.fromJson(json['booking'] as Map<String, dynamic>),
@@ -32,14 +32,14 @@ _$TourReviewImpl _$$TourReviewImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$TourReviewImplToJson(_$TourReviewImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'booking_id': instance.bookingId,
-      'booking_type': instance.bookingType,
-      'user_id': instance.userId,
-      'tour_id': instance.tourId,
+      'bookingId': instance.bookingId,
+      'bookingType': instance.bookingType,
+      'userId': instance.userId,
+      'tourId': instance.tourId,
       'rating': instance.rating,
       'content': instance.content,
       'images': instance.images,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'booking': instance.booking,
     };

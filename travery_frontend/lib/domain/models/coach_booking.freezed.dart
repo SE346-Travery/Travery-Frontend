@@ -24,19 +24,9 @@ mixin _$CoachBooking {
   String? get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get coachTripId => throw _privateConstructorUsedError;
-  String? get pickupStationId => throw _privateConstructorUsedError;
-  String? get dropoffStationId => throw _privateConstructorUsedError;
   double get totalPrice => throw _privateConstructorUsedError;
   DateTime? get paymentDeadline => throw _privateConstructorUsedError;
-  double? get luggageWeight => throw _privateConstructorUsedError;
-  String? get specialRequests => throw _privateConstructorUsedError;
-  String? get noShowNote => throw _privateConstructorUsedError;
-  DateTime? get noShowAt => throw _privateConstructorUsedError;
   CoachBookingStatus get status => throw _privateConstructorUsedError;
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  String? get cancellationReason => throw _privateConstructorUsedError;
-  String? get cancelledBy => throw _privateConstructorUsedError;
-  String? get refundRequestId => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -68,19 +58,9 @@ abstract class $CoachBookingCopyWith<$Res> {
     String? id,
     String userId,
     String coachTripId,
-    String? pickupStationId,
-    String? dropoffStationId,
     double totalPrice,
     DateTime? paymentDeadline,
-    double? luggageWeight,
-    String? specialRequests,
-    String? noShowNote,
-    DateTime? noShowAt,
     CoachBookingStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
-    String? refundRequestId,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -117,19 +97,9 @@ class _$CoachBookingCopyWithImpl<$Res, $Val extends CoachBooking>
     Object? id = freezed,
     Object? userId = null,
     Object? coachTripId = null,
-    Object? pickupStationId = freezed,
-    Object? dropoffStationId = freezed,
     Object? totalPrice = null,
     Object? paymentDeadline = freezed,
-    Object? luggageWeight = freezed,
-    Object? specialRequests = freezed,
-    Object? noShowNote = freezed,
-    Object? noShowAt = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
-    Object? refundRequestId = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -154,14 +124,6 @@ class _$CoachBookingCopyWithImpl<$Res, $Val extends CoachBooking>
                 ? _value.coachTripId
                 : coachTripId // ignore: cast_nullable_to_non_nullable
                       as String,
-            pickupStationId: freezed == pickupStationId
-                ? _value.pickupStationId
-                : pickupStationId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            dropoffStationId: freezed == dropoffStationId
-                ? _value.dropoffStationId
-                : dropoffStationId // ignore: cast_nullable_to_non_nullable
-                      as String?,
             totalPrice: null == totalPrice
                 ? _value.totalPrice
                 : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -170,42 +132,10 @@ class _$CoachBookingCopyWithImpl<$Res, $Val extends CoachBooking>
                 ? _value.paymentDeadline
                 : paymentDeadline // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
-            luggageWeight: freezed == luggageWeight
-                ? _value.luggageWeight
-                : luggageWeight // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            specialRequests: freezed == specialRequests
-                ? _value.specialRequests
-                : specialRequests // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            noShowNote: freezed == noShowNote
-                ? _value.noShowNote
-                : noShowNote // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            noShowAt: freezed == noShowAt
-                ? _value.noShowAt
-                : noShowAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as CoachBookingStatus,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancellationReason: freezed == cancellationReason
-                ? _value.cancellationReason
-                : cancellationReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledBy: freezed == cancelledBy
-                ? _value.cancelledBy
-                : cancelledBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            refundRequestId: freezed == refundRequestId
-                ? _value.refundRequestId
-                : refundRequestId // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -331,19 +261,9 @@ abstract class _$$CoachBookingImplCopyWith<$Res>
     String? id,
     String userId,
     String coachTripId,
-    String? pickupStationId,
-    String? dropoffStationId,
     double totalPrice,
     DateTime? paymentDeadline,
-    double? luggageWeight,
-    String? specialRequests,
-    String? noShowNote,
-    DateTime? noShowAt,
     CoachBookingStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
-    String? refundRequestId,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -384,19 +304,9 @@ class __$$CoachBookingImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? userId = null,
     Object? coachTripId = null,
-    Object? pickupStationId = freezed,
-    Object? dropoffStationId = freezed,
     Object? totalPrice = null,
     Object? paymentDeadline = freezed,
-    Object? luggageWeight = freezed,
-    Object? specialRequests = freezed,
-    Object? noShowNote = freezed,
-    Object? noShowAt = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
-    Object? refundRequestId = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -421,14 +331,6 @@ class __$$CoachBookingImplCopyWithImpl<$Res>
             ? _value.coachTripId
             : coachTripId // ignore: cast_nullable_to_non_nullable
                   as String,
-        pickupStationId: freezed == pickupStationId
-            ? _value.pickupStationId
-            : pickupStationId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        dropoffStationId: freezed == dropoffStationId
-            ? _value.dropoffStationId
-            : dropoffStationId // ignore: cast_nullable_to_non_nullable
-                  as String?,
         totalPrice: null == totalPrice
             ? _value.totalPrice
             : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -437,42 +339,10 @@ class __$$CoachBookingImplCopyWithImpl<$Res>
             ? _value.paymentDeadline
             : paymentDeadline // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
-        luggageWeight: freezed == luggageWeight
-            ? _value.luggageWeight
-            : luggageWeight // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        specialRequests: freezed == specialRequests
-            ? _value.specialRequests
-            : specialRequests // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        noShowNote: freezed == noShowNote
-            ? _value.noShowNote
-            : noShowNote // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        noShowAt: freezed == noShowAt
-            ? _value.noShowAt
-            : noShowAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as CoachBookingStatus,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancellationReason: freezed == cancellationReason
-            ? _value.cancellationReason
-            : cancellationReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledBy: freezed == cancelledBy
-            ? _value.cancelledBy
-            : cancelledBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        refundRequestId: freezed == refundRequestId
-            ? _value.refundRequestId
-            : refundRequestId // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -521,19 +391,9 @@ class _$CoachBookingImpl implements _CoachBooking {
     this.id,
     required this.userId,
     required this.coachTripId,
-    this.pickupStationId,
-    this.dropoffStationId,
     required this.totalPrice,
     this.paymentDeadline,
-    this.luggageWeight,
-    this.specialRequests,
-    this.noShowNote,
-    this.noShowAt,
     required this.status,
-    this.cancelledAt,
-    this.cancellationReason,
-    this.cancelledBy,
-    this.refundRequestId,
     this.createdAt,
     this.updatedAt,
     this.user,
@@ -556,31 +416,11 @@ class _$CoachBookingImpl implements _CoachBooking {
   @override
   final String coachTripId;
   @override
-  final String? pickupStationId;
-  @override
-  final String? dropoffStationId;
-  @override
   final double totalPrice;
   @override
   final DateTime? paymentDeadline;
   @override
-  final double? luggageWeight;
-  @override
-  final String? specialRequests;
-  @override
-  final String? noShowNote;
-  @override
-  final DateTime? noShowAt;
-  @override
   final CoachBookingStatus status;
-  @override
-  final DateTime? cancelledAt;
-  @override
-  final String? cancellationReason;
-  @override
-  final String? cancelledBy;
-  @override
-  final String? refundRequestId;
   @override
   final DateTime? createdAt;
   @override
@@ -618,7 +458,7 @@ class _$CoachBookingImpl implements _CoachBooking {
 
   @override
   String toString() {
-    return 'CoachBooking(id: $id, userId: $userId, coachTripId: $coachTripId, pickupStationId: $pickupStationId, dropoffStationId: $dropoffStationId, totalPrice: $totalPrice, paymentDeadline: $paymentDeadline, luggageWeight: $luggageWeight, specialRequests: $specialRequests, noShowNote: $noShowNote, noShowAt: $noShowAt, status: $status, cancelledAt: $cancelledAt, cancellationReason: $cancellationReason, cancelledBy: $cancelledBy, refundRequestId: $refundRequestId, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, coachTrip: $coachTrip, pickupStation: $pickupStation, dropoffStation: $dropoffStation, tickets: $tickets, payments: $payments, refundRequest: $refundRequest)';
+    return 'CoachBooking(id: $id, userId: $userId, coachTripId: $coachTripId, totalPrice: $totalPrice, paymentDeadline: $paymentDeadline, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, user: $user, coachTrip: $coachTrip, pickupStation: $pickupStation, dropoffStation: $dropoffStation, tickets: $tickets, payments: $payments, refundRequest: $refundRequest)';
   }
 
   @override
@@ -630,31 +470,11 @@ class _$CoachBookingImpl implements _CoachBooking {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.coachTripId, coachTripId) ||
                 other.coachTripId == coachTripId) &&
-            (identical(other.pickupStationId, pickupStationId) ||
-                other.pickupStationId == pickupStationId) &&
-            (identical(other.dropoffStationId, dropoffStationId) ||
-                other.dropoffStationId == dropoffStationId) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice) &&
             (identical(other.paymentDeadline, paymentDeadline) ||
                 other.paymentDeadline == paymentDeadline) &&
-            (identical(other.luggageWeight, luggageWeight) ||
-                other.luggageWeight == luggageWeight) &&
-            (identical(other.specialRequests, specialRequests) ||
-                other.specialRequests == specialRequests) &&
-            (identical(other.noShowNote, noShowNote) ||
-                other.noShowNote == noShowNote) &&
-            (identical(other.noShowAt, noShowAt) ||
-                other.noShowAt == noShowAt) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
-            (identical(other.cancellationReason, cancellationReason) ||
-                other.cancellationReason == cancellationReason) &&
-            (identical(other.cancelledBy, cancelledBy) ||
-                other.cancelledBy == cancelledBy) &&
-            (identical(other.refundRequestId, refundRequestId) ||
-                other.refundRequestId == refundRequestId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -674,24 +494,14 @@ class _$CoachBookingImpl implements _CoachBooking {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hashAll([
+  int get hashCode => Object.hash(
     runtimeType,
     id,
     userId,
     coachTripId,
-    pickupStationId,
-    dropoffStationId,
     totalPrice,
     paymentDeadline,
-    luggageWeight,
-    specialRequests,
-    noShowNote,
-    noShowAt,
     status,
-    cancelledAt,
-    cancellationReason,
-    cancelledBy,
-    refundRequestId,
     createdAt,
     updatedAt,
     user,
@@ -701,7 +511,7 @@ class _$CoachBookingImpl implements _CoachBooking {
     const DeepCollectionEquality().hash(_tickets),
     const DeepCollectionEquality().hash(_payments),
     refundRequest,
-  ]);
+  );
 
   /// Create a copy of CoachBooking
   /// with the given fields replaced by the non-null parameter values.
@@ -722,19 +532,9 @@ abstract class _CoachBooking implements CoachBooking {
     final String? id,
     required final String userId,
     required final String coachTripId,
-    final String? pickupStationId,
-    final String? dropoffStationId,
     required final double totalPrice,
     final DateTime? paymentDeadline,
-    final double? luggageWeight,
-    final String? specialRequests,
-    final String? noShowNote,
-    final DateTime? noShowAt,
     required final CoachBookingStatus status,
-    final DateTime? cancelledAt,
-    final String? cancellationReason,
-    final String? cancelledBy,
-    final String? refundRequestId,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final User? user,
@@ -756,31 +556,11 @@ abstract class _CoachBooking implements CoachBooking {
   @override
   String get coachTripId;
   @override
-  String? get pickupStationId;
-  @override
-  String? get dropoffStationId;
-  @override
   double get totalPrice;
   @override
   DateTime? get paymentDeadline;
   @override
-  double? get luggageWeight;
-  @override
-  String? get specialRequests;
-  @override
-  String? get noShowNote;
-  @override
-  DateTime? get noShowAt;
-  @override
   CoachBookingStatus get status;
-  @override
-  DateTime? get cancelledAt;
-  @override
-  String? get cancellationReason;
-  @override
-  String? get cancelledBy;
-  @override
-  String? get refundRequestId;
   @override
   DateTime? get createdAt;
   @override

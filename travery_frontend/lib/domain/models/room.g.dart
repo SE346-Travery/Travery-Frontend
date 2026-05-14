@@ -8,37 +8,35 @@ part of 'room.dart';
 
 _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
   id: json['id'] as String?,
-  hotelId: json['hotel_id'] as String,
-  roomTypeId: json['room_type_id'] as String,
-  roomNumber: json['room_number'] as String,
-  floor: (json['floor'] as num?)?.toInt(),
+  hotelId: json['hotelId'] as String,
+  roomTypeId: json['roomTypeId'] as String,
+  roomNumber: json['roomNumber'] as String,
   status: $enumDecode(_$RoomStatusEnumMap, json['status']),
-  createdAt: json['created_at'] == null
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
   hotel: json['hotel'] == null
       ? null
       : Hotel.fromJson(json['hotel'] as Map<String, dynamic>),
-  roomType: json['room_type'] == null
+  roomType: json['roomType'] == null
       ? null
-      : RoomType.fromJson(json['room_type'] as Map<String, dynamic>),
+      : RoomType.fromJson(json['roomType'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'hotel_id': instance.hotelId,
-      'room_type_id': instance.roomTypeId,
-      'room_number': instance.roomNumber,
-      'floor': instance.floor,
+      'hotelId': instance.hotelId,
+      'roomTypeId': instance.roomTypeId,
+      'roomNumber': instance.roomNumber,
       'status': _$RoomStatusEnumMap[instance.status]!,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'hotel': instance.hotel,
-      'room_type': instance.roomType,
+      'roomType': instance.roomType,
     };
 
 const _$RoomStatusEnumMap = {

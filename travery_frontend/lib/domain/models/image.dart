@@ -6,23 +6,11 @@ part 'image.g.dart';
 class Image with _$Image {
   const factory Image({
     String? id,
-
     required String entityId,
-
     required ImageEntityType entityType,
-
     required String url,
-
-    String? caption,
-
     @Default(false) bool isThumbnail,
-
     @Default(0) int displayOrder,
-
-    int? fileSize,
-
-    String? mimeType,
-
     DateTime? createdAt,
   }) = _Image;
 

@@ -13,13 +13,13 @@ _$LocationImpl _$$LocationImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       region: $enumDecode(_$LocationRegionEnumMap, json['region']),
       description: json['description'] as String?,
-      isActive: json['is_active'] as bool? ?? true,
-      createdAt: json['created_at'] == null
+      isActive: json['isActive'] as bool? ?? true,
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$LocationImplToJson(_$LocationImpl instance) =>
@@ -29,9 +29,9 @@ Map<String, dynamic> _$$LocationImplToJson(_$LocationImpl instance) =>
       'name': instance.name,
       'region': _$LocationRegionEnumMap[instance.region]!,
       'description': instance.description,
-      'is_active': instance.isActive,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'isActive': instance.isActive,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 const _$LocationRegionEnumMap = {

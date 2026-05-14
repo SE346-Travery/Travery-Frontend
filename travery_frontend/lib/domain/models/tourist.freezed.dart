@@ -21,7 +21,6 @@ Tourist _$TouristFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Tourist {
-  String? get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String? get passportNumber => throw _privateConstructorUsedError;
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
@@ -45,7 +44,6 @@ abstract class $TouristCopyWith<$Res> {
       _$TouristCopyWithImpl<$Res, Tourist>;
   @useResult
   $Res call({
-    String? id,
     String userId,
     String? passportNumber,
     DateTime? dateOfBirth,
@@ -73,7 +71,6 @@ class _$TouristCopyWithImpl<$Res, $Val extends Tourist>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? userId = null,
     Object? passportNumber = freezed,
     Object? dateOfBirth = freezed,
@@ -84,10 +81,6 @@ class _$TouristCopyWithImpl<$Res, $Val extends Tourist>
   }) {
     return _then(
       _value.copyWith(
-            id: freezed == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String?,
             userId: null == userId
                 ? _value.userId
                 : userId // ignore: cast_nullable_to_non_nullable
@@ -145,7 +138,6 @@ abstract class _$$TouristImplCopyWith<$Res> implements $TouristCopyWith<$Res> {
   @override
   @useResult
   $Res call({
-    String? id,
     String userId,
     String? passportNumber,
     DateTime? dateOfBirth,
@@ -173,7 +165,6 @@ class __$$TouristImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? userId = null,
     Object? passportNumber = freezed,
     Object? dateOfBirth = freezed,
@@ -184,10 +175,6 @@ class __$$TouristImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$TouristImpl(
-        id: freezed == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String?,
         userId: null == userId
             ? _value.userId
             : userId // ignore: cast_nullable_to_non_nullable
@@ -225,7 +212,6 @@ class __$$TouristImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TouristImpl implements _Tourist {
   const _$TouristImpl({
-    this.id,
     required this.userId,
     this.passportNumber,
     this.dateOfBirth,
@@ -238,8 +224,6 @@ class _$TouristImpl implements _Tourist {
   factory _$TouristImpl.fromJson(Map<String, dynamic> json) =>
       _$$TouristImplFromJson(json);
 
-  @override
-  final String? id;
   @override
   final String userId;
   @override
@@ -257,7 +241,7 @@ class _$TouristImpl implements _Tourist {
 
   @override
   String toString() {
-    return 'Tourist(id: $id, userId: $userId, passportNumber: $passportNumber, dateOfBirth: $dateOfBirth, gender: $gender, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
+    return 'Tourist(userId: $userId, passportNumber: $passportNumber, dateOfBirth: $dateOfBirth, gender: $gender, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
   }
 
   @override
@@ -265,7 +249,6 @@ class _$TouristImpl implements _Tourist {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TouristImpl &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.passportNumber, passportNumber) ||
                 other.passportNumber == passportNumber) &&
@@ -283,7 +266,6 @@ class _$TouristImpl implements _Tourist {
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    id,
     userId,
     passportNumber,
     dateOfBirth,
@@ -309,7 +291,6 @@ class _$TouristImpl implements _Tourist {
 
 abstract class _Tourist implements Tourist {
   const factory _Tourist({
-    final String? id,
     required final String userId,
     final String? passportNumber,
     final DateTime? dateOfBirth,
@@ -321,8 +302,6 @@ abstract class _Tourist implements Tourist {
 
   factory _Tourist.fromJson(Map<String, dynamic> json) = _$TouristImpl.fromJson;
 
-  @override
-  String? get id;
   @override
   String get userId;
   @override

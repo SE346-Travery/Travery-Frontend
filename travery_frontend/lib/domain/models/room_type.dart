@@ -6,29 +6,15 @@ part 'room_type.g.dart';
 class RoomType with _$RoomType {
   const factory RoomType({
     String? id,
-
     required String hotelId,
-
     required String name,
-
     String? description,
-
     required double basePrice,
-
     required int capacityAdults,
-
     @Default(0) int capacityChildren,
-
     required BedType bedType,
-
-    int? totalRooms,
-
-    int? availableRooms,
-
     @Default(true) bool isActive,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _RoomType;
 

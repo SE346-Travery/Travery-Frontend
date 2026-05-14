@@ -7,18 +7,11 @@ part 'tourist.g.dart';
 @freezed
 class Tourist with _$Tourist {
   const factory Tourist({
-    String? id,
-
     required String userId,
-
     String? passportNumber,
-
     DateTime? dateOfBirth,
-
     TouristGender? gender,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
   }) = _Tourist;

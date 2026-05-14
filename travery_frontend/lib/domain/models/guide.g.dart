@@ -8,19 +8,18 @@ part of 'guide.dart';
 
 _$GuideImpl _$$GuideImplFromJson(Map<String, dynamic> json) => _$GuideImpl(
   id: json['id'] as String?,
-  userId: json['user_id'] as String,
-  employeeCode: json['employee_code'] as String,
-  guideLicense: json['guide_license'] as String,
+  employeeCode: json['employeeCode'] as String,
+  guideLicense: json['guideLicense'] as String,
   languages: (json['languages'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
-  yearsExperience: (json['years_experience'] as num?)?.toInt() ?? 0,
-  createdAt: json['created_at'] == null
+  yearsExperience: (json['yearsExperience'] as num?)?.toInt() ?? 0,
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
   user: json['user'] == null
       ? null
       : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -29,12 +28,11 @@ _$GuideImpl _$$GuideImplFromJson(Map<String, dynamic> json) => _$GuideImpl(
 Map<String, dynamic> _$$GuideImplToJson(_$GuideImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user_id': instance.userId,
-      'employee_code': instance.employeeCode,
-      'guide_license': instance.guideLicense,
+      'employeeCode': instance.employeeCode,
+      'guideLicense': instance.guideLicense,
       'languages': instance.languages,
-      'years_experience': instance.yearsExperience,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'yearsExperience': instance.yearsExperience,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'user': instance.user,
     };

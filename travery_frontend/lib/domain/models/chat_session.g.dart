@@ -9,21 +9,17 @@ part of 'chat_session.dart';
 _$ChatSessionImpl _$$ChatSessionImplFromJson(Map<String, dynamic> json) =>
     _$ChatSessionImpl(
       id: json['id'] as String?,
-      userId: json['user_id'] as String,
-      coordinatorId: json['coordinator_id'] as String?,
-      cometchatGuid: json['cometchat_guid'] as String,
-      tourId: json['tour_id'] as String?,
+      userId: json['userId'] as String,
+      coordinatorId: json['coordinatorId'] as String?,
+      cometchatGuid: json['cometchatGuid'] as String,
+      tourId: json['tourId'] as String?,
       status: $enumDecode(_$ChatSessionStatusEnumMap, json['status']),
-      lastMessage: json['last_message'] as String?,
-      lastMessageAt: json['last_message_at'] == null
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['last_message_at'] as String),
-      createdAt: json['created_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
-          ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -35,15 +31,13 @@ _$ChatSessionImpl _$$ChatSessionImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$ChatSessionImplToJson(_$ChatSessionImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user_id': instance.userId,
-      'coordinator_id': instance.coordinatorId,
-      'cometchat_guid': instance.cometchatGuid,
-      'tour_id': instance.tourId,
+      'userId': instance.userId,
+      'coordinatorId': instance.coordinatorId,
+      'cometchatGuid': instance.cometchatGuid,
+      'tourId': instance.tourId,
       'status': _$ChatSessionStatusEnumMap[instance.status]!,
-      'last_message': instance.lastMessage,
-      'last_message_at': instance.lastMessageAt?.toIso8601String(),
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'user': instance.user,
       'coordinator': instance.coordinator,
     };

@@ -6,17 +6,11 @@ part 'amenity.g.dart';
 class Amenity with _$Amenity {
   const factory Amenity({
     String? id,
-
     required String name,
-
     String? iconUrl,
-
     required AmenityType type,
-
     @Default(true) bool isActive,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _Amenity;
 

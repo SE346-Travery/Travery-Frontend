@@ -22,7 +22,6 @@ Guide _$GuideFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Guide {
   String? get id => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
   String get employeeCode => throw _privateConstructorUsedError;
   String get guideLicense => throw _privateConstructorUsedError;
   List<String>? get languages => throw _privateConstructorUsedError;
@@ -47,7 +46,6 @@ abstract class $GuideCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    String userId,
     String employeeCode,
     String guideLicense,
     List<String>? languages,
@@ -76,7 +74,6 @@ class _$GuideCopyWithImpl<$Res, $Val extends Guide>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = null,
     Object? employeeCode = null,
     Object? guideLicense = null,
     Object? languages = freezed,
@@ -91,10 +88,6 @@ class _$GuideCopyWithImpl<$Res, $Val extends Guide>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String?,
-            userId: null == userId
-                ? _value.userId
-                : userId // ignore: cast_nullable_to_non_nullable
-                      as String,
             employeeCode: null == employeeCode
                 ? _value.employeeCode
                 : employeeCode // ignore: cast_nullable_to_non_nullable
@@ -153,7 +146,6 @@ abstract class _$$GuideImplCopyWith<$Res> implements $GuideCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    String userId,
     String employeeCode,
     String guideLicense,
     List<String>? languages,
@@ -182,7 +174,6 @@ class __$$GuideImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = null,
     Object? employeeCode = null,
     Object? guideLicense = null,
     Object? languages = freezed,
@@ -197,10 +188,6 @@ class __$$GuideImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
-        userId: null == userId
-            ? _value.userId
-            : userId // ignore: cast_nullable_to_non_nullable
-                  as String,
         employeeCode: null == employeeCode
             ? _value.employeeCode
             : employeeCode // ignore: cast_nullable_to_non_nullable
@@ -239,7 +226,6 @@ class __$$GuideImplCopyWithImpl<$Res>
 class _$GuideImpl implements _Guide {
   const _$GuideImpl({
     this.id,
-    required this.userId,
     required this.employeeCode,
     required this.guideLicense,
     final List<String>? languages,
@@ -254,8 +240,6 @@ class _$GuideImpl implements _Guide {
 
   @override
   final String? id;
-  @override
-  final String userId;
   @override
   final String employeeCode;
   @override
@@ -282,7 +266,7 @@ class _$GuideImpl implements _Guide {
 
   @override
   String toString() {
-    return 'Guide(id: $id, userId: $userId, employeeCode: $employeeCode, guideLicense: $guideLicense, languages: $languages, yearsExperience: $yearsExperience, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
+    return 'Guide(id: $id, employeeCode: $employeeCode, guideLicense: $guideLicense, languages: $languages, yearsExperience: $yearsExperience, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
   }
 
   @override
@@ -291,7 +275,6 @@ class _$GuideImpl implements _Guide {
         (other.runtimeType == runtimeType &&
             other is _$GuideImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.employeeCode, employeeCode) ||
                 other.employeeCode == employeeCode) &&
             (identical(other.guideLicense, guideLicense) ||
@@ -314,7 +297,6 @@ class _$GuideImpl implements _Guide {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    userId,
     employeeCode,
     guideLicense,
     const DeepCollectionEquality().hash(_languages),
@@ -341,7 +323,6 @@ class _$GuideImpl implements _Guide {
 abstract class _Guide implements Guide {
   const factory _Guide({
     final String? id,
-    required final String userId,
     required final String employeeCode,
     required final String guideLicense,
     final List<String>? languages,
@@ -355,8 +336,6 @@ abstract class _Guide implements Guide {
 
   @override
   String? get id;
-  @override
-  String get userId;
   @override
   String get employeeCode;
   @override

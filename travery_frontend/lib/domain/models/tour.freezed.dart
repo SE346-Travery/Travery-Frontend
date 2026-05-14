@@ -29,8 +29,12 @@ mixin _$Tour {
   String? get requestedByUserId => throw _privateConstructorUsedError;
   String? get destinationId => throw _privateConstructorUsedError;
   String? get pickupLocation => throw _privateConstructorUsedError;
+  double get averageRating => throw _privateConstructorUsedError;
   double get pricePerAdult => throw _privateConstructorUsedError;
   double get pricePerChild => throw _privateConstructorUsedError;
+  int get minParticipants => throw _privateConstructorUsedError;
+  int get maxParticipants => throw _privateConstructorUsedError;
+  int get durationDays => throw _privateConstructorUsedError;
   bool get isCustom => throw _privateConstructorUsedError;
   String? get refundPolicyId => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -59,8 +63,12 @@ abstract class $TourCopyWith<$Res> {
     String? requestedByUserId,
     String? destinationId,
     String? pickupLocation,
+    double averageRating,
     double pricePerAdult,
     double pricePerChild,
+    int minParticipants,
+    int maxParticipants,
+    int durationDays,
     bool isCustom,
     String? refundPolicyId,
     DateTime? createdAt,
@@ -91,8 +99,12 @@ class _$TourCopyWithImpl<$Res, $Val extends Tour>
     Object? requestedByUserId = freezed,
     Object? destinationId = freezed,
     Object? pickupLocation = freezed,
+    Object? averageRating = null,
     Object? pricePerAdult = null,
     Object? pricePerChild = null,
+    Object? minParticipants = null,
+    Object? maxParticipants = null,
+    Object? durationDays = null,
     Object? isCustom = null,
     Object? refundPolicyId = freezed,
     Object? createdAt = freezed,
@@ -132,6 +144,10 @@ class _$TourCopyWithImpl<$Res, $Val extends Tour>
                 ? _value.pickupLocation
                 : pickupLocation // ignore: cast_nullable_to_non_nullable
                       as String?,
+            averageRating: null == averageRating
+                ? _value.averageRating
+                : averageRating // ignore: cast_nullable_to_non_nullable
+                      as double,
             pricePerAdult: null == pricePerAdult
                 ? _value.pricePerAdult
                 : pricePerAdult // ignore: cast_nullable_to_non_nullable
@@ -140,6 +156,18 @@ class _$TourCopyWithImpl<$Res, $Val extends Tour>
                 ? _value.pricePerChild
                 : pricePerChild // ignore: cast_nullable_to_non_nullable
                       as double,
+            minParticipants: null == minParticipants
+                ? _value.minParticipants
+                : minParticipants // ignore: cast_nullable_to_non_nullable
+                      as int,
+            maxParticipants: null == maxParticipants
+                ? _value.maxParticipants
+                : maxParticipants // ignore: cast_nullable_to_non_nullable
+                      as int,
+            durationDays: null == durationDays
+                ? _value.durationDays
+                : durationDays // ignore: cast_nullable_to_non_nullable
+                      as int,
             isCustom: null == isCustom
                 ? _value.isCustom
                 : isCustom // ignore: cast_nullable_to_non_nullable
@@ -179,8 +207,12 @@ abstract class _$$TourImplCopyWith<$Res> implements $TourCopyWith<$Res> {
     String? requestedByUserId,
     String? destinationId,
     String? pickupLocation,
+    double averageRating,
     double pricePerAdult,
     double pricePerChild,
+    int minParticipants,
+    int maxParticipants,
+    int durationDays,
     bool isCustom,
     String? refundPolicyId,
     DateTime? createdAt,
@@ -208,8 +240,12 @@ class __$$TourImplCopyWithImpl<$Res>
     Object? requestedByUserId = freezed,
     Object? destinationId = freezed,
     Object? pickupLocation = freezed,
+    Object? averageRating = null,
     Object? pricePerAdult = null,
     Object? pricePerChild = null,
+    Object? minParticipants = null,
+    Object? maxParticipants = null,
+    Object? durationDays = null,
     Object? isCustom = null,
     Object? refundPolicyId = freezed,
     Object? createdAt = freezed,
@@ -249,6 +285,10 @@ class __$$TourImplCopyWithImpl<$Res>
             ? _value.pickupLocation
             : pickupLocation // ignore: cast_nullable_to_non_nullable
                   as String?,
+        averageRating: null == averageRating
+            ? _value.averageRating
+            : averageRating // ignore: cast_nullable_to_non_nullable
+                  as double,
         pricePerAdult: null == pricePerAdult
             ? _value.pricePerAdult
             : pricePerAdult // ignore: cast_nullable_to_non_nullable
@@ -257,6 +297,18 @@ class __$$TourImplCopyWithImpl<$Res>
             ? _value.pricePerChild
             : pricePerChild // ignore: cast_nullable_to_non_nullable
                   as double,
+        minParticipants: null == minParticipants
+            ? _value.minParticipants
+            : minParticipants // ignore: cast_nullable_to_non_nullable
+                  as int,
+        maxParticipants: null == maxParticipants
+            ? _value.maxParticipants
+            : maxParticipants // ignore: cast_nullable_to_non_nullable
+                  as int,
+        durationDays: null == durationDays
+            ? _value.durationDays
+            : durationDays // ignore: cast_nullable_to_non_nullable
+                  as int,
         isCustom: null == isCustom
             ? _value.isCustom
             : isCustom // ignore: cast_nullable_to_non_nullable
@@ -290,8 +342,12 @@ class _$TourImpl implements _Tour {
     this.requestedByUserId,
     this.destinationId,
     this.pickupLocation,
+    this.averageRating = 0.0,
     required this.pricePerAdult,
     required this.pricePerChild,
+    this.minParticipants = 10,
+    this.maxParticipants = 30,
+    this.durationDays = 1,
     this.isCustom = false,
     this.refundPolicyId,
     this.createdAt,
@@ -318,9 +374,21 @@ class _$TourImpl implements _Tour {
   @override
   final String? pickupLocation;
   @override
+  @JsonKey()
+  final double averageRating;
+  @override
   final double pricePerAdult;
   @override
   final double pricePerChild;
+  @override
+  @JsonKey()
+  final int minParticipants;
+  @override
+  @JsonKey()
+  final int maxParticipants;
+  @override
+  @JsonKey()
+  final int durationDays;
   @override
   @JsonKey()
   final bool isCustom;
@@ -333,7 +401,7 @@ class _$TourImpl implements _Tour {
 
   @override
   String toString() {
-    return 'Tour(id: $id, name: $name, description: $description, coordinatorId: $coordinatorId, hotelId: $hotelId, requestedByUserId: $requestedByUserId, destinationId: $destinationId, pickupLocation: $pickupLocation, pricePerAdult: $pricePerAdult, pricePerChild: $pricePerChild, isCustom: $isCustom, refundPolicyId: $refundPolicyId, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Tour(id: $id, name: $name, description: $description, coordinatorId: $coordinatorId, hotelId: $hotelId, requestedByUserId: $requestedByUserId, destinationId: $destinationId, pickupLocation: $pickupLocation, averageRating: $averageRating, pricePerAdult: $pricePerAdult, pricePerChild: $pricePerChild, minParticipants: $minParticipants, maxParticipants: $maxParticipants, durationDays: $durationDays, isCustom: $isCustom, refundPolicyId: $refundPolicyId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -354,10 +422,18 @@ class _$TourImpl implements _Tour {
                 other.destinationId == destinationId) &&
             (identical(other.pickupLocation, pickupLocation) ||
                 other.pickupLocation == pickupLocation) &&
+            (identical(other.averageRating, averageRating) ||
+                other.averageRating == averageRating) &&
             (identical(other.pricePerAdult, pricePerAdult) ||
                 other.pricePerAdult == pricePerAdult) &&
             (identical(other.pricePerChild, pricePerChild) ||
                 other.pricePerChild == pricePerChild) &&
+            (identical(other.minParticipants, minParticipants) ||
+                other.minParticipants == minParticipants) &&
+            (identical(other.maxParticipants, maxParticipants) ||
+                other.maxParticipants == maxParticipants) &&
+            (identical(other.durationDays, durationDays) ||
+                other.durationDays == durationDays) &&
             (identical(other.isCustom, isCustom) ||
                 other.isCustom == isCustom) &&
             (identical(other.refundPolicyId, refundPolicyId) ||
@@ -380,8 +456,12 @@ class _$TourImpl implements _Tour {
     requestedByUserId,
     destinationId,
     pickupLocation,
+    averageRating,
     pricePerAdult,
     pricePerChild,
+    minParticipants,
+    maxParticipants,
+    durationDays,
     isCustom,
     refundPolicyId,
     createdAt,
@@ -412,8 +492,12 @@ abstract class _Tour implements Tour {
     final String? requestedByUserId,
     final String? destinationId,
     final String? pickupLocation,
+    final double averageRating,
     required final double pricePerAdult,
     required final double pricePerChild,
+    final int minParticipants,
+    final int maxParticipants,
+    final int durationDays,
     final bool isCustom,
     final String? refundPolicyId,
     final DateTime? createdAt,
@@ -439,9 +523,17 @@ abstract class _Tour implements Tour {
   @override
   String? get pickupLocation;
   @override
+  double get averageRating;
+  @override
   double get pricePerAdult;
   @override
   double get pricePerChild;
+  @override
+  int get minParticipants;
+  @override
+  int get maxParticipants;
+  @override
+  int get durationDays;
   @override
   bool get isCustom;
   @override

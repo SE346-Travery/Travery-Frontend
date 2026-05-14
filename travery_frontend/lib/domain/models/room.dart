@@ -9,19 +9,11 @@ part 'room.g.dart';
 class Room with _$Room {
   const factory Room({
     String? id,
-
     required String hotelId,
-
     required String roomTypeId,
-
     required String roomNumber,
-
-    int? floor,
-
     required RoomStatus status,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     Hotel? hotel,
     RoomType? roomType,

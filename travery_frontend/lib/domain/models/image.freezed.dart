@@ -25,11 +25,8 @@ mixin _$Image {
   String get entityId => throw _privateConstructorUsedError;
   ImageEntityType get entityType => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
-  String? get caption => throw _privateConstructorUsedError;
   bool get isThumbnail => throw _privateConstructorUsedError;
   int get displayOrder => throw _privateConstructorUsedError;
-  int? get fileSize => throw _privateConstructorUsedError;
-  String? get mimeType => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Image to a JSON map.
@@ -51,11 +48,8 @@ abstract class $ImageCopyWith<$Res> {
     String entityId,
     ImageEntityType entityType,
     String url,
-    String? caption,
     bool isThumbnail,
     int displayOrder,
-    int? fileSize,
-    String? mimeType,
     DateTime? createdAt,
   });
 }
@@ -79,11 +73,8 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
     Object? entityId = null,
     Object? entityType = null,
     Object? url = null,
-    Object? caption = freezed,
     Object? isThumbnail = null,
     Object? displayOrder = null,
-    Object? fileSize = freezed,
-    Object? mimeType = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
@@ -104,10 +95,6 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
                 ? _value.url
                 : url // ignore: cast_nullable_to_non_nullable
                       as String,
-            caption: freezed == caption
-                ? _value.caption
-                : caption // ignore: cast_nullable_to_non_nullable
-                      as String?,
             isThumbnail: null == isThumbnail
                 ? _value.isThumbnail
                 : isThumbnail // ignore: cast_nullable_to_non_nullable
@@ -116,14 +103,6 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
                 ? _value.displayOrder
                 : displayOrder // ignore: cast_nullable_to_non_nullable
                       as int,
-            fileSize: freezed == fileSize
-                ? _value.fileSize
-                : fileSize // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            mimeType: freezed == mimeType
-                ? _value.mimeType
-                : mimeType // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -147,11 +126,8 @@ abstract class _$$ImageImplCopyWith<$Res> implements $ImageCopyWith<$Res> {
     String entityId,
     ImageEntityType entityType,
     String url,
-    String? caption,
     bool isThumbnail,
     int displayOrder,
-    int? fileSize,
-    String? mimeType,
     DateTime? createdAt,
   });
 }
@@ -174,11 +150,8 @@ class __$$ImageImplCopyWithImpl<$Res>
     Object? entityId = null,
     Object? entityType = null,
     Object? url = null,
-    Object? caption = freezed,
     Object? isThumbnail = null,
     Object? displayOrder = null,
-    Object? fileSize = freezed,
-    Object? mimeType = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
@@ -199,10 +172,6 @@ class __$$ImageImplCopyWithImpl<$Res>
             ? _value.url
             : url // ignore: cast_nullable_to_non_nullable
                   as String,
-        caption: freezed == caption
-            ? _value.caption
-            : caption // ignore: cast_nullable_to_non_nullable
-                  as String?,
         isThumbnail: null == isThumbnail
             ? _value.isThumbnail
             : isThumbnail // ignore: cast_nullable_to_non_nullable
@@ -211,14 +180,6 @@ class __$$ImageImplCopyWithImpl<$Res>
             ? _value.displayOrder
             : displayOrder // ignore: cast_nullable_to_non_nullable
                   as int,
-        fileSize: freezed == fileSize
-            ? _value.fileSize
-            : fileSize // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        mimeType: freezed == mimeType
-            ? _value.mimeType
-            : mimeType // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -236,11 +197,8 @@ class _$ImageImpl implements _Image {
     required this.entityId,
     required this.entityType,
     required this.url,
-    this.caption,
     this.isThumbnail = false,
     this.displayOrder = 0,
-    this.fileSize,
-    this.mimeType,
     this.createdAt,
   });
 
@@ -256,23 +214,17 @@ class _$ImageImpl implements _Image {
   @override
   final String url;
   @override
-  final String? caption;
-  @override
   @JsonKey()
   final bool isThumbnail;
   @override
   @JsonKey()
   final int displayOrder;
   @override
-  final int? fileSize;
-  @override
-  final String? mimeType;
-  @override
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'Image(id: $id, entityId: $entityId, entityType: $entityType, url: $url, caption: $caption, isThumbnail: $isThumbnail, displayOrder: $displayOrder, fileSize: $fileSize, mimeType: $mimeType, createdAt: $createdAt)';
+    return 'Image(id: $id, entityId: $entityId, entityType: $entityType, url: $url, isThumbnail: $isThumbnail, displayOrder: $displayOrder, createdAt: $createdAt)';
   }
 
   @override
@@ -286,15 +238,10 @@ class _$ImageImpl implements _Image {
             (identical(other.entityType, entityType) ||
                 other.entityType == entityType) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.caption, caption) || other.caption == caption) &&
             (identical(other.isThumbnail, isThumbnail) ||
                 other.isThumbnail == isThumbnail) &&
             (identical(other.displayOrder, displayOrder) ||
                 other.displayOrder == displayOrder) &&
-            (identical(other.fileSize, fileSize) ||
-                other.fileSize == fileSize) &&
-            (identical(other.mimeType, mimeType) ||
-                other.mimeType == mimeType) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -307,11 +254,8 @@ class _$ImageImpl implements _Image {
     entityId,
     entityType,
     url,
-    caption,
     isThumbnail,
     displayOrder,
-    fileSize,
-    mimeType,
     createdAt,
   );
 
@@ -335,11 +279,8 @@ abstract class _Image implements Image {
     required final String entityId,
     required final ImageEntityType entityType,
     required final String url,
-    final String? caption,
     final bool isThumbnail,
     final int displayOrder,
-    final int? fileSize,
-    final String? mimeType,
     final DateTime? createdAt,
   }) = _$ImageImpl;
 
@@ -354,15 +295,9 @@ abstract class _Image implements Image {
   @override
   String get url;
   @override
-  String? get caption;
-  @override
   bool get isThumbnail;
   @override
   int get displayOrder;
-  @override
-  int? get fileSize;
-  @override
-  String? get mimeType;
   @override
   DateTime? get createdAt;
 

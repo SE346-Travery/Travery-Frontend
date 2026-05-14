@@ -8,23 +8,14 @@ part 'hotel_service.g.dart';
 class HotelService with _$HotelService {
   const factory HotelService({
     String? id,
-
     required String hotelId,
-
     required ServiceCategory category,
-
     required String name,
-
-    String? description,
-
     required double price,
-
     required String unit,
-
+    String? description,
     @Default(true) bool isActive,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     Hotel? hotel,
   }) = _HotelService;

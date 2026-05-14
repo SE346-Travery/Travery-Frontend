@@ -9,29 +9,14 @@ part 'refund_request.g.dart';
 class RefundRequest with _$RefundRequest {
   const factory RefundRequest({
     String? id,
-
     required String paymentTransactionId,
-
     required String userId,
-
     String? processedById,
-
     required double requestedAmount,
-
     double? actualRefunded,
-
     String? customerReason,
-
-    String? adminResponse,
-
     required RefundRequestStatus status,
-
-    DateTime? processedAt,
-
-    DateTime? completedAt,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     PaymentTransaction? paymentTransaction,
     User? user,

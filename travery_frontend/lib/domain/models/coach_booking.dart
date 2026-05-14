@@ -16,39 +16,12 @@ part 'coach_booking.g.dart';
 class CoachBooking with _$CoachBooking {
   const factory CoachBooking({
     String? id,
-
     required String userId,
-
     required String coachTripId,
-
-    String? pickupStationId,
-
-    String? dropoffStationId,
-
     required double totalPrice,
-
     DateTime? paymentDeadline,
-
-    double? luggageWeight,
-
-    String? specialRequests,
-
-    String? noShowNote,
-
-    DateTime? noShowAt,
-
     required CoachBookingStatus status,
-
-    DateTime? cancelledAt,
-
-    String? cancellationReason,
-
-    String? cancelledBy,
-
-    String? refundRequestId,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
     CoachTrip? coachTrip,

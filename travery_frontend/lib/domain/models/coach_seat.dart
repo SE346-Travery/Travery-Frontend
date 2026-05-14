@@ -8,21 +8,11 @@ part 'coach_seat.g.dart';
 class CoachSeat with _$CoachSeat {
   const factory CoachSeat({
     String? id,
-
     required String coachId,
-
     required String seatName,
-
     required SeatTier tier,
-
     required SeatPosition position,
-
-    int? floorNumber,
-
-    @Default(true) bool isAvailable,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     Coach? coach,
   }) = _CoachSeat;

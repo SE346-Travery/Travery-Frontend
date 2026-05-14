@@ -27,8 +27,6 @@ mixin _$Station {
   String get cityProvince => throw _privateConstructorUsedError;
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
-  bool get isPickupPoint => throw _privateConstructorUsedError;
-  bool get isDropoffPoint => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -54,8 +52,6 @@ abstract class $StationCopyWith<$Res> {
     String cityProvince,
     double? latitude,
     double? longitude,
-    bool isPickupPoint,
-    bool isDropoffPoint,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -83,8 +79,6 @@ class _$StationCopyWithImpl<$Res, $Val extends Station>
     Object? cityProvince = null,
     Object? latitude = freezed,
     Object? longitude = freezed,
-    Object? isPickupPoint = null,
-    Object? isDropoffPoint = null,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -115,14 +109,6 @@ class _$StationCopyWithImpl<$Res, $Val extends Station>
                 ? _value.longitude
                 : longitude // ignore: cast_nullable_to_non_nullable
                       as double?,
-            isPickupPoint: null == isPickupPoint
-                ? _value.isPickupPoint
-                : isPickupPoint // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            isDropoffPoint: null == isDropoffPoint
-                ? _value.isDropoffPoint
-                : isDropoffPoint // ignore: cast_nullable_to_non_nullable
-                      as bool,
             isActive: null == isActive
                 ? _value.isActive
                 : isActive // ignore: cast_nullable_to_non_nullable
@@ -156,8 +142,6 @@ abstract class _$$StationImplCopyWith<$Res> implements $StationCopyWith<$Res> {
     String cityProvince,
     double? latitude,
     double? longitude,
-    bool isPickupPoint,
-    bool isDropoffPoint,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -184,8 +168,6 @@ class __$$StationImplCopyWithImpl<$Res>
     Object? cityProvince = null,
     Object? latitude = freezed,
     Object? longitude = freezed,
-    Object? isPickupPoint = null,
-    Object? isDropoffPoint = null,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -216,14 +198,6 @@ class __$$StationImplCopyWithImpl<$Res>
             ? _value.longitude
             : longitude // ignore: cast_nullable_to_non_nullable
                   as double?,
-        isPickupPoint: null == isPickupPoint
-            ? _value.isPickupPoint
-            : isPickupPoint // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        isDropoffPoint: null == isDropoffPoint
-            ? _value.isDropoffPoint
-            : isDropoffPoint // ignore: cast_nullable_to_non_nullable
-                  as bool,
         isActive: null == isActive
             ? _value.isActive
             : isActive // ignore: cast_nullable_to_non_nullable
@@ -251,8 +225,6 @@ class _$StationImpl implements _Station {
     required this.cityProvince,
     this.latitude,
     this.longitude,
-    this.isPickupPoint = false,
-    this.isDropoffPoint = false,
     this.isActive = true,
     this.createdAt,
     this.updatedAt,
@@ -275,12 +247,6 @@ class _$StationImpl implements _Station {
   final double? longitude;
   @override
   @JsonKey()
-  final bool isPickupPoint;
-  @override
-  @JsonKey()
-  final bool isDropoffPoint;
-  @override
-  @JsonKey()
   final bool isActive;
   @override
   final DateTime? createdAt;
@@ -289,7 +255,7 @@ class _$StationImpl implements _Station {
 
   @override
   String toString() {
-    return 'Station(id: $id, name: $name, address: $address, cityProvince: $cityProvince, latitude: $latitude, longitude: $longitude, isPickupPoint: $isPickupPoint, isDropoffPoint: $isDropoffPoint, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Station(id: $id, name: $name, address: $address, cityProvince: $cityProvince, latitude: $latitude, longitude: $longitude, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -306,10 +272,6 @@ class _$StationImpl implements _Station {
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
-            (identical(other.isPickupPoint, isPickupPoint) ||
-                other.isPickupPoint == isPickupPoint) &&
-            (identical(other.isDropoffPoint, isDropoffPoint) ||
-                other.isDropoffPoint == isDropoffPoint) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.createdAt, createdAt) ||
@@ -328,8 +290,6 @@ class _$StationImpl implements _Station {
     cityProvince,
     latitude,
     longitude,
-    isPickupPoint,
-    isDropoffPoint,
     isActive,
     createdAt,
     updatedAt,
@@ -357,8 +317,6 @@ abstract class _Station implements Station {
     required final String cityProvince,
     final double? latitude,
     final double? longitude,
-    final bool isPickupPoint,
-    final bool isDropoffPoint,
     final bool isActive,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -378,10 +336,6 @@ abstract class _Station implements Station {
   double? get latitude;
   @override
   double? get longitude;
-  @override
-  bool get isPickupPoint;
-  @override
-  bool get isDropoffPoint;
   @override
   bool get isActive;
   @override

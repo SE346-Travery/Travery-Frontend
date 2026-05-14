@@ -8,19 +8,12 @@ part 'hotel_booking_member.g.dart';
 class HotelBookingMember with _$HotelBookingMember {
   const factory HotelBookingMember({
     String? id,
-
-    required String hotelBookingId,
-
+    required String bookingId,
+    required String bookingType,
     required String fullName,
-
     required String passportNumber,
-
     DateTime? dateOfBirth,
-
-    String? gender,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     HotelBooking? hotelBooking,
   }) = _HotelBookingMember;

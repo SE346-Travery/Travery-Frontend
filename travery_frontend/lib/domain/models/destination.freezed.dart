@@ -25,10 +25,8 @@ mixin _$Destination {
   String get code => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   DestinationRegion get region => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
-  double? get latitude => throw _privateConstructorUsedError;
-  double? get longitude => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -55,10 +53,8 @@ abstract class $DestinationCopyWith<$Res> {
     String code,
     String name,
     DestinationRegion region,
-    String? description,
     String? imageUrl,
-    double? latitude,
-    double? longitude,
+    String? description,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -84,10 +80,8 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
     Object? code = null,
     Object? name = null,
     Object? region = null,
-    Object? description = freezed,
     Object? imageUrl = freezed,
-    Object? latitude = freezed,
-    Object? longitude = freezed,
+    Object? description = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -110,22 +104,14 @@ class _$DestinationCopyWithImpl<$Res, $Val extends Destination>
                 ? _value.region
                 : region // ignore: cast_nullable_to_non_nullable
                       as DestinationRegion,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
             imageUrl: freezed == imageUrl
                 ? _value.imageUrl
                 : imageUrl // ignore: cast_nullable_to_non_nullable
                       as String?,
-            latitude: freezed == latitude
-                ? _value.latitude
-                : latitude // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            longitude: freezed == longitude
-                ? _value.longitude
-                : longitude // ignore: cast_nullable_to_non_nullable
-                      as double?,
+            description: freezed == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String?,
             isActive: null == isActive
                 ? _value.isActive
                 : isActive // ignore: cast_nullable_to_non_nullable
@@ -158,10 +144,8 @@ abstract class _$$DestinationImplCopyWith<$Res>
     String code,
     String name,
     DestinationRegion region,
-    String? description,
     String? imageUrl,
-    double? latitude,
-    double? longitude,
+    String? description,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -186,10 +170,8 @@ class __$$DestinationImplCopyWithImpl<$Res>
     Object? code = null,
     Object? name = null,
     Object? region = null,
-    Object? description = freezed,
     Object? imageUrl = freezed,
-    Object? latitude = freezed,
-    Object? longitude = freezed,
+    Object? description = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -212,22 +194,14 @@ class __$$DestinationImplCopyWithImpl<$Res>
             ? _value.region
             : region // ignore: cast_nullable_to_non_nullable
                   as DestinationRegion,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
         imageUrl: freezed == imageUrl
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
                   as String?,
-        latitude: freezed == latitude
-            ? _value.latitude
-            : latitude // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        longitude: freezed == longitude
-            ? _value.longitude
-            : longitude // ignore: cast_nullable_to_non_nullable
-                  as double?,
+        description: freezed == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String?,
         isActive: null == isActive
             ? _value.isActive
             : isActive // ignore: cast_nullable_to_non_nullable
@@ -253,10 +227,8 @@ class _$DestinationImpl implements _Destination {
     required this.code,
     required this.name,
     required this.region,
-    this.description,
     this.imageUrl,
-    this.latitude,
-    this.longitude,
+    this.description,
     this.isActive = true,
     this.createdAt,
     this.updatedAt,
@@ -274,13 +246,9 @@ class _$DestinationImpl implements _Destination {
   @override
   final DestinationRegion region;
   @override
-  final String? description;
-  @override
   final String? imageUrl;
   @override
-  final double? latitude;
-  @override
-  final double? longitude;
+  final String? description;
   @override
   @JsonKey()
   final bool isActive;
@@ -291,7 +259,7 @@ class _$DestinationImpl implements _Destination {
 
   @override
   String toString() {
-    return 'Destination(id: $id, code: $code, name: $name, region: $region, description: $description, imageUrl: $imageUrl, latitude: $latitude, longitude: $longitude, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Destination(id: $id, code: $code, name: $name, region: $region, imageUrl: $imageUrl, description: $description, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -303,14 +271,10 @@ class _$DestinationImpl implements _Destination {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.region, region) || other.region == region) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            (identical(other.latitude, latitude) ||
-                other.latitude == latitude) &&
-            (identical(other.longitude, longitude) ||
-                other.longitude == longitude) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.createdAt, createdAt) ||
@@ -327,10 +291,8 @@ class _$DestinationImpl implements _Destination {
     code,
     name,
     region,
-    description,
     imageUrl,
-    latitude,
-    longitude,
+    description,
     isActive,
     createdAt,
     updatedAt,
@@ -356,10 +318,8 @@ abstract class _Destination implements Destination {
     required final String code,
     required final String name,
     required final DestinationRegion region,
-    final String? description,
     final String? imageUrl,
-    final double? latitude,
-    final double? longitude,
+    final String? description,
     final bool isActive,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -377,13 +337,9 @@ abstract class _Destination implements Destination {
   @override
   DestinationRegion get region;
   @override
-  String? get description;
-  @override
   String? get imageUrl;
   @override
-  double? get latitude;
-  @override
-  double? get longitude;
+  String? get description;
   @override
   bool get isActive;
   @override

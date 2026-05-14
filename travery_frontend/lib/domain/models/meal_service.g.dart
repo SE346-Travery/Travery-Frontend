@@ -9,20 +9,20 @@ part of 'meal_service.dart';
 _$MealServiceImpl _$$MealServiceImplFromJson(Map<String, dynamic> json) =>
     _$MealServiceImpl(
       id: json['id'] as String?,
-      hotelId: json['hotel_id'] as String,
+      hotelId: json['hotelId'] as String,
       name: json['name'] as String,
-      mealType: $enumDecode(_$MealTypeEnumMap, json['meal_type']),
+      mealType: $enumDecode(_$MealTypeEnumMap, json['mealType']),
       description: json['description'] as String?,
       price: (json['price'] as num).toDouble(),
-      isAvailable: json['is_available'] as bool? ?? true,
-      startTime: json['start_time'] as String?,
-      endTime: json['end_time'] as String?,
-      createdAt: json['created_at'] == null
+      isAvailable: json['isAvailable'] as bool? ?? true,
+      startTime: json['startTime'] as String?,
+      endTime: json['endTime'] as String?,
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       hotel: json['hotel'] == null
           ? null
           : Hotel.fromJson(json['hotel'] as Map<String, dynamic>),
@@ -31,16 +31,16 @@ _$MealServiceImpl _$$MealServiceImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$MealServiceImplToJson(_$MealServiceImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'hotel_id': instance.hotelId,
+      'hotelId': instance.hotelId,
       'name': instance.name,
-      'meal_type': _$MealTypeEnumMap[instance.mealType]!,
+      'mealType': _$MealTypeEnumMap[instance.mealType]!,
       'description': instance.description,
       'price': instance.price,
-      'is_available': instance.isAvailable,
-      'start_time': instance.startTime,
-      'end_time': instance.endTime,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'isAvailable': instance.isAvailable,
+      'startTime': instance.startTime,
+      'endTime': instance.endTime,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'hotel': instance.hotel,
     };
 

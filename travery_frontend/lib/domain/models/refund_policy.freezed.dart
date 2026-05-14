@@ -24,7 +24,6 @@ mixin _$RefundPolicy {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   ServiceType get serviceType => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -51,7 +50,6 @@ abstract class $RefundPolicyCopyWith<$Res> {
     String? id,
     String name,
     ServiceType serviceType,
-    String? description,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -77,7 +75,6 @@ class _$RefundPolicyCopyWithImpl<$Res, $Val extends RefundPolicy>
     Object? id = freezed,
     Object? name = null,
     Object? serviceType = null,
-    Object? description = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -97,10 +94,6 @@ class _$RefundPolicyCopyWithImpl<$Res, $Val extends RefundPolicy>
                 ? _value.serviceType
                 : serviceType // ignore: cast_nullable_to_non_nullable
                       as ServiceType,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
             isActive: null == isActive
                 ? _value.isActive
                 : isActive // ignore: cast_nullable_to_non_nullable
@@ -136,7 +129,6 @@ abstract class _$$RefundPolicyImplCopyWith<$Res>
     String? id,
     String name,
     ServiceType serviceType,
-    String? description,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -161,7 +153,6 @@ class __$$RefundPolicyImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = null,
     Object? serviceType = null,
-    Object? description = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -181,10 +172,6 @@ class __$$RefundPolicyImplCopyWithImpl<$Res>
             ? _value.serviceType
             : serviceType // ignore: cast_nullable_to_non_nullable
                   as ServiceType,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
         isActive: null == isActive
             ? _value.isActive
             : isActive // ignore: cast_nullable_to_non_nullable
@@ -213,7 +200,6 @@ class _$RefundPolicyImpl implements _RefundPolicy {
     this.id,
     required this.name,
     required this.serviceType,
-    this.description,
     this.isActive = true,
     this.createdAt,
     this.updatedAt,
@@ -229,8 +215,6 @@ class _$RefundPolicyImpl implements _RefundPolicy {
   final String name;
   @override
   final ServiceType serviceType;
-  @override
-  final String? description;
   @override
   @JsonKey()
   final bool isActive;
@@ -250,7 +234,7 @@ class _$RefundPolicyImpl implements _RefundPolicy {
 
   @override
   String toString() {
-    return 'RefundPolicy(id: $id, name: $name, serviceType: $serviceType, description: $description, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, rules: $rules)';
+    return 'RefundPolicy(id: $id, name: $name, serviceType: $serviceType, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, rules: $rules)';
   }
 
   @override
@@ -262,8 +246,6 @@ class _$RefundPolicyImpl implements _RefundPolicy {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.serviceType, serviceType) ||
                 other.serviceType == serviceType) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.createdAt, createdAt) ||
@@ -280,7 +262,6 @@ class _$RefundPolicyImpl implements _RefundPolicy {
     id,
     name,
     serviceType,
-    description,
     isActive,
     createdAt,
     updatedAt,
@@ -306,7 +287,6 @@ abstract class _RefundPolicy implements RefundPolicy {
     final String? id,
     required final String name,
     required final ServiceType serviceType,
-    final String? description,
     final bool isActive,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -322,8 +302,6 @@ abstract class _RefundPolicy implements RefundPolicy {
   String get name;
   @override
   ServiceType get serviceType;
-  @override
-  String? get description;
   @override
   bool get isActive;
   @override

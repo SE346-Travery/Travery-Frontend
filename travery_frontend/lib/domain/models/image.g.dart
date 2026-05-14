@@ -8,31 +8,25 @@ part of 'image.dart';
 
 _$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
   id: json['id'] as String?,
-  entityId: json['entity_id'] as String,
-  entityType: $enumDecode(_$ImageEntityTypeEnumMap, json['entity_type']),
+  entityId: json['entityId'] as String,
+  entityType: $enumDecode(_$ImageEntityTypeEnumMap, json['entityType']),
   url: json['url'] as String,
-  caption: json['caption'] as String?,
-  isThumbnail: json['is_thumbnail'] as bool? ?? false,
-  displayOrder: (json['display_order'] as num?)?.toInt() ?? 0,
-  fileSize: (json['file_size'] as num?)?.toInt(),
-  mimeType: json['mime_type'] as String?,
-  createdAt: json['created_at'] == null
+  isThumbnail: json['isThumbnail'] as bool? ?? false,
+  displayOrder: (json['displayOrder'] as num?)?.toInt() ?? 0,
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
+      : DateTime.parse(json['createdAt'] as String),
 );
 
 Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'entity_id': instance.entityId,
-      'entity_type': _$ImageEntityTypeEnumMap[instance.entityType]!,
+      'entityId': instance.entityId,
+      'entityType': _$ImageEntityTypeEnumMap[instance.entityType]!,
       'url': instance.url,
-      'caption': instance.caption,
-      'is_thumbnail': instance.isThumbnail,
-      'display_order': instance.displayOrder,
-      'file_size': instance.fileSize,
-      'mime_type': instance.mimeType,
-      'created_at': instance.createdAt?.toIso8601String(),
+      'isThumbnail': instance.isThumbnail,
+      'displayOrder': instance.displayOrder,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 const _$ImageEntityTypeEnumMap = {

@@ -26,7 +26,7 @@ _$HotelImpl _$$HotelImplFromJson(Map<String, dynamic> json) => _$HotelImpl(
   images: (json['images'] as List<dynamic>?)
       ?.map((e) => HotelImage.fromJson(e as Map<String, dynamic>))
       .toList(),
-  roomTypes: (json['room_types'] as List<dynamic>?)
+  roomTypes: (json['roomTypes'] as List<dynamic>?)
       ?.map((e) => RoomType.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
@@ -44,5 +44,5 @@ Map<String, dynamic> _$$HotelImplToJson(_$HotelImpl instance) =>
       'updated_at': instance.updatedAt?.toIso8601String(),
       'deleted_at': instance.deletedAt?.toIso8601String(),
       'images': instance.images,
-      'room_types': instance.roomTypes,
+      'roomTypes': instance.roomTypes,
     };

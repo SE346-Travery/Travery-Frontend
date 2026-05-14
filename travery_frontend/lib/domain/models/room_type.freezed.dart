@@ -29,8 +29,6 @@ mixin _$RoomType {
   int get capacityAdults => throw _privateConstructorUsedError;
   int get capacityChildren => throw _privateConstructorUsedError;
   BedType get bedType => throw _privateConstructorUsedError;
-  int? get totalRooms => throw _privateConstructorUsedError;
-  int? get availableRooms => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -59,8 +57,6 @@ abstract class $RoomTypeCopyWith<$Res> {
     int capacityAdults,
     int capacityChildren,
     BedType bedType,
-    int? totalRooms,
-    int? availableRooms,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -90,8 +86,6 @@ class _$RoomTypeCopyWithImpl<$Res, $Val extends RoomType>
     Object? capacityAdults = null,
     Object? capacityChildren = null,
     Object? bedType = null,
-    Object? totalRooms = freezed,
-    Object? availableRooms = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -130,14 +124,6 @@ class _$RoomTypeCopyWithImpl<$Res, $Val extends RoomType>
                 ? _value.bedType
                 : bedType // ignore: cast_nullable_to_non_nullable
                       as BedType,
-            totalRooms: freezed == totalRooms
-                ? _value.totalRooms
-                : totalRooms // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            availableRooms: freezed == availableRooms
-                ? _value.availableRooms
-                : availableRooms // ignore: cast_nullable_to_non_nullable
-                      as int?,
             isActive: null == isActive
                 ? _value.isActive
                 : isActive // ignore: cast_nullable_to_non_nullable
@@ -174,8 +160,6 @@ abstract class _$$RoomTypeImplCopyWith<$Res>
     int capacityAdults,
     int capacityChildren,
     BedType bedType,
-    int? totalRooms,
-    int? availableRooms,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -204,8 +188,6 @@ class __$$RoomTypeImplCopyWithImpl<$Res>
     Object? capacityAdults = null,
     Object? capacityChildren = null,
     Object? bedType = null,
-    Object? totalRooms = freezed,
-    Object? availableRooms = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -244,14 +226,6 @@ class __$$RoomTypeImplCopyWithImpl<$Res>
             ? _value.bedType
             : bedType // ignore: cast_nullable_to_non_nullable
                   as BedType,
-        totalRooms: freezed == totalRooms
-            ? _value.totalRooms
-            : totalRooms // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        availableRooms: freezed == availableRooms
-            ? _value.availableRooms
-            : availableRooms // ignore: cast_nullable_to_non_nullable
-                  as int?,
         isActive: null == isActive
             ? _value.isActive
             : isActive // ignore: cast_nullable_to_non_nullable
@@ -281,8 +255,6 @@ class _$RoomTypeImpl implements _RoomType {
     required this.capacityAdults,
     this.capacityChildren = 0,
     required this.bedType,
-    this.totalRooms,
-    this.availableRooms,
     this.isActive = true,
     this.createdAt,
     this.updatedAt,
@@ -309,10 +281,6 @@ class _$RoomTypeImpl implements _RoomType {
   @override
   final BedType bedType;
   @override
-  final int? totalRooms;
-  @override
-  final int? availableRooms;
-  @override
   @JsonKey()
   final bool isActive;
   @override
@@ -322,7 +290,7 @@ class _$RoomTypeImpl implements _RoomType {
 
   @override
   String toString() {
-    return 'RoomType(id: $id, hotelId: $hotelId, name: $name, description: $description, basePrice: $basePrice, capacityAdults: $capacityAdults, capacityChildren: $capacityChildren, bedType: $bedType, totalRooms: $totalRooms, availableRooms: $availableRooms, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'RoomType(id: $id, hotelId: $hotelId, name: $name, description: $description, basePrice: $basePrice, capacityAdults: $capacityAdults, capacityChildren: $capacityChildren, bedType: $bedType, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -342,10 +310,6 @@ class _$RoomTypeImpl implements _RoomType {
             (identical(other.capacityChildren, capacityChildren) ||
                 other.capacityChildren == capacityChildren) &&
             (identical(other.bedType, bedType) || other.bedType == bedType) &&
-            (identical(other.totalRooms, totalRooms) ||
-                other.totalRooms == totalRooms) &&
-            (identical(other.availableRooms, availableRooms) ||
-                other.availableRooms == availableRooms) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.createdAt, createdAt) ||
@@ -366,8 +330,6 @@ class _$RoomTypeImpl implements _RoomType {
     capacityAdults,
     capacityChildren,
     bedType,
-    totalRooms,
-    availableRooms,
     isActive,
     createdAt,
     updatedAt,
@@ -397,8 +359,6 @@ abstract class _RoomType implements RoomType {
     required final int capacityAdults,
     final int capacityChildren,
     required final BedType bedType,
-    final int? totalRooms,
-    final int? availableRooms,
     final bool isActive,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -423,10 +383,6 @@ abstract class _RoomType implements RoomType {
   int get capacityChildren;
   @override
   BedType get bedType;
-  @override
-  int? get totalRooms;
-  @override
-  int? get availableRooms;
   @override
   bool get isActive;
   @override

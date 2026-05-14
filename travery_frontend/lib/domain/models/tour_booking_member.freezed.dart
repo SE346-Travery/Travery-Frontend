@@ -22,14 +22,11 @@ TourBookingMember _$TourBookingMemberFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourBookingMember {
   String? get id => throw _privateConstructorUsedError;
-  String get bookingId => throw _privateConstructorUsedError;
-  String get bookingType => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
-  String? get passportNumber => throw _privateConstructorUsedError;
-  DateTime? get dateOfBirth => throw _privateConstructorUsedError;
-  String? get gender => throw _privateConstructorUsedError;
+  String? get identityNumber => throw _privateConstructorUsedError;
+  IdentityType? get identityType => throw _privateConstructorUsedError;
   bool get isChild => throw _privateConstructorUsedError;
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
+  BookingMemberStatus get status => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   TourBooking? get booking => throw _privateConstructorUsedError;
@@ -53,14 +50,11 @@ abstract class $TourBookingMemberCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    String bookingId,
-    String bookingType,
     String fullName,
-    String? passportNumber,
-    DateTime? dateOfBirth,
-    String? gender,
+    String? identityNumber,
+    IdentityType? identityType,
     bool isChild,
-    DateTime? cancelledAt,
+    BookingMemberStatus status,
     DateTime? createdAt,
     DateTime? updatedAt,
     TourBooking? booking,
@@ -85,14 +79,11 @@ class _$TourBookingMemberCopyWithImpl<$Res, $Val extends TourBookingMember>
   @override
   $Res call({
     Object? id = freezed,
-    Object? bookingId = null,
-    Object? bookingType = null,
     Object? fullName = null,
-    Object? passportNumber = freezed,
-    Object? dateOfBirth = freezed,
-    Object? gender = freezed,
+    Object? identityNumber = freezed,
+    Object? identityType = freezed,
     Object? isChild = null,
-    Object? cancelledAt = freezed,
+    Object? status = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? booking = freezed,
@@ -103,38 +94,26 @@ class _$TourBookingMemberCopyWithImpl<$Res, $Val extends TourBookingMember>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String?,
-            bookingId: null == bookingId
-                ? _value.bookingId
-                : bookingId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            bookingType: null == bookingType
-                ? _value.bookingType
-                : bookingType // ignore: cast_nullable_to_non_nullable
-                      as String,
             fullName: null == fullName
                 ? _value.fullName
                 : fullName // ignore: cast_nullable_to_non_nullable
                       as String,
-            passportNumber: freezed == passportNumber
-                ? _value.passportNumber
-                : passportNumber // ignore: cast_nullable_to_non_nullable
+            identityNumber: freezed == identityNumber
+                ? _value.identityNumber
+                : identityNumber // ignore: cast_nullable_to_non_nullable
                       as String?,
-            dateOfBirth: freezed == dateOfBirth
-                ? _value.dateOfBirth
-                : dateOfBirth // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            gender: freezed == gender
-                ? _value.gender
-                : gender // ignore: cast_nullable_to_non_nullable
-                      as String?,
+            identityType: freezed == identityType
+                ? _value.identityType
+                : identityType // ignore: cast_nullable_to_non_nullable
+                      as IdentityType?,
             isChild: null == isChild
                 ? _value.isChild
                 : isChild // ignore: cast_nullable_to_non_nullable
                       as bool,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as BookingMemberStatus,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -178,14 +157,11 @@ abstract class _$$TourBookingMemberImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    String bookingId,
-    String bookingType,
     String fullName,
-    String? passportNumber,
-    DateTime? dateOfBirth,
-    String? gender,
+    String? identityNumber,
+    IdentityType? identityType,
     bool isChild,
-    DateTime? cancelledAt,
+    BookingMemberStatus status,
     DateTime? createdAt,
     DateTime? updatedAt,
     TourBooking? booking,
@@ -210,14 +186,11 @@ class __$$TourBookingMemberImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? bookingId = null,
-    Object? bookingType = null,
     Object? fullName = null,
-    Object? passportNumber = freezed,
-    Object? dateOfBirth = freezed,
-    Object? gender = freezed,
+    Object? identityNumber = freezed,
+    Object? identityType = freezed,
     Object? isChild = null,
-    Object? cancelledAt = freezed,
+    Object? status = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? booking = freezed,
@@ -228,38 +201,26 @@ class __$$TourBookingMemberImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
-        bookingId: null == bookingId
-            ? _value.bookingId
-            : bookingId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        bookingType: null == bookingType
-            ? _value.bookingType
-            : bookingType // ignore: cast_nullable_to_non_nullable
-                  as String,
         fullName: null == fullName
             ? _value.fullName
             : fullName // ignore: cast_nullable_to_non_nullable
                   as String,
-        passportNumber: freezed == passportNumber
-            ? _value.passportNumber
-            : passportNumber // ignore: cast_nullable_to_non_nullable
+        identityNumber: freezed == identityNumber
+            ? _value.identityNumber
+            : identityNumber // ignore: cast_nullable_to_non_nullable
                   as String?,
-        dateOfBirth: freezed == dateOfBirth
-            ? _value.dateOfBirth
-            : dateOfBirth // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        gender: freezed == gender
-            ? _value.gender
-            : gender // ignore: cast_nullable_to_non_nullable
-                  as String?,
+        identityType: freezed == identityType
+            ? _value.identityType
+            : identityType // ignore: cast_nullable_to_non_nullable
+                  as IdentityType?,
         isChild: null == isChild
             ? _value.isChild
             : isChild // ignore: cast_nullable_to_non_nullable
                   as bool,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as BookingMemberStatus,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -282,14 +243,11 @@ class __$$TourBookingMemberImplCopyWithImpl<$Res>
 class _$TourBookingMemberImpl implements _TourBookingMember {
   const _$TourBookingMemberImpl({
     this.id,
-    required this.bookingId,
-    required this.bookingType,
     required this.fullName,
-    this.passportNumber,
-    this.dateOfBirth,
-    this.gender,
+    this.identityNumber,
+    this.identityType,
     this.isChild = false,
-    this.cancelledAt,
+    required this.status,
     this.createdAt,
     this.updatedAt,
     this.booking,
@@ -301,22 +259,16 @@ class _$TourBookingMemberImpl implements _TourBookingMember {
   @override
   final String? id;
   @override
-  final String bookingId;
-  @override
-  final String bookingType;
-  @override
   final String fullName;
   @override
-  final String? passportNumber;
+  final String? identityNumber;
   @override
-  final DateTime? dateOfBirth;
-  @override
-  final String? gender;
+  final IdentityType? identityType;
   @override
   @JsonKey()
   final bool isChild;
   @override
-  final DateTime? cancelledAt;
+  final BookingMemberStatus status;
   @override
   final DateTime? createdAt;
   @override
@@ -326,7 +278,7 @@ class _$TourBookingMemberImpl implements _TourBookingMember {
 
   @override
   String toString() {
-    return 'TourBookingMember(id: $id, bookingId: $bookingId, bookingType: $bookingType, fullName: $fullName, passportNumber: $passportNumber, dateOfBirth: $dateOfBirth, gender: $gender, isChild: $isChild, cancelledAt: $cancelledAt, createdAt: $createdAt, updatedAt: $updatedAt, booking: $booking)';
+    return 'TourBookingMember(id: $id, fullName: $fullName, identityNumber: $identityNumber, identityType: $identityType, isChild: $isChild, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, booking: $booking)';
   }
 
   @override
@@ -335,20 +287,14 @@ class _$TourBookingMemberImpl implements _TourBookingMember {
         (other.runtimeType == runtimeType &&
             other is _$TourBookingMemberImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.bookingId, bookingId) ||
-                other.bookingId == bookingId) &&
-            (identical(other.bookingType, bookingType) ||
-                other.bookingType == bookingType) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
-            (identical(other.passportNumber, passportNumber) ||
-                other.passportNumber == passportNumber) &&
-            (identical(other.dateOfBirth, dateOfBirth) ||
-                other.dateOfBirth == dateOfBirth) &&
-            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.identityNumber, identityNumber) ||
+                other.identityNumber == identityNumber) &&
+            (identical(other.identityType, identityType) ||
+                other.identityType == identityType) &&
             (identical(other.isChild, isChild) || other.isChild == isChild) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -361,14 +307,11 @@ class _$TourBookingMemberImpl implements _TourBookingMember {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    bookingId,
-    bookingType,
     fullName,
-    passportNumber,
-    dateOfBirth,
-    gender,
+    identityNumber,
+    identityType,
     isChild,
-    cancelledAt,
+    status,
     createdAt,
     updatedAt,
     booking,
@@ -394,14 +337,11 @@ class _$TourBookingMemberImpl implements _TourBookingMember {
 abstract class _TourBookingMember implements TourBookingMember {
   const factory _TourBookingMember({
     final String? id,
-    required final String bookingId,
-    required final String bookingType,
     required final String fullName,
-    final String? passportNumber,
-    final DateTime? dateOfBirth,
-    final String? gender,
+    final String? identityNumber,
+    final IdentityType? identityType,
     final bool isChild,
-    final DateTime? cancelledAt,
+    required final BookingMemberStatus status,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final TourBooking? booking,
@@ -413,21 +353,15 @@ abstract class _TourBookingMember implements TourBookingMember {
   @override
   String? get id;
   @override
-  String get bookingId;
-  @override
-  String get bookingType;
-  @override
   String get fullName;
   @override
-  String? get passportNumber;
+  String? get identityNumber;
   @override
-  DateTime? get dateOfBirth;
-  @override
-  String? get gender;
+  IdentityType? get identityType;
   @override
   bool get isChild;
   @override
-  DateTime? get cancelledAt;
+  BookingMemberStatus get status;
   @override
   DateTime? get createdAt;
   @override

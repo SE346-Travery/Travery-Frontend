@@ -6,21 +6,13 @@ part 'hotel_booking_detail.g.dart';
 class HotelBookingDetail with _$HotelBookingDetail {
   const factory HotelBookingDetail({
     String? id,
-
     required String hotelBookingId,
-
     required String roomTypeId,
-
     required int quantity,
-
     required double priceAtBooking,
-
     required DateTime startDate,
-
     required DateTime endDate,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _HotelBookingDetail;
 

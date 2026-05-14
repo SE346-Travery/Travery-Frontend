@@ -8,23 +8,12 @@ part 'chat_session.g.dart';
 class ChatSession with _$ChatSession {
   const factory ChatSession({
     String? id,
-
     required String userId,
-
     String? coordinatorId,
-
     required String cometchatGuid,
-
     String? tourId,
-
     required ChatSessionStatus status,
-
-    String? lastMessage,
-
-    DateTime? lastMessageAt,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
     User? coordinator,

@@ -9,39 +9,35 @@ part of 'room_type.dart';
 _$RoomTypeImpl _$$RoomTypeImplFromJson(Map<String, dynamic> json) =>
     _$RoomTypeImpl(
       id: json['id'] as String?,
-      hotelId: json['hotel_id'] as String,
+      hotelId: json['hotelId'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
-      basePrice: (json['base_price'] as num).toDouble(),
-      capacityAdults: (json['capacity_adults'] as num).toInt(),
-      capacityChildren: (json['capacity_children'] as num?)?.toInt() ?? 0,
-      bedType: $enumDecode(_$BedTypeEnumMap, json['bed_type']),
-      totalRooms: (json['total_rooms'] as num?)?.toInt(),
-      availableRooms: (json['available_rooms'] as num?)?.toInt(),
-      isActive: json['is_active'] as bool? ?? true,
-      createdAt: json['created_at'] == null
+      basePrice: (json['basePrice'] as num).toDouble(),
+      capacityAdults: (json['capacityAdults'] as num).toInt(),
+      capacityChildren: (json['capacityChildren'] as num?)?.toInt() ?? 0,
+      bedType: $enumDecode(_$BedTypeEnumMap, json['bedType']),
+      isActive: json['isActive'] as bool? ?? true,
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$RoomTypeImplToJson(_$RoomTypeImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'hotel_id': instance.hotelId,
+      'hotelId': instance.hotelId,
       'name': instance.name,
       'description': instance.description,
-      'base_price': instance.basePrice,
-      'capacity_adults': instance.capacityAdults,
-      'capacity_children': instance.capacityChildren,
-      'bed_type': _$BedTypeEnumMap[instance.bedType]!,
-      'total_rooms': instance.totalRooms,
-      'available_rooms': instance.availableRooms,
-      'is_active': instance.isActive,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'basePrice': instance.basePrice,
+      'capacityAdults': instance.capacityAdults,
+      'capacityChildren': instance.capacityChildren,
+      'bedType': _$BedTypeEnumMap[instance.bedType]!,
+      'isActive': instance.isActive,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 const _$BedTypeEnumMap = {

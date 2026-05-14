@@ -49,7 +49,7 @@ _$HotelBookingImpl _$$HotelBookingImplFromJson(Map<String, dynamic> json) =>
       members: (json['members'] as List<dynamic>?)
           ?.map((e) => HotelBookingMember.fromJson(e as Map<String, dynamic>))
           .toList(),
-      addonOrders: (json['addon_orders'] as List<dynamic>?)
+      addonOrders: (json['addonOrders'] as List<dynamic>?)
           ?.map((e) => AddonOrder.fromJson(e as Map<String, dynamic>))
           .toList(),
       review: json['review'] == null
@@ -86,7 +86,7 @@ Map<String, dynamic> _$$HotelBookingImplToJson(_$HotelBookingImpl instance) =>
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'members': instance.members,
-      'addon_orders': instance.addonOrders,
+      'addonOrders': instance.addonOrders,
       'review': instance.review,
     };
 

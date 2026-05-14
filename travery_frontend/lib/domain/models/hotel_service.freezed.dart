@@ -25,9 +25,9 @@ mixin _$HotelService {
   String get hotelId => throw _privateConstructorUsedError;
   ServiceCategory get category => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   String get unit => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -55,9 +55,9 @@ abstract class $HotelServiceCopyWith<$Res> {
     String hotelId,
     ServiceCategory category,
     String name,
-    String? description,
     double price,
     String unit,
+    String? description,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -86,9 +86,9 @@ class _$HotelServiceCopyWithImpl<$Res, $Val extends HotelService>
     Object? hotelId = null,
     Object? category = null,
     Object? name = null,
-    Object? description = freezed,
     Object? price = null,
     Object? unit = null,
+    Object? description = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -112,10 +112,6 @@ class _$HotelServiceCopyWithImpl<$Res, $Val extends HotelService>
                 ? _value.name
                 : name // ignore: cast_nullable_to_non_nullable
                       as String,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
             price: null == price
                 ? _value.price
                 : price // ignore: cast_nullable_to_non_nullable
@@ -124,6 +120,10 @@ class _$HotelServiceCopyWithImpl<$Res, $Val extends HotelService>
                 ? _value.unit
                 : unit // ignore: cast_nullable_to_non_nullable
                       as String,
+            description: freezed == description
+                ? _value.description
+                : description // ignore: cast_nullable_to_non_nullable
+                      as String?,
             isActive: null == isActive
                 ? _value.isActive
                 : isActive // ignore: cast_nullable_to_non_nullable
@@ -174,9 +174,9 @@ abstract class _$$HotelServiceImplCopyWith<$Res>
     String hotelId,
     ServiceCategory category,
     String name,
-    String? description,
     double price,
     String unit,
+    String? description,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -205,9 +205,9 @@ class __$$HotelServiceImplCopyWithImpl<$Res>
     Object? hotelId = null,
     Object? category = null,
     Object? name = null,
-    Object? description = freezed,
     Object? price = null,
     Object? unit = null,
+    Object? description = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -231,10 +231,6 @@ class __$$HotelServiceImplCopyWithImpl<$Res>
             ? _value.name
             : name // ignore: cast_nullable_to_non_nullable
                   as String,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
         price: null == price
             ? _value.price
             : price // ignore: cast_nullable_to_non_nullable
@@ -243,6 +239,10 @@ class __$$HotelServiceImplCopyWithImpl<$Res>
             ? _value.unit
             : unit // ignore: cast_nullable_to_non_nullable
                   as String,
+        description: freezed == description
+            ? _value.description
+            : description // ignore: cast_nullable_to_non_nullable
+                  as String?,
         isActive: null == isActive
             ? _value.isActive
             : isActive // ignore: cast_nullable_to_non_nullable
@@ -272,9 +272,9 @@ class _$HotelServiceImpl implements _HotelService {
     required this.hotelId,
     required this.category,
     required this.name,
-    this.description,
     required this.price,
     required this.unit,
+    this.description,
     this.isActive = true,
     this.createdAt,
     this.updatedAt,
@@ -293,11 +293,11 @@ class _$HotelServiceImpl implements _HotelService {
   @override
   final String name;
   @override
-  final String? description;
-  @override
   final double price;
   @override
   final String unit;
+  @override
+  final String? description;
   @override
   @JsonKey()
   final bool isActive;
@@ -310,7 +310,7 @@ class _$HotelServiceImpl implements _HotelService {
 
   @override
   String toString() {
-    return 'HotelService(id: $id, hotelId: $hotelId, category: $category, name: $name, description: $description, price: $price, unit: $unit, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, hotel: $hotel)';
+    return 'HotelService(id: $id, hotelId: $hotelId, category: $category, name: $name, price: $price, unit: $unit, description: $description, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, hotel: $hotel)';
   }
 
   @override
@@ -323,10 +323,10 @@ class _$HotelServiceImpl implements _HotelService {
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.unit, unit) || other.unit == unit) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.createdAt, createdAt) ||
@@ -344,9 +344,9 @@ class _$HotelServiceImpl implements _HotelService {
     hotelId,
     category,
     name,
-    description,
     price,
     unit,
+    description,
     isActive,
     createdAt,
     updatedAt,
@@ -373,9 +373,9 @@ abstract class _HotelService implements HotelService {
     required final String hotelId,
     required final ServiceCategory category,
     required final String name,
-    final String? description,
     required final double price,
     required final String unit,
+    final String? description,
     final bool isActive,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -394,11 +394,11 @@ abstract class _HotelService implements HotelService {
   @override
   String get name;
   @override
-  String? get description;
-  @override
   double get price;
   @override
   String get unit;
+  @override
+  String? get description;
   @override
   bool get isActive;
   @override

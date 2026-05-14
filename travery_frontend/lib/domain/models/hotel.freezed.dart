@@ -32,8 +32,6 @@ mixin _$Hotel {
   String? get checkInTime => throw _privateConstructorUsedError;
   String? get checkOutTime => throw _privateConstructorUsedError;
   String? get refundPolicyId => throw _privateConstructorUsedError;
-  String? get phone => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -64,8 +62,6 @@ abstract class $HotelCopyWith<$Res> {
     String? checkInTime,
     String? checkOutTime,
     String? refundPolicyId,
-    String? phone,
-    String? email,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -98,8 +94,6 @@ class _$HotelCopyWithImpl<$Res, $Val extends Hotel>
     Object? checkInTime = freezed,
     Object? checkOutTime = freezed,
     Object? refundPolicyId = freezed,
-    Object? phone = freezed,
-    Object? email = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -150,14 +144,6 @@ class _$HotelCopyWithImpl<$Res, $Val extends Hotel>
                 ? _value.refundPolicyId
                 : refundPolicyId // ignore: cast_nullable_to_non_nullable
                       as String?,
-            phone: freezed == phone
-                ? _value.phone
-                : phone // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            email: freezed == email
-                ? _value.email
-                : email // ignore: cast_nullable_to_non_nullable
-                      as String?,
             isActive: null == isActive
                 ? _value.isActive
                 : isActive // ignore: cast_nullable_to_non_nullable
@@ -196,8 +182,6 @@ abstract class _$$HotelImplCopyWith<$Res> implements $HotelCopyWith<$Res> {
     String? checkInTime,
     String? checkOutTime,
     String? refundPolicyId,
-    String? phone,
-    String? email,
     bool isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -229,8 +213,6 @@ class __$$HotelImplCopyWithImpl<$Res>
     Object? checkInTime = freezed,
     Object? checkOutTime = freezed,
     Object? refundPolicyId = freezed,
-    Object? phone = freezed,
-    Object? email = freezed,
     Object? isActive = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -281,14 +263,6 @@ class __$$HotelImplCopyWithImpl<$Res>
             ? _value.refundPolicyId
             : refundPolicyId // ignore: cast_nullable_to_non_nullable
                   as String?,
-        phone: freezed == phone
-            ? _value.phone
-            : phone // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        email: freezed == email
-            ? _value.email
-            : email // ignore: cast_nullable_to_non_nullable
-                  as String?,
         isActive: null == isActive
             ? _value.isActive
             : isActive // ignore: cast_nullable_to_non_nullable
@@ -321,8 +295,6 @@ class _$HotelImpl implements _Hotel {
     this.checkInTime,
     this.checkOutTime,
     this.refundPolicyId,
-    this.phone,
-    this.email,
     this.isActive = true,
     this.createdAt,
     this.updatedAt,
@@ -354,10 +326,6 @@ class _$HotelImpl implements _Hotel {
   @override
   final String? refundPolicyId;
   @override
-  final String? phone;
-  @override
-  final String? email;
-  @override
   @JsonKey()
   final bool isActive;
   @override
@@ -367,7 +335,7 @@ class _$HotelImpl implements _Hotel {
 
   @override
   String toString() {
-    return 'Hotel(id: $id, name: $name, starRating: $starRating, description: $description, address: $address, cityProvince: $cityProvince, latitude: $latitude, longitude: $longitude, checkInTime: $checkInTime, checkOutTime: $checkOutTime, refundPolicyId: $refundPolicyId, phone: $phone, email: $email, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Hotel(id: $id, name: $name, starRating: $starRating, description: $description, address: $address, cityProvince: $cityProvince, latitude: $latitude, longitude: $longitude, checkInTime: $checkInTime, checkOutTime: $checkOutTime, refundPolicyId: $refundPolicyId, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -394,8 +362,6 @@ class _$HotelImpl implements _Hotel {
                 other.checkOutTime == checkOutTime) &&
             (identical(other.refundPolicyId, refundPolicyId) ||
                 other.refundPolicyId == refundPolicyId) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.email, email) || other.email == email) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.createdAt, createdAt) ||
@@ -419,8 +385,6 @@ class _$HotelImpl implements _Hotel {
     checkInTime,
     checkOutTime,
     refundPolicyId,
-    phone,
-    email,
     isActive,
     createdAt,
     updatedAt,
@@ -453,8 +417,6 @@ abstract class _Hotel implements Hotel {
     final String? checkInTime,
     final String? checkOutTime,
     final String? refundPolicyId,
-    final String? phone,
-    final String? email,
     final bool isActive,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -484,10 +446,6 @@ abstract class _Hotel implements Hotel {
   String? get checkOutTime;
   @override
   String? get refundPolicyId;
-  @override
-  String? get phone;
-  @override
-  String? get email;
   @override
   bool get isActive;
   @override

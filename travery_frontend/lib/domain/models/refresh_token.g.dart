@@ -9,25 +9,21 @@ part of 'refresh_token.dart';
 _$RefreshTokenImpl _$$RefreshTokenImplFromJson(Map<String, dynamic> json) =>
     _$RefreshTokenImpl(
       id: json['id'] as String?,
-      userId: json['user_id'] as String,
+      userId: json['userId'] as String,
       token: json['token'] as String,
-      expiryDate: DateTime.parse(json['expiry_date'] as String),
+      expiryDate: DateTime.parse(json['expiryDate'] as String),
       revoked: json['revoked'] as bool? ?? false,
-      deviceInfo: json['device_info'] as String?,
-      ipAddress: json['ip_address'] as String?,
-      createdAt: json['created_at'] == null
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$RefreshTokenImplToJson(_$RefreshTokenImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user_id': instance.userId,
+      'userId': instance.userId,
       'token': instance.token,
-      'expiry_date': instance.expiryDate.toIso8601String(),
+      'expiryDate': instance.expiryDate.toIso8601String(),
       'revoked': instance.revoked,
-      'device_info': instance.deviceInfo,
-      'ip_address': instance.ipAddress,
-      'created_at': instance.createdAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
     };

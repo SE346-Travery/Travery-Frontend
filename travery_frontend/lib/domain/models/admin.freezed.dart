@@ -22,7 +22,6 @@ Admin _$AdminFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Admin {
   String? get id => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -41,13 +40,7 @@ abstract class $AdminCopyWith<$Res> {
   factory $AdminCopyWith(Admin value, $Res Function(Admin) then) =
       _$AdminCopyWithImpl<$Res, Admin>;
   @useResult
-  $Res call({
-    String? id,
-    String userId,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    User? user,
-  });
+  $Res call({String? id, DateTime? createdAt, DateTime? updatedAt, User? user});
 
   $UserCopyWith<$Res>? get user;
 }
@@ -68,7 +61,6 @@ class _$AdminCopyWithImpl<$Res, $Val extends Admin>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -79,10 +71,6 @@ class _$AdminCopyWithImpl<$Res, $Val extends Admin>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String?,
-            userId: null == userId
-                ? _value.userId
-                : userId // ignore: cast_nullable_to_non_nullable
-                      as String,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -123,13 +111,7 @@ abstract class _$$AdminImplCopyWith<$Res> implements $AdminCopyWith<$Res> {
   ) = __$$AdminImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String? id,
-    String userId,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    User? user,
-  });
+  $Res call({String? id, DateTime? createdAt, DateTime? updatedAt, User? user});
 
   @override
   $UserCopyWith<$Res>? get user;
@@ -150,7 +132,6 @@ class __$$AdminImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -161,10 +142,6 @@ class __$$AdminImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
-        userId: null == userId
-            ? _value.userId
-            : userId // ignore: cast_nullable_to_non_nullable
-                  as String,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -185,21 +162,13 @@ class __$$AdminImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AdminImpl implements _Admin {
-  const _$AdminImpl({
-    this.id,
-    required this.userId,
-    this.createdAt,
-    this.updatedAt,
-    this.user,
-  });
+  const _$AdminImpl({this.id, this.createdAt, this.updatedAt, this.user});
 
   factory _$AdminImpl.fromJson(Map<String, dynamic> json) =>
       _$$AdminImplFromJson(json);
 
   @override
   final String? id;
-  @override
-  final String userId;
   @override
   final DateTime? createdAt;
   @override
@@ -209,7 +178,7 @@ class _$AdminImpl implements _Admin {
 
   @override
   String toString() {
-    return 'Admin(id: $id, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
+    return 'Admin(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
   }
 
   @override
@@ -218,7 +187,6 @@ class _$AdminImpl implements _Admin {
         (other.runtimeType == runtimeType &&
             other is _$AdminImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -228,8 +196,7 @@ class _$AdminImpl implements _Admin {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, userId, createdAt, updatedAt, user);
+  int get hashCode => Object.hash(runtimeType, id, createdAt, updatedAt, user);
 
   /// Create a copy of Admin
   /// with the given fields replaced by the non-null parameter values.
@@ -248,7 +215,6 @@ class _$AdminImpl implements _Admin {
 abstract class _Admin implements Admin {
   const factory _Admin({
     final String? id,
-    required final String userId,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final User? user,
@@ -258,8 +224,6 @@ abstract class _Admin implements Admin {
 
   @override
   String? get id;
-  @override
-  String get userId;
   @override
   DateTime? get createdAt;
   @override

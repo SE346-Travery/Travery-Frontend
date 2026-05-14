@@ -10,34 +10,34 @@ _$TourItineraryDayImpl _$$TourItineraryDayImplFromJson(
   Map<String, dynamic> json,
 ) => _$TourItineraryDayImpl(
   id: json['id'] as String?,
-  itineraryId: json['itinerary_id'] as String,
-  dayNumber: (json['day_number'] as num).toInt(),
+  itineraryId: json['itineraryId'] as String,
+  dayNumber: (json['dayNumber'] as num).toInt(),
   title: json['title'] as String,
   description: json['description'] as String?,
-  mealCount: (json['meal_count'] as num?)?.toInt() ?? 0,
-  startTime: json['start_time'] as String?,
-  endTime: json['end_time'] as String?,
+  mealCount: (json['mealCount'] as num?)?.toInt() ?? 0,
+  startTime: json['startTime'] as String?,
+  endTime: json['endTime'] as String?,
   location: json['location'] as String?,
-  createdAt: json['created_at'] == null
+  createdAt: json['createdAt'] == null
       ? null
-      : DateTime.parse(json['created_at'] as String),
-  updatedAt: json['updated_at'] == null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
       ? null
-      : DateTime.parse(json['updated_at'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$$TourItineraryDayImplToJson(
   _$TourItineraryDayImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'itinerary_id': instance.itineraryId,
-  'day_number': instance.dayNumber,
+  'itineraryId': instance.itineraryId,
+  'dayNumber': instance.dayNumber,
   'title': instance.title,
   'description': instance.description,
-  'meal_count': instance.mealCount,
-  'start_time': instance.startTime,
-  'end_time': instance.endTime,
+  'mealCount': instance.mealCount,
+  'startTime': instance.startTime,
+  'endTime': instance.endTime,
   'location': instance.location,
-  'created_at': instance.createdAt?.toIso8601String(),
-  'updated_at': instance.updatedAt?.toIso8601String(),
+  'createdAt': instance.createdAt?.toIso8601String(),
+  'updatedAt': instance.updatedAt?.toIso8601String(),
 };

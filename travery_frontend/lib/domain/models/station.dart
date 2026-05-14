@@ -6,25 +6,13 @@ part 'station.g.dart';
 class Station with _$Station {
   const factory Station({
     String? id,
-
     required String name,
-
     required String address,
-
     required String cityProvince,
-
     double? latitude,
-
     double? longitude,
-
-    @Default(false) bool isPickupPoint,
-
-    @Default(false) bool isDropoffPoint,
-
     @Default(true) bool isActive,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _Station;
 

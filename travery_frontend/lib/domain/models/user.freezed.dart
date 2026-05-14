@@ -23,7 +23,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String? get id => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  String? get passwordHash => throw _privateConstructorUsedError;
+  String? get passwordHashed => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
   String? get avatarUrl => throw _privateConstructorUsedError;
@@ -51,7 +51,7 @@ abstract class $UserCopyWith<$Res> {
   $Res call({
     String? id,
     String? email,
-    String? passwordHash,
+    String? passwordHashed,
     String fullName,
     String? phoneNumber,
     String? avatarUrl,
@@ -81,7 +81,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? id = freezed,
     Object? email = freezed,
-    Object? passwordHash = freezed,
+    Object? passwordHashed = freezed,
     Object? fullName = null,
     Object? phoneNumber = freezed,
     Object? avatarUrl = freezed,
@@ -102,9 +102,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
                 ? _value.email
                 : email // ignore: cast_nullable_to_non_nullable
                       as String?,
-            passwordHash: freezed == passwordHash
-                ? _value.passwordHash
-                : passwordHash // ignore: cast_nullable_to_non_nullable
+            passwordHashed: freezed == passwordHashed
+                ? _value.passwordHashed
+                : passwordHashed // ignore: cast_nullable_to_non_nullable
                       as String?,
             fullName: null == fullName
                 ? _value.fullName
@@ -159,7 +159,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call({
     String? id,
     String? email,
-    String? passwordHash,
+    String? passwordHashed,
     String fullName,
     String? phoneNumber,
     String? avatarUrl,
@@ -186,7 +186,7 @@ class __$$UserImplCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? email = freezed,
-    Object? passwordHash = freezed,
+    Object? passwordHashed = freezed,
     Object? fullName = null,
     Object? phoneNumber = freezed,
     Object? avatarUrl = freezed,
@@ -207,9 +207,9 @@ class __$$UserImplCopyWithImpl<$Res>
             ? _value.email
             : email // ignore: cast_nullable_to_non_nullable
                   as String?,
-        passwordHash: freezed == passwordHash
-            ? _value.passwordHash
-            : passwordHash // ignore: cast_nullable_to_non_nullable
+        passwordHashed: freezed == passwordHashed
+            ? _value.passwordHashed
+            : passwordHashed // ignore: cast_nullable_to_non_nullable
                   as String?,
         fullName: null == fullName
             ? _value.fullName
@@ -258,7 +258,7 @@ class _$UserImpl implements _User {
   const _$UserImpl({
     this.id,
     this.email,
-    this.passwordHash,
+    this.passwordHashed,
     required this.fullName,
     this.phoneNumber,
     this.avatarUrl,
@@ -278,7 +278,7 @@ class _$UserImpl implements _User {
   @override
   final String? email;
   @override
-  final String? passwordHash;
+  final String? passwordHashed;
   @override
   final String fullName;
   @override
@@ -300,7 +300,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, email: $email, passwordHash: $passwordHash, fullName: $fullName, phoneNumber: $phoneNumber, avatarUrl: $avatarUrl, role: $role, authProvider: $authProvider, cometchatUid: $cometchatUid, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'User(id: $id, email: $email, passwordHashed: $passwordHashed, fullName: $fullName, phoneNumber: $phoneNumber, avatarUrl: $avatarUrl, role: $role, authProvider: $authProvider, cometchatUid: $cometchatUid, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -310,8 +310,8 @@ class _$UserImpl implements _User {
             other is _$UserImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.passwordHash, passwordHash) ||
-                other.passwordHash == passwordHash) &&
+            (identical(other.passwordHashed, passwordHashed) ||
+                other.passwordHashed == passwordHashed) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
             (identical(other.phoneNumber, phoneNumber) ||
@@ -336,7 +336,7 @@ class _$UserImpl implements _User {
     runtimeType,
     id,
     email,
-    passwordHash,
+    passwordHashed,
     fullName,
     phoneNumber,
     avatarUrl,
@@ -366,7 +366,7 @@ abstract class _User implements User {
   const factory _User({
     final String? id,
     final String? email,
-    final String? passwordHash,
+    final String? passwordHashed,
     required final String fullName,
     final String? phoneNumber,
     final String? avatarUrl,
@@ -385,7 +385,7 @@ abstract class _User implements User {
   @override
   String? get email;
   @override
-  String? get passwordHash;
+  String? get passwordHashed;
   @override
   String get fullName;
   @override

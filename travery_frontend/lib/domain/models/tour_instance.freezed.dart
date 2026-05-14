@@ -30,16 +30,8 @@ mixin _$TourInstance {
   String? get hotelBookingId => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime get endDate => throw _privateConstructorUsedError;
-  int get minParticipants => throw _privateConstructorUsedError;
-  int get maxParticipants => throw _privateConstructorUsedError;
   int get currentParticipants => throw _privateConstructorUsedError;
   TourInstanceStatus get status => throw _privateConstructorUsedError;
-  String? get postponementReason => throw _privateConstructorUsedError;
-  DateTime? get postponedAt => throw _privateConstructorUsedError;
-  String? get postponedBy => throw _privateConstructorUsedError;
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  String? get cancellationReason => throw _privateConstructorUsedError;
-  String? get cancelledBy => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   Tour? get tour => throw _privateConstructorUsedError;
@@ -77,16 +69,8 @@ abstract class $TourInstanceCopyWith<$Res> {
     String? hotelBookingId,
     DateTime startDate,
     DateTime endDate,
-    int minParticipants,
-    int maxParticipants,
     int currentParticipants,
     TourInstanceStatus status,
-    String? postponementReason,
-    DateTime? postponedAt,
-    String? postponedBy,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
     DateTime? createdAt,
     DateTime? updatedAt,
     Tour? tour,
@@ -130,16 +114,8 @@ class _$TourInstanceCopyWithImpl<$Res, $Val extends TourInstance>
     Object? hotelBookingId = freezed,
     Object? startDate = null,
     Object? endDate = null,
-    Object? minParticipants = null,
-    Object? maxParticipants = null,
     Object? currentParticipants = null,
     Object? status = null,
-    Object? postponementReason = freezed,
-    Object? postponedAt = freezed,
-    Object? postponedBy = freezed,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? tour = freezed,
@@ -188,14 +164,6 @@ class _$TourInstanceCopyWithImpl<$Res, $Val extends TourInstance>
                 ? _value.endDate
                 : endDate // ignore: cast_nullable_to_non_nullable
                       as DateTime,
-            minParticipants: null == minParticipants
-                ? _value.minParticipants
-                : minParticipants // ignore: cast_nullable_to_non_nullable
-                      as int,
-            maxParticipants: null == maxParticipants
-                ? _value.maxParticipants
-                : maxParticipants // ignore: cast_nullable_to_non_nullable
-                      as int,
             currentParticipants: null == currentParticipants
                 ? _value.currentParticipants
                 : currentParticipants // ignore: cast_nullable_to_non_nullable
@@ -204,30 +172,6 @@ class _$TourInstanceCopyWithImpl<$Res, $Val extends TourInstance>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as TourInstanceStatus,
-            postponementReason: freezed == postponementReason
-                ? _value.postponementReason
-                : postponementReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            postponedAt: freezed == postponedAt
-                ? _value.postponedAt
-                : postponedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            postponedBy: freezed == postponedBy
-                ? _value.postponedBy
-                : postponedBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancellationReason: freezed == cancellationReason
-                ? _value.cancellationReason
-                : cancellationReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledBy: freezed == cancelledBy
-                ? _value.cancelledBy
-                : cancelledBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -373,16 +317,8 @@ abstract class _$$TourInstanceImplCopyWith<$Res>
     String? hotelBookingId,
     DateTime startDate,
     DateTime endDate,
-    int minParticipants,
-    int maxParticipants,
     int currentParticipants,
     TourInstanceStatus status,
-    String? postponementReason,
-    DateTime? postponedAt,
-    String? postponedBy,
-    DateTime? cancelledAt,
-    String? cancellationReason,
-    String? cancelledBy,
     DateTime? createdAt,
     DateTime? updatedAt,
     Tour? tour,
@@ -431,16 +367,8 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
     Object? hotelBookingId = freezed,
     Object? startDate = null,
     Object? endDate = null,
-    Object? minParticipants = null,
-    Object? maxParticipants = null,
     Object? currentParticipants = null,
     Object? status = null,
-    Object? postponementReason = freezed,
-    Object? postponedAt = freezed,
-    Object? postponedBy = freezed,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? tour = freezed,
@@ -489,14 +417,6 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
             ? _value.endDate
             : endDate // ignore: cast_nullable_to_non_nullable
                   as DateTime,
-        minParticipants: null == minParticipants
-            ? _value.minParticipants
-            : minParticipants // ignore: cast_nullable_to_non_nullable
-                  as int,
-        maxParticipants: null == maxParticipants
-            ? _value.maxParticipants
-            : maxParticipants // ignore: cast_nullable_to_non_nullable
-                  as int,
         currentParticipants: null == currentParticipants
             ? _value.currentParticipants
             : currentParticipants // ignore: cast_nullable_to_non_nullable
@@ -505,30 +425,6 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as TourInstanceStatus,
-        postponementReason: freezed == postponementReason
-            ? _value.postponementReason
-            : postponementReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        postponedAt: freezed == postponedAt
-            ? _value.postponedAt
-            : postponedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        postponedBy: freezed == postponedBy
-            ? _value.postponedBy
-            : postponedBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancellationReason: freezed == cancellationReason
-            ? _value.cancellationReason
-            : cancellationReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledBy: freezed == cancelledBy
-            ? _value.cancelledBy
-            : cancelledBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -583,16 +479,8 @@ class _$TourInstanceImpl implements _TourInstance {
     this.hotelBookingId,
     required this.startDate,
     required this.endDate,
-    this.minParticipants = 10,
-    this.maxParticipants = 30,
     this.currentParticipants = 0,
     required this.status,
-    this.postponementReason,
-    this.postponedAt,
-    this.postponedBy,
-    this.cancelledAt,
-    this.cancellationReason,
-    this.cancelledBy,
     this.createdAt,
     this.updatedAt,
     this.tour,
@@ -627,27 +515,9 @@ class _$TourInstanceImpl implements _TourInstance {
   final DateTime endDate;
   @override
   @JsonKey()
-  final int minParticipants;
-  @override
-  @JsonKey()
-  final int maxParticipants;
-  @override
-  @JsonKey()
   final int currentParticipants;
   @override
   final TourInstanceStatus status;
-  @override
-  final String? postponementReason;
-  @override
-  final DateTime? postponedAt;
-  @override
-  final String? postponedBy;
-  @override
-  final DateTime? cancelledAt;
-  @override
-  final String? cancellationReason;
-  @override
-  final String? cancelledBy;
   @override
   final DateTime? createdAt;
   @override
@@ -676,7 +546,7 @@ class _$TourInstanceImpl implements _TourInstance {
 
   @override
   String toString() {
-    return 'TourInstance(id: $id, tourId: $tourId, coordinatorId: $coordinatorId, guideId: $guideId, coachId: $coachId, driverId: $driverId, hotelBookingId: $hotelBookingId, startDate: $startDate, endDate: $endDate, minParticipants: $minParticipants, maxParticipants: $maxParticipants, currentParticipants: $currentParticipants, status: $status, postponementReason: $postponementReason, postponedAt: $postponedAt, postponedBy: $postponedBy, cancelledAt: $cancelledAt, cancellationReason: $cancellationReason, cancelledBy: $cancelledBy, createdAt: $createdAt, updatedAt: $updatedAt, tour: $tour, coordinator: $coordinator, guide: $guide, coach: $coach, driver: $driver, hotelBooking: $hotelBooking, bookings: $bookings)';
+    return 'TourInstance(id: $id, tourId: $tourId, coordinatorId: $coordinatorId, guideId: $guideId, coachId: $coachId, driverId: $driverId, hotelBookingId: $hotelBookingId, startDate: $startDate, endDate: $endDate, currentParticipants: $currentParticipants, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, tour: $tour, coordinator: $coordinator, guide: $guide, coach: $coach, driver: $driver, hotelBooking: $hotelBooking, bookings: $bookings)';
   }
 
   @override
@@ -697,25 +567,9 @@ class _$TourInstanceImpl implements _TourInstance {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            (identical(other.minParticipants, minParticipants) ||
-                other.minParticipants == minParticipants) &&
-            (identical(other.maxParticipants, maxParticipants) ||
-                other.maxParticipants == maxParticipants) &&
             (identical(other.currentParticipants, currentParticipants) ||
                 other.currentParticipants == currentParticipants) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.postponementReason, postponementReason) ||
-                other.postponementReason == postponementReason) &&
-            (identical(other.postponedAt, postponedAt) ||
-                other.postponedAt == postponedAt) &&
-            (identical(other.postponedBy, postponedBy) ||
-                other.postponedBy == postponedBy) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
-            (identical(other.cancellationReason, cancellationReason) ||
-                other.cancellationReason == cancellationReason) &&
-            (identical(other.cancelledBy, cancelledBy) ||
-                other.cancelledBy == cancelledBy) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -744,16 +598,8 @@ class _$TourInstanceImpl implements _TourInstance {
     hotelBookingId,
     startDate,
     endDate,
-    minParticipants,
-    maxParticipants,
     currentParticipants,
     status,
-    postponementReason,
-    postponedAt,
-    postponedBy,
-    cancelledAt,
-    cancellationReason,
-    cancelledBy,
     createdAt,
     updatedAt,
     tour,
@@ -790,16 +636,8 @@ abstract class _TourInstance implements TourInstance {
     final String? hotelBookingId,
     required final DateTime startDate,
     required final DateTime endDate,
-    final int minParticipants,
-    final int maxParticipants,
     final int currentParticipants,
     required final TourInstanceStatus status,
-    final String? postponementReason,
-    final DateTime? postponedAt,
-    final String? postponedBy,
-    final DateTime? cancelledAt,
-    final String? cancellationReason,
-    final String? cancelledBy,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final Tour? tour,
@@ -833,25 +671,9 @@ abstract class _TourInstance implements TourInstance {
   @override
   DateTime get endDate;
   @override
-  int get minParticipants;
-  @override
-  int get maxParticipants;
-  @override
   int get currentParticipants;
   @override
   TourInstanceStatus get status;
-  @override
-  String? get postponementReason;
-  @override
-  DateTime? get postponedAt;
-  @override
-  String? get postponedBy;
-  @override
-  DateTime? get cancelledAt;
-  @override
-  String? get cancellationReason;
-  @override
-  String? get cancelledBy;
   @override
   DateTime? get createdAt;
   @override

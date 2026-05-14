@@ -13,33 +13,12 @@ part 'tour_booking.g.dart';
 class TourBooking with _$TourBooking {
   const factory TourBooking({
     String? id,
-
     required String userId,
-
     required String tourInstanceId,
-
     required double totalPrice,
-
     DateTime? paymentDeadline,
-
-    String? specialRequests,
-
-    String? noShowNote,
-
-    DateTime? noShowAt,
-
     required TourBookingStatus status,
-
-    DateTime? cancelledAt,
-
-    String? cancellationReason,
-
-    String? cancelledBy,
-
-    String? refundRequestId,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
     TourInstance? tourInstance,

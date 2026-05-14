@@ -26,7 +26,6 @@ mixin _$Coach {
   CoachType get coachType => throw _privateConstructorUsedError;
   int get capacity => throw _privateConstructorUsedError;
   CoachStatus get status => throw _privateConstructorUsedError;
-  int? get floorCount => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   List<CoachSeat>? get seats => throw _privateConstructorUsedError;
@@ -52,7 +51,6 @@ abstract class $CoachCopyWith<$Res> {
     CoachType coachType,
     int capacity,
     CoachStatus status,
-    int? floorCount,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<CoachSeat>? seats,
@@ -80,7 +78,6 @@ class _$CoachCopyWithImpl<$Res, $Val extends Coach>
     Object? coachType = null,
     Object? capacity = null,
     Object? status = null,
-    Object? floorCount = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? seats = freezed,
@@ -108,10 +105,6 @@ class _$CoachCopyWithImpl<$Res, $Val extends Coach>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as CoachStatus,
-            floorCount: freezed == floorCount
-                ? _value.floorCount
-                : floorCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -148,7 +141,6 @@ abstract class _$$CoachImplCopyWith<$Res> implements $CoachCopyWith<$Res> {
     CoachType coachType,
     int capacity,
     CoachStatus status,
-    int? floorCount,
     DateTime? createdAt,
     DateTime? updatedAt,
     List<CoachSeat>? seats,
@@ -175,7 +167,6 @@ class __$$CoachImplCopyWithImpl<$Res>
     Object? coachType = null,
     Object? capacity = null,
     Object? status = null,
-    Object? floorCount = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? seats = freezed,
@@ -203,10 +194,6 @@ class __$$CoachImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as CoachStatus,
-        floorCount: freezed == floorCount
-            ? _value.floorCount
-            : floorCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -237,7 +224,6 @@ class _$CoachImpl implements _Coach {
     required this.coachType,
     required this.capacity,
     required this.status,
-    this.floorCount,
     this.createdAt,
     this.updatedAt,
     final List<CoachSeat>? seats,
@@ -258,8 +244,6 @@ class _$CoachImpl implements _Coach {
   final int capacity;
   @override
   final CoachStatus status;
-  @override
-  final int? floorCount;
   @override
   final DateTime? createdAt;
   @override
@@ -286,7 +270,7 @@ class _$CoachImpl implements _Coach {
 
   @override
   String toString() {
-    return 'Coach(id: $id, licensePlate: $licensePlate, coachType: $coachType, capacity: $capacity, status: $status, floorCount: $floorCount, createdAt: $createdAt, updatedAt: $updatedAt, seats: $seats, trips: $trips)';
+    return 'Coach(id: $id, licensePlate: $licensePlate, coachType: $coachType, capacity: $capacity, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, seats: $seats, trips: $trips)';
   }
 
   @override
@@ -302,8 +286,6 @@ class _$CoachImpl implements _Coach {
             (identical(other.capacity, capacity) ||
                 other.capacity == capacity) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.floorCount, floorCount) ||
-                other.floorCount == floorCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -321,7 +303,6 @@ class _$CoachImpl implements _Coach {
     coachType,
     capacity,
     status,
-    floorCount,
     createdAt,
     updatedAt,
     const DeepCollectionEquality().hash(_seats),
@@ -349,7 +330,6 @@ abstract class _Coach implements Coach {
     required final CoachType coachType,
     required final int capacity,
     required final CoachStatus status,
-    final int? floorCount,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final List<CoachSeat>? seats,
@@ -368,8 +348,6 @@ abstract class _Coach implements Coach {
   int get capacity;
   @override
   CoachStatus get status;
-  @override
-  int? get floorCount;
   @override
   DateTime? get createdAt;
   @override

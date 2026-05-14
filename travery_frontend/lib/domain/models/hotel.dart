@@ -6,35 +6,18 @@ part 'hotel.g.dart';
 class Hotel with _$Hotel {
   const factory Hotel({
     String? id,
-
     required String name,
-
     required int starRating,
-
     String? description,
-
     required String address,
-
     required String cityProvince,
-
     double? latitude,
-
     double? longitude,
-
     String? checkInTime,
-
     String? checkOutTime,
-
     String? refundPolicyId,
-
-    String? phone,
-
-    String? email,
-
     @Default(true) bool isActive,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _Hotel;
 

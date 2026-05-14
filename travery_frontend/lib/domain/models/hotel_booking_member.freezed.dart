@@ -22,11 +22,11 @@ HotelBookingMember _$HotelBookingMemberFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HotelBookingMember {
   String? get id => throw _privateConstructorUsedError;
-  String get hotelBookingId => throw _privateConstructorUsedError;
+  String get bookingId => throw _privateConstructorUsedError;
+  String get bookingType => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   String get passportNumber => throw _privateConstructorUsedError;
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
-  String? get gender => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   HotelBooking? get hotelBooking => throw _privateConstructorUsedError;
@@ -50,11 +50,11 @@ abstract class $HotelBookingMemberCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    String hotelBookingId,
+    String bookingId,
+    String bookingType,
     String fullName,
     String passportNumber,
     DateTime? dateOfBirth,
-    String? gender,
     DateTime? createdAt,
     DateTime? updatedAt,
     HotelBooking? hotelBooking,
@@ -79,11 +79,11 @@ class _$HotelBookingMemberCopyWithImpl<$Res, $Val extends HotelBookingMember>
   @override
   $Res call({
     Object? id = freezed,
-    Object? hotelBookingId = null,
+    Object? bookingId = null,
+    Object? bookingType = null,
     Object? fullName = null,
     Object? passportNumber = null,
     Object? dateOfBirth = freezed,
-    Object? gender = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? hotelBooking = freezed,
@@ -94,9 +94,13 @@ class _$HotelBookingMemberCopyWithImpl<$Res, $Val extends HotelBookingMember>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String?,
-            hotelBookingId: null == hotelBookingId
-                ? _value.hotelBookingId
-                : hotelBookingId // ignore: cast_nullable_to_non_nullable
+            bookingId: null == bookingId
+                ? _value.bookingId
+                : bookingId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            bookingType: null == bookingType
+                ? _value.bookingType
+                : bookingType // ignore: cast_nullable_to_non_nullable
                       as String,
             fullName: null == fullName
                 ? _value.fullName
@@ -110,10 +114,6 @@ class _$HotelBookingMemberCopyWithImpl<$Res, $Val extends HotelBookingMember>
                 ? _value.dateOfBirth
                 : dateOfBirth // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
-            gender: freezed == gender
-                ? _value.gender
-                : gender // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -157,11 +157,11 @@ abstract class _$$HotelBookingMemberImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    String hotelBookingId,
+    String bookingId,
+    String bookingType,
     String fullName,
     String passportNumber,
     DateTime? dateOfBirth,
-    String? gender,
     DateTime? createdAt,
     DateTime? updatedAt,
     HotelBooking? hotelBooking,
@@ -186,11 +186,11 @@ class __$$HotelBookingMemberImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? hotelBookingId = null,
+    Object? bookingId = null,
+    Object? bookingType = null,
     Object? fullName = null,
     Object? passportNumber = null,
     Object? dateOfBirth = freezed,
-    Object? gender = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? hotelBooking = freezed,
@@ -201,9 +201,13 @@ class __$$HotelBookingMemberImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
-        hotelBookingId: null == hotelBookingId
-            ? _value.hotelBookingId
-            : hotelBookingId // ignore: cast_nullable_to_non_nullable
+        bookingId: null == bookingId
+            ? _value.bookingId
+            : bookingId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        bookingType: null == bookingType
+            ? _value.bookingType
+            : bookingType // ignore: cast_nullable_to_non_nullable
                   as String,
         fullName: null == fullName
             ? _value.fullName
@@ -217,10 +221,6 @@ class __$$HotelBookingMemberImplCopyWithImpl<$Res>
             ? _value.dateOfBirth
             : dateOfBirth // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
-        gender: freezed == gender
-            ? _value.gender
-            : gender // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -243,11 +243,11 @@ class __$$HotelBookingMemberImplCopyWithImpl<$Res>
 class _$HotelBookingMemberImpl implements _HotelBookingMember {
   const _$HotelBookingMemberImpl({
     this.id,
-    required this.hotelBookingId,
+    required this.bookingId,
+    required this.bookingType,
     required this.fullName,
     required this.passportNumber,
     this.dateOfBirth,
-    this.gender,
     this.createdAt,
     this.updatedAt,
     this.hotelBooking,
@@ -259,15 +259,15 @@ class _$HotelBookingMemberImpl implements _HotelBookingMember {
   @override
   final String? id;
   @override
-  final String hotelBookingId;
+  final String bookingId;
+  @override
+  final String bookingType;
   @override
   final String fullName;
   @override
   final String passportNumber;
   @override
   final DateTime? dateOfBirth;
-  @override
-  final String? gender;
   @override
   final DateTime? createdAt;
   @override
@@ -277,7 +277,7 @@ class _$HotelBookingMemberImpl implements _HotelBookingMember {
 
   @override
   String toString() {
-    return 'HotelBookingMember(id: $id, hotelBookingId: $hotelBookingId, fullName: $fullName, passportNumber: $passportNumber, dateOfBirth: $dateOfBirth, gender: $gender, createdAt: $createdAt, updatedAt: $updatedAt, hotelBooking: $hotelBooking)';
+    return 'HotelBookingMember(id: $id, bookingId: $bookingId, bookingType: $bookingType, fullName: $fullName, passportNumber: $passportNumber, dateOfBirth: $dateOfBirth, createdAt: $createdAt, updatedAt: $updatedAt, hotelBooking: $hotelBooking)';
   }
 
   @override
@@ -286,15 +286,16 @@ class _$HotelBookingMemberImpl implements _HotelBookingMember {
         (other.runtimeType == runtimeType &&
             other is _$HotelBookingMemberImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.hotelBookingId, hotelBookingId) ||
-                other.hotelBookingId == hotelBookingId) &&
+            (identical(other.bookingId, bookingId) ||
+                other.bookingId == bookingId) &&
+            (identical(other.bookingType, bookingType) ||
+                other.bookingType == bookingType) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
             (identical(other.passportNumber, passportNumber) ||
                 other.passportNumber == passportNumber) &&
             (identical(other.dateOfBirth, dateOfBirth) ||
                 other.dateOfBirth == dateOfBirth) &&
-            (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -308,11 +309,11 @@ class _$HotelBookingMemberImpl implements _HotelBookingMember {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    hotelBookingId,
+    bookingId,
+    bookingType,
     fullName,
     passportNumber,
     dateOfBirth,
-    gender,
     createdAt,
     updatedAt,
     hotelBooking,
@@ -338,11 +339,11 @@ class _$HotelBookingMemberImpl implements _HotelBookingMember {
 abstract class _HotelBookingMember implements HotelBookingMember {
   const factory _HotelBookingMember({
     final String? id,
-    required final String hotelBookingId,
+    required final String bookingId,
+    required final String bookingType,
     required final String fullName,
     required final String passportNumber,
     final DateTime? dateOfBirth,
-    final String? gender,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final HotelBooking? hotelBooking,
@@ -354,15 +355,15 @@ abstract class _HotelBookingMember implements HotelBookingMember {
   @override
   String? get id;
   @override
-  String get hotelBookingId;
+  String get bookingId;
+  @override
+  String get bookingType;
   @override
   String get fullName;
   @override
   String get passportNumber;
   @override
   DateTime? get dateOfBirth;
-  @override
-  String? get gender;
   @override
   DateTime? get createdAt;
   @override

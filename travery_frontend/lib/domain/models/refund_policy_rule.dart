@@ -8,17 +8,10 @@ part 'refund_policy_rule.g.dart';
 class RefundPolicyRule with _$RefundPolicyRule {
   const factory RefundPolicyRule({
     String? id,
-
     required String refundPolicyId,
-
-    required int hoursBeforeDeparture,
-
+    required int daysBefore,
     required double refundPercentage,
-
-    String? description,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     RefundPolicy? refundPolicy,
   }) = _RefundPolicyRule;

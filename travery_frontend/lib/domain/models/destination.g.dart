@@ -12,17 +12,15 @@ _$DestinationImpl _$$DestinationImplFromJson(Map<String, dynamic> json) =>
       code: json['code'] as String,
       name: json['name'] as String,
       region: $enumDecode(_$DestinationRegionEnumMap, json['region']),
+      imageUrl: json['imageUrl'] as String?,
       description: json['description'] as String?,
-      imageUrl: json['image_url'] as String?,
-      latitude: (json['latitude'] as num?)?.toDouble(),
-      longitude: (json['longitude'] as num?)?.toDouble(),
-      isActive: json['is_active'] as bool? ?? true,
-      createdAt: json['created_at'] == null
+      isActive: json['isActive'] as bool? ?? true,
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$DestinationImplToJson(_$DestinationImpl instance) =>
@@ -31,13 +29,11 @@ Map<String, dynamic> _$$DestinationImplToJson(_$DestinationImpl instance) =>
       'code': instance.code,
       'name': instance.name,
       'region': _$DestinationRegionEnumMap[instance.region]!,
+      'imageUrl': instance.imageUrl,
       'description': instance.description,
-      'image_url': instance.imageUrl,
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
-      'is_active': instance.isActive,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'isActive': instance.isActive,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 const _$DestinationRegionEnumMap = {

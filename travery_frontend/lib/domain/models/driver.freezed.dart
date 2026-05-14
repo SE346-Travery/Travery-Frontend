@@ -22,11 +22,9 @@ Driver _$DriverFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Driver {
   String? get id => throw _privateConstructorUsedError;
-  String? get userId => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
   String get licenseNumber => throw _privateConstructorUsedError;
-  String? get avatarUrl => throw _privateConstructorUsedError;
   DriverStatus get status => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -47,11 +45,9 @@ abstract class $DriverCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    String? userId,
     String fullName,
     String phoneNumber,
     String licenseNumber,
-    String? avatarUrl,
     DriverStatus status,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -74,11 +70,9 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = freezed,
     Object? fullName = null,
     Object? phoneNumber = null,
     Object? licenseNumber = null,
-    Object? avatarUrl = freezed,
     Object? status = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -88,10 +82,6 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
             id: freezed == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            userId: freezed == userId
-                ? _value.userId
-                : userId // ignore: cast_nullable_to_non_nullable
                       as String?,
             fullName: null == fullName
                 ? _value.fullName
@@ -105,10 +95,6 @@ class _$DriverCopyWithImpl<$Res, $Val extends Driver>
                 ? _value.licenseNumber
                 : licenseNumber // ignore: cast_nullable_to_non_nullable
                       as String,
-            avatarUrl: freezed == avatarUrl
-                ? _value.avatarUrl
-                : avatarUrl // ignore: cast_nullable_to_non_nullable
-                      as String?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
@@ -137,11 +123,9 @@ abstract class _$$DriverImplCopyWith<$Res> implements $DriverCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    String? userId,
     String fullName,
     String phoneNumber,
     String licenseNumber,
-    String? avatarUrl,
     DriverStatus status,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -163,11 +147,9 @@ class __$$DriverImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = freezed,
     Object? fullName = null,
     Object? phoneNumber = null,
     Object? licenseNumber = null,
-    Object? avatarUrl = freezed,
     Object? status = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -177,10 +159,6 @@ class __$$DriverImplCopyWithImpl<$Res>
         id: freezed == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        userId: freezed == userId
-            ? _value.userId
-            : userId // ignore: cast_nullable_to_non_nullable
                   as String?,
         fullName: null == fullName
             ? _value.fullName
@@ -194,10 +172,6 @@ class __$$DriverImplCopyWithImpl<$Res>
             ? _value.licenseNumber
             : licenseNumber // ignore: cast_nullable_to_non_nullable
                   as String,
-        avatarUrl: freezed == avatarUrl
-            ? _value.avatarUrl
-            : avatarUrl // ignore: cast_nullable_to_non_nullable
-                  as String?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
@@ -220,11 +194,9 @@ class __$$DriverImplCopyWithImpl<$Res>
 class _$DriverImpl implements _Driver {
   const _$DriverImpl({
     this.id,
-    this.userId,
     required this.fullName,
     required this.phoneNumber,
     required this.licenseNumber,
-    this.avatarUrl,
     required this.status,
     this.createdAt,
     this.updatedAt,
@@ -236,15 +208,11 @@ class _$DriverImpl implements _Driver {
   @override
   final String? id;
   @override
-  final String? userId;
-  @override
   final String fullName;
   @override
   final String phoneNumber;
   @override
   final String licenseNumber;
-  @override
-  final String? avatarUrl;
   @override
   final DriverStatus status;
   @override
@@ -254,7 +222,7 @@ class _$DriverImpl implements _Driver {
 
   @override
   String toString() {
-    return 'Driver(id: $id, userId: $userId, fullName: $fullName, phoneNumber: $phoneNumber, licenseNumber: $licenseNumber, avatarUrl: $avatarUrl, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Driver(id: $id, fullName: $fullName, phoneNumber: $phoneNumber, licenseNumber: $licenseNumber, status: $status, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -263,15 +231,12 @@ class _$DriverImpl implements _Driver {
         (other.runtimeType == runtimeType &&
             other is _$DriverImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.licenseNumber, licenseNumber) ||
                 other.licenseNumber == licenseNumber) &&
-            (identical(other.avatarUrl, avatarUrl) ||
-                other.avatarUrl == avatarUrl) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -284,11 +249,9 @@ class _$DriverImpl implements _Driver {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    userId,
     fullName,
     phoneNumber,
     licenseNumber,
-    avatarUrl,
     status,
     createdAt,
     updatedAt,
@@ -311,11 +274,9 @@ class _$DriverImpl implements _Driver {
 abstract class _Driver implements Driver {
   const factory _Driver({
     final String? id,
-    final String? userId,
     required final String fullName,
     required final String phoneNumber,
     required final String licenseNumber,
-    final String? avatarUrl,
     required final DriverStatus status,
     final DateTime? createdAt,
     final DateTime? updatedAt,
@@ -326,15 +287,11 @@ abstract class _Driver implements Driver {
   @override
   String? get id;
   @override
-  String? get userId;
-  @override
   String get fullName;
   @override
   String get phoneNumber;
   @override
   String get licenseNumber;
-  @override
-  String? get avatarUrl;
   @override
   DriverStatus get status;
   @override

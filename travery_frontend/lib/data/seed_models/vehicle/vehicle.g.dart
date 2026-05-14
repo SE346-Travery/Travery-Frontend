@@ -10,7 +10,7 @@ _$VehicleImpl _$$VehicleImplFromJson(Map<String, dynamic> json) =>
     _$VehicleImpl(
       id: json['id'] as String?,
       licensePlate: json['license_plate'] as String,
-      vehicleType: $enumDecode(_$VehicleTypeEnumMap, json['vehicle_type']),
+      vehicleType: $enumDecode(_$VehicleTypeEnumMap, json['vehicleType']),
       totalSeats: (json['total_seats'] as num).toInt(),
       floorCount: (json['floor_count'] as num).toInt(),
       status: $enumDecode(_$CoachStatusEnumMap, json['status']),
@@ -29,7 +29,7 @@ Map<String, dynamic> _$$VehicleImplToJson(_$VehicleImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'license_plate': instance.licensePlate,
-      'vehicle_type': _$VehicleTypeEnumMap[instance.vehicleType]!,
+      'vehicleType': _$VehicleTypeEnumMap[instance.vehicleType]!,
       'total_seats': instance.totalSeats,
       'floor_count': instance.floorCount,
       'status': _$CoachStatusEnumMap[instance.status]!,

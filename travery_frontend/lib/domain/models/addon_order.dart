@@ -9,29 +9,12 @@ part 'addon_order.g.dart';
 class AddonOrder with _$AddonOrder {
   const factory AddonOrder({
     String? id,
-
     required String hotelBookingId,
-
     required String hotelServiceId,
-
     required int quantity,
-
-    required double unitPrice,
-
     required double totalPrice,
-
-    DateTime? scheduledAt,
-
-    String? specialRequests,
-
     required AddonOrderStatus status,
-
-    DateTime? cancelledAt,
-
-    String? cancellationReason,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     HotelBooking? hotelBooking,
     HotelService? hotelService,

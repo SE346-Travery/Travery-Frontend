@@ -25,13 +25,8 @@ mixin _$AddonOrder {
   String get hotelBookingId => throw _privateConstructorUsedError;
   String get hotelServiceId => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
-  double get unitPrice => throw _privateConstructorUsedError;
   double get totalPrice => throw _privateConstructorUsedError;
-  DateTime? get scheduledAt => throw _privateConstructorUsedError;
-  String? get specialRequests => throw _privateConstructorUsedError;
   AddonOrderStatus get status => throw _privateConstructorUsedError;
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  String? get cancellationReason => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   HotelBooking? get hotelBooking => throw _privateConstructorUsedError;
@@ -59,13 +54,8 @@ abstract class $AddonOrderCopyWith<$Res> {
     String hotelBookingId,
     String hotelServiceId,
     int quantity,
-    double unitPrice,
     double totalPrice,
-    DateTime? scheduledAt,
-    String? specialRequests,
     AddonOrderStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
     DateTime? createdAt,
     DateTime? updatedAt,
     HotelBooking? hotelBooking,
@@ -95,13 +85,8 @@ class _$AddonOrderCopyWithImpl<$Res, $Val extends AddonOrder>
     Object? hotelBookingId = null,
     Object? hotelServiceId = null,
     Object? quantity = null,
-    Object? unitPrice = null,
     Object? totalPrice = null,
-    Object? scheduledAt = freezed,
-    Object? specialRequests = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? hotelBooking = freezed,
@@ -125,34 +110,14 @@ class _$AddonOrderCopyWithImpl<$Res, $Val extends AddonOrder>
                 ? _value.quantity
                 : quantity // ignore: cast_nullable_to_non_nullable
                       as int,
-            unitPrice: null == unitPrice
-                ? _value.unitPrice
-                : unitPrice // ignore: cast_nullable_to_non_nullable
-                      as double,
             totalPrice: null == totalPrice
                 ? _value.totalPrice
                 : totalPrice // ignore: cast_nullable_to_non_nullable
                       as double,
-            scheduledAt: freezed == scheduledAt
-                ? _value.scheduledAt
-                : scheduledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            specialRequests: freezed == specialRequests
-                ? _value.specialRequests
-                : specialRequests // ignore: cast_nullable_to_non_nullable
-                      as String?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as AddonOrderStatus,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancellationReason: freezed == cancellationReason
-                ? _value.cancellationReason
-                : cancellationReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -217,13 +182,8 @@ abstract class _$$AddonOrderImplCopyWith<$Res>
     String hotelBookingId,
     String hotelServiceId,
     int quantity,
-    double unitPrice,
     double totalPrice,
-    DateTime? scheduledAt,
-    String? specialRequests,
     AddonOrderStatus status,
-    DateTime? cancelledAt,
-    String? cancellationReason,
     DateTime? createdAt,
     DateTime? updatedAt,
     HotelBooking? hotelBooking,
@@ -254,13 +214,8 @@ class __$$AddonOrderImplCopyWithImpl<$Res>
     Object? hotelBookingId = null,
     Object? hotelServiceId = null,
     Object? quantity = null,
-    Object? unitPrice = null,
     Object? totalPrice = null,
-    Object? scheduledAt = freezed,
-    Object? specialRequests = freezed,
     Object? status = null,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? hotelBooking = freezed,
@@ -284,34 +239,14 @@ class __$$AddonOrderImplCopyWithImpl<$Res>
             ? _value.quantity
             : quantity // ignore: cast_nullable_to_non_nullable
                   as int,
-        unitPrice: null == unitPrice
-            ? _value.unitPrice
-            : unitPrice // ignore: cast_nullable_to_non_nullable
-                  as double,
         totalPrice: null == totalPrice
             ? _value.totalPrice
             : totalPrice // ignore: cast_nullable_to_non_nullable
                   as double,
-        scheduledAt: freezed == scheduledAt
-            ? _value.scheduledAt
-            : scheduledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        specialRequests: freezed == specialRequests
-            ? _value.specialRequests
-            : specialRequests // ignore: cast_nullable_to_non_nullable
-                  as String?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as AddonOrderStatus,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancellationReason: freezed == cancellationReason
-            ? _value.cancellationReason
-            : cancellationReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -341,13 +276,8 @@ class _$AddonOrderImpl implements _AddonOrder {
     required this.hotelBookingId,
     required this.hotelServiceId,
     required this.quantity,
-    required this.unitPrice,
     required this.totalPrice,
-    this.scheduledAt,
-    this.specialRequests,
     required this.status,
-    this.cancelledAt,
-    this.cancellationReason,
     this.createdAt,
     this.updatedAt,
     this.hotelBooking,
@@ -366,19 +296,9 @@ class _$AddonOrderImpl implements _AddonOrder {
   @override
   final int quantity;
   @override
-  final double unitPrice;
-  @override
   final double totalPrice;
   @override
-  final DateTime? scheduledAt;
-  @override
-  final String? specialRequests;
-  @override
   final AddonOrderStatus status;
-  @override
-  final DateTime? cancelledAt;
-  @override
-  final String? cancellationReason;
   @override
   final DateTime? createdAt;
   @override
@@ -390,7 +310,7 @@ class _$AddonOrderImpl implements _AddonOrder {
 
   @override
   String toString() {
-    return 'AddonOrder(id: $id, hotelBookingId: $hotelBookingId, hotelServiceId: $hotelServiceId, quantity: $quantity, unitPrice: $unitPrice, totalPrice: $totalPrice, scheduledAt: $scheduledAt, specialRequests: $specialRequests, status: $status, cancelledAt: $cancelledAt, cancellationReason: $cancellationReason, createdAt: $createdAt, updatedAt: $updatedAt, hotelBooking: $hotelBooking, hotelService: $hotelService)';
+    return 'AddonOrder(id: $id, hotelBookingId: $hotelBookingId, hotelServiceId: $hotelServiceId, quantity: $quantity, totalPrice: $totalPrice, status: $status, createdAt: $createdAt, updatedAt: $updatedAt, hotelBooking: $hotelBooking, hotelService: $hotelService)';
   }
 
   @override
@@ -405,19 +325,9 @@ class _$AddonOrderImpl implements _AddonOrder {
                 other.hotelServiceId == hotelServiceId) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
-            (identical(other.unitPrice, unitPrice) ||
-                other.unitPrice == unitPrice) &&
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice) &&
-            (identical(other.scheduledAt, scheduledAt) ||
-                other.scheduledAt == scheduledAt) &&
-            (identical(other.specialRequests, specialRequests) ||
-                other.specialRequests == specialRequests) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
-            (identical(other.cancellationReason, cancellationReason) ||
-                other.cancellationReason == cancellationReason) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -436,13 +346,8 @@ class _$AddonOrderImpl implements _AddonOrder {
     hotelBookingId,
     hotelServiceId,
     quantity,
-    unitPrice,
     totalPrice,
-    scheduledAt,
-    specialRequests,
     status,
-    cancelledAt,
-    cancellationReason,
     createdAt,
     updatedAt,
     hotelBooking,
@@ -469,13 +374,8 @@ abstract class _AddonOrder implements AddonOrder {
     required final String hotelBookingId,
     required final String hotelServiceId,
     required final int quantity,
-    required final double unitPrice,
     required final double totalPrice,
-    final DateTime? scheduledAt,
-    final String? specialRequests,
     required final AddonOrderStatus status,
-    final DateTime? cancelledAt,
-    final String? cancellationReason,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final HotelBooking? hotelBooking,
@@ -494,19 +394,9 @@ abstract class _AddonOrder implements AddonOrder {
   @override
   int get quantity;
   @override
-  double get unitPrice;
-  @override
   double get totalPrice;
   @override
-  DateTime? get scheduledAt;
-  @override
-  String? get specialRequests;
-  @override
   AddonOrderStatus get status;
-  @override
-  DateTime? get cancelledAt;
-  @override
-  String? get cancellationReason;
   @override
   DateTime? get createdAt;
   @override

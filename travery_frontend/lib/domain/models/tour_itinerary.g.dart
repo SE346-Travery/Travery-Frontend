@@ -9,27 +9,25 @@ part of 'tour_itinerary.dart';
 _$TourItineraryImpl _$$TourItineraryImplFromJson(Map<String, dynamic> json) =>
     _$TourItineraryImpl(
       id: json['id'] as String?,
-      tourId: json['tour_id'] as String,
-      dayNumber: (json['day_number'] as num).toInt(),
+      tourId: json['tourId'] as String,
+      dayNumber: (json['dayNumber'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
-      mealIncluded: json['meal_included'] as bool? ?? false,
-      createdAt: json['created_at'] == null
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$TourItineraryImplToJson(_$TourItineraryImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'tour_id': instance.tourId,
-      'day_number': instance.dayNumber,
+      'tourId': instance.tourId,
+      'dayNumber': instance.dayNumber,
       'title': instance.title,
       'description': instance.description,
-      'meal_included': instance.mealIncluded,
-      'created_at': instance.createdAt?.toIso8601String(),
-      'updated_at': instance.updatedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };

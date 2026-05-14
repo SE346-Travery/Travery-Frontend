@@ -6,19 +6,11 @@ part 'tour_itinerary.g.dart';
 class TourItinerary with _$TourItinerary {
   const factory TourItinerary({
     String? id,
-
     required String tourId,
-
     required int dayNumber,
-
     required String title,
-
     required String description,
-
-    @Default(false) bool mealIncluded,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _TourItinerary;
 

@@ -9,23 +9,12 @@ part 'coach_ticket.g.dart';
 class CoachTicket with _$CoachTicket {
   const factory CoachTicket({
     String? id,
-
     required String coachBookingId,
-
     required String coachSeatId,
-
     String? passengerName,
-
     String? passengerPhone,
-
     required double priceAtBooking,
-
-    @Default(false) bool isCheckedIn,
-
-    DateTime? checkedInAt,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     CoachBooking? booking,
     CoachSeat? seat,

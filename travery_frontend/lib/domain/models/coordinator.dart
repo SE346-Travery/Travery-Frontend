@@ -8,15 +8,9 @@ part 'coordinator.g.dart';
 class Coordinator with _$Coordinator {
   const factory Coordinator({
     String? id,
-
-    required String userId,
-
     required String employeeCode,
-
     CoordinatorDepartment? department,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
   }) = _Coordinator;

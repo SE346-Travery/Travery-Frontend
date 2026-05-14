@@ -27,8 +27,6 @@ mixin _$CoachTicket {
   String? get passengerName => throw _privateConstructorUsedError;
   String? get passengerPhone => throw _privateConstructorUsedError;
   double get priceAtBooking => throw _privateConstructorUsedError;
-  bool get isCheckedIn => throw _privateConstructorUsedError;
-  DateTime? get checkedInAt => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   CoachBooking? get booking => throw _privateConstructorUsedError;
@@ -58,8 +56,6 @@ abstract class $CoachTicketCopyWith<$Res> {
     String? passengerName,
     String? passengerPhone,
     double priceAtBooking,
-    bool isCheckedIn,
-    DateTime? checkedInAt,
     DateTime? createdAt,
     DateTime? updatedAt,
     CoachBooking? booking,
@@ -91,8 +87,6 @@ class _$CoachTicketCopyWithImpl<$Res, $Val extends CoachTicket>
     Object? passengerName = freezed,
     Object? passengerPhone = freezed,
     Object? priceAtBooking = null,
-    Object? isCheckedIn = null,
-    Object? checkedInAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? booking = freezed,
@@ -124,14 +118,6 @@ class _$CoachTicketCopyWithImpl<$Res, $Val extends CoachTicket>
                 ? _value.priceAtBooking
                 : priceAtBooking // ignore: cast_nullable_to_non_nullable
                       as double,
-            isCheckedIn: null == isCheckedIn
-                ? _value.isCheckedIn
-                : isCheckedIn // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            checkedInAt: freezed == checkedInAt
-                ? _value.checkedInAt
-                : checkedInAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -198,8 +184,6 @@ abstract class _$$CoachTicketImplCopyWith<$Res>
     String? passengerName,
     String? passengerPhone,
     double priceAtBooking,
-    bool isCheckedIn,
-    DateTime? checkedInAt,
     DateTime? createdAt,
     DateTime? updatedAt,
     CoachBooking? booking,
@@ -232,8 +216,6 @@ class __$$CoachTicketImplCopyWithImpl<$Res>
     Object? passengerName = freezed,
     Object? passengerPhone = freezed,
     Object? priceAtBooking = null,
-    Object? isCheckedIn = null,
-    Object? checkedInAt = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? booking = freezed,
@@ -265,14 +247,6 @@ class __$$CoachTicketImplCopyWithImpl<$Res>
             ? _value.priceAtBooking
             : priceAtBooking // ignore: cast_nullable_to_non_nullable
                   as double,
-        isCheckedIn: null == isCheckedIn
-            ? _value.isCheckedIn
-            : isCheckedIn // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        checkedInAt: freezed == checkedInAt
-            ? _value.checkedInAt
-            : checkedInAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -304,8 +278,6 @@ class _$CoachTicketImpl implements _CoachTicket {
     this.passengerName,
     this.passengerPhone,
     required this.priceAtBooking,
-    this.isCheckedIn = false,
-    this.checkedInAt,
     this.createdAt,
     this.updatedAt,
     this.booking,
@@ -328,11 +300,6 @@ class _$CoachTicketImpl implements _CoachTicket {
   @override
   final double priceAtBooking;
   @override
-  @JsonKey()
-  final bool isCheckedIn;
-  @override
-  final DateTime? checkedInAt;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
@@ -343,7 +310,7 @@ class _$CoachTicketImpl implements _CoachTicket {
 
   @override
   String toString() {
-    return 'CoachTicket(id: $id, coachBookingId: $coachBookingId, coachSeatId: $coachSeatId, passengerName: $passengerName, passengerPhone: $passengerPhone, priceAtBooking: $priceAtBooking, isCheckedIn: $isCheckedIn, checkedInAt: $checkedInAt, createdAt: $createdAt, updatedAt: $updatedAt, booking: $booking, seat: $seat)';
+    return 'CoachTicket(id: $id, coachBookingId: $coachBookingId, coachSeatId: $coachSeatId, passengerName: $passengerName, passengerPhone: $passengerPhone, priceAtBooking: $priceAtBooking, createdAt: $createdAt, updatedAt: $updatedAt, booking: $booking, seat: $seat)';
   }
 
   @override
@@ -362,10 +329,6 @@ class _$CoachTicketImpl implements _CoachTicket {
                 other.passengerPhone == passengerPhone) &&
             (identical(other.priceAtBooking, priceAtBooking) ||
                 other.priceAtBooking == priceAtBooking) &&
-            (identical(other.isCheckedIn, isCheckedIn) ||
-                other.isCheckedIn == isCheckedIn) &&
-            (identical(other.checkedInAt, checkedInAt) ||
-                other.checkedInAt == checkedInAt) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -384,8 +347,6 @@ class _$CoachTicketImpl implements _CoachTicket {
     passengerName,
     passengerPhone,
     priceAtBooking,
-    isCheckedIn,
-    checkedInAt,
     createdAt,
     updatedAt,
     booking,
@@ -414,8 +375,6 @@ abstract class _CoachTicket implements CoachTicket {
     final String? passengerName,
     final String? passengerPhone,
     required final double priceAtBooking,
-    final bool isCheckedIn,
-    final DateTime? checkedInAt,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final CoachBooking? booking,
@@ -437,10 +396,6 @@ abstract class _CoachTicket implements CoachTicket {
   String? get passengerPhone;
   @override
   double get priceAtBooking;
-  @override
-  bool get isCheckedIn;
-  @override
-  DateTime? get checkedInAt;
   @override
   DateTime? get createdAt;
   @override

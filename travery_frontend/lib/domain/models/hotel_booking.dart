@@ -14,49 +14,12 @@ part 'hotel_booking.g.dart';
 class HotelBooking with _$HotelBooking {
   const factory HotelBooking({
     String? id,
-
     required String userId,
-
     String? tourInstanceId,
-
-    String? roomId,
-
-    required DateTime checkInDate,
-
-    required DateTime checkOutDate,
-
-    required int nightCount,
-
-    required int guestCount,
-
     required double totalPrice,
-
     DateTime? paymentDeadline,
-
-    String? specialRequest,
-
-    double? lateCheckoutFee,
-
-    double? addonTotal,
-
-    String? noShowNote,
-
-    DateTime? noShowAt,
-
     required HotelBookingStatus status,
-
-    DateTime? actualCheckInAt,
-
-    DateTime? actualCheckOutAt,
-
-    DateTime? cancelledAt,
-
-    String? cancellationReason,
-
-    String? cancelledBy,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
     User? user,
     TourInstance? tourInstance,

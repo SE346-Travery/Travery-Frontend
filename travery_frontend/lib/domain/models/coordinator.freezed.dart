@@ -22,7 +22,6 @@ Coordinator _$CoordinatorFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Coordinator {
   String? get id => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
   String get employeeCode => throw _privateConstructorUsedError;
   CoordinatorDepartment? get department => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -48,7 +47,6 @@ abstract class $CoordinatorCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    String userId,
     String employeeCode,
     CoordinatorDepartment? department,
     DateTime? createdAt,
@@ -75,7 +73,6 @@ class _$CoordinatorCopyWithImpl<$Res, $Val extends Coordinator>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = null,
     Object? employeeCode = null,
     Object? department = freezed,
     Object? createdAt = freezed,
@@ -88,10 +85,6 @@ class _$CoordinatorCopyWithImpl<$Res, $Val extends Coordinator>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String?,
-            userId: null == userId
-                ? _value.userId
-                : userId // ignore: cast_nullable_to_non_nullable
-                      as String,
             employeeCode: null == employeeCode
                 ? _value.employeeCode
                 : employeeCode // ignore: cast_nullable_to_non_nullable
@@ -143,7 +136,6 @@ abstract class _$$CoordinatorImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    String userId,
     String employeeCode,
     CoordinatorDepartment? department,
     DateTime? createdAt,
@@ -170,7 +162,6 @@ class __$$CoordinatorImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = null,
     Object? employeeCode = null,
     Object? department = freezed,
     Object? createdAt = freezed,
@@ -183,10 +174,6 @@ class __$$CoordinatorImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
-        userId: null == userId
-            ? _value.userId
-            : userId // ignore: cast_nullable_to_non_nullable
-                  as String,
         employeeCode: null == employeeCode
             ? _value.employeeCode
             : employeeCode // ignore: cast_nullable_to_non_nullable
@@ -217,7 +204,6 @@ class __$$CoordinatorImplCopyWithImpl<$Res>
 class _$CoordinatorImpl implements _Coordinator {
   const _$CoordinatorImpl({
     this.id,
-    required this.userId,
     required this.employeeCode,
     this.department,
     this.createdAt,
@@ -231,8 +217,6 @@ class _$CoordinatorImpl implements _Coordinator {
   @override
   final String? id;
   @override
-  final String userId;
-  @override
   final String employeeCode;
   @override
   final CoordinatorDepartment? department;
@@ -245,7 +229,7 @@ class _$CoordinatorImpl implements _Coordinator {
 
   @override
   String toString() {
-    return 'Coordinator(id: $id, userId: $userId, employeeCode: $employeeCode, department: $department, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
+    return 'Coordinator(id: $id, employeeCode: $employeeCode, department: $department, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
   }
 
   @override
@@ -254,7 +238,6 @@ class _$CoordinatorImpl implements _Coordinator {
         (other.runtimeType == runtimeType &&
             other is _$CoordinatorImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.employeeCode, employeeCode) ||
                 other.employeeCode == employeeCode) &&
             (identical(other.department, department) ||
@@ -271,7 +254,6 @@ class _$CoordinatorImpl implements _Coordinator {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    userId,
     employeeCode,
     department,
     createdAt,
@@ -296,7 +278,6 @@ class _$CoordinatorImpl implements _Coordinator {
 abstract class _Coordinator implements Coordinator {
   const factory _Coordinator({
     final String? id,
-    required final String userId,
     required final String employeeCode,
     final CoordinatorDepartment? department,
     final DateTime? createdAt,
@@ -309,8 +290,6 @@ abstract class _Coordinator implements Coordinator {
 
   @override
   String? get id;
-  @override
-  String get userId;
   @override
   String get employeeCode;
   @override

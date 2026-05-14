@@ -6,21 +6,11 @@ part 'driver.g.dart';
 class Driver with _$Driver {
   const factory Driver({
     String? id,
-
-    String? userId,
-
     required String fullName,
-
     required String phoneNumber,
-
     required String licenseNumber,
-
-    String? avatarUrl,
-
     required DriverStatus status,
-
     DateTime? createdAt,
-
     DateTime? updatedAt,
   }) = _Driver;
 

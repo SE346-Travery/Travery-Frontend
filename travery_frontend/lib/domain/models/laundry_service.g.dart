@@ -9,21 +9,21 @@ part of 'laundry_service.dart';
 _$LaundryServiceImpl _$$LaundryServiceImplFromJson(Map<String, dynamic> json) =>
     _$LaundryServiceImpl(
       id: json['id'] as String?,
-      hotelId: json['hotel_id'] as String,
+      hotelId: json['hotelId'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
       serviceType: $enumDecode(
         _$LaundryServiceTypeEnumMap,
-        json['service_type'],
+        json['serviceType'],
       ),
-      pricePerKg: (json['price_per_kg'] as num).toDouble(),
-      isAvailable: json['is_available'] as bool? ?? true,
-      createdAt: json['created_at'] == null
+      pricePerKg: (json['pricePerKg'] as num).toDouble(),
+      isAvailable: json['isAvailable'] as bool? ?? true,
+      createdAt: json['createdAt'] == null
           ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
           ? null
-          : DateTime.parse(json['updated_at'] as String),
+          : DateTime.parse(json['updatedAt'] as String),
       hotel: json['hotel'] == null
           ? null
           : Hotel.fromJson(json['hotel'] as Map<String, dynamic>),
@@ -33,14 +33,14 @@ Map<String, dynamic> _$$LaundryServiceImplToJson(
   _$LaundryServiceImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'hotel_id': instance.hotelId,
+  'hotelId': instance.hotelId,
   'name': instance.name,
   'description': instance.description,
-  'service_type': _$LaundryServiceTypeEnumMap[instance.serviceType]!,
-  'price_per_kg': instance.pricePerKg,
-  'is_available': instance.isAvailable,
-  'created_at': instance.createdAt?.toIso8601String(),
-  'updated_at': instance.updatedAt?.toIso8601String(),
+  'serviceType': _$LaundryServiceTypeEnumMap[instance.serviceType]!,
+  'pricePerKg': instance.pricePerKg,
+  'isAvailable': instance.isAvailable,
+  'createdAt': instance.createdAt?.toIso8601String(),
+  'updatedAt': instance.updatedAt?.toIso8601String(),
   'hotel': instance.hotel,
 };
 

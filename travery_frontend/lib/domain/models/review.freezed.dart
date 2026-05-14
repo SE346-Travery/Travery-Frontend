@@ -27,10 +27,9 @@ mixin _$Review {
   String? get bookingType => throw _privateConstructorUsedError;
   String? get targetId => throw _privateConstructorUsedError;
   ReviewTargetType get targetType => throw _privateConstructorUsedError;
-  int get rating => throw _privateConstructorUsedError;
+  int get averageRating => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   List<String>? get images => throw _privateConstructorUsedError;
-  bool get isVerified => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -56,10 +55,9 @@ abstract class $ReviewCopyWith<$Res> {
     String? bookingType,
     String? targetId,
     ReviewTargetType targetType,
-    int rating,
+    int averageRating,
     String? content,
     List<String>? images,
-    bool isVerified,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -89,10 +87,9 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
     Object? bookingType = freezed,
     Object? targetId = freezed,
     Object? targetType = null,
-    Object? rating = null,
+    Object? averageRating = null,
     Object? content = freezed,
     Object? images = freezed,
-    Object? isVerified = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -123,9 +120,9 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
                 ? _value.targetType
                 : targetType // ignore: cast_nullable_to_non_nullable
                       as ReviewTargetType,
-            rating: null == rating
-                ? _value.rating
-                : rating // ignore: cast_nullable_to_non_nullable
+            averageRating: null == averageRating
+                ? _value.averageRating
+                : averageRating // ignore: cast_nullable_to_non_nullable
                       as int,
             content: freezed == content
                 ? _value.content
@@ -135,10 +132,6 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
                 ? _value.images
                 : images // ignore: cast_nullable_to_non_nullable
                       as List<String>?,
-            isVerified: null == isVerified
-                ? _value.isVerified
-                : isVerified // ignore: cast_nullable_to_non_nullable
-                      as bool,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -186,10 +179,9 @@ abstract class _$$ReviewImplCopyWith<$Res> implements $ReviewCopyWith<$Res> {
     String? bookingType,
     String? targetId,
     ReviewTargetType targetType,
-    int rating,
+    int averageRating,
     String? content,
     List<String>? images,
-    bool isVerified,
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
@@ -219,10 +211,9 @@ class __$$ReviewImplCopyWithImpl<$Res>
     Object? bookingType = freezed,
     Object? targetId = freezed,
     Object? targetType = null,
-    Object? rating = null,
+    Object? averageRating = null,
     Object? content = freezed,
     Object? images = freezed,
-    Object? isVerified = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? user = freezed,
@@ -253,9 +244,9 @@ class __$$ReviewImplCopyWithImpl<$Res>
             ? _value.targetType
             : targetType // ignore: cast_nullable_to_non_nullable
                   as ReviewTargetType,
-        rating: null == rating
-            ? _value.rating
-            : rating // ignore: cast_nullable_to_non_nullable
+        averageRating: null == averageRating
+            ? _value.averageRating
+            : averageRating // ignore: cast_nullable_to_non_nullable
                   as int,
         content: freezed == content
             ? _value.content
@@ -265,10 +256,6 @@ class __$$ReviewImplCopyWithImpl<$Res>
             ? _value._images
             : images // ignore: cast_nullable_to_non_nullable
                   as List<String>?,
-        isVerified: null == isVerified
-            ? _value.isVerified
-            : isVerified // ignore: cast_nullable_to_non_nullable
-                  as bool,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -296,10 +283,9 @@ class _$ReviewImpl implements _Review {
     this.bookingType,
     this.targetId,
     required this.targetType,
-    required this.rating,
+    required this.averageRating,
     this.content,
     final List<String>? images,
-    this.isVerified = false,
     this.createdAt,
     this.updatedAt,
     this.user,
@@ -321,7 +307,7 @@ class _$ReviewImpl implements _Review {
   @override
   final ReviewTargetType targetType;
   @override
-  final int rating;
+  final int averageRating;
   @override
   final String? content;
   final List<String>? _images;
@@ -335,9 +321,6 @@ class _$ReviewImpl implements _Review {
   }
 
   @override
-  @JsonKey()
-  final bool isVerified;
-  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
@@ -346,7 +329,7 @@ class _$ReviewImpl implements _Review {
 
   @override
   String toString() {
-    return 'Review(id: $id, userId: $userId, bookingId: $bookingId, bookingType: $bookingType, targetId: $targetId, targetType: $targetType, rating: $rating, content: $content, images: $images, isVerified: $isVerified, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
+    return 'Review(id: $id, userId: $userId, bookingId: $bookingId, bookingType: $bookingType, targetId: $targetId, targetType: $targetType, averageRating: $averageRating, content: $content, images: $images, createdAt: $createdAt, updatedAt: $updatedAt, user: $user)';
   }
 
   @override
@@ -364,11 +347,10 @@ class _$ReviewImpl implements _Review {
                 other.targetId == targetId) &&
             (identical(other.targetType, targetType) ||
                 other.targetType == targetType) &&
-            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.averageRating, averageRating) ||
+                other.averageRating == averageRating) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
-            (identical(other.isVerified, isVerified) ||
-                other.isVerified == isVerified) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -386,10 +368,9 @@ class _$ReviewImpl implements _Review {
     bookingType,
     targetId,
     targetType,
-    rating,
+    averageRating,
     content,
     const DeepCollectionEquality().hash(_images),
-    isVerified,
     createdAt,
     updatedAt,
     user,
@@ -417,10 +398,9 @@ abstract class _Review implements Review {
     final String? bookingType,
     final String? targetId,
     required final ReviewTargetType targetType,
-    required final int rating,
+    required final int averageRating,
     final String? content,
     final List<String>? images,
-    final bool isVerified,
     final DateTime? createdAt,
     final DateTime? updatedAt,
     final User? user,
@@ -441,13 +421,11 @@ abstract class _Review implements Review {
   @override
   ReviewTargetType get targetType;
   @override
-  int get rating;
+  int get averageRating;
   @override
   String? get content;
   @override
   List<String>? get images;
-  @override
-  bool get isVerified;
   @override
   DateTime? get createdAt;
   @override

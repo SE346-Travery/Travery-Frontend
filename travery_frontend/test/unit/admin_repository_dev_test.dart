@@ -5,7 +5,7 @@ import 'package:travery_frontend/domain/models/admin/business_coach/business_coa
 import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
 import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
-import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository_dev.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 void main() {

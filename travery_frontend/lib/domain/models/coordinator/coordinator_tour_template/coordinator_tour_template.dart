@@ -1,6 +1,6 @@
 import 'package:travery_frontend/domain/models/coordinator/coordinator_template_initerary/coordinator_template_initerary.dart';
 
-class CoordinatorTemplate {
+class CoordinatorTourTemplate {
   final String id;
   final String name;
   final String imageUrl;
@@ -13,7 +13,7 @@ class CoordinatorTemplate {
   final int maxTotalPerson;
   final List<CoordinatorTemplateItinerary> itineraries;
 
-  const CoordinatorTemplate({
+  const CoordinatorTourTemplate({
     required this.id,
     required this.name,
     required this.imageUrl,

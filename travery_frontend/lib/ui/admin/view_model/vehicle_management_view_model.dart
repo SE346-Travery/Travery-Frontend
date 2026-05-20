@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
-import 'package:travery_frontend/data/repositories/admin_repository.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/utils/command.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 

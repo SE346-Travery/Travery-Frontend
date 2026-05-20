@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travery_frontend/domain/models/admin/business_dashboard/business_dashboard.dart';
-import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository_dev.dart';
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 

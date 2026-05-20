@@ -1,4 +1,4 @@
-import 'package:travery_frontend/data/repositories/admin_repository.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/data/seed_models/room/room.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';

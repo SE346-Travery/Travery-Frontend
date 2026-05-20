@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_repository.dart';
-import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository_dev.dart';
 import 'package:travery_frontend/ui/admin/view/dashboard_screen.dart';
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 
@@ -72,7 +72,9 @@ void main() {
       expect(find.text('Sức khỏe Vận hành'), findsOneWidget);
     });
 
-    testWidgets('period toggle buttons TH and QUÝ are rendered', (tester) async {
+    testWidgets('period toggle buttons TH and QUÝ are rendered', (
+      tester,
+    ) async {
       await _pumpUntilLoaded(tester);
       expect(find.text('TH'), findsOneWidget);
       expect(find.text('QUÝ'), findsOneWidget);

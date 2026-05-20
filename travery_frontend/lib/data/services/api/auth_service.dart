@@ -26,6 +26,16 @@ class AuthService {
   final int _port;
   final HttpClient Function() _clientFactory;
 
+  Future<String> _extractErrorMessage(HttpClientResponse response, String defaultMessage) async {
+    try {
+      final stringData = await response.transform(utf8.decoder).join();
+      final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+      return jsonMap['message'] as String? ?? defaultMessage;
+    } catch (_) {
+      return defaultMessage;
+    }
+  }
+
   Future<Result<LoginResponse>> loginViaEmail(LoginRequest loginRequest) async {
     final client = _clientFactory();
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
@@ -47,7 +57,8 @@ class AuthService {
         final data = jsonMap['data'] as Map<String, dynamic>;
         return Result.ok(LoginResponse.fromJson(data));
       } else {
-        return const Result.error(HttpException("Login Error"));
+        final errorMsg = await _extractErrorMessage(response, "Login Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -72,7 +83,8 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        return const Result.error(HttpException("Signup Error"));
+        final errorMsg = await _extractErrorMessage(response, "Signup Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -99,7 +111,8 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        return const Result.error(HttpException("Forgot Password Error"));
+        final errorMsg = await _extractErrorMessage(response, "Forgot Password Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -124,7 +137,8 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        return const Result.error(HttpException("Verify OTP Error"));
+        final errorMsg = await _extractErrorMessage(response, "Verify OTP Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -149,7 +163,8 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        return const Result.error(HttpException("Resend OTP Error"));
+        final errorMsg = await _extractErrorMessage(response, "Resend OTP Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -176,7 +191,8 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        return const Result.error(HttpException("Reset Password Error"));
+        final errorMsg = await _extractErrorMessage(response, "Reset Password Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -201,7 +217,8 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        return const Result.error(HttpException("Logout Error"));
+        final errorMsg = await _extractErrorMessage(response, "Logout Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -229,7 +246,8 @@ class AuthService {
         final data = jsonMap['data'] as Map<String, dynamic>;
         return Result.ok(RefreshResponse.fromJson(data));
       } else {
-        return const Result.error(HttpException("Refresh Error"));
+        final errorMsg = await _extractErrorMessage(response, "Refresh Error");
+        return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
       return Result.error(error);

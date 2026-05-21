@@ -1,4 +1,5 @@
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_station/coordinator_station.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_coach/coordinator_coach.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_driver/coordinator_driver.dart';
@@ -41,6 +42,11 @@ class CoordinatorRepositoryRemote extends CoordinatorRepository {
 
   @override
   Future<Result<List<CoordinatorTourTemplate>>> getAllTemplates() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<List<CoordinatorStation>>> getAllStations() {
     throw UnimplementedError();
   }
 }

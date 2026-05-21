@@ -1,4 +1,5 @@
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_station/coordinator_station.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_coach/coordinator_coach.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_driver/coordinator_driver.dart';
@@ -104,6 +105,26 @@ class CoordinatorRepositoryDev extends CoordinatorRepository {
     ),
   ];
 
+  static final List<CoordinatorStation> _stations = [
+    const CoordinatorStation(
+      name: 'Ben Thanh Station',
+      detailAdress: '120 Lê Lai, Quận 1, TP. Hồ Chí Minh',
+      cityProvince: 'Ho Chi Minh',
+      country: 'Vietnam',
+    ),
+    const CoordinatorStation(
+      name: 'Da Nang Station',
+      detailAdress: '274 Trường Sa, Ngũ Hành Sơn, Đà Nẵng',
+      cityProvince: 'Da Nang',
+      country: 'Vietnam',
+    ),
+    const CoordinatorStation(
+      name: 'Da Lat Station',
+      detailAdress: '15 Triệu Việt Vương, Đà Lạt, Lâm Đồng',
+      cityProvince: 'Da Lat',
+      country: 'Vietnam',
+    ),
+  ];
   static final List<CoordinatorHotel> _hotels = [
     const CoordinatorHotel(
       id: 'hot_c1',
@@ -319,4 +340,8 @@ class CoordinatorRepositoryDev extends CoordinatorRepository {
   @override
   Future<Result<List<CoordinatorTourTemplate>>> getAllTemplates() =>
       _delay(List.unmodifiable(_mutableTemplates));
+
+  @override
+  Future<Result<List<CoordinatorStation>>> getAllStations() =>
+      _delay(List.unmodifiable(_stations));
 }

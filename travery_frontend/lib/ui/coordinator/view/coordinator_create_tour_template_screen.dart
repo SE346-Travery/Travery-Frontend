@@ -19,8 +19,8 @@ class _ItineraryEntry {
   String? imageUrl;
 
   _ItineraryEntry()
-      : labelController = TextEditingController(),
-        descriptionController = TextEditingController();
+    : labelController = TextEditingController(),
+      descriptionController = TextEditingController();
 
   void dispose() {
     labelController.dispose();
@@ -36,6 +36,8 @@ class _CoordinatorCreateTourTemplateScreenState
   final TextEditingController _childPriceController = TextEditingController();
   final TextEditingController _minPersonController = TextEditingController();
   final TextEditingController _maxPersonController = TextEditingController();
+  final TextEditingController _pickupLocationController =
+      TextEditingController();
 
   final List<_ItineraryEntry> _itineraries = [_ItineraryEntry()];
 
@@ -69,9 +71,9 @@ class _CoordinatorCreateTourTemplateScreenState
   }
 
   void _onConfirm() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Lộ trình đã được tạo!')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Lộ trình đã được tạo!')));
   }
 
   void _openHotelSelection() {
@@ -102,8 +104,11 @@ class _CoordinatorCreateTourTemplateScreenState
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back,
-                        color: AppColors.textPrimary, size: 26),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: AppColors.textPrimary,
+                      size: 26,
+                    ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   Expanded(
@@ -138,7 +143,9 @@ class _CoordinatorCreateTourTemplateScreenState
                       onTap: _onConfirm,
                       child: const Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
                         child: Text(
                           'Xác nhận',
                           style: TextStyle(
@@ -159,7 +166,9 @@ class _CoordinatorCreateTourTemplateScreenState
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 12),
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -190,8 +199,11 @@ class _CoordinatorCreateTourTemplateScreenState
                       hintText: 'Nhập tên tour...',
                       controller: _nameController,
                       isMultipleLine: true,
-                      suffixIcon: const Icon(Icons.edit,
-                          size: 16, color: AppColors.textSecondary),
+                      suffixIcon: const Icon(
+                        Icons.edit,
+                        size: 16,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                     const SizedBox(height: 12),
 
@@ -201,8 +213,11 @@ class _CoordinatorCreateTourTemplateScreenState
                       hintText: 'Nhập mô tả...',
                       controller: _descriptionController,
                       isMultipleLine: true,
-                      suffixIcon: const Icon(Icons.edit,
-                          size: 16, color: AppColors.textSecondary),
+                      suffixIcon: const Icon(
+                        Icons.edit,
+                        size: 16,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                     const SizedBox(height: 12),
 
@@ -215,8 +230,11 @@ class _CoordinatorCreateTourTemplateScreenState
                             hintText: 'Nhập giá...',
                             controller: _adultPriceController,
                             isMultipleLine: false,
-                            suffixIcon: const Icon(Icons.attach_money,
-                                size: 18, color: AppColors.textSecondary),
+                            suffixIcon: const Icon(
+                              Icons.attach_money,
+                              size: 18,
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -226,8 +244,11 @@ class _CoordinatorCreateTourTemplateScreenState
                             hintText: 'Nhập giá...',
                             controller: _childPriceController,
                             isMultipleLine: false,
-                            suffixIcon: const Icon(Icons.attach_money,
-                                size: 18, color: AppColors.textSecondary),
+                            suffixIcon: const Icon(
+                              Icons.attach_money,
+                              size: 18,
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         ),
                       ],
@@ -243,8 +264,11 @@ class _CoordinatorCreateTourTemplateScreenState
                             hintText: 'Nhập số lượng...',
                             controller: _minPersonController,
                             isMultipleLine: false,
-                            suffixIcon: const Icon(Icons.person_remove_outlined,
-                                size: 18, color: AppColors.textSecondary),
+                            suffixIcon: const Icon(
+                              Icons.person_remove_outlined,
+                              size: 18,
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -254,11 +278,27 @@ class _CoordinatorCreateTourTemplateScreenState
                             hintText: 'Nhập số lượng...',
                             controller: _maxPersonController,
                             isMultipleLine: false,
-                            suffixIcon: const Icon(Icons.person_add_outlined,
-                                size: 18, color: AppColors.textSecondary),
+                            suffixIcon: const Icon(
+                              Icons.person_add_outlined,
+                              size: 18,
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 12),
+                    // ── Thông tin khách sạn ──────────────────────────────────
+                    CoordinatorInputField(
+                      label: 'Pickup Location',
+                      hintText: 'Nhập địa điểm đón khách...',
+                      controller: _pickupLocationController,
+                      isMultipleLine: true,
+                      suffixIcon: const Icon(
+                        Icons.location_on_outlined,
+                        size: 18,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
 
                     const SizedBox(height: 24),
@@ -273,19 +313,25 @@ class _CoordinatorCreateTourTemplateScreenState
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
-                            vertical: 14, horizontal: 16),
+                          vertical: 14,
+                          horizontal: 16,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.surface,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                              color: AppColors.primaryDarkBlackBlue,
-                              width: 1.5),
+                            color: AppColors.primaryDarkBlackBlue,
+                            width: 1.5,
+                          ),
                         ),
                         child: _selectedHotelName != null
                             ? Row(
                                 children: [
-                                  const Icon(Icons.hotel_outlined,
-                                      color: AppColors.primary, size: 18),
+                                  const Icon(
+                                    Icons.hotel_outlined,
+                                    color: AppColors.primary,
+                                    size: 18,
+                                  ),
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
@@ -297,15 +343,20 @@ class _CoordinatorCreateTourTemplateScreenState
                                       ),
                                     ),
                                   ),
-                                  const Icon(Icons.edit,
-                                      size: 16,
-                                      color: AppColors.textSecondary),
+                                  const Icon(
+                                    Icons.edit,
+                                    size: 16,
+                                    color: AppColors.textSecondary,
+                                  ),
                                 ],
                               )
                             : const Column(
                                 children: [
-                                  Icon(Icons.add,
-                                      color: AppColors.primary, size: 22),
+                                  Icon(
+                                    Icons.add,
+                                    color: AppColors.primary,
+                                    size: 22,
+                                  ),
                                   SizedBox(height: 4),
                                   Text(
                                     'Chọn khách sạn và phòng',
@@ -399,8 +450,7 @@ class _CoordinatorCreateTourTemplateScreenState
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        color: AppColors.inputBorder, width: 1),
+                    border: Border.all(color: AppColors.inputBorder, width: 1),
                   ),
                   child: const Icon(
                     Icons.image_outlined,
@@ -443,9 +493,11 @@ class _CoordinatorCreateTourTemplateScreenState
                                 isDense: true,
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.zero,
-                                suffixIcon: Icon(Icons.edit,
-                                    size: 14,
-                                    color: AppColors.textSecondary),
+                                suffixIcon: Icon(
+                                  Icons.edit,
+                                  size: 14,
+                                  color: AppColors.textSecondary,
+                                ),
                               ),
                             ),
                           ),
@@ -458,8 +510,11 @@ class _CoordinatorCreateTourTemplateScreenState
                 if (_itineraries.length > 1)
                   GestureDetector(
                     onTap: () => _removeItinerary(index),
-                    child: const Icon(Icons.close,
-                        size: 20, color: AppColors.textSecondary),
+                    child: const Icon(
+                      Icons.close,
+                      size: 20,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
               ],
             ),
@@ -479,8 +534,7 @@ class _CoordinatorCreateTourTemplateScreenState
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(8),
               ),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -505,8 +559,11 @@ class _CoordinatorCreateTourTemplateScreenState
                       ),
                     ),
                   ),
-                  const Icon(Icons.edit,
-                      size: 14, color: AppColors.textSecondary),
+                  const Icon(
+                    Icons.edit,
+                    size: 14,
+                    color: AppColors.textSecondary,
+                  ),
                 ],
               ),
             ),

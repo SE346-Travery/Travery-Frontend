@@ -220,6 +220,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      width: 100,
+                      child: InkWell(
+                        onTap: () => context.go(Routes.coordinatorMain),
+                        child: Text(
+                          'Coordinator',
+                          style: TextStyle(
+                            color: AppColors.link,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

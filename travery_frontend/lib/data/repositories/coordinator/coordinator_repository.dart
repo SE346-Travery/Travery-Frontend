@@ -9,6 +9,7 @@ import 'package:travery_frontend/domain/models/coordinator/coordinator_template_
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_member/coordinator_tour_member.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_vehicle/coordinator_vehicle.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_station/coordinator_station.dart';
 
 abstract class CoordinatorRepository extends ChangeNotifier {
   Future<Result<List<CoordinatorTour>>> getAllTours();
@@ -18,4 +19,5 @@ abstract class CoordinatorRepository extends ChangeNotifier {
   Future<Result<List<CoordinatorHotel>>> getAllHotels();
   Future<Result<List<CoordinatorGuide>>> getAllGuides();
   Future<Result<List<CoordinatorTourTemplate>>> getAllTemplates();
+  Future<Result<List<CoordinatorStation>>> getAllStations();
 }

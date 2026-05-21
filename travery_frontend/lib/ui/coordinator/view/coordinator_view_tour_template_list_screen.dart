@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
+import 'package:travery_frontend/utils/core_result.dart' as core_result;
 
-class CoordinatorViewTourTemplateScreen extends StatefulWidget {
-  const CoordinatorViewTourTemplateScreen({super.key});
+class CoordinatorViewTourTemplateListScreen extends StatefulWidget {
+  final CoordinatorTourTemplateListViewModel viewModel;
+
+  const CoordinatorViewTourTemplateListScreen({
+    super.key,
+    required this.viewModel,
+  });
 
   @override
-  State<CoordinatorViewTourTemplateScreen> createState() =>
-      _CoordinatorViewTourTemplateScreenState();
+  State<CoordinatorViewTourTemplateListScreen> createState() =>
+      _CoordinatorViewTourTemplateListScreenState();
 }
 
-class _CoordinatorViewTourTemplateScreenState
-    extends State<CoordinatorViewTourTemplateScreen> {
+class _CoordinatorViewTourTemplateListScreenState
+    extends State<CoordinatorViewTourTemplateListScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CoordinatorTourTemplateListViewModel>().loadTemplates();
+      widget.viewModel.loadTemplates.execute();
     });
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    widget.viewModel.dispose();
     super.dispose();
   }
 
@@ -129,20 +135,30 @@ class _CoordinatorViewTourTemplateScreenState
               const SizedBox(height: 16.0),
               // List / Grid of cards
               Expanded(
-                child: Consumer<CoordinatorTourTemplateListViewModel>(
-                  builder: (context, viewModel, child) {
-                    if (viewModel.isLoading) {
+                child: ListenableBuilder(
+                  listenable: Listenable.merge([
+                    widget.viewModel.loadTemplates,
+                    widget.viewModel.filteredTemplates,
+                  ]),
+                  builder: (context, child) {
+                    final viewModel = widget.viewModel;
+                    if (viewModel.loadTemplates.running) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    if (viewModel.errorMessage != null) {
+                    if (viewModel.loadTemplates.error) {
+                      final error =
+                          (viewModel.loadTemplates.result as core_result.Error)
+                              .error;
                       return Center(
                         child: Text(
-                          viewModel.errorMessage!,
+                          error.toString(),
                           style: const TextStyle(color: AppColors.error),
                         ),
                       );
                     }
-                    if (viewModel.templates.isEmpty) {
+
+                    final templates = viewModel.filteredTemplates.value;
+                    if (templates.isEmpty) {
                       return const Center(
                         child: Text(
                           'Không tìm thấy lộ trình nào',
@@ -159,9 +175,9 @@ class _CoordinatorViewTourTemplateScreenState
                             mainAxisSpacing: 12.0,
                             childAspectRatio: 0.85,
                           ),
-                      itemCount: viewModel.templates.length,
+                      itemCount: templates.length,
                       itemBuilder: (context, index) {
-                        final template = viewModel.templates[index];
+                        final template = templates[index];
                         return _buildTemplateCard(template);
                       },
                     );
@@ -186,9 +202,7 @@ class _CoordinatorViewTourTemplateScreenState
       child: TextField(
         controller: _searchController,
         onChanged: (query) {
-          context.read<CoordinatorTourTemplateListViewModel>().setSearchQuery(
-            query,
-          );
+          widget.viewModel.searchQuery.value = query;
         },
         style: const TextStyle(
           fontSize: AppTextTheme.bodyMedium,
@@ -215,7 +229,7 @@ class _CoordinatorViewTourTemplateScreenState
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

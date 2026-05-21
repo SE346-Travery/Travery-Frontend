@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_text_theme.dart';
 import 'coordinator_button.dart';
@@ -83,14 +82,16 @@ class _CoordinatorRoomSelectionBottomsheetState
 
           // Header
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
                 GestureDetector(
                   onTap: () => Navigator.of(context).pop(),
-                  child: const Icon(Icons.close,
-                      size: 22, color: AppColors.textSecondary),
+                  child: const Icon(
+                    Icons.close,
+                    size: 22,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 Expanded(
                   child: Center(
@@ -126,8 +127,11 @@ class _CoordinatorRoomSelectionBottomsheetState
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(Icons.location_on_outlined,
-                        size: 14, color: AppColors.textSecondary),
+                    const Icon(
+                      Icons.location_on_outlined,
+                      size: 14,
+                      color: AppColors.textSecondary,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       widget.location,
@@ -174,7 +178,7 @@ class _CoordinatorRoomSelectionBottomsheetState
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: _rooms.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final room = _rooms[index];
                 return CoordinatorRoomSelectionCheckbox(
@@ -208,8 +212,7 @@ class _CoordinatorRoomSelectionBottomsheetState
               text: 'Xác nhận chọn',
               color: AppColors.primaryDarkBlackBlue,
               onTap: () {
-                final selected =
-                    _rooms.where((r) => r.isSelected).toList();
+                final selected = _rooms.where((r) => r.isSelected).toList();
                 Navigator.of(context).pop();
                 widget.onConfirm?.call(selected);
               },

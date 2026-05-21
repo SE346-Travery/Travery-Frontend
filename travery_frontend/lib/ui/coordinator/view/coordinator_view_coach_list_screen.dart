@@ -19,7 +19,8 @@ class CoordinatorViewCoachListScreen extends StatefulWidget {
 }
 
 class _CoordinatorViewCoachListScreenState
-    extends State<CoordinatorViewCoachListScreen> {
+    extends State<CoordinatorViewCoachListScreen>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController _searchController = TextEditingController();
 
   List<CoordinatorCoach> _allCoaches = [];
@@ -79,7 +80,11 @@ class _CoordinatorViewCoachListScreenState
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Column(

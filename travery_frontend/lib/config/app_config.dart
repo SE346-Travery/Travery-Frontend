@@ -1,9 +1,17 @@
 class AppConfig {
-  /// Chỉ IP hoặc domain, KHÔNG có 'http://'.
-  static const String host = '103.75.183.243';
-
-  /// Port mà backend đang lắng nghe (Spring Boot default: 8080).
-  static const int port = 80;
-
   static const int timeout = 10000;
+
+  static const String baseUrl = String.fromEnvironment(
+    'BASE_URL',
+  );
+
+  static const String cometchatAuthKey = String.fromEnvironment(
+    'COMETCHAT_AUTH_KEY',
+  );
+  static const String cometChatAppId = String.fromEnvironment(
+    'COMETCHAT_APP_ID',
+  );
+  static const String cometChatRegion = String.fromEnvironment(
+    'COMETCHAT_REGION',
+  );
 }

@@ -2,7 +2,7 @@
 // Verifies that the app widget tree builds without throwing.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository_dev.dart';
 import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
 import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
 import 'package:travery_frontend/domain/models/admin/business_dashboard/business_dashboard.dart';

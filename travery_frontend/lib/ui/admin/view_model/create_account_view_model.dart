@@ -1,17 +1,16 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/data/repositories/admin_repository.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/utils/command.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 /// Payload type for [CreateAccountViewModel.createAccount].
-typedef CreateAccountPayload =
-    ({
-      String name,
-      String email,
-      String employeeId,
-      String role,
-      bool isActive,
-    });
+typedef CreateAccountPayload = ({
+  String name,
+  String email,
+  String employeeId,
+  String role,
+  bool isActive,
+});
 
 class CreateAccountViewModel extends ChangeNotifier {
   final AdminRepository _adminRepository;

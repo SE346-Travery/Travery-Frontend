@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_repository.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 
-import 'package:travery_frontend/data/repositories/auth_repository.dart';
+import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository.dart';
 import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
@@ -57,6 +57,14 @@ import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
 import '../ui/admin/view/create_vehicle_screen.dart';
 import '../ui/admin/view/update_vehicle_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_tour_list_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_template_list_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_template_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_view_template_screen.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
 
 GoRouter appRouter(AuthRepository authRepository) {
   return GoRouter(
@@ -197,8 +205,36 @@ GoRouter appRouter(AuthRepository authRepository) {
       // --- COORDINATOR ROUTES ---
       GoRoute(
         path: Routes.coordinatorHome,
-        builder: (context, state) =>
-            const Scaffold(body: Center(child: Text('Coordinator Home'))),
+        builder: (context, state) => const CoordinatorTourListScreen(),
+      ),
+      GoRoute(
+        path: Routes.coordinatorTourDetail,
+        builder: (context, state) {
+          final tour = state.extra as CoordinatorTour;
+          return CoordinatorViewTourScreen(tour: tour);
+        },
+      ),
+      GoRoute(
+        path: Routes.coordinatorTourTemplateList,
+        builder: (context, state) => const CoordinatorViewTourTemplateScreen(),
+      ),
+      GoRoute(
+        path: Routes.coordinatorCreateTourTemplate,
+        builder: (context, state) => const CoordinatorCreateTourTemplateScreen(),
+      ),
+      GoRoute(
+        path: Routes.coordinatorCreateTour,
+        builder: (context, state) {
+          final template = state.extra as CoordinatorTourTemplate?;
+          return CoordinatorCreateTourScreen(selectedTemplate: template);
+        },
+      ),
+      GoRoute(
+        path: Routes.coordinatorViewTemplate,
+        builder: (context, state) {
+          final template = state.extra as CoordinatorTourTemplate;
+          return CoordinatorViewTemplateScreen(template: template);
+        },
       ),
 
       // --- GUIDE ROUTES ---

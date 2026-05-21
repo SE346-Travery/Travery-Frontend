@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/data/repositories/admin_repository.dart';
-import 'package:travery_frontend/data/repositories/admin_repository_dev.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository_dev.dart';
 import 'package:travery_frontend/ui/admin/view/account_management_screen.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 
@@ -83,8 +83,9 @@ void main() {
       expect(find.text('Julian Kross'), findsNothing);
     });
 
-    testWidgets('tapping filter chip "Hướng dẫn viên" hides coordinators',
-        (tester) async {
+    testWidgets('tapping filter chip "Hướng dẫn viên" hides coordinators', (
+      tester,
+    ) async {
       await _pumpUntilLoaded(tester);
 
       await tester.tap(find.text('Hướng dẫn viên'));

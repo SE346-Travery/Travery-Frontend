@@ -29,7 +29,8 @@ class CoordinatorViewTaskListScreen extends StatefulWidget {
 }
 
 class _CoordinatorViewTaskListScreenState
-    extends State<CoordinatorViewTaskListScreen> {
+    extends State<CoordinatorViewTaskListScreen>
+    with AutomaticKeepAliveClientMixin {
   // Mock summary counters — replace with ViewModel data
   static const int _needProcessCount = 12;
   static const int _nearDeadlineCount = 5;
@@ -61,7 +62,11 @@ class _CoordinatorViewTaskListScreenState
   ];
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Column(

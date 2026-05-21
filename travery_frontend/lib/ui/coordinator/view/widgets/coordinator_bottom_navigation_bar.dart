@@ -33,7 +33,7 @@ class CoordinatorBottomNavigationBar extends StatelessWidget {
           children: [
             _buildNavItem(0, Icons.outlined_flag, "Tour"),
             _buildNavItem(1, Icons.directions_car_outlined, "Đặt xe"),
-            _buildNavItem(2, Icons.add, "Thêm tour", isCenter: true),
+            _buildNavItem(2, Icons.add, "Tạo mới", isCenter: true),
             _buildNavItem(3, Icons.chat_bubble_outline_rounded, "Chat"),
             _buildNavItem(4, Icons.notifications_none_rounded, "Thông báo"),
           ],
@@ -55,48 +55,55 @@ class CoordinatorBottomNavigationBar extends StatelessWidget {
         ? AppColors.primary
         : AppColors.textSecondary;
 
-    return InkWell(
-      onTap: () => onTap(index),
-      splashColor: AppColors.primary.withValues(alpha: 0.1),
-      highlightColor: Colors.transparent,
-      borderRadius: BorderRadius.circular(16),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          // Only non-center items get the light blue background when selected
-          color: (isSelected && !isCenter)
-              ? AppColors.primaryLightWhiteBlue
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (isCenter)
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.add, color: Colors.white, size: 24),
-              )
-            else
-              Icon(icon, color: itemColor, size: 24),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                color: itemColor,
-                fontSize: AppTextTheme.bodySmall,
-                fontWeight: isSelected || isCenter
-                    ? FontWeight.w700
-                    : FontWeight.w500,
-              ),
+    return Expanded(
+      child: InkWell(
+        onTap: () => onTap(index),
+        splashColor: AppColors.primary.withValues(alpha: 0.1),
+        highlightColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: Center(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            decoration: BoxDecoration(
+              // Only non-center items get the light blue background when selected
+              color: (isSelected && !isCenter)
+                  ? AppColors.primaryLightWhiteBlue
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
             ),
-          ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (isCenter)
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.add, color: Colors.white, size: 24),
+                  )
+                else
+                  Icon(icon, color: itemColor, size: 24),
+                const SizedBox(height: 4),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      color: itemColor,
+                      fontSize: AppTextTheme.bodySmall,
+                      fontWeight: isSelected || isCenter
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

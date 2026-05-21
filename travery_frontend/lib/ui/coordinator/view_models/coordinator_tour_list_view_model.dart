@@ -1,67 +1,56 @@
 import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
+import 'package:travery_frontend/utils/command.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
-class CoordinatorTourListViewModel extends ChangeNotifier {
+class CoordinatorTourListViewModel {
   final CoordinatorRepository _coordinatorRepository;
 
   CoordinatorTourListViewModel({
     required CoordinatorRepository coordinatorRepository,
-  }) : _coordinatorRepository = coordinatorRepository;
-
-  List<CoordinatorTour> _allTours = [];
-  List<CoordinatorTour> _filteredTours = [];
-  List<CoordinatorTour> get tours => _filteredTours;
-
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
-  String _searchQuery = '';
-  String get searchQuery => _searchQuery;
-
-  Future<void> loadTours() async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    final result = await _coordinatorRepository.getAllTours();
-
-    switch (result) {
-      case Ok<List<CoordinatorTour>>():
-        _allTours = result.value;
-        _applyFilters();
-      case Error<List<CoordinatorTour>>():
-        _errorMessage = result.error.toString();
-    }
-
-    _isLoading = false;
-    notifyListeners();
+  }) : _coordinatorRepository = coordinatorRepository {
+    loadTours = Command0(_loadTours);
+    searchQuery.addListener(_applyFilters);
+    loadTours.addListener(_onToursLoaded);
   }
 
-  void setSearchQuery(String query) {
-    _searchQuery = query;
-    _applyFilters();
-    notifyListeners();
+  late final Command0<List<CoordinatorTour>> loadTours;
+  final ValueNotifier<String> searchQuery = ValueNotifier('');
+  final ValueNotifier<List<CoordinatorTour>> filteredTours = ValueNotifier([]);
+
+  Future<Result<List<CoordinatorTour>>> _loadTours() async {
+    return await _coordinatorRepository.getAllTours();
+  }
+
+  void _onToursLoaded() {
+    if (loadTours.completed) {
+      _applyFilters();
+    } else {
+      filteredTours.value = [];
+    }
   }
 
   void _applyFilters() {
-    if (_searchQuery.trim().isEmpty) {
-      _filteredTours = List.from(_allTours);
+    if (!loadTours.completed) return;
+    
+    final allTours = (loadTours.result as Ok<List<CoordinatorTour>>).value;
+    final query = searchQuery.value.trim().toLowerCase();
+    
+    if (query.isEmpty) {
+      filteredTours.value = List.from(allTours);
     } else {
-      final lowercaseQuery = _searchQuery.toLowerCase();
-      _filteredTours = _allTours.where((tour) {
-        final nameMatches = tour.tourTemplate.name.toLowerCase().contains(
-          lowercaseQuery,
-        );
-        final descMatches = tour.tourTemplate.description
-            .toLowerCase()
-            .contains(lowercaseQuery);
+      filteredTours.value = allTours.where((tour) {
+        final nameMatches = tour.tourTemplate.name.toLowerCase().contains(query);
+        final descMatches = tour.tourTemplate.description.toLowerCase().contains(query);
         return nameMatches || descMatches;
       }).toList();
     }
+  }
+
+  void dispose() {
+    searchQuery.dispose();
+    filteredTours.dispose();
+    loadTours.dispose();
   }
 }

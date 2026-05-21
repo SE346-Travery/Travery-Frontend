@@ -56,10 +56,13 @@ class Routes {
   // Coordinator
   static const String coordinatorHome = '/coordinator-home';
   static const String coordinatorTourDetail = '/coordinator/tour-detail';
-  static const String coordinatorTourTemplateList = '/coordinator/tour-templates';
-  static const String coordinatorCreateTourTemplate = '/coordinator/create-tour-template';
+  static const String coordinatorTourTemplateList =
+      '/coordinator/tour-templates';
+  static const String coordinatorCreateTourTemplate =
+      '/coordinator/create-tour-template';
   static const String coordinatorCreateTour = '/coordinator/create-tour';
   static const String coordinatorViewTemplate = '/coordinator/view-template';
+  static const String coordinatorMain = '/coordinator-main';
 
   // Guide
   static const String guideHome = '/guide/home';

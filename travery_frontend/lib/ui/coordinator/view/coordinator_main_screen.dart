@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
 import 'coordinator_view_tour_list_screen.dart';
@@ -17,7 +16,6 @@ class CoordinatorMainScreen extends StatefulWidget {
 
 class _CoordinatorMainScreenState extends State<CoordinatorMainScreen> {
   late PageController _pageController;
-  late CoordinatorTourListViewModel _tourListViewModel;
   int _currentIndex = 0;
 
   @override
@@ -26,23 +24,9 @@ class _CoordinatorMainScreenState extends State<CoordinatorMainScreen> {
     _pageController = PageController(initialPage: _currentIndex);
   }
 
-  bool _initialized = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_initialized) {
-      _tourListViewModel = CoordinatorTourListViewModel(
-        coordinatorRepository: context.read<CoordinatorRepository>(),
-      );
-      _initialized = true;
-    }
-  }
-
   @override
   void dispose() {
     _pageController.dispose();
-    _tourListViewModel.dispose();
     super.dispose();
   }
 
@@ -77,11 +61,11 @@ class _CoordinatorMainScreenState extends State<CoordinatorMainScreen> {
         onPageChanged: _onPageChanged,
         children: [
           CoordinatorTourListScreen(
-            viewModel: _tourListViewModel,
+            viewModel: context.read<CoordinatorTourListViewModel>(),
           ),
           const CoordinatorViewCoachListScreen(),
           CoordinatorSelectionScreen(),
-          Center(child: Text('Chat')),
+          const Center(child: Text('Chat')),
           CoordinatorViewTaskListScreen(),
         ],
       ),

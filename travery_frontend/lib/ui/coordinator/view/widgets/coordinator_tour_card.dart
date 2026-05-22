@@ -6,6 +6,7 @@ class CoordinatorTourCard extends StatelessWidget {
   final String label;
   final String status;
   final int bookingnumber;
+  final int maxParticipants;
   final String date;
   final String? imageUrl;
   final VoidCallback? onTap;
@@ -15,6 +16,7 @@ class CoordinatorTourCard extends StatelessWidget {
     required this.label,
     required this.status,
     required this.bookingnumber,
+    this.maxParticipants = 0,
     required this.date,
     this.imageUrl,
     this.onTap,
@@ -96,7 +98,9 @@ class CoordinatorTourCard extends StatelessWidget {
                       child: _buildInfoBox(
                         icon: Icons.group_rounded,
                         label: 'SỐ LƯỢNG',
-                        value: '$bookingnumber / 30', // Assuming 30 as in image
+                        value: maxParticipants > 0
+                            ? '$bookingnumber / $maxParticipants'
+                            : '$bookingnumber',
                       ),
                     ),
                   ],

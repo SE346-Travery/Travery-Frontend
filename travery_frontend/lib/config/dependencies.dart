@@ -29,10 +29,6 @@ import 'package:travery_frontend/data/services/guide/guide_service.dart';
 import 'package:travery_frontend/data/services/guide/guide_service_mock.dart';
 import 'package:travery_frontend/data/services/mission/mission_service.dart';
 import 'package:travery_frontend/data/services/mission/mission_service_mock.dart';
-import 'package:travery_frontend/ui/user/home/view_models/tour_home_view_model.dart';
-import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
-import 'package:travery_frontend/ui/user/tour/detail/view_models/tour_detail_view_model.dart';
-import 'package:travery_frontend/ui/user/tour/booking/view_models/booking_view_model.dart';
 import 'package:travery_frontend/ui/guide/home/view_models/guide_home_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
@@ -41,6 +37,9 @@ import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_coach_template_list_view_model.dart';
+import 'package:travery_frontend/ui/user/home/view_models/user_home_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/list/view_models/user_tour_list_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/detail/view_models/user_tour_detail_view_model.dart';
 
 List<SingleChildWidget> get providers => [
   Provider(create: (context) => AuthService()),
@@ -80,22 +79,6 @@ List<SingleChildWidget> get providers => [
   ),
   ChangeNotifierProvider(
     create: (context) =>
-        TourHomeViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        TourListViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        TourDetailViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        BookingViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
         GuideHomeViewModel(guideService: context.read<GuideService>()),
   ),
   ChangeNotifierProvider(
@@ -116,5 +99,19 @@ List<SingleChildWidget> get providers => [
     create: (context) => TourCompletedViewModel(
       repository: context.read<TourCompletedRepository>(),
     ),
+  ),
+
+  // ── User ViewModels ───────────────────────────────────────────────────────
+  ChangeNotifierProvider(
+    create: (context) =>
+        UserHomeViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        UserTourListViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        UserTourDetailViewModel(tourService: context.read<TourService>()),
   ),
 ];

@@ -70,4 +70,9 @@ class Routes {
   static const String checkIn = '/guide/mission/:id/check-in';
   static const String tourProgress = '/guide/mission/:id/progress';
   static const String tourCompleted = '/guide/mission/:id/completed';
+
+  // User (Tourist)
+  static const String userHome = '/user/home';
+  static const String userTourList = '/user/tours';
+  static String userTourDetail(String id) => '/user/tour/$id';
 }

@@ -11,6 +11,7 @@ import 'package:travery_frontend/data/repositories/tour_progress_repository.dart
 import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 import 'package:travery_frontend/data/services/cancel/cancel_service_mock.dart';
 import 'package:travery_frontend/data/services/cancellation/cancellation_service_mock.dart';
+import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/ui/admin/view/admin_main_screen.dart';
 import 'package:travery_frontend/ui/admin/view/view_detail_account_screen.dart';
 import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_model.dart';
@@ -18,10 +19,6 @@ import 'package:travery_frontend/ui/authentication/view_models/confirm_password_
 import 'package:travery_frontend/ui/authentication/view_models/forgot_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/register_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_main_screen.dart';
-import 'package:travery_frontend/ui/user/tour/booking/cancel_confirmation/cancel_confirmation_screen.dart';
-import 'package:travery_frontend/ui/user/tour/booking/cancel_confirmation/view_models/cancel_confirmation_view_model.dart';
-import 'package:travery_frontend/ui/user/tour/booking/cancellation_success/cancellation_success_screen.dart';
-import 'package:travery_frontend/ui/user/tour/booking/cancellation_success/view_models/cancellation_success_view_model.dart';
 import 'package:travery_frontend/ui/guide/home/guide_home_screen.dart';
 import 'package:travery_frontend/ui/guide/mission/mission_detail_screen.dart';
 import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_view_model.dart';
@@ -31,6 +28,12 @@ import 'package:travery_frontend/ui/guide/mission/tour_progress/tour_progress_sc
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/our_completed_screen.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
+import 'package:travery_frontend/ui/user/home/user_home_screen.dart';
+import 'package:travery_frontend/ui/user/home/view_models/user_home_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/list/user_tour_list_screen.dart';
+import 'package:travery_frontend/ui/user/tour/list/view_models/user_tour_list_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/detail/user_tour_detail_screen.dart';
+import 'package:travery_frontend/ui/user/tour/detail/view_models/user_tour_detail_view_model.dart';
 import 'routes.dart';
 
 import '../ui/authentication/view/login_screen.dart';
@@ -41,20 +44,12 @@ import '../ui/authentication/view/confirm_password_screen.dart';
 import '../ui/authentication/widgets/role_selection_screen.dart';
 import '../ui/authentication/view_models/login_view_model.dart';
 import '../ui/authentication/view_models/otp_verification_view_model.dart';
-import '../ui/user/home/tour_home_screen.dart';
-import '../ui/user/tour/list/tour_list_screen.dart';
 import '../ui/admin/view/create_account_screen.dart';
 import '../ui/admin/view/account_management_screen.dart';
 import '../ui/admin/view/tour_management_screen.dart';
 import '../ui/admin/view/vehicle_management_screen.dart';
 import '../ui/admin/view/dashboard_screen.dart';
 import '../ui/admin/view/hotel_management_screen.dart';
-import '../ui/user/tour/detail/tour_detail_screen.dart';
-import '../ui/user/tour/booking/booking_screen.dart';
-import '../ui/user/tour/booking/review/booking_review_screen.dart';
-import '../ui/user/tour/booking/payment/payment_screen.dart';
-import '../ui/user/tour/booking/payment/booking_success_screen.dart';
-import '../ui/user/tour/booking/booking_detail/booking_detail_screen.dart';
 import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
 import '../ui/admin/view/create_vehicle_screen.dart';
@@ -136,73 +131,6 @@ GoRouter appRouter(AuthRepository authRepository) {
             ),
             email: email,
             otp: otp,
-          );
-        },
-      ),
-
-      GoRoute(
-        path: Routes.tourHome,
-        builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: Routes.home,
-        builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: Routes.tourList,
-        builder: (context, state) => const TourListScreen(),
-      ),
-      GoRoute(
-        path: Routes.tourDetail,
-        builder: (context, state) {
-          final tourId = state.pathParameters['id'];
-          return TourDetailScreen(tourId: tourId);
-        },
-      ),
-      GoRoute(
-        path: Routes.tourBooking,
-        builder: (context, state) => const BookingScreen(),
-      ),
-      GoRoute(
-        path: Routes.tourBookingReview,
-        builder: (context, state) => const BookingReviewScreen(),
-      ),
-      GoRoute(
-        path: Routes.vnpayPayment,
-        builder: (context, state) => const PaymentScreen(),
-      ),
-      GoRoute(
-        path: Routes.bookingSuccess,
-        builder: (context, state) => const BookingSuccessScreen(),
-      ),
-      GoRoute(
-        path: Routes.bookingDetail,
-        builder: (context, state) {
-          final bookingId = state.pathParameters['id'] ?? '';
-          return BookingDetailScreen(bookingId: bookingId);
-        },
-      ),
-      GoRoute(
-        path: Routes.cancelConfirmation,
-        builder: (context, state) {
-          final bookingId = state.pathParameters['id'] ?? '';
-          return CancelConfirmationScreen(
-            bookingId: bookingId,
-            viewModel: CancelConfirmationViewModel(
-              cancelService: CancelServiceMock(),
-            ),
-          );
-        },
-      ),
-      GoRoute(
-        path: Routes.cancellationSuccess,
-        builder: (context, state) {
-          final bookingId = state.pathParameters['id'] ?? '';
-          return CancellationSuccessScreen(
-            bookingId: bookingId,
-            viewModel: CancellationSuccessViewModel(
-              cancellationService: CancellationServiceMock(),
-            ),
           );
         },
       ),
@@ -294,6 +222,21 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
 
       // --- USER ROUTES ---
+      GoRoute(
+        path: Routes.userHome,
+        builder: (context, state) => const UserHomeScreen(),
+      ),
+      GoRoute(
+        path: Routes.userTourList,
+        builder: (context, state) => const UserTourListScreen(),
+      ),
+      GoRoute(
+        path: Routes.userTourDetail(''),
+        builder: (context, state) {
+          final tourId = state.pathParameters['id'] ?? '';
+          return UserTourDetailScreen(tourId: tourId);
+        },
+      ),
 
       // --- ADMIN ROUTES ---
       GoRoute(

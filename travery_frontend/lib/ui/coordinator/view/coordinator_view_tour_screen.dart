@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
-import 'package:travery_frontend/domain/models/coordinator/coordinator_coach/coordinator_coach.dart';
-import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_tour_info_field.dart';
-import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_tour_price_field.dart';
-import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_tour_driver_card.dart';
-import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_tour_guilde_card.dart'; // Class is CoordinatorTourGuideCard
-import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_tour_hotel_card.dart';
-import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_tour_member_card.dart';
-import 'package:travery_frontend/utils/core_result.dart';
 
 class CoordinatorViewTourScreen extends StatefulWidget {
   final CoordinatorTour tour;
@@ -23,72 +13,16 @@ class CoordinatorViewTourScreen extends StatefulWidget {
       _CoordinatorViewTourScreenState();
 }
 
-class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
-  CoordinatorCoach? _assignedCoach;
-  bool _isLoadingCoach = true;
-
+class _CoordinatorViewTourScreenState
+    extends State<CoordinatorViewTourScreen> {
   // Collapse/Expand state flags
   bool _isDetailsExpanded = false;
   bool _isBookingsExpanded = false;
-  bool _isItineraryExpanded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCoachData();
-  }
-
-  Future<void> _loadCoachData() async {
-    try {
-      final repository = context.read<CoordinatorRepository>();
-      final result = await repository.getAllCoaches();
-      if (mounted) {
-        setState(() {
-          if (result is Ok<List<CoordinatorCoach>> && result.value.isNotEmpty) {
-            // Find coach matching guide or template, or fallback to first coach
-            _assignedCoach = result.value.firstWhere(
-              (c) => c.driver.name == 'Nguyễn Văn Hùng',
-              orElse: () => result.value.first,
-            );
-          }
-          _isLoadingCoach = false;
-        });
-      }
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _isLoadingCoach = false;
-        });
-      }
-    }
-  }
-
-  String _formatPrice(String priceStr) {
-    final price = double.tryParse(priceStr) ?? 0.0;
-    final formatter = NumberFormat('#,###', 'vi_VN');
-    return '${formatter.format(price)} VNĐ';
-  }
-
-  String _getCityFromAddress(String address) {
-    final parts = address.split(',');
-    if (parts.length >= 2) {
-      return parts[parts.length - 2].trim();
-    }
-    return address;
-  }
 
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.of(context).padding.top;
-
-    // Dynamic / formatted values to match mockups
-    final dateValue = widget.tour.tourTemplate.id == 'temp_c1'
-        ? '12/12/2025'
-        : '12/01/2027';
-    final departureValue =
-        widget.tour.tourTemplate.name.toLowerCase().contains('hạ long')
-        ? 'Hà Nội'
-        : 'Tp.HCM';
+    final tour = widget.tour;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -139,15 +73,24 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Destination Image Card ─────────────────────────────────
+                  // ── Tour name hero ────────────────────────────────────────
                   Container(
-                    height: 200,
                     width: double.infinity,
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          AppColors.primary,
+                          AppColors.primaryDarkBlackBlue,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -157,100 +100,93 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.network(
-                            widget.tour.tourTemplate.imageUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Container(
-                                  color: AppColors.inputBackground,
-                                  child: const Icon(
-                                    Icons.image_outlined,
-                                    color: AppColors.icon,
-                                    size: 50,
-                                  ),
-                                ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          tour.tourName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          // Dark gradient overlay for text readability
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withValues(alpha: 0.7),
-                                ],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                            ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          tour.destinationName,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
                           ),
-                          // Overlay Name Text
-                          Positioned(
-                            left: 16,
-                            right: 16,
-                            bottom: 16,
-                            child: Text(
-                              widget.tour.tourTemplate.name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                height: 1.3,
-                              ),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 12),
+                        _buildStatusChip(tour.status),
+                      ],
                     ),
                   ),
 
                   const SizedBox(height: 20),
 
-                  // ── Date and Departure Info Fields ──────────────────────────
+                  // ── Date and Departure Info Fields ─────────────────────────
                   Row(
                     children: [
                       Expanded(
                         child: CoordinatorTourInfoField(
                           label: 'Ngày bắt đầu',
-                          content: dateValue,
+                          content: tour.startDate,
                           prefixIcon: Icons.calendar_today_outlined,
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: CoordinatorTourInfoField(
-                          label: 'Nơi khởi hành',
-                          content: departureValue,
-                          prefixIcon: Icons.location_on_outlined,
+                          label: 'Ngày kết thúc',
+                          content: tour.endDate,
+                          prefixIcon: Icons.calendar_today_outlined,
                         ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
-                  // ── Price Info Field ───────────────────────────────────────
-                  CoordinatorTourPriceField(
-                    label: 'Đơn giá',
-                    adultprice: _formatPrice(
-                      widget.tour.tourTemplate.adultPrice,
-                    ),
-                    childprice: _formatPrice(
-                      widget.tour.tourTemplate.childPrice,
-                    ),
+                  CoordinatorTourInfoField(
+                    label: 'Điểm xuất phát',
+                    content: tour.pickupLocation.isNotEmpty
+                        ? tour.pickupLocation
+                        : 'Chưa cập nhật',
+                    prefixIcon: Icons.location_on_outlined,
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Participants info
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CoordinatorTourInfoField(
+                          label: 'Hiện tại',
+                          content:
+                              '${tour.currentParticipants} / ${tour.maxParticipants}',
+                          prefixIcon: Icons.people_outline,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: CoordinatorTourInfoField(
+                          label: 'Tối thiểu',
+                          content: '${tour.minParticipants}',
+                          prefixIcon: Icons.group_add_outlined,
+                        ),
+                      ),
+                    ],
                   ),
 
                   const SizedBox(height: 24),
 
                   // ── Expandable Section: Thông tin chi tiết ──────────────────
                   _buildExpandableHeader(
-                    title: 'Thông tin chi tiết',
+                    title: 'Thông tin nhân viên',
                     isExpanded: _isDetailsExpanded,
                     onTap: () => setState(
                       () => _isDetailsExpanded = !_isDetailsExpanded,
@@ -264,55 +200,49 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
                             padding: const EdgeInsets.only(top: 12.0),
                             child: Column(
                               children: [
-                                // Driver Card
-                                _isLoadingCoach
-                                    ? const Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(16.0),
-                                          child: CircularProgressIndicator(
-                                            color: AppColors.primary,
-                                          ),
-                                        ),
-                                      )
-                                    : CoordinatorTourDriverCard(
-                                        driverName:
-                                            _assignedCoach?.driver.name ??
-                                            'Đỗ Minh Trí',
-                                        vehicleType:
-                                            _assignedCoach
-                                                ?.vehicle
-                                                .vehicleType ??
-                                            'Limousine (chỗ)',
-                                        licenseNumber:
-                                            _assignedCoach
-                                                ?.vehicle
-                                                .licensePlate ??
-                                            '59A-12345',
-                                        imageUrl:
-                                            _assignedCoach?.driver.imageUrl,
-                                      ),
-                                const SizedBox(height: 12),
-                                // Guide Card
-                                CoordinatorTourGuideCard(
-                                  name: widget.tour.guide.name,
-                                  phoneNumber: widget.tour.guide.phoneNumber,
-                                  email: widget.tour.guide.email,
-                                ),
-                                const SizedBox(height: 12),
-                                // Hotel Card
-                                CoordinatorTourHotelCard(
-                                  hotelName: widget.tour.hotel.name,
-                                  cityProvince: _getCityFromAddress(
-                                    widget.tour.hotel.address,
+                                if (tour.guideName != null)
+                                  _buildInfoCard(
+                                    icon: Icons.person_outline,
+                                    title: 'Hướng dẫn viên',
+                                    lines: [
+                                      tour.guideName!,
+                                      if (tour.guidePhone != null)
+                                        tour.guidePhone!,
+                                    ],
                                   ),
-                                  rooms: [
-                                    CoordinatorRoom(
-                                      roomType: widget.tour.hotel.roomType,
-                                      quantity: widget.tour.hotel.roomCount,
+                                if (tour.driverName != null)
+                                  _buildInfoCard(
+                                    icon: Icons.drive_eta_outlined,
+                                    title: 'Tài xế',
+                                    lines: [
+                                      tour.driverName!,
+                                      if (tour.driverPhone != null)
+                                        tour.driverPhone!,
+                                    ],
+                                  ),
+                                if (tour.coachLicensePlate != null)
+                                  _buildInfoCard(
+                                    icon: Icons.directions_bus_outlined,
+                                    title: 'Xe',
+                                    lines: [
+                                      tour.coachLicensePlate!,
+                                      if (tour.coachType != null)
+                                        tour.coachType!,
+                                    ],
+                                  ),
+                                if (tour.guideName == null &&
+                                    tour.driverName == null &&
+                                    tour.coachLicensePlate == null)
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Text(
+                                      'Chưa phân công nhân sự',
+                                      style: TextStyle(
+                                        color: AppColors.textSecondary,
+                                      ),
                                     ),
-                                  ],
-                                  imageUrl: widget.tour.hotel.imageUrl,
-                                ),
+                                  ),
                                 const SizedBox(height: 16),
                               ],
                             ),
@@ -326,7 +256,7 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
                     color: AppColors.inputBorder,
                   ),
 
-                  // ── Expandable Section: Danh sách Booking ──────────────────
+                  // ── Expandable Section: Bookings placeholder ────────────────
                   _buildExpandableHeader(
                     title: 'Danh sách Booking',
                     isExpanded: _isBookingsExpanded,
@@ -338,73 +268,99 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     child: _isBookingsExpanded
-                        ? Padding(
-                            padding: const EdgeInsets.only(top: 12.0),
-                            child: Column(
-                              children: [
-                                CoordinatorTourMemberCard(
-                                  tourMember: widget.tour.tourMember,
-                                ),
-                                const SizedBox(height: 16),
-                              ],
+                        ? const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12.0),
+                            child: Text(
+                              'Chức năng xem danh sách booking đang được phát triển.',
+                              style: TextStyle(color: AppColors.textSecondary),
                             ),
                           )
                         : const SizedBox.shrink(),
                   ),
 
-                  const Divider(
-                    height: 1,
-                    thickness: 0.5,
-                    color: AppColors.inputBorder,
-                  ),
-
-                  // ── Expandable Section: Lịch trình chi tiết ───────────────
-                  _buildExpandableHeader(
-                    title: 'Lịch trình chi tiết',
-                    isExpanded: _isItineraryExpanded,
-                    onTap: () => setState(
-                      () => _isItineraryExpanded = !_isItineraryExpanded,
-                    ),
-                  ),
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    child: _isItineraryExpanded
-                        ? Padding(
-                            padding: const EdgeInsets.only(
-                              top: 16.0,
-                              left: 8.0,
-                            ),
-                            child: Column(
-                              children: List.generate(
-                                widget.tour.tourTemplate.itineraries.length,
-                                (index) {
-                                  final item = widget
-                                      .tour
-                                      .tourTemplate
-                                      .itineraries[index];
-                                  return ItineraryTimelineItem(
-                                    label: item.label,
-                                    title: item.name,
-                                    description: item.description,
-                                    isLast:
-                                        index ==
-                                        widget
-                                                .tour
-                                                .tourTemplate
-                                                .itineraries
-                                                .length -
-                                            1,
-                                  );
-                                },
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
                   const SizedBox(height: 40),
                 ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusChip(String status) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white38),
+      ),
+      child: Text(
+        status,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard({
+    required IconData icon,
+    required String title,
+    required List<String> lines,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: AppColors.primary, size: 22),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                ...lines.map(
+                  (l) => Text(
+                    l,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -423,7 +379,6 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: Row(
           children: [
-            // Blue Dot Icon
             Container(
               width: 8,
               height: 8,
@@ -433,7 +388,6 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            // Header Text
             Expanded(
               child: Text(
                 title,
@@ -444,7 +398,6 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
                 ),
               ),
             ),
-            // Expand Arrow
             Icon(
               isExpanded
                   ? Icons.keyboard_arrow_up_rounded
@@ -457,124 +410,4 @@ class _CoordinatorViewTourScreenState extends State<CoordinatorViewTourScreen> {
       ),
     );
   }
-}
-
-// ── Custom Itinerary Timeline Widget ────────────────────────────────────────
-class ItineraryTimelineItem extends StatelessWidget {
-  final String label;
-  final String title;
-  final String description;
-  final bool isLast;
-
-  const ItineraryTimelineItem({
-    super.key,
-    required this.label,
-    required this.title,
-    required this.description,
-    required this.isLast,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Left dotted line column
-          SizedBox(
-            width: 24,
-            child: Column(
-              children: [
-                Expanded(
-                  child: CustomPaint(
-                    size: Size.infinite,
-                    painter: DashedLinePainter(
-                      color: AppColors.primary,
-                      strokeWidth: 2,
-                      dashHeight: 5,
-                      dashSpace: 4,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 16),
-          // Right content column
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label.toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Custom Painter to draw Dotted/Dashed Line ────────────────────────────────
-class DashedLinePainter extends CustomPainter {
-  final Color color;
-  final double strokeWidth;
-  final double dashHeight;
-  final double dashSpace;
-
-  DashedLinePainter({
-    required this.color,
-    required this.strokeWidth,
-    required this.dashHeight,
-    required this.dashSpace,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = strokeWidth
-      ..style = PaintingStyle.stroke;
-    double startY = 0;
-    while (startY < size.height) {
-      canvas.drawLine(
-        Offset(size.width / 2, startY),
-        Offset(size.width / 2, startY + dashHeight),
-        paint,
-      );
-      startY += dashHeight + dashSpace;
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

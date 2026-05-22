@@ -29,14 +29,20 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen>
   @override
   void initState() {
     super.initState();
+    widget.viewModel.loadTours.addListener(_onLoadToursChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.viewModel.loadTours.execute();
     });
   }
 
+  void _onLoadToursChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
+    widget.viewModel.loadTours.removeListener(_onLoadToursChanged);
     // ViewModel lifecycle is managed by CoordinatorMainScreen
     super.dispose();
   }
@@ -67,7 +73,6 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen>
     );
   }
 
-
   Widget _buildHeader(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     return Container(
@@ -97,7 +102,7 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen>
           ),
           SizedBox(height: 6),
           Text(
-            'Đỗ Minh Trí',
+            'Danh sách Tour',
             style: TextStyle(
               fontSize: AppTextTheme.headlineSmall,
               color: Colors.white,
@@ -143,7 +148,8 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen>
     }
 
     if (viewModel.loadTours.error) {
-      final error = (viewModel.loadTours.result as core_result.Error).error;
+      final error =
+          (viewModel.loadTours.result as core_result.Error).error;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -197,35 +203,36 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen>
       itemCount: tours.length,
       itemBuilder: (context, index) {
         final tour = tours[index];
-
-        // We dynamically assign statuses and fields to match the design aesthetics in the image
-        // Card 1 (index 0): status "# CHỜ XÁC NHẬN", date "12/01/2027", quantity "15 / 30"
-        // Card 2 (index 1): status "# ĐANG DIỄN RA", date "12/01/2027", quantity "15 / 30"
-        // Card 3 (index 2+): status "# CHƯA ĐỦ SỐ LƯỢNG", date "12/01/2027", quantity "05 / 30"
-        String status;
-        int bookingNumber;
-        if (index == 0) {
-          status = "CHỜ XÁC NHẬN";
-          bookingNumber = 15;
-        } else if (index == 1) {
-          status = "ĐANG DIỄN RA";
-          bookingNumber = 15;
-        } else {
-          status = "CHƯA ĐỦ SỐ LƯỢNG";
-          bookingNumber = 5;
-        }
-
         return CoordinatorTourCard(
-          label: tour.tourTemplate.name,
-          status: status,
-          bookingnumber: bookingNumber,
-          date: '12/01/2027',
-          imageUrl: tour.tourTemplate.imageUrl,
+          label: tour.tourName,
+          status: _localizedStatus(tour.status),
+          bookingnumber: tour.currentParticipants,
+          maxParticipants: tour.maxParticipants,
+          date: '${tour.startDate} → ${tour.endDate}',
+          imageUrl: '',
           onTap: () {
             context.push(Routes.coordinatorTourDetail, extra: tour);
           },
         );
       },
     );
+  }
+
+  /// Converts API status strings to Vietnamese labels shown in the card.
+  String _localizedStatus(String status) {
+    switch (status.toUpperCase()) {
+      case 'PLANNING':
+        return 'ĐANG LẬP KẾ HOẠCH';
+      case 'CONFIRMED':
+        return 'ĐÃ XÁC NHẬN';
+      case 'ONGOING':
+        return 'ĐANG DIỄN RA';
+      case 'COMPLETED':
+        return 'ĐÃ HOÀN THÀNH';
+      case 'CANCELLED':
+        return 'ĐÃ HỦY';
+      default:
+        return status;
+    }
   }
 }

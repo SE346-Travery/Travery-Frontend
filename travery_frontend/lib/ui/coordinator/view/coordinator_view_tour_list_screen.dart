@@ -1,73 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_bottom_navigation_bar.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_searchbar.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_filter_button.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_tour_card.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travery_frontend/routing/routes.dart';
+import 'package:travery_frontend/utils/core_result.dart' as core_result;
 
 class CoordinatorTourListScreen extends StatefulWidget {
-  const CoordinatorTourListScreen({super.key});
+  final CoordinatorTourListViewModel viewModel;
+
+  const CoordinatorTourListScreen({super.key, required this.viewModel});
 
   @override
   State<CoordinatorTourListScreen> createState() =>
       _CoordinatorTourListScreenState();
 }
 
-class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
+class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController _searchController = TextEditingController();
-  int _selectedNavIndex = 0;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
+    widget.viewModel.loadTours.addListener(_onLoadToursChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CoordinatorTourListViewModel>().loadTours();
+      widget.viewModel.loadTours.execute();
     });
+  }
+
+  void _onLoadToursChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    widget.viewModel.loadTours.removeListener(_onLoadToursChanged);
+    // ViewModel lifecycle is managed by CoordinatorMainScreen
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Consumer<CoordinatorTourListViewModel>(
-        builder: (context, viewModel, child) {
-          return Stack(
+    super.build(context); // Required by AutomaticKeepAliveClientMixin
+    return ColoredBox(
+      color: AppColors.background,
+      child: ListenableBuilder(
+        listenable: Listenable.merge([
+          widget.viewModel.loadTours,
+          widget.viewModel.filteredTours,
+        ]),
+        builder: (context, child) {
+          final viewModel = widget.viewModel;
+          return Column(
             children: [
-              // Main content scroll area
-              Column(
-                children: [
-                  _buildHeader(context),
-                  const SizedBox(height: 16),
-                  _buildSearchAndFilterRow(context),
-                  const SizedBox(height: 8),
-                  Expanded(child: _buildTourList(viewModel)),
-                ],
-              ),
-              // Bottom Navigation Bar
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: CoordinatorBottomNavigationBar(
-                  currentIndex: _selectedNavIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _selectedNavIndex = index;
-                    });
-                  },
-                ),
-              ),
+              _buildHeader(context),
+              const SizedBox(height: 16),
+              _buildSearchAndFilterRow(context),
+              const SizedBox(height: 8),
+              Expanded(child: _buildTourList(viewModel)),
             ],
           );
         },
@@ -104,7 +102,7 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
           ),
           SizedBox(height: 6),
           Text(
-            'Đỗ Minh Trí',
+            'Danh sách Tour',
             style: TextStyle(
               fontSize: AppTextTheme.headlineSmall,
               color: Colors.white,
@@ -127,9 +125,7 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
               hint: 'Search',
               controller: _searchController,
               onSearchTap: () {
-                context.read<CoordinatorTourListViewModel>().setSearchQuery(
-                  _searchController.text,
-                );
+                widget.viewModel.searchQuery.value = _searchController.text;
               },
             ),
           ),
@@ -145,13 +141,15 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
   }
 
   Widget _buildTourList(CoordinatorTourListViewModel viewModel) {
-    if (viewModel.isLoading) {
+    if (viewModel.loadTours.running) {
       return const Center(
         child: CircularProgressIndicator(color: AppColors.primary),
       );
     }
 
-    if (viewModel.errorMessage != null) {
+    if (viewModel.loadTours.error) {
+      final error =
+          (viewModel.loadTours.result as core_result.Error).error;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +157,7 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
             const Icon(Icons.error_outline, color: AppColors.error, size: 40),
             const SizedBox(height: 12),
             Text(
-              'Đã xảy ra lỗi: ${viewModel.errorMessage}',
+              'Đã xảy ra lỗi: $error',
               style: const TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: AppTextTheme.bodyLarge,
@@ -167,7 +165,7 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
             ),
             const SizedBox(height: 8),
             TextButton(
-              onPressed: viewModel.loadTours,
+              onPressed: () => viewModel.loadTours.execute(),
               child: const Text('Thử lại'),
             ),
           ],
@@ -175,7 +173,7 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
       );
     }
 
-    final tours = viewModel.tours;
+    final tours = viewModel.filteredTours.value;
 
     if (tours.isEmpty) {
       return const Center(
@@ -205,35 +203,36 @@ class _CoordinatorTourListScreenState extends State<CoordinatorTourListScreen> {
       itemCount: tours.length,
       itemBuilder: (context, index) {
         final tour = tours[index];
-
-        // We dynamically assign statuses and fields to match the design aesthetics in the image
-        // Card 1 (index 0): status "# CHỜ XÁC NHẬN", date "12/01/2027", quantity "15 / 30"
-        // Card 2 (index 1): status "# ĐANG DIỄN RA", date "12/01/2027", quantity "15 / 30"
-        // Card 3 (index 2+): status "# CHƯA ĐỦ SỐ LƯỢNG", date "12/01/2027", quantity "05 / 30"
-        String status;
-        int bookingNumber;
-        if (index == 0) {
-          status = "CHỜ XÁC NHẬN";
-          bookingNumber = 15;
-        } else if (index == 1) {
-          status = "ĐANG DIỄN RA";
-          bookingNumber = 15;
-        } else {
-          status = "CHƯA ĐỦ SỐ LƯỢNG";
-          bookingNumber = 5;
-        }
-
         return CoordinatorTourCard(
-          label: tour.tourTemplate.name,
-          status: status,
-          bookingnumber: bookingNumber,
-          date: '12/01/2027',
-          imageUrl: tour.tourTemplate.imageUrl,
+          label: tour.tourName,
+          status: _localizedStatus(tour.status),
+          bookingnumber: tour.currentParticipants,
+          maxParticipants: tour.maxParticipants,
+          date: '${tour.startDate} → ${tour.endDate}',
+          imageUrl: '',
           onTap: () {
             context.push(Routes.coordinatorTourDetail, extra: tour);
           },
         );
       },
     );
+  }
+
+  /// Converts API status strings to Vietnamese labels shown in the card.
+  String _localizedStatus(String status) {
+    switch (status.toUpperCase()) {
+      case 'PLANNING':
+        return 'ĐANG LẬP KẾ HOẠCH';
+      case 'CONFIRMED':
+        return 'ĐÃ XÁC NHẬN';
+      case 'ONGOING':
+        return 'ĐANG DIỄN RA';
+      case 'COMPLETED':
+        return 'ĐÃ HOÀN THÀNH';
+      case 'CANCELLED':
+        return 'ĐÃ HỦY';
+      default:
+        return status;
+    }
   }
 }

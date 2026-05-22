@@ -4,7 +4,6 @@ import 'package:travery_frontend/domain/models/coordinator/coordinator_vehicle/c
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_coach_selection_bottomsheet.dart';
-import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_input_field.dart';
 
 class CoordinatorCreateCoachScreen extends StatefulWidget {
   const CoordinatorCreateCoachScreen({super.key});
@@ -16,20 +15,14 @@ class CoordinatorCreateCoachScreen extends StatefulWidget {
 
 class _CoordinatorCreateCoachScreenState
     extends State<CoordinatorCreateCoachScreen> {
-  final TextEditingController _priceController = TextEditingController();
 
   CoordinatorDriver? _selectedDriver;
   CoordinatorVehicle? _selectedVehicle;
-
-  // List of stop points
-  final List<_StopPoint> _stopPoints = [_StopPoint(), _StopPoint()];
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
 
   @override
   void dispose() {
-    _priceController.dispose();
-    for (final s in _stopPoints) {
-      s.dispose();
-    }
     super.dispose();
   }
 
@@ -49,11 +42,11 @@ class _CoordinatorCreateCoachScreenState
     );
   }
 
-  Future<void> _pickDate(int stopIndex) async {
+  Future<void> _pickDate() async {
     final now = DateTime.now();
     final picked = await showDatePicker(
       context: context,
-      initialDate: _stopPoints[stopIndex].selectedDate ?? now,
+      initialDate: _selectedDate ?? now,
       firstDate: now,
       lastDate: DateTime(now.year + 5),
       builder: (ctx, child) => Theme(
@@ -67,14 +60,14 @@ class _CoordinatorCreateCoachScreenState
       ),
     );
     if (picked != null) {
-      setState(() => _stopPoints[stopIndex].selectedDate = picked);
+      setState(() => _selectedDate = picked);
     }
   }
 
-  Future<void> _pickTime(int stopIndex) async {
+  Future<void> _pickTime() async {
     final picked = await showTimePicker(
       context: context,
-      initialTime: _stopPoints[stopIndex].selectedTime ?? TimeOfDay.now(),
+      initialTime: _selectedTime ?? TimeOfDay.now(),
       builder: (ctx, child) => Theme(
         data: Theme.of(ctx).copyWith(
           colorScheme: const ColorScheme.light(
@@ -86,21 +79,18 @@ class _CoordinatorCreateCoachScreenState
       ),
     );
     if (picked != null) {
-      setState(() => _stopPoints[stopIndex].selectedTime = picked);
+      setState(() => _selectedTime = picked);
     }
   }
 
   String _formatDate(DateTime? date) {
     if (date == null) return '';
-    return '${date.day.toString().padLeft(2, '0')}/'
-        '${date.month.toString().padLeft(2, '0')}/'
-        '${date.year}';
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 
   String _formatTime(TimeOfDay? time) {
     if (time == null) return '';
-    return '${time.hour.toString().padLeft(2, '0')}:'
-        '${time.minute.toString().padLeft(2, '0')}';
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 
   void _onConfirm() {
@@ -211,37 +201,60 @@ class _CoordinatorCreateCoachScreenState
                     ),
                     const SizedBox(height: 20),
 
-                    // Giá vé
-                    CoordinatorInputField(
-                      label: 'Giá vé',
-                      hintText: 'Nhập giá...',
-                      controller: _priceController,
-                      suffixIcon: const Icon(
-                        Icons.attach_money_rounded,
-                        size: 18,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Stop points
-                    for (int i = 0; i < _stopPoints.length; i++) ...[
-                      _buildStopPointCard(i),
-                      if (i < _stopPoints.length - 1) ...[
-                        const SizedBox(height: 8),
-                        Center(
-                          child: Text(
-                            '↓↑',
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    // Ngày và Thời gian
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Ngày khởi hành',
+                                style: TextStyle(
+                                  fontSize: AppTextTheme.bodySmall,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              _buildPickerButton(
+                                label: _formatDate(_selectedDate).isNotEmpty
+                                    ? _formatDate(_selectedDate)
+                                    : 'Chọn ngày khởi hành',
+                                icon: Icons.calendar_today_outlined,
+                                onTap: _pickDate,
+                                hasValue: _selectedDate != null,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Thời gian khởi hành',
+                                style: TextStyle(
+                                  fontSize: AppTextTheme.bodySmall,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              _buildPickerButton(
+                                label: _formatTime(_selectedTime).isNotEmpty
+                                    ? _formatTime(_selectedTime)
+                                    : 'Chọn thời gian',
+                                icon: Icons.access_time_rounded,
+                                onTap: _pickTime,
+                                hasValue: _selectedTime != null,
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
-                    ],
+                    ),
 
                     const SizedBox(height: 32),
                   ],
@@ -321,149 +334,6 @@ class _CoordinatorCreateCoachScreenState
     );
   }
 
-  Widget _buildStopPointCard(int index) {
-    final stop = _stopPoints[index];
-    final label = index + 1;
-
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.primaryDarkBlackBlue, width: 1.5),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Title row
-          Row(
-            children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: index == 0
-                      ? AppColors.primaryDarkBlackBlue
-                      : AppColors.surface,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.primaryDarkBlackBlue,
-                    width: 2,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    '$label',
-                    style: TextStyle(
-                      fontSize: AppTextTheme.bodySmall,
-                      fontWeight: FontWeight.bold,
-                      color: index == 0
-                          ? Colors.white
-                          : AppColors.primaryDarkBlackBlue,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                'Địa điểm $label',
-                style: const TextStyle(
-                  fontSize: AppTextTheme.bodyLarge,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-
-          // Province dropdown placeholder
-          _buildDropdownField(
-            hint: 'Chọn tỉnh, thành phố',
-            icon: Icons.location_on_outlined,
-            suffixIcon: Icons.keyboard_arrow_down_rounded,
-            onTap: () {},
-          ),
-          const SizedBox(height: 10),
-
-          // Address input
-          CoordinatorInputField(
-            hintText: 'Nhập địa chỉ chi tiết',
-            controller: stop.addressController,
-            suffixIcon: const Icon(
-              Icons.edit_outlined,
-              size: 16,
-              color: AppColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          // Date and Time row
-          Row(
-            children: [
-              Expanded(
-                child: _buildPickerButton(
-                  label: _formatDate(stop.selectedDate).isNotEmpty
-                      ? _formatDate(stop.selectedDate)
-                      : 'Chọn ngày bắt đầu',
-                  icon: Icons.calendar_today_outlined,
-                  onTap: () => _pickDate(index),
-                  hasValue: stop.selectedDate != null,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _buildPickerButton(
-                  label: _formatTime(stop.selectedTime).isNotEmpty
-                      ? _formatTime(stop.selectedTime)
-                      : 'Chọn thời gian',
-                  icon: Icons.access_time_rounded,
-                  onTap: () => _pickTime(index),
-                  hasValue: stop.selectedTime != null,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDropdownField({
-    required String hint,
-    required IconData icon,
-    required IconData suffixIcon,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 40,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.primaryDarkBlackBlue, width: 1.5),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 16, color: AppColors.textSecondary),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                hint,
-                style: const TextStyle(
-                  fontSize: AppTextTheme.bodyMedium,
-                  color: AppColors.textHint,
-                ),
-              ),
-            ),
-            Icon(suffixIcon, size: 18, color: AppColors.textSecondary),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildPickerButton({
     required String label,
     required IconData icon,
@@ -473,8 +343,8 @@ class _CoordinatorCreateCoachScreenState
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 40,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 44,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: AppColors.primaryDarkBlackBlue, width: 1.5),
@@ -492,20 +362,10 @@ class _CoordinatorCreateCoachScreenState
               ),
             ),
             const SizedBox(width: 4),
-            Icon(icon, size: 16, color: AppColors.textSecondary),
+            Icon(icon, size: 18, color: AppColors.textPrimary),
           ],
         ),
       ),
     );
-  }
-}
-
-class _StopPoint {
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-  final TextEditingController addressController = TextEditingController();
-
-  void dispose() {
-    addressController.dispose();
   }
 }

@@ -13,20 +13,20 @@ import 'package:travery_frontend/data/services/api/model/authentication/resend_o
 import 'package:travery_frontend/data/services/api/model/authentication/reset_password_request/reset_password_request.dart';
 import 'package:travery_frontend/data/services/api/model/authentication/signup_request/signup_request.dart';
 import 'package:travery_frontend/data/services/api/model/authentication/verify_otp_request/verify_otp_request.dart';
-
 import 'package:travery_frontend/utils/core_result.dart';
 
 class AuthService {
-  AuthService({String? host, int? port, HttpClient Function()? clientFactory})
+  AuthService({String? host, HttpClient Function()? clientFactory})
     : _host = host ?? AppConfig.host,
-      _port = port ?? AppConfig.port,
       _clientFactory = clientFactory ?? HttpClient.new;
 
   final String _host;
-  final int _port;
   final HttpClient Function() _clientFactory;
 
-  Future<String> _extractErrorMessage(HttpClientResponse response, String defaultMessage) async {
+  Future<String> _extractErrorMessage(
+    HttpClientResponse response,
+    String defaultMessage,
+  ) async {
     try {
       final stringData = await response.transform(utf8.decoder).join();
       final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
@@ -41,7 +41,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/login');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/login'),
+      );
       // set header Content-Type: application/json
       // Báo cho sever biết file sắp gửi là json
       request.headers.set(
@@ -72,7 +74,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/signup');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/signup'),
+      );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
         ContentType.json.value,
@@ -100,7 +104,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/forgot-password');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/forgot-password'),
+      );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
         ContentType.json.value,
@@ -111,7 +117,10 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        final errorMsg = await _extractErrorMessage(response, "Forgot Password Error");
+        final errorMsg = await _extractErrorMessage(
+          response,
+          "Forgot Password Error",
+        );
         return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
@@ -126,7 +135,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/verify-otp');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/verify-otp'),
+      );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
         ContentType.json.value,
@@ -137,7 +148,10 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        final errorMsg = await _extractErrorMessage(response, "Verify OTP Error");
+        final errorMsg = await _extractErrorMessage(
+          response,
+          "Verify OTP Error",
+        );
         return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
@@ -152,7 +166,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/resend-otp');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/resend-otp'),
+      );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
         ContentType.json.value,
@@ -163,7 +179,10 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        final errorMsg = await _extractErrorMessage(response, "Resend OTP Error");
+        final errorMsg = await _extractErrorMessage(
+          response,
+          "Resend OTP Error",
+        );
         return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
@@ -180,7 +199,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/reset-password');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/reset-password'),
+      );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
         ContentType.json.value,
@@ -191,7 +212,10 @@ class AuthService {
       if (response.statusCode == 200) {
         return const Result.ok(null);
       } else {
-        final errorMsg = await _extractErrorMessage(response, "Reset Password Error");
+        final errorMsg = await _extractErrorMessage(
+          response,
+          "Reset Password Error",
+        );
         return Result.error(HttpException(errorMsg));
       }
     } on Exception catch (error) {
@@ -206,7 +230,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/logout');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/logout'),
+      );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
         ContentType.json.value,
@@ -232,7 +258,9 @@ class AuthService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final request = await client.post(_host, _port, '/auth/refresh');
+      final request = await client.postUrl(
+        Uri.https(_host, '/api/v1/auth/refresh'),
+      );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
         ContentType.json.value,

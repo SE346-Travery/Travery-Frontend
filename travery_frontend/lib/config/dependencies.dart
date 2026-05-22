@@ -40,6 +40,7 @@ import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_coach_template_list_view_model.dart';
 
 List<SingleChildWidget> get providers => [
   Provider(create: (context) => AuthService()),
@@ -114,16 +115,6 @@ List<SingleChildWidget> get providers => [
   ChangeNotifierProvider(
     create: (context) => TourCompletedViewModel(
       repository: context.read<TourCompletedRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => CoordinatorTourListViewModel(
-      coordinatorRepository: context.read<CoordinatorRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => CoordinatorTourTemplateListViewModel(
-      coordinatorRepository: context.read<CoordinatorRepository>(),
     ),
   ),
 ];

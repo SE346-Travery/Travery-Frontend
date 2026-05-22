@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_view_model.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 
 class CoordinatorCreateTourScreen extends StatefulWidget {
-  final CoordinatorTourTemplate? selectedTemplate;
+  final CoordinatorCreateTourViewModel viewModel;
 
-  const CoordinatorCreateTourScreen({super.key, this.selectedTemplate});
+  /// The tour template ID selected from the template list screen.
+  final String tourId;
+
+  /// Optional display name for the selected template.
+  final String? tourName;
+
+  const CoordinatorCreateTourScreen({
+    super.key,
+    required this.viewModel,
+    required this.tourId,
+    this.tourName,
+  });
 
   @override
   State<CoordinatorCreateTourScreen> createState() =>
@@ -18,7 +29,33 @@ class _CoordinatorCreateTourScreenState
   DateTime? _startDate;
   DateTime? _endDate;
 
-  CoordinatorTourTemplate? get _template => widget.selectedTemplate;
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.createTour.addListener(_onCreateTourChanged);
+  }
+
+  void _onCreateTourChanged() {
+    if (!mounted) return;
+    if (widget.viewModel.createTour.completed) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tour đã được tạo thành công!')),
+      );
+      Navigator.of(context).pop(true);
+    } else if (widget.viewModel.createTour.error) {
+      final error = widget.viewModel.createTour.result;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Đã xảy ra lỗi: $error')),
+      );
+    }
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.createTour.removeListener(_onCreateTourChanged);
+    super.dispose();
+  }
 
   Future<void> _pickDate({required bool isStart}) async {
     final now = DateTime.now();
@@ -58,26 +95,18 @@ class _CoordinatorCreateTourScreenState
     }
   }
 
-  String _formatDate(DateTime? date) {
+  String _formatDateDisplay(DateTime? date) {
     if (date == null) return '';
     return '${date.day.toString().padLeft(2, '0')}/'
         '${date.month.toString().padLeft(2, '0')}/'
         '${date.year}';
   }
 
-  String _formatPrice(String priceStr) {
-    try {
-      final value = int.parse(priceStr);
-      final buffer = StringBuffer();
-      final s = value.toString();
-      for (int i = 0; i < s.length; i++) {
-        if (i > 0 && (s.length - i) % 3 == 0) buffer.write('.');
-        buffer.write(s[i]);
-      }
-      return '${buffer.toString()}đ';
-    } catch (_) {
-      return '$priceStr đ';
-    }
+  /// Format date as ISO-8601 (yyyy-MM-dd) for the API.
+  String _formatDateApi(DateTime date) {
+    return '${date.year}-'
+        '${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')}';
   }
 
   void _onConfirm() {
@@ -89,13 +118,16 @@ class _CoordinatorCreateTourScreenState
       );
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Tour đã được tạo thành công!')),
+    widget.viewModel.execute(
+      tourId: widget.tourId,
+      startDate: _formatDateApi(_startDate!),
+      endDate: _formatDateApi(_endDate!),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = widget.viewModel.createTour.running;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -138,24 +170,35 @@ class _CoordinatorCreateTourScreenState
                     ),
                   ),
                   Material(
-                    color: AppColors.primaryDarkBlackBlue,
+                    color: isLoading
+                        ? AppColors.primaryDarkBlackBlue.withOpacity(0.6)
+                        : AppColors.primaryDarkBlackBlue,
                     borderRadius: BorderRadius.circular(8),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8),
-                      onTap: _onConfirm,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
+                      onTap: isLoading ? null : _onConfirm,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 8,
                         ),
-                        child: Text(
-                          'Xác nhận',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: AppTextTheme.bodyMedium,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: isLoading
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                'Xác nhận',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: AppTextTheme.bodyMedium,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
                     ),
                   ),
@@ -177,13 +220,7 @@ class _CoordinatorCreateTourScreenState
                     // ── Lộ trình đã chọn ─────────────────────────────────
                     _buildSectionHeader('Lộ trình đã chọn'),
                     const SizedBox(height: 12),
-
-                    if (_template != null) ...[
-                      _buildSelectedTemplateCard(_template!),
-                    ] else ...[
-                      _buildEmptyTemplateCard(context),
-                    ],
-
+                    _buildSelectedTemplateCard(),
                     const SizedBox(height: 24),
 
                     // ── Date pickers ─────────────────────────────────────
@@ -193,7 +230,7 @@ class _CoordinatorCreateTourScreenState
                           child: _buildDateField(
                             label: 'Ngày bắt đầu',
                             hint: 'Chọn ngày...',
-                            value: _formatDate(_startDate),
+                            value: _formatDateDisplay(_startDate),
                             onTap: () => _pickDate(isStart: true),
                           ),
                         ),
@@ -202,7 +239,7 @@ class _CoordinatorCreateTourScreenState
                           child: _buildDateField(
                             label: 'Ngày kết thúc',
                             hint: 'Chọn ngày...',
-                            value: _formatDate(_endDate),
+                            value: _formatDateDisplay(_endDate),
                             onTap: () => _pickDate(isStart: false),
                           ),
                         ),
@@ -244,12 +281,17 @@ class _CoordinatorCreateTourScreenState
     );
   }
 
-  Widget _buildSelectedTemplateCard(CoordinatorTourTemplate template) {
+  Widget _buildSelectedTemplateCard() {
     return Container(
       width: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.primaryDarkBlackBlue,
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -258,46 +300,27 @@ class _CoordinatorCreateTourScreenState
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          // Template hero image
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: SizedBox(
-              height: 180,
-              width: double.infinity,
-              child: template.imageUrl.isNotEmpty
-                  ? Image.network(
-                      template.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        color: AppColors.inputBackground,
-                        child: const Icon(
-                          Icons.image_outlined,
-                          color: AppColors.icon,
-                          size: 48,
-                        ),
-                      ),
-                    )
-                  : Container(
-                      color: AppColors.inputBackground,
-                      child: const Icon(
-                        Icons.image_outlined,
-                        color: AppColors.icon,
-                        size: 48,
-                      ),
-                    ),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.travel_explore,
+              color: AppColors.primary,
+              size: 28,
             ),
           ),
-          // Template info
-          Padding(
-            padding: const EdgeInsets.all(14),
+          const SizedBox(width: 16),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  template.name,
+                  widget.tourName ?? 'Tour đã chọn',
                   style: const TextStyle(
                     fontSize: AppTextTheme.bodyLarge,
                     fontWeight: FontWeight.bold,
@@ -306,53 +329,17 @@ class _CoordinatorCreateTourScreenState
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _formatPrice(template.adultPrice),
+                  'ID: ${widget.tourId}',
                   style: const TextStyle(
-                    fontSize: AppTextTheme.bodyMedium,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
+                    fontSize: AppTextTheme.bodySmall,
+                    color: AppColors.textSecondary,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildEmptyTemplateCard(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Navigate to template selection
-        Navigator.of(context).pop();
-      },
-      child: Container(
-        height: 120,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: AppColors.primaryDarkBlackBlue,
-            width: 1.5,
-            style: BorderStyle.solid,
-          ),
-        ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.add_circle_outline, color: AppColors.primary, size: 32),
-            SizedBox(height: 8),
-            Text(
-              'Chọn lộ trình',
-              style: TextStyle(
-                fontSize: AppTextTheme.bodyMedium,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

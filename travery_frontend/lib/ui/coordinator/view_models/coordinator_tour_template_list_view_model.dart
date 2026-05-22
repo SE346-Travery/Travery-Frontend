@@ -1,67 +1,63 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
+import 'package:travery_frontend/utils/command.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
-class CoordinatorTourTemplateListViewModel extends ChangeNotifier {
-  final CoordinatorRepository _coordinatorRepository;
-
+/// ViewModel for the template list screen.
+/// Templates are fetched from the tours API; for now this returns an empty
+/// list until the tours-templates endpoint is wired up.
+class CoordinatorTourTemplateListViewModel {
   CoordinatorTourTemplateListViewModel({
-    required CoordinatorRepository coordinatorRepository,
-  }) : _coordinatorRepository = coordinatorRepository;
-
-  List<CoordinatorTourTemplate> _allTemplates = [];
-  List<CoordinatorTourTemplate> _filteredTemplates = [];
-  List<CoordinatorTourTemplate> get templates => _filteredTemplates;
-
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
-  String _searchQuery = '';
-  String get searchQuery => _searchQuery;
-
-  Future<void> loadTemplates() async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    final result = await _coordinatorRepository.getAllTemplates();
-
-    switch (result) {
-      case Ok<List<CoordinatorTourTemplate>>():
-        _allTemplates = result.value;
-        _applyFilters();
-      case Error<List<CoordinatorTourTemplate>>():
-        _errorMessage = result.error.toString();
-    }
-
-    _isLoading = false;
-    notifyListeners();
+    // ignore: unused_element
+    Object? coordinatorRepository,
+  }) {
+    loadTemplates = Command0(_loadTemplates);
+    searchQuery.addListener(_applyFilters);
+    loadTemplates.addListener(_onTemplatesLoaded);
   }
 
-  void setSearchQuery(String query) {
-    _searchQuery = query;
-    _applyFilters();
-    notifyListeners();
+  late final Command0<List<CoordinatorTourTemplate>> loadTemplates;
+  final ValueNotifier<String> searchQuery = ValueNotifier('');
+  final ValueNotifier<List<CoordinatorTourTemplate>> filteredTemplates =
+      ValueNotifier([]);
+
+  Future<Result<List<CoordinatorTourTemplate>>> _loadTemplates() async {
+    // TODO: wire up to a real tours/templates API service when available.
+    await Future.delayed(const Duration(milliseconds: 200));
+    return const Result.ok([]);
+  }
+
+  void _onTemplatesLoaded() {
+    if (loadTemplates.completed) {
+      _applyFilters();
+    } else {
+      filteredTemplates.value = [];
+    }
   }
 
   void _applyFilters() {
-    if (_searchQuery.trim().isEmpty) {
-      _filteredTemplates = List.from(_allTemplates);
+    if (!loadTemplates.completed) return;
+
+    final allTemplates =
+        (loadTemplates.result as Ok<List<CoordinatorTourTemplate>>).value;
+    final query = searchQuery.value.trim().toLowerCase();
+
+    if (query.isEmpty) {
+      filteredTemplates.value = List.from(allTemplates);
     } else {
-      final lowercaseQuery = _searchQuery.toLowerCase();
-      _filteredTemplates = _allTemplates.where((template) {
-        final nameMatches = template.name.toLowerCase().contains(
-          lowercaseQuery,
-        );
-        final descMatches = template.description.toLowerCase().contains(
-          lowercaseQuery,
-        );
-        return nameMatches || descMatches;
-      }).toList();
+      filteredTemplates.value =
+          allTemplates.where((template) {
+            final nameMatches = template.name.toLowerCase().contains(query);
+            final descMatches =
+                template.description.toLowerCase().contains(query);
+            return nameMatches || descMatches;
+          }).toList();
     }
+  }
+
+  void dispose() {
+    searchQuery.dispose();
+    filteredTemplates.dispose();
+    loadTemplates.dispose();
   }
 }

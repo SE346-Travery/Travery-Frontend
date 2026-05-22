@@ -1,18 +1,43 @@
-import 'package:travery_frontend/domain/models/coordinator/coordinator_hotel/coordinator_hotel.dart';
-import 'package:travery_frontend/domain/models/coordinator/coordinator_guide/coordinator_guilde.dart';
-import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
-import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_member/coordinator_tour_member.dart';
-
 class CoordinatorTour {
-  final CoordinatorTourTemplate tourTemplate;
-  final CoordinatorHotel hotel;
-  final CoordinatorGuide guide;
-  final CoordinatorTourMember tourMember;
+  final String id;
+  final String tourName;
+  final String destinationName;
+  final String pickupLocation;
+  final String startDate;
+  final String endDate;
+  final int minParticipants;
+  final int maxParticipants;
+  final int currentParticipants;
+  final String status;
+  final String? guideId;
+  final String? guideName;
+  final String? guidePhone;
+  final String? coachId;
+  final String? coachLicensePlate;
+  final String? coachType;
+  final String? driverId;
+  final String? driverName;
+  final String? driverPhone;
 
   const CoordinatorTour({
-    required this.tourTemplate,
-    required this.hotel,
-    required this.guide,
-    required this.tourMember,
+    required this.id,
+    required this.tourName,
+    required this.destinationName,
+    required this.pickupLocation,
+    required this.startDate,
+    required this.endDate,
+    required this.minParticipants,
+    required this.maxParticipants,
+    required this.currentParticipants,
+    required this.status,
+    this.guideId,
+    this.guideName,
+    this.guidePhone,
+    this.coachId,
+    this.coachLicensePlate,
+    this.coachType,
+    this.driverId,
+    this.driverName,
+    this.driverPhone,
   });
 }

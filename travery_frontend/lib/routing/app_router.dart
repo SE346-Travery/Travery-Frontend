@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
+import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository.dart';
 import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
@@ -16,6 +17,7 @@ import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_mo
 import 'package:travery_frontend/ui/authentication/view_models/confirm_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/forgot_password_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/register_view_model.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_main_screen.dart';
 import 'package:travery_frontend/ui/user/tour/booking/cancel_confirmation/cancel_confirmation_screen.dart';
 import 'package:travery_frontend/ui/user/tour/booking/cancel_confirmation/view_models/cancel_confirmation_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/booking/cancellation_success/cancellation_success_screen.dart';
@@ -57,11 +59,14 @@ import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
 import '../ui/admin/view/create_vehicle_screen.dart';
 import '../ui/admin/view/update_vehicle_screen.dart';
-import 'package:travery_frontend/ui/coordinator/view/coordinator_tour_list_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_list_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_template_list_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_template_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_template_screen.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
@@ -204,8 +209,16 @@ GoRouter appRouter(AuthRepository authRepository) {
 
       // --- COORDINATOR ROUTES ---
       GoRoute(
+        path: Routes.coordinatorMain,
+        builder: (context, state) => const CoordinatorMainScreen(),
+      ),
+      GoRoute(
         path: Routes.coordinatorHome,
-        builder: (context, state) => const CoordinatorTourListScreen(),
+        builder: (context, state) => CoordinatorTourListScreen(
+          viewModel: CoordinatorTourListViewModel(
+            coordinatorRepository: context.read<CoordinatorRepository>(),
+          ),
+        ),
       ),
       GoRoute(
         path: Routes.coordinatorTourDetail,
@@ -216,17 +229,26 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.coordinatorTourTemplateList,
-        builder: (context, state) => const CoordinatorViewTourTemplateScreen(),
+        builder: (context, state) => CoordinatorViewTourTemplateListScreen(
+          viewModel: CoordinatorTourTemplateListViewModel(
+            coordinatorRepository: context.read<CoordinatorRepository>(),
+          ),
+        ),
       ),
       GoRoute(
         path: Routes.coordinatorCreateTourTemplate,
-        builder: (context, state) => const CoordinatorCreateTourTemplateScreen(),
+        builder: (context, state) =>
+            const CoordinatorCreateTourTemplateScreen(),
       ),
       GoRoute(
         path: Routes.coordinatorCreateTour,
         builder: (context, state) {
           final template = state.extra as CoordinatorTourTemplate?;
-          return CoordinatorCreateTourScreen(selectedTemplate: template);
+          return CoordinatorCreateTourScreen(
+            viewModel: context.read<CoordinatorCreateTourViewModel>(),
+            tourId: template?.id ?? '',
+            tourName: template?.name,
+          );
         },
       ),
       GoRoute(

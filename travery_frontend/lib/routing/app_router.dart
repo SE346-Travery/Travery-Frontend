@@ -50,7 +50,7 @@ import '../ui/admin/view/vehicle_management_screen.dart';
 import '../ui/admin/view/dashboard_screen.dart';
 import '../ui/admin/view/hotel_management_screen.dart';
 import '../ui/user/tour/detail/tour_detail_screen.dart';
-import '../ui/user/tour/booking/booking_screen.dart';
+import '../ui/user/tour/booking/tour_booking_screen.dart';
 import '../ui/user/tour/booking/review/booking_review_screen.dart';
 import '../ui/user/tour/booking/payment/payment_screen.dart';
 import '../ui/user/tour/booking/payment/booking_success_screen.dart';
@@ -161,7 +161,7 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.tourBooking,
-        builder: (context, state) => const BookingScreen(),
+        builder: (context, state) => const TourBookingScreen(),
       ),
       GoRoute(
         path: Routes.tourBookingReview,

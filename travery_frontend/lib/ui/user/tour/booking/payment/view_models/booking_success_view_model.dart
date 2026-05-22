@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:travery_frontend/data/seed_models/tour/tour.dart';
+import 'package:travery_frontend/data/models/tour/tour_detail_page_data.dart';
 import 'package:travery_frontend/data/seed_models/tour_instance/tour_instance.dart';
 import 'package:travery_frontend/ui/user/tour/booking/view_models/booking_view_model.dart';
 
@@ -13,7 +13,7 @@ class BookingSuccessViewModel extends ChangeNotifier {
     _generateBookingCode();
   }
 
-  Tour? get tour => _bookingViewModel.tour;
+  TourDetailPageData? get tour => _bookingViewModel.tour;
   TourInstance? get selectedInstance => _bookingViewModel.selectedInstance;
   String get contactName => _bookingViewModel.contactName;
   String get contactPhone => _bookingViewModel.contactPhone;

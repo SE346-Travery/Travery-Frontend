@@ -62,10 +62,10 @@ class _BookingReviewScreenContentState
                     children: [
                       BookingReviewSummaryCard(
                         title: tour.name,
-                        tourCode: tour.id ?? 'N/A',
+                        tourCode: tour.id,
                         dateRange: viewModel.dateRange,
                         imageUrl: tour.images?.isNotEmpty == true
-                            ? tour.images!.first.imageUrl
+                            ? tour.images!.first.url
                             : 'https://picsum.photos/150',
                       ),
                       const SizedBox(height: 12),

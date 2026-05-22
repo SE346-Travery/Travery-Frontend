@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/core/widgets/app_bar_widget.dart';
+import 'package:travery_frontend/ui/user/home/widgets/tour_card_compact.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/list/widgets/filter_sort_bar.dart';
-import 'package:travery_frontend/ui/user/tour/list/widgets/tour_vertical_card.dart';
 import 'package:travery_frontend/utils/format_utils.dart';
 
 class TourListScreen extends StatefulWidget {
@@ -87,15 +87,19 @@ class _TourListScreenState extends State<TourListScreen> {
                               const SizedBox(height: 16),
                           itemBuilder: (context, index) {
                             final tour = viewModel.tours[index];
-                            return TourVerticalCard(
-                              tour: tour,
-                              instance: tour.instances?.isNotEmpty == true
-                                  ? tour.instances!.first
-                                  : null,
+                            return TourCardCompact(
+                              imageUrl:
+                                  tour.thumbnailUrl ??
+                                  'https://picsum.photos/400?random=$index',
+                              rating:
+                                  '★ ${tour.averageRating?.toStringAsFixed(1) ?? 'N/A'}',
+                              duration:
+                                  '${tour.durationDays ?? 0}N${(tour.durationDays ?? 1) - 1}Đ',
+                              title: tour.name,
+                              price: FormatUtils.formatCurrency(tour.price),
+                              layout: TourCardLayout.list,
                               onTap: () {
-                                if (tour.id != null) {
-                                  context.push('/tour/${tour.id}');
-                                }
+                                context.push('/tour/${tour.id}');
                               },
                             );
                           },

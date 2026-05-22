@@ -23,30 +23,19 @@ Tour _$TourFromJson(Map<String, dynamic> json) {
 mixin _$Tour {
   String? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  Map<String, dynamic>? get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'price_per_adult')
+  String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'pricePerAdult')
   double get pricePerAdult => throw _privateConstructorUsedError;
-  @JsonKey(name: 'price_per_child')
+  @JsonKey(name: 'pricePerChild')
   double get pricePerChild => throw _privateConstructorUsedError;
-  @JsonKey(name: 'max_capacity')
-  int get maxCapacity => throw _privateConstructorUsedError;
-  @JsonKey(name: 'min_capacity')
-  int get minCapacity => throw _privateConstructorUsedError;
-  @JsonKey(name: 'is_custom')
-  bool get isCustom => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_for_user_id')
-  String? get createdForUserId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'expires_at')
-  DateTime? get expiresAt => throw _privateConstructorUsedError;
-  TourStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'hotel_id')
-  String? get hotelId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'couch_id')
-  String? get couchId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'averageRating')
+  double get averageRating => throw _privateConstructorUsedError;
+  @JsonKey(name: 'ratingCount')
+  int get ratingCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'startLocation')
+  String get startLocation => throw _privateConstructorUsedError;
+  @JsonKey(name: 'durationDays')
+  int get durationDays => throw _privateConstructorUsedError;
 
   /// RELATIONS
   List<TourImage>? get images => throw _privateConstructorUsedError;
@@ -69,19 +58,13 @@ abstract class $TourCopyWith<$Res> {
   $Res call({
     String? id,
     String name,
-    Map<String, dynamic>? description,
-    @JsonKey(name: 'price_per_adult') double pricePerAdult,
-    @JsonKey(name: 'price_per_child') double pricePerChild,
-    @JsonKey(name: 'max_capacity') int maxCapacity,
-    @JsonKey(name: 'min_capacity') int minCapacity,
-    @JsonKey(name: 'is_custom') bool isCustom,
-    @JsonKey(name: 'created_for_user_id') String? createdForUserId,
-    @JsonKey(name: 'expires_at') DateTime? expiresAt,
-    TourStatus status,
-    @JsonKey(name: 'hotel_id') String? hotelId,
-    @JsonKey(name: 'couch_id') String? couchId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String? description,
+    @JsonKey(name: 'pricePerAdult') double pricePerAdult,
+    @JsonKey(name: 'pricePerChild') double pricePerChild,
+    @JsonKey(name: 'averageRating') double averageRating,
+    @JsonKey(name: 'ratingCount') int ratingCount,
+    @JsonKey(name: 'startLocation') String startLocation,
+    @JsonKey(name: 'durationDays') int durationDays,
     List<TourImage>? images,
     List<TourInstance>? instances,
   });
@@ -107,16 +90,10 @@ class _$TourCopyWithImpl<$Res, $Val extends Tour>
     Object? description = freezed,
     Object? pricePerAdult = null,
     Object? pricePerChild = null,
-    Object? maxCapacity = null,
-    Object? minCapacity = null,
-    Object? isCustom = null,
-    Object? createdForUserId = freezed,
-    Object? expiresAt = freezed,
-    Object? status = null,
-    Object? hotelId = freezed,
-    Object? couchId = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? averageRating = null,
+    Object? ratingCount = null,
+    Object? startLocation = null,
+    Object? durationDays = null,
     Object? images = freezed,
     Object? instances = freezed,
   }) {
@@ -133,7 +110,7 @@ class _$TourCopyWithImpl<$Res, $Val extends Tour>
             description: freezed == description
                 ? _value.description
                 : description // ignore: cast_nullable_to_non_nullable
-                      as Map<String, dynamic>?,
+                      as String?,
             pricePerAdult: null == pricePerAdult
                 ? _value.pricePerAdult
                 : pricePerAdult // ignore: cast_nullable_to_non_nullable
@@ -142,46 +119,22 @@ class _$TourCopyWithImpl<$Res, $Val extends Tour>
                 ? _value.pricePerChild
                 : pricePerChild // ignore: cast_nullable_to_non_nullable
                       as double,
-            maxCapacity: null == maxCapacity
-                ? _value.maxCapacity
-                : maxCapacity // ignore: cast_nullable_to_non_nullable
+            averageRating: null == averageRating
+                ? _value.averageRating
+                : averageRating // ignore: cast_nullable_to_non_nullable
+                      as double,
+            ratingCount: null == ratingCount
+                ? _value.ratingCount
+                : ratingCount // ignore: cast_nullable_to_non_nullable
                       as int,
-            minCapacity: null == minCapacity
-                ? _value.minCapacity
-                : minCapacity // ignore: cast_nullable_to_non_nullable
+            startLocation: null == startLocation
+                ? _value.startLocation
+                : startLocation // ignore: cast_nullable_to_non_nullable
+                      as String,
+            durationDays: null == durationDays
+                ? _value.durationDays
+                : durationDays // ignore: cast_nullable_to_non_nullable
                       as int,
-            isCustom: null == isCustom
-                ? _value.isCustom
-                : isCustom // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            createdForUserId: freezed == createdForUserId
-                ? _value.createdForUserId
-                : createdForUserId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            expiresAt: freezed == expiresAt
-                ? _value.expiresAt
-                : expiresAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as TourStatus,
-            hotelId: freezed == hotelId
-                ? _value.hotelId
-                : hotelId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            couchId: freezed == couchId
-                ? _value.couchId
-                : couchId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            createdAt: freezed == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            updatedAt: freezed == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
             images: freezed == images
                 ? _value.images
                 : images // ignore: cast_nullable_to_non_nullable
@@ -207,19 +160,13 @@ abstract class _$$TourImplCopyWith<$Res> implements $TourCopyWith<$Res> {
   $Res call({
     String? id,
     String name,
-    Map<String, dynamic>? description,
-    @JsonKey(name: 'price_per_adult') double pricePerAdult,
-    @JsonKey(name: 'price_per_child') double pricePerChild,
-    @JsonKey(name: 'max_capacity') int maxCapacity,
-    @JsonKey(name: 'min_capacity') int minCapacity,
-    @JsonKey(name: 'is_custom') bool isCustom,
-    @JsonKey(name: 'created_for_user_id') String? createdForUserId,
-    @JsonKey(name: 'expires_at') DateTime? expiresAt,
-    TourStatus status,
-    @JsonKey(name: 'hotel_id') String? hotelId,
-    @JsonKey(name: 'couch_id') String? couchId,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    String? description,
+    @JsonKey(name: 'pricePerAdult') double pricePerAdult,
+    @JsonKey(name: 'pricePerChild') double pricePerChild,
+    @JsonKey(name: 'averageRating') double averageRating,
+    @JsonKey(name: 'ratingCount') int ratingCount,
+    @JsonKey(name: 'startLocation') String startLocation,
+    @JsonKey(name: 'durationDays') int durationDays,
     List<TourImage>? images,
     List<TourInstance>? instances,
   });
@@ -242,16 +189,10 @@ class __$$TourImplCopyWithImpl<$Res>
     Object? description = freezed,
     Object? pricePerAdult = null,
     Object? pricePerChild = null,
-    Object? maxCapacity = null,
-    Object? minCapacity = null,
-    Object? isCustom = null,
-    Object? createdForUserId = freezed,
-    Object? expiresAt = freezed,
-    Object? status = null,
-    Object? hotelId = freezed,
-    Object? couchId = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? averageRating = null,
+    Object? ratingCount = null,
+    Object? startLocation = null,
+    Object? durationDays = null,
     Object? images = freezed,
     Object? instances = freezed,
   }) {
@@ -266,9 +207,9 @@ class __$$TourImplCopyWithImpl<$Res>
             : name // ignore: cast_nullable_to_non_nullable
                   as String,
         description: freezed == description
-            ? _value._description
+            ? _value.description
             : description // ignore: cast_nullable_to_non_nullable
-                  as Map<String, dynamic>?,
+                  as String?,
         pricePerAdult: null == pricePerAdult
             ? _value.pricePerAdult
             : pricePerAdult // ignore: cast_nullable_to_non_nullable
@@ -277,46 +218,22 @@ class __$$TourImplCopyWithImpl<$Res>
             ? _value.pricePerChild
             : pricePerChild // ignore: cast_nullable_to_non_nullable
                   as double,
-        maxCapacity: null == maxCapacity
-            ? _value.maxCapacity
-            : maxCapacity // ignore: cast_nullable_to_non_nullable
+        averageRating: null == averageRating
+            ? _value.averageRating
+            : averageRating // ignore: cast_nullable_to_non_nullable
+                  as double,
+        ratingCount: null == ratingCount
+            ? _value.ratingCount
+            : ratingCount // ignore: cast_nullable_to_non_nullable
                   as int,
-        minCapacity: null == minCapacity
-            ? _value.minCapacity
-            : minCapacity // ignore: cast_nullable_to_non_nullable
+        startLocation: null == startLocation
+            ? _value.startLocation
+            : startLocation // ignore: cast_nullable_to_non_nullable
+                  as String,
+        durationDays: null == durationDays
+            ? _value.durationDays
+            : durationDays // ignore: cast_nullable_to_non_nullable
                   as int,
-        isCustom: null == isCustom
-            ? _value.isCustom
-            : isCustom // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        createdForUserId: freezed == createdForUserId
-            ? _value.createdForUserId
-            : createdForUserId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        expiresAt: freezed == expiresAt
-            ? _value.expiresAt
-            : expiresAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as TourStatus,
-        hotelId: freezed == hotelId
-            ? _value.hotelId
-            : hotelId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        couchId: freezed == couchId
-            ? _value.couchId
-            : couchId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        createdAt: freezed == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        updatedAt: freezed == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
         images: freezed == images
             ? _value._images
             : images // ignore: cast_nullable_to_non_nullable
@@ -336,23 +253,16 @@ class _$TourImpl implements _Tour {
   const _$TourImpl({
     this.id,
     required this.name,
-    final Map<String, dynamic>? description,
-    @JsonKey(name: 'price_per_adult') required this.pricePerAdult,
-    @JsonKey(name: 'price_per_child') required this.pricePerChild,
-    @JsonKey(name: 'max_capacity') required this.maxCapacity,
-    @JsonKey(name: 'min_capacity') required this.minCapacity,
-    @JsonKey(name: 'is_custom') required this.isCustom,
-    @JsonKey(name: 'created_for_user_id') this.createdForUserId,
-    @JsonKey(name: 'expires_at') this.expiresAt,
-    required this.status,
-    @JsonKey(name: 'hotel_id') this.hotelId,
-    @JsonKey(name: 'couch_id') this.couchId,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    this.description,
+    @JsonKey(name: 'pricePerAdult') required this.pricePerAdult,
+    @JsonKey(name: 'pricePerChild') required this.pricePerChild,
+    @JsonKey(name: 'averageRating') this.averageRating = 0.0,
+    @JsonKey(name: 'ratingCount') this.ratingCount = 0,
+    @JsonKey(name: 'startLocation') this.startLocation = '',
+    @JsonKey(name: 'durationDays') this.durationDays = 0,
     final List<TourImage>? images,
     final List<TourInstance>? instances,
-  }) : _description = description,
-       _images = images,
+  }) : _images = images,
        _instances = instances;
 
   factory _$TourImpl.fromJson(Map<String, dynamic> json) =>
@@ -362,51 +272,26 @@ class _$TourImpl implements _Tour {
   final String? id;
   @override
   final String name;
-  final Map<String, dynamic>? _description;
   @override
-  Map<String, dynamic>? get description {
-    final value = _description;
-    if (value == null) return null;
-    if (_description is EqualUnmodifiableMapView) return _description;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
-
+  final String? description;
   @override
-  @JsonKey(name: 'price_per_adult')
+  @JsonKey(name: 'pricePerAdult')
   final double pricePerAdult;
   @override
-  @JsonKey(name: 'price_per_child')
+  @JsonKey(name: 'pricePerChild')
   final double pricePerChild;
   @override
-  @JsonKey(name: 'max_capacity')
-  final int maxCapacity;
+  @JsonKey(name: 'averageRating')
+  final double averageRating;
   @override
-  @JsonKey(name: 'min_capacity')
-  final int minCapacity;
+  @JsonKey(name: 'ratingCount')
+  final int ratingCount;
   @override
-  @JsonKey(name: 'is_custom')
-  final bool isCustom;
+  @JsonKey(name: 'startLocation')
+  final String startLocation;
   @override
-  @JsonKey(name: 'created_for_user_id')
-  final String? createdForUserId;
-  @override
-  @JsonKey(name: 'expires_at')
-  final DateTime? expiresAt;
-  @override
-  final TourStatus status;
-  @override
-  @JsonKey(name: 'hotel_id')
-  final String? hotelId;
-  @override
-  @JsonKey(name: 'couch_id')
-  final String? couchId;
-  @override
-  @JsonKey(name: 'created_at')
-  final DateTime? createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  final DateTime? updatedAt;
+  @JsonKey(name: 'durationDays')
+  final int durationDays;
 
   /// RELATIONS
   final List<TourImage>? _images;
@@ -433,7 +318,7 @@ class _$TourImpl implements _Tour {
 
   @override
   String toString() {
-    return 'Tour(id: $id, name: $name, description: $description, pricePerAdult: $pricePerAdult, pricePerChild: $pricePerChild, maxCapacity: $maxCapacity, minCapacity: $minCapacity, isCustom: $isCustom, createdForUserId: $createdForUserId, expiresAt: $expiresAt, status: $status, hotelId: $hotelId, couchId: $couchId, createdAt: $createdAt, updatedAt: $updatedAt, images: $images, instances: $instances)';
+    return 'Tour(id: $id, name: $name, description: $description, pricePerAdult: $pricePerAdult, pricePerChild: $pricePerChild, averageRating: $averageRating, ratingCount: $ratingCount, startLocation: $startLocation, durationDays: $durationDays, images: $images, instances: $instances)';
   }
 
   @override
@@ -443,31 +328,20 @@ class _$TourImpl implements _Tour {
             other is _$TourImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(
-              other._description,
-              _description,
-            ) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.pricePerAdult, pricePerAdult) ||
                 other.pricePerAdult == pricePerAdult) &&
             (identical(other.pricePerChild, pricePerChild) ||
                 other.pricePerChild == pricePerChild) &&
-            (identical(other.maxCapacity, maxCapacity) ||
-                other.maxCapacity == maxCapacity) &&
-            (identical(other.minCapacity, minCapacity) ||
-                other.minCapacity == minCapacity) &&
-            (identical(other.isCustom, isCustom) ||
-                other.isCustom == isCustom) &&
-            (identical(other.createdForUserId, createdForUserId) ||
-                other.createdForUserId == createdForUserId) &&
-            (identical(other.expiresAt, expiresAt) ||
-                other.expiresAt == expiresAt) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.hotelId, hotelId) || other.hotelId == hotelId) &&
-            (identical(other.couchId, couchId) || other.couchId == couchId) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
+            (identical(other.averageRating, averageRating) ||
+                other.averageRating == averageRating) &&
+            (identical(other.ratingCount, ratingCount) ||
+                other.ratingCount == ratingCount) &&
+            (identical(other.startLocation, startLocation) ||
+                other.startLocation == startLocation) &&
+            (identical(other.durationDays, durationDays) ||
+                other.durationDays == durationDays) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             const DeepCollectionEquality().equals(
               other._instances,
@@ -481,19 +355,13 @@ class _$TourImpl implements _Tour {
     runtimeType,
     id,
     name,
-    const DeepCollectionEquality().hash(_description),
+    description,
     pricePerAdult,
     pricePerChild,
-    maxCapacity,
-    minCapacity,
-    isCustom,
-    createdForUserId,
-    expiresAt,
-    status,
-    hotelId,
-    couchId,
-    createdAt,
-    updatedAt,
+    averageRating,
+    ratingCount,
+    startLocation,
+    durationDays,
     const DeepCollectionEquality().hash(_images),
     const DeepCollectionEquality().hash(_instances),
   );
@@ -516,19 +384,13 @@ abstract class _Tour implements Tour {
   const factory _Tour({
     final String? id,
     required final String name,
-    final Map<String, dynamic>? description,
-    @JsonKey(name: 'price_per_adult') required final double pricePerAdult,
-    @JsonKey(name: 'price_per_child') required final double pricePerChild,
-    @JsonKey(name: 'max_capacity') required final int maxCapacity,
-    @JsonKey(name: 'min_capacity') required final int minCapacity,
-    @JsonKey(name: 'is_custom') required final bool isCustom,
-    @JsonKey(name: 'created_for_user_id') final String? createdForUserId,
-    @JsonKey(name: 'expires_at') final DateTime? expiresAt,
-    required final TourStatus status,
-    @JsonKey(name: 'hotel_id') final String? hotelId,
-    @JsonKey(name: 'couch_id') final String? couchId,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    final String? description,
+    @JsonKey(name: 'pricePerAdult') required final double pricePerAdult,
+    @JsonKey(name: 'pricePerChild') required final double pricePerChild,
+    @JsonKey(name: 'averageRating') final double averageRating,
+    @JsonKey(name: 'ratingCount') final int ratingCount,
+    @JsonKey(name: 'startLocation') final String startLocation,
+    @JsonKey(name: 'durationDays') final int durationDays,
     final List<TourImage>? images,
     final List<TourInstance>? instances,
   }) = _$TourImpl;
@@ -540,42 +402,25 @@ abstract class _Tour implements Tour {
   @override
   String get name;
   @override
-  Map<String, dynamic>? get description;
+  String? get description;
   @override
-  @JsonKey(name: 'price_per_adult')
+  @JsonKey(name: 'pricePerAdult')
   double get pricePerAdult;
   @override
-  @JsonKey(name: 'price_per_child')
+  @JsonKey(name: 'pricePerChild')
   double get pricePerChild;
   @override
-  @JsonKey(name: 'max_capacity')
-  int get maxCapacity;
+  @JsonKey(name: 'averageRating')
+  double get averageRating;
   @override
-  @JsonKey(name: 'min_capacity')
-  int get minCapacity;
+  @JsonKey(name: 'ratingCount')
+  int get ratingCount;
   @override
-  @JsonKey(name: 'is_custom')
-  bool get isCustom;
+  @JsonKey(name: 'startLocation')
+  String get startLocation;
   @override
-  @JsonKey(name: 'created_for_user_id')
-  String? get createdForUserId;
-  @override
-  @JsonKey(name: 'expires_at')
-  DateTime? get expiresAt;
-  @override
-  TourStatus get status;
-  @override
-  @JsonKey(name: 'hotel_id')
-  String? get hotelId;
-  @override
-  @JsonKey(name: 'couch_id')
-  String? get couchId;
-  @override
-  @JsonKey(name: 'created_at')
-  DateTime? get createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  DateTime? get updatedAt;
+  @JsonKey(name: 'durationDays')
+  int get durationDays;
 
   /// RELATIONS
   @override

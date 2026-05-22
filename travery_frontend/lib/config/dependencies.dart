@@ -21,7 +21,6 @@ import 'package:travery_frontend/data/repositories/tour_completed_repository_moc
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
-import 'package:travery_frontend/data/services/tour/tour_service_mock.dart';
 
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
 import 'package:travery_frontend/data/services/booking/booking_service_mock.dart';
@@ -42,6 +41,8 @@ import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_lis
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_coach_template_list_view_model.dart';
 
+import '../data/services/tour/tour_service_impl.dart';
+
 List<SingleChildWidget> get providers => [
   Provider(create: (context) => AuthService()),
   Provider(create: (context) => SecurityStorageService()),
@@ -53,8 +54,12 @@ List<SingleChildWidget> get providers => [
             )
             as AuthRepository,
   ),
-  Provider<TourRepository>(create: (context) => TourRepositoryMock()),
-  Provider<TourService>(create: (context) => TourServiceMock()),
+  // Provider<TourRepository>(create: (context) => TourRepositoryMock()),
+  Provider<TourService>(
+    create: (context) => TourServiceImpl(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
+  ),
 
   // ── Admin repository ──────────────────────────────────────────────────────
   ChangeNotifierProvider<AdminRepository>(

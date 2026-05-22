@@ -131,7 +131,7 @@ class _PaymentScreenContentState extends State<_PaymentScreenContent> {
                   ),
                   const SizedBox(height: 16),
                   PaymentOrderSummary(
-                    tourCode: tour.id ?? 'N/A',
+                    tourCode: tour.id,
                     amount: FormatUtils.formatCurrency(viewModel.totalPrice),
                   ),
                   const SizedBox(height: 24),

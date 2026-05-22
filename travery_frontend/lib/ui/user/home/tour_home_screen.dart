@@ -9,7 +9,7 @@ import 'package:travery_frontend/ui/user/home/widgets/consultation_banner.dart';
 import 'package:travery_frontend/ui/user/home/widgets/search_bar_widget.dart';
 import 'package:travery_frontend/ui/user/home/widgets/service_grid.dart';
 import 'package:travery_frontend/ui/user/home/widgets/section_header.dart';
-import 'package:travery_frontend/ui/user/home/widgets/tour_card.dart';
+import 'package:travery_frontend/ui/user/home/widgets/tour_card_compact.dart';
 import 'package:travery_frontend/utils/format_utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (tours.isEmpty) {
       return Container(
-        height: 200,
+        height: 220,
         alignment: Alignment.center,
         child: const Text(
           'Không có tour nào',
@@ -148,44 +148,23 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return SizedBox(
-      height: 310,
+      height: 240,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
         itemCount: tours.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 16),
+        separatorBuilder: (context, index) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           final tour = tours[index];
-          final firstImage = tour.images?.isNotEmpty == true
-              ? tour.images!.first.imageUrl
-              : 'https://picsum.photos/400?random=0';
-          final firstInstance = tour.instances?.isNotEmpty == true
-              ? tour.instances!.first
-              : null;
-
-          String duration = '';
-          if (firstInstance != null) {
-            final days = firstInstance.endDate
-                .difference(firstInstance.startDate)
-                .inDays;
-            duration = '${days}N${days - 1}Đ';
-          }
-
-          String departureDate = '';
-          if (firstInstance != null) {
-            departureDate = FormatUtils.formatDate(firstInstance.startDate);
-          }
-
-          return TourCard(
-            imageUrl: firstImage,
+          return TourCardCompact(
+            imageUrl: tour.thumbnailUrl ?? 'https://picsum.photos/400?random=0',
+            rating: '★ ${tour.averageRating?.toStringAsFixed(1) ?? 'N/A'}',
+            duration:
+                '${tour.durationDays ?? 0}N${(tour.durationDays ?? 1) - 1}Đ',
             title: tour.name,
-            duration: duration.isNotEmpty ? duration : 'N/A',
-            departureDate: departureDate.isNotEmpty ? departureDate : 'N/A',
-            price: FormatUtils.formatCurrency(tour.pricePerAdult),
+            price: FormatUtils.formatCurrency(tour.price),
             onTap: () {
-              if (tour.id != null) {
-                context.push(Routes.tourDetail.replaceFirst(':id', tour.id!));
-              }
+              context.push(Routes.tourDetail.replaceFirst(':id', tour.id));
             },
           );
         },

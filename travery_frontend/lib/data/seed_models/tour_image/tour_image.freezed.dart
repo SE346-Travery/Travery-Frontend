@@ -22,16 +22,11 @@ TourImage _$TourImageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourImage {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tour_id')
-  String get tourId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'image_url')
+  @JsonKey(name: 'url')
   String get imageUrl => throw _privateConstructorUsedError;
-  @JsonKey(name: 'display_order')
+  @JsonKey(name: 'isThumnail')
+  bool get isThumbnail => throw _privateConstructorUsedError;
   int get displayOrder => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this TourImage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,11 +45,9 @@ abstract class $TourImageCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'image_url') String imageUrl,
-    @JsonKey(name: 'display_order') int displayOrder,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'url') String imageUrl,
+    @JsonKey(name: 'isThumnail') bool isThumbnail,
+    int displayOrder,
   });
 }
 
@@ -74,11 +67,9 @@ class _$TourImageCopyWithImpl<$Res, $Val extends TourImage>
   @override
   $Res call({
     Object? id = freezed,
-    Object? tourId = null,
     Object? imageUrl = null,
+    Object? isThumbnail = null,
     Object? displayOrder = null,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -86,26 +77,18 @@ class _$TourImageCopyWithImpl<$Res, $Val extends TourImage>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String?,
-            tourId: null == tourId
-                ? _value.tourId
-                : tourId // ignore: cast_nullable_to_non_nullable
-                      as String,
             imageUrl: null == imageUrl
                 ? _value.imageUrl
                 : imageUrl // ignore: cast_nullable_to_non_nullable
                       as String,
+            isThumbnail: null == isThumbnail
+                ? _value.isThumbnail
+                : isThumbnail // ignore: cast_nullable_to_non_nullable
+                      as bool,
             displayOrder: null == displayOrder
                 ? _value.displayOrder
                 : displayOrder // ignore: cast_nullable_to_non_nullable
                       as int,
-            createdAt: freezed == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            updatedAt: freezed == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
           )
           as $Val,
     );
@@ -123,11 +106,9 @@ abstract class _$$TourImageImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'image_url') String imageUrl,
-    @JsonKey(name: 'display_order') int displayOrder,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'url') String imageUrl,
+    @JsonKey(name: 'isThumnail') bool isThumbnail,
+    int displayOrder,
   });
 }
 
@@ -146,11 +127,9 @@ class __$$TourImageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? tourId = null,
     Object? imageUrl = null,
+    Object? isThumbnail = null,
     Object? displayOrder = null,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
   }) {
     return _then(
       _$TourImageImpl(
@@ -158,26 +137,18 @@ class __$$TourImageImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
-        tourId: null == tourId
-            ? _value.tourId
-            : tourId // ignore: cast_nullable_to_non_nullable
-                  as String,
         imageUrl: null == imageUrl
             ? _value.imageUrl
             : imageUrl // ignore: cast_nullable_to_non_nullable
                   as String,
+        isThumbnail: null == isThumbnail
+            ? _value.isThumbnail
+            : isThumbnail // ignore: cast_nullable_to_non_nullable
+                  as bool,
         displayOrder: null == displayOrder
             ? _value.displayOrder
             : displayOrder // ignore: cast_nullable_to_non_nullable
                   as int,
-        createdAt: freezed == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        updatedAt: freezed == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
       ),
     );
   }
@@ -188,11 +159,9 @@ class __$$TourImageImplCopyWithImpl<$Res>
 class _$TourImageImpl implements _TourImage {
   const _$TourImageImpl({
     this.id,
-    @JsonKey(name: 'tour_id') required this.tourId,
-    @JsonKey(name: 'image_url') required this.imageUrl,
-    @JsonKey(name: 'display_order') required this.displayOrder,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    @JsonKey(name: 'url') required this.imageUrl,
+    @JsonKey(name: 'isThumnail') this.isThumbnail = false,
+    this.displayOrder = 0,
   });
 
   factory _$TourImageImpl.fromJson(Map<String, dynamic> json) =>
@@ -201,24 +170,18 @@ class _$TourImageImpl implements _TourImage {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'tour_id')
-  final String tourId;
-  @override
-  @JsonKey(name: 'image_url')
+  @JsonKey(name: 'url')
   final String imageUrl;
   @override
-  @JsonKey(name: 'display_order')
+  @JsonKey(name: 'isThumnail')
+  final bool isThumbnail;
+  @override
+  @JsonKey()
   final int displayOrder;
-  @override
-  @JsonKey(name: 'created_at')
-  final DateTime? createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'TourImage(id: $id, tourId: $tourId, imageUrl: $imageUrl, displayOrder: $displayOrder, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'TourImage(id: $id, imageUrl: $imageUrl, isThumbnail: $isThumbnail, displayOrder: $displayOrder)';
   }
 
   @override
@@ -227,28 +190,18 @@ class _$TourImageImpl implements _TourImage {
         (other.runtimeType == runtimeType &&
             other is _$TourImageImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.tourId, tourId) || other.tourId == tourId) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.isThumbnail, isThumbnail) ||
+                other.isThumbnail == isThumbnail) &&
             (identical(other.displayOrder, displayOrder) ||
-                other.displayOrder == displayOrder) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.displayOrder == displayOrder));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    tourId,
-    imageUrl,
-    displayOrder,
-    createdAt,
-    updatedAt,
-  );
+  int get hashCode =>
+      Object.hash(runtimeType, id, imageUrl, isThumbnail, displayOrder);
 
   /// Create a copy of TourImage
   /// with the given fields replaced by the non-null parameter values.
@@ -267,11 +220,9 @@ class _$TourImageImpl implements _TourImage {
 abstract class _TourImage implements TourImage {
   const factory _TourImage({
     final String? id,
-    @JsonKey(name: 'tour_id') required final String tourId,
-    @JsonKey(name: 'image_url') required final String imageUrl,
-    @JsonKey(name: 'display_order') required final int displayOrder,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    @JsonKey(name: 'url') required final String imageUrl,
+    @JsonKey(name: 'isThumnail') final bool isThumbnail,
+    final int displayOrder,
   }) = _$TourImageImpl;
 
   factory _TourImage.fromJson(Map<String, dynamic> json) =
@@ -280,20 +231,13 @@ abstract class _TourImage implements TourImage {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'tour_id')
-  String get tourId;
-  @override
-  @JsonKey(name: 'image_url')
+  @JsonKey(name: 'url')
   String get imageUrl;
   @override
-  @JsonKey(name: 'display_order')
+  @JsonKey(name: 'isThumnail')
+  bool get isThumbnail;
+  @override
   int get displayOrder;
-  @override
-  @JsonKey(name: 'created_at')
-  DateTime? get createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  DateTime? get updatedAt;
 
   /// Create a copy of TourImage
   /// with the given fields replaced by the non-null parameter values.

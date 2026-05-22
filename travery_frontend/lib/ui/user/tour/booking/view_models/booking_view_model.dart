@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:travery_frontend/data/seed_models/tour/tour.dart';
+import 'package:travery_frontend/data/models/tour/tour_detail_page_data.dart';
 import 'package:travery_frontend/data/seed_models/tour_instance/tour_instance.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_request/create_tour_booking_request.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
 class BookingInfo {
   final String fullName;
@@ -16,16 +18,20 @@ class BookingInfo {
   });
 }
 
+enum MemberType { adult, child }
+
 class MemberInfo {
   final int index;
   final String fullName;
   final String identityNumber;
+  final DateTime? dateOfBirth;
   final MemberType type;
 
   const MemberInfo({
     required this.index,
     required this.fullName,
     required this.identityNumber,
+    this.dateOfBirth,
     required this.type,
   });
 
@@ -33,24 +39,29 @@ class MemberInfo {
     int? index,
     String? fullName,
     String? identityNumber,
+    DateTime? dateOfBirth,
     MemberType? type,
   }) {
     return MemberInfo(
       index: index ?? this.index,
       fullName: fullName ?? this.fullName,
       identityNumber: identityNumber ?? this.identityNumber,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       type: type ?? this.type,
     );
   }
+
+  String get apiMemberType => type == MemberType.adult ? 'ADULT' : 'CHILD';
 }
 
-enum MemberType { adult, child }
-
 class BookingViewModel extends ChangeNotifier {
-  BookingViewModel({required TourService tourService});
+  BookingViewModel({required TourService tourService})
+    : _tourService = tourService;
 
-  Tour? _tour;
-  Tour? get tour => _tour;
+  final TourService _tourService;
+
+  TourDetailPageData? _tour;
+  TourDetailPageData? get tour => _tour;
 
   TourInstance? _selectedInstance;
   TourInstance? get selectedInstance => _selectedInstance;
@@ -85,10 +96,13 @@ class BookingViewModel extends ChangeNotifier {
   String? _tourId;
   String? get tourId => _tourId;
 
-  String? _bookingId;
-  String? get bookingId => _bookingId;
+  TourBookingData? _bookingResult;
+  TourBookingData? get bookingResult => _bookingResult;
 
-  void setTourData({required Tour tour, TourInstance? selectedInstance}) {
+  void setTourData({
+    required TourDetailPageData tour,
+    TourInstance? selectedInstance,
+  }) {
     _tour = tour;
     _selectedInstance = selectedInstance;
     _tourId = tour.id;
@@ -105,7 +119,7 @@ class BookingViewModel extends ChangeNotifier {
       } else {
         newMembers.add(
           MemberInfo(
-            index: i + 1,
+            index: i,
             fullName: '',
             identityNumber: '',
             type: MemberType.adult,
@@ -122,7 +136,7 @@ class BookingViewModel extends ChangeNotifier {
       } else {
         newMembers.add(
           MemberInfo(
-            index: memberIndex + 1,
+            index: memberIndex,
             fullName: '',
             identityNumber: '',
             type: MemberType.child,
@@ -165,11 +179,17 @@ class BookingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateMember(int index, {String? fullName, String? identityNumber}) {
+  void updateMember(
+    int index, {
+    String? fullName,
+    String? identityNumber,
+    DateTime? dateOfBirth,
+  }) {
     if (index >= 0 && index < _members.length) {
       _members[index] = _members[index].copyWith(
         fullName: fullName,
         identityNumber: identityNumber,
+        dateOfBirth: dateOfBirth,
       );
       notifyListeners();
     }
@@ -270,9 +290,16 @@ class BookingViewModel extends ChangeNotifier {
     return errors;
   }
 
-  Future<void> submitBooking() async {
+  Future<void> createBooking() async {
     if (!validateAll()) {
       _errorMessage = 'Vui lòng điền đầy đủ thông tin';
+      notifyListeners();
+      return;
+    }
+
+    final instance = _selectedInstance;
+    if (instance == null || instance.id == null) {
+      _errorMessage = 'Không tìm thấy thông tin tour';
       notifyListeners();
       return;
     }
@@ -281,7 +308,33 @@ class BookingViewModel extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    await Future.delayed(const Duration(milliseconds: 500));
+    final memberRequests = _members.map((m) {
+      return BookingMemberRequest(
+        fullName: m.fullName,
+        identityNumber: m.identityNumber,
+        dateOfBirth: m.dateOfBirth != null
+            ? '${m.dateOfBirth!.year}-${m.dateOfBirth!.month.toString().padLeft(2, '0')}-${m.dateOfBirth!.day.toString().padLeft(2, '0')}'
+            : '',
+        memberType: m.apiMemberType,
+      );
+    }).toList();
+
+    final request = CreateTourBookingRequest(
+      members: memberRequests,
+      specialRequests: _specialNotes,
+    );
+
+    final result = await _tourService.createTourBooking(
+      instanceId: instance.id!,
+      request: request,
+    );
+
+    switch (result) {
+      case Ok<TourBookingData>():
+        _bookingResult = result.value;
+      case Error<TourBookingData>():
+        _errorMessage = result.error.toString();
+    }
 
     _isSubmitting = false;
     notifyListeners();
@@ -301,6 +354,7 @@ class BookingViewModel extends ChangeNotifier {
     _members = [];
     _errorMessage = null;
     _isSubmitting = false;
+    _bookingResult = null;
     _updateMembers();
     notifyListeners();
   }

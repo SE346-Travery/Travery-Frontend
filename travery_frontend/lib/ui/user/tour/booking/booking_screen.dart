@@ -111,7 +111,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TourSummaryCard(
-                    tourCode: tour.id ?? 'N/A',
+                    tourCode: tour.id,
                     title: tour.name,
                     date: viewModel.selectedInstance != null
                         ? FormatUtils.formatDate(
@@ -119,7 +119,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           )
                         : 'N/A',
                     imageUrl: tour.images?.isNotEmpty == true
-                        ? tour.images!.first.imageUrl
+                        ? tour.images!.first.url
                         : 'https://picsum.photos/150',
                   ),
                   const SizedBox(height: 24),

@@ -1,7 +1,7 @@
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:travery_frontend/data/services/api/coordinator_api_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
-import 'package:travery_frontend/data/services/api/model/coordinator/tour_instance_detail_response.dart';
+import 'package:travery_frontend/data/services/api/model/coordinator/tour_instance_detail_response/tour_instance_detail_response.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_hotel/coordinator_hotel.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_driver/coordinator_driver.dart';
@@ -15,8 +15,8 @@ class CoordinatorRepositoryRemote extends CoordinatorRepository {
   CoordinatorRepositoryRemote({
     required CoordinatorApiService apiService,
     required SecurityStorageService securityStorageService,
-  })  : _apiService = apiService,
-        _securityStorageService = securityStorageService;
+  }) : _apiService = apiService,
+       _securityStorageService = securityStorageService;
 
   // ── Helpers ────────────────────────────────────────────────────────────────
 

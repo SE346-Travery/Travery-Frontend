@@ -1,0 +1,27 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'tour_instance_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$TourInstanceResponseImpl _$$TourInstanceResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$TourInstanceResponseImpl(
+  id: json['id'] as String,
+  startDate: json['startDate'] as String,
+  endDate: json['endDate'] as String,
+  status: json['status'] as String,
+  availableSlots: (json['availableSlots'] as num?)?.toInt() ?? 0,
+);
+
+Map<String, dynamic> _$$TourInstanceResponseImplToJson(
+  _$TourInstanceResponseImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'startDate': instance.startDate,
+  'endDate': instance.endDate,
+  'status': instance.status,
+  'availableSlots': instance.availableSlots,
+};

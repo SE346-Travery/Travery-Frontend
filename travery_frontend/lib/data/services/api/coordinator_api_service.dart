@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:travery_frontend/config/app_config.dart';
-import 'package:travery_frontend/data/services/api/model/coordinator/tour_incident_response.dart';
-import 'package:travery_frontend/data/services/api/model/coordinator/tour_instance_detail_response.dart';
-import 'package:travery_frontend/data/services/api/model/tour/tour_instance_response.dart';
+import 'package:travery_frontend/data/services/api/model/coordinator/tour_incident_response/tour_incident_response.dart';
+import 'package:travery_frontend/data/services/api/model/coordinator/tour_instance_detail_response/tour_instance_detail_response.dart';
+import 'package:travery_frontend/data/services/api/model/tour/tour_instance_response/tour_instance_response.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 /// Service for coordinator staff GET APIs.
 class CoordinatorApiService {
   CoordinatorApiService({String? host, HttpClient Function()? clientFactory})
-      : _host = host ?? AppConfig.host,
-        _clientFactory = clientFactory ?? HttpClient.new;
+    : _host = host ?? AppConfig.host,
+      _clientFactory = clientFactory ?? HttpClient.new;
 
   final String _host;
   final HttpClient Function() _clientFactory;
@@ -49,11 +49,9 @@ class CoordinatorApiService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final uri = Uri.https(
-        _host,
-        '/api/v1/staff/coordinator/instances',
-        {'filter': filter},
-      );
+      final uri = Uri.https(_host, '/api/v1/staff/coordinator/instances', {
+        'filter': filter,
+      });
       final request = await client.getUrl(uri);
       _addAuth(request, accessToken);
       final response = await request.close();
@@ -64,8 +62,7 @@ class CoordinatorApiService {
         final rawData = jsonMap['data'] as List<dynamic>? ?? [];
         final instances = rawData
             .map(
-              (e) =>
-                  TourInstanceResponse.fromJson(e as Map<String, dynamic>),
+              (e) => TourInstanceResponse.fromJson(e as Map<String, dynamic>),
             )
             .toList();
         return Result.ok(instances);
@@ -92,8 +89,7 @@ class CoordinatorApiService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final uri =
-          Uri.https(_host, '/api/v1/staff/coordinator/instances/$id');
+      final uri = Uri.https(_host, '/api/v1/staff/coordinator/instances/$id');
       final request = await client.getUrl(uri);
       _addAuth(request, accessToken);
       final response = await request.close();
@@ -216,10 +212,7 @@ class CoordinatorApiService {
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
     try {
-      final uri = Uri.https(
-        _host,
-        '/api/v1/staff/coordinator/instances/$id',
-      );
+      final uri = Uri.https(_host, '/api/v1/staff/coordinator/instances/$id');
       final request = await client.patchUrl(uri);
       _addAuth(request, accessToken);
       request.headers.contentType = ContentType.json;

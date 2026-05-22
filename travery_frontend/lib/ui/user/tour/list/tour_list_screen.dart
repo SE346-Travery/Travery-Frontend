@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
-import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
-import 'package:travery_frontend/ui/core/widgets/app_bar_widget.dart';
-import 'package:travery_frontend/ui/user/home/widgets/tour_card_compact.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/list/widgets/filter_sort_bar.dart';
 import 'package:travery_frontend/utils/format_utils.dart';
@@ -25,374 +23,407 @@ class _TourListScreenState extends State<TourListScreen> {
     });
   }
 
-  bool get _hasActiveFilters {
-    final vm = context.read<TourListViewModel>();
-    return vm.selectedDate != null ||
-        vm.priceRange.start > 0 ||
-        vm.priceRange.end < 10000000;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const AppBarWidget(title: 'Danh sách Tour'),
+      appBar: AppBar(
+        backgroundColor: AppColors.surface,
+        elevation: 0.5,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Danh sách tour',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: AppColors.textPrimary,
+          ),
+        ),
+      ),
       body: Consumer<TourListViewModel>(
-        builder: (context, viewModel, child) {
-          if (viewModel.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
-            );
-          }
-
-          if (viewModel.errorMessage != null) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error_outline,
-                    color: AppColors.error,
-                    size: 48,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text('Đã xảy ra lỗi'),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () => viewModel.loadTours(),
-                    child: const Text('Thử lại'),
-                  ),
-                ],
+        builder: (context, vm, child) {
+          return Column(
+            children: [
+              FilterSortBar(
+                hasActiveFilters: vm.selectedDate != null,
+                onFilterPressed: () => _showFilterBottomSheet(context, vm),
               ),
-            );
-          }
-
-          return RefreshIndicator(
-            onRefresh: () => viewModel.loadTours(),
-            color: AppColors.primary,
-            child: Column(
-              children: [
-                FilterSortBar(
-                  hasActiveFilters: _hasActiveFilters,
-                  onFilterPressed: () =>
-                      _showFilterBottomSheet(context, viewModel),
-                ),
-                Expanded(
-                  child: viewModel.tours.isEmpty
-                      ? const Center(child: Text('Không có tour nào'))
-                      : ListView.separated(
-                          padding: const EdgeInsets.all(20),
-                          itemCount: viewModel.tours.length,
-                          separatorBuilder: (_, __) =>
-                              const SizedBox(height: 16),
-                          itemBuilder: (context, index) {
-                            final tour = viewModel.tours[index];
-                            return TourCardCompact(
-                              imageUrl:
-                                  tour.thumbnailUrl ??
-                                  'https://picsum.photos/400?random=$index',
-                              rating:
-                                  '★ ${tour.averageRating?.toStringAsFixed(1) ?? 'N/A'}',
-                              duration:
-                                  '${tour.durationDays ?? 0}N${(tour.durationDays ?? 1) - 1}Đ',
-                              title: tour.name,
-                              price: FormatUtils.formatCurrency(tour.price),
-                              layout: TourCardLayout.list,
-                              onTap: () {
-                                context.push('/tour/${tour.id}');
-                              },
-                            );
-                          },
-                        ),
-                ),
-              ],
-            ),
+              Expanded(child: _buildBody(vm)),
+            ],
           );
         },
       ),
     );
   }
 
-  void _showFilterBottomSheet(
-    BuildContext context,
-    TourListViewModel viewModel,
-  ) {
+  Widget _buildBody(TourListViewModel vm) {
+    if (vm.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.primary),
+      );
+    }
+
+    if (vm.errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: AppColors.error, size: 48),
+            const SizedBox(height: 16),
+            Text(
+              vm.errorMessage!,
+              style: const TextStyle(color: AppColors.error),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () => vm.loadTours(),
+              child: const Text('Thử lại'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (vm.tours.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.tour_outlined, color: AppColors.textHint, size: 56),
+            SizedBox(height: 16),
+            Text(
+              'Không có tour nào',
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () => vm.loadTours(),
+      color: AppColors.primary,
+      child: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: vm.tours.length,
+        separatorBuilder: (_, idx) => const SizedBox(height: 16),
+        itemBuilder: (context, index) {
+          final tour = vm.tours[index];
+          return _TourListCard(
+            imageUrl:
+                tour.thumbnailUrl ?? 'https://picsum.photos/400?random=$index',
+            rating: '★ ${tour.averageRating?.toStringAsFixed(1) ?? 'N/A'}',
+            duration:
+                '${tour.durationDays ?? 0}N${(tour.durationDays ?? 1) - 1}Đ',
+            title: tour.name,
+            location: tour.destinationName ?? '',
+            price: FormatUtils.formatCurrency(tour.price),
+            onTap: () =>
+                context.push(Routes.tourDetail.replaceFirst(':id', tour.id)),
+          );
+        },
+      ),
+    );
+  }
+
+  void _showFilterBottomSheet(BuildContext context, TourListViewModel vm) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => _FilterBottomSheet(viewModel: viewModel),
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => _FilterBottomSheet(vm: vm),
     );
   }
 }
 
-class _FilterBottomSheet extends StatefulWidget {
-  final TourListViewModel viewModel;
+class _TourListCard extends StatelessWidget {
+  final String imageUrl;
+  final String rating;
+  final String duration;
+  final String title;
+  final String location;
+  final String price;
+  final VoidCallback? onTap;
 
-  const _FilterBottomSheet({required this.viewModel});
-
-  @override
-  State<_FilterBottomSheet> createState() => _FilterBottomSheetState();
-}
-
-class _FilterBottomSheetState extends State<_FilterBottomSheet> {
-  late DateTime? _selectedDate;
-  late RangeValues _priceRange;
-  late bool _sortAscending;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedDate = widget.viewModel.selectedDate;
-    _priceRange = widget.viewModel.priceRange;
-    _sortAscending = widget.viewModel.sortType == TourSortType.priceAsc;
-  }
+  const _TourListCard({
+    required this.imageUrl,
+    required this.rating,
+    required this.duration,
+    required this.title,
+    required this.location,
+    required this.price,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
+              child: Stack(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        color: AppColors.inputBackground,
+                        child: const Icon(
+                          Icons.tour,
+                          color: AppColors.textHint,
+                          size: 48,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 14),
+                          const SizedBox(width: 4),
+                          Text(
+                            rating,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 12,
+                    left: 12,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        duration,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: AppColors.textPrimary,
+                      height: 1.3,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (location.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on_outlined,
+                          size: 14,
+                          color: AppColors.textSecondary,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            location,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        price,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Text(
+                          'Đặt ngay',
+                          style: TextStyle(
+                            color: AppColors.primary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FilterBottomSheet extends StatelessWidget {
+  final TourListViewModel vm;
+
+  const _FilterBottomSheet({required this.vm});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        20,
+        20,
+        MediaQuery.of(context).viewInsets.bottom + 20,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: AppColors.inputBorder,
-              borderRadius: BorderRadius.circular(2),
+          Center(
+            child: Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.inputBorder,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Bộ lọc',
-                      style: TextStyle(
-                        fontSize: AppTextTheme.headlineSmall,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close),
-                    ),
-                  ],
+          const SizedBox(height: 20),
+          const Text(
+            'Sắp xếp theo giá',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              _SortChip(
+                label: 'Giá: Tăng dần',
+                isSelected: vm.sortType == TourSortType.priceAsc,
+                onTap: () => vm.setSortType(TourSortType.priceAsc),
+              ),
+              const SizedBox(width: 8),
+              _SortChip(
+                label: 'Giá: Giảm dần',
+                isSelected: vm.sortType == TourSortType.priceDesc,
+                onTap: () => vm.setSortType(TourSortType.priceDesc),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                const SizedBox(height: 20),
-
-                // Ngày đi
-                const Text(
-                  'Ngày đi',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    _buildDateChip(
-                      label: _selectedDate != null
-                          ? FormatUtils.formatDate(_selectedDate!)
-                          : 'Tất cả',
-                      isSelected: _selectedDate != null,
-                      onTap: () async {
-                        final result = await showDialog<String>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Chọn ngày đi'),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ListTile(
-                                  leading: const Icon(
-                                    Icons.calendar_today,
-                                    color: AppColors.primary,
-                                  ),
-                                  title: const Text('Chọn ngày'),
-                                  onTap: () => Navigator.pop(context, 'pick'),
-                                ),
-                                if (_selectedDate != null)
-                                  ListTile(
-                                    leading: const Icon(
-                                      Icons.clear,
-                                      color: AppColors.error,
-                                    ),
-                                    title: const Text('Bỏ chọn ngày'),
-                                    onTap: () =>
-                                        Navigator.pop(context, 'clear'),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        );
-
-                        if (result == 'pick') {
-                          final picked = await showDatePicker(
-                            context: context,
-                            initialDate: _selectedDate ?? DateTime.now(),
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(
-                              const Duration(days: 365),
-                            ),
-                            builder: (context, child) {
-                              return Theme(
-                                data: Theme.of(context).copyWith(
-                                  colorScheme: const ColorScheme.light(
-                                    primary: AppColors.primary,
-                                    onPrimary: Colors.white,
-                                  ),
-                                ),
-                                child: child!,
-                              );
-                            },
-                          );
-                          if (picked != null) {
-                            setState(() => _selectedDate = picked);
-                          }
-                        } else if (result == 'clear') {
-                          setState(() => _selectedDate = null);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                // Khoảng giá
-                const Text(
-                  'Khoảng giá',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  '${FormatUtils.formatCurrency(_priceRange.start)} - ${FormatUtils.formatCurrency(_priceRange.end)}',
-                  style: const TextStyle(
-                    fontSize: AppTextTheme.bodyLarge,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                ),
-                RangeSlider(
-                  values: _priceRange,
-                  min: 0,
-                  max: 10000000,
-                  divisions: 20,
-                  activeColor: AppColors.primary,
-                  onChanged: (values) {
-                    setState(() => _priceRange = values);
-                  },
-                ),
-                const SizedBox(height: 20),
-
-                // Sắp xếp
-                const Text(
-                  'Sắp xếp theo giá',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildSortChip(
-                        label: 'Giá tăng dần',
-                        isSelected: _sortAscending,
-                        onTap: () => setState(() => _sortAscending = true),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildSortChip(
-                        label: 'Giá giảm dần',
-                        isSelected: !_sortAscending,
-                        onTap: () => setState(() => _sortAscending = false),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                // Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedDate = null;
-                            _priceRange = const RangeValues(0, 10000000);
-                            _sortAscending = false;
-                          });
-                        },
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          side: const BorderSide(color: AppColors.primary),
-                        ),
-                        child: const Text(
-                          'Đặt lại',
-                          style: TextStyle(color: AppColors.primary),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      flex: 2,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          widget.viewModel.setDateFilter(_selectedDate);
-                          widget.viewModel.setPriceRange(_priceRange);
-                          widget.viewModel.setSortType(
-                            _sortAscending
-                                ? TourSortType.priceAsc
-                                : TourSortType.priceDesc,
-                          );
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                        child: const Text(
-                          'Áp dụng',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).padding.bottom + 20),
-              ],
+              ),
+              child: const Text(
+                'Áp dụng',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildDateChip({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
+class _SortChip extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _SortChip({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -401,54 +432,12 @@ class _FilterBottomSheetState extends State<_FilterBottomSheet> {
           color: isSelected ? AppColors.primary : AppColors.inputBackground,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.calendar_today,
-              size: 16,
-              color: isSelected ? Colors.white : AppColors.textSecondary,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                color: isSelected ? Colors.white : AppColors.textSecondary,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-              ),
-            ),
-            const SizedBox(width: 4),
-            Icon(
-              Icons.expand_more,
-              size: 18,
-              color: isSelected ? Colors.white : AppColors.textSecondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSortChip({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.inputBackground,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.white : AppColors.textSecondary,
-              fontWeight: FontWeight.w500,
-            ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.white : AppColors.textSecondary,
+            fontWeight: FontWeight.w500,
+            fontSize: 13,
           ),
         ),
       ),

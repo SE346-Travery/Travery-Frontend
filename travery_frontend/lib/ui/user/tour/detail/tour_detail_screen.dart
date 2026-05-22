@@ -396,7 +396,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
       child: Container(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         decoration: BoxDecoration(
-          color: AppColors.surface.withOpacity(0.95),
+          color: AppColors.surface.withValues(alpha: 0.95),
           border: const Border(
             top: BorderSide(color: AppColors.inputBorder, width: 0.5),
           ),

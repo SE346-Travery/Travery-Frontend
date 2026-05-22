@@ -52,8 +52,8 @@ import '../ui/admin/view/hotel_management_screen.dart';
 import '../ui/user/tour/detail/tour_detail_screen.dart';
 import '../ui/user/tour/booking/tour_booking_screen.dart';
 import '../ui/user/tour/booking/review/booking_review_screen.dart';
-import '../ui/user/tour/booking/payment/payment_screen.dart';
-import '../ui/user/tour/booking/payment/booking_success_screen.dart';
+import '../ui/user/tour/booking/payment/vnpay_payment_screen.dart';
+import '../ui/user/tour/booking/booking_success_screen.dart';
 import '../ui/user/tour/booking/booking_detail/booking_detail_screen.dart';
 import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
@@ -169,7 +169,13 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.vnpayPayment,
-        builder: (context, state) => const PaymentScreen(),
+        builder: (context, state) {
+          final bookingData = state.extra as dynamic;
+          if (bookingData != null) {
+            return VNPayPaymentScreen(bookingData: bookingData);
+          }
+          return const Center(child: Text('Không có thông tin thanh toán'));
+        },
       ),
       GoRoute(
         path: Routes.bookingSuccess,

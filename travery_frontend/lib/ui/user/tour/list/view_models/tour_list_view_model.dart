@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/models/tour/tour_search_item.dart';
 import 'package:travery_frontend/data/models/tour/tour_search_response.dart';

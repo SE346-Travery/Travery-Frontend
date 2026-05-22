@@ -99,7 +99,7 @@ class _TourBookingScreenState extends State<TourBookingScreen> {
     }
   }
 
-  void _handleSubmit() async {
+  void _handleSubmit() {
     final vm = context.read<BookingViewModel>();
     final errors = vm.getAllErrors();
 
@@ -114,27 +114,8 @@ class _TourBookingScreenState extends State<TourBookingScreen> {
       return;
     }
 
-    await vm.createBooking();
-
-    if (!mounted) return;
-
-    if (vm.errorMessage != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(vm.errorMessage!),
-          backgroundColor: AppColors.error,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-      vm.clearError();
-      return;
-    }
-
-    if (vm.bookingResult != null) {
-      context.pushReplacement(
-        Routes.bookingDetail.replaceFirst(':id', vm.bookingResult!.id),
-      );
-    }
+    // Navigate to review screen for final confirmation before calling createBooking
+    context.push(Routes.tourBookingReview);
   }
 
   @override

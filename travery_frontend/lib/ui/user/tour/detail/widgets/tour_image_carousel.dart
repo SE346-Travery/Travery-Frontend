@@ -107,7 +107,9 @@ class TourImageCarousel extends StatelessWidget {
       width: isActive ? 24 : 8,
       height: 8,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : Colors.white.withOpacity(0.5),
+        color: isActive
+            ? AppColors.primary
+            : Colors.white.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(4),
       ),
     );

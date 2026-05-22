@@ -6,6 +6,8 @@ import 'package:travery_frontend/data/models/tour/tour_detail_page_data.dart';
 import 'package:travery_frontend/data/models/tour/tour_featured_response.dart';
 import 'package:travery_frontend/data/models/tour/tour_search_response.dart';
 import 'package:travery_frontend/data/seed_models/tour_instance/tour_instance.dart';
+import 'package:travery_frontend/data/services/api/model/booking/booking_detail_response/booking_detail_response.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_payment_response/create_payment_response.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_request/create_tour_booking_request.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
@@ -244,6 +246,78 @@ class TourServiceImpl implements TourService {
         final errorMsg = await _extractErrorMessage(
           response,
           'Tạo booking thất bại',
+        );
+        return Result.error(HttpException(errorMsg));
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    } finally {
+      client.close();
+    }
+  }
+
+  @override
+  Future<Result<TourBookingData>> getBookingDetail(String bookingId) async {
+    final client = HttpClient();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
+
+    try {
+      final request = await client.getUrl(
+        Uri.https(AppConfig.host, '/api/v1/bookings/$bookingId'),
+      );
+      request.headers.set(
+        HttpHeaders.contentTypeHeader,
+        ContentType.json.value,
+      );
+      await _setBearerAuth(request);
+
+      final response = await request.close();
+
+      if (response.statusCode == 200) {
+        final stringData = await response.transform(utf8.decoder).join();
+        final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+        final data = BookingDetailResponse.fromJson(jsonMap).data;
+        return Result.ok(data);
+      } else {
+        final errorMsg = await _extractErrorMessage(
+          response,
+          'Lấy chi tiết booking thất bại',
+        );
+        return Result.error(HttpException(errorMsg));
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    } finally {
+      client.close();
+    }
+  }
+
+  @override
+  Future<Result<PaymentResponseData>> createPayment(String bookingId) async {
+    final client = HttpClient();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
+
+    try {
+      final requestObj = await client.postUrl(
+        Uri.https(AppConfig.host, '/api/v1/bookings/$bookingId/payments'),
+      );
+      requestObj.headers.set(
+        HttpHeaders.contentTypeHeader,
+        ContentType.json.value,
+      );
+      await _setBearerAuth(requestObj);
+
+      final response = await requestObj.close();
+
+      if (response.statusCode == 200) {
+        final stringData = await response.transform(utf8.decoder).join();
+        final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+        final data = CreatePaymentResponse.fromJson(jsonMap).data;
+        return Result.ok(data);
+      } else {
+        final errorMsg = await _extractErrorMessage(
+          response,
+          'Tạo thanh toán thất bại',
         );
         return Result.error(HttpException(errorMsg));
       }

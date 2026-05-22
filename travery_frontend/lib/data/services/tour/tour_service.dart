@@ -4,6 +4,7 @@ import 'package:travery_frontend/data/models/tour/tour_search_response.dart';
 import 'package:travery_frontend/data/seed_models/tour_instance/tour_instance.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_request/create_tour_booking_request.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_payment_response/create_payment_response.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 abstract class TourService {
@@ -26,4 +27,8 @@ abstract class TourService {
     required String instanceId,
     required CreateTourBookingRequest request,
   });
+
+  Future<Result<TourBookingData>> getBookingDetail(String bookingId);
+
+  Future<Result<PaymentResponseData>> createPayment(String bookingId);
 }

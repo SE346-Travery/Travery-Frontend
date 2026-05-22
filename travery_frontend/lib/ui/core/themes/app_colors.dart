@@ -48,6 +48,10 @@ class AppColors {
   /// Công dụng: Chữ gợi ý (Placeholder) trong ô nhập liệu.
   static const Color textHint = Color(0xFFADB5BD);
 
+  /// HEX: #ADB5BD
+  /// Công dụng: Màu nền cho trạng thái disabled của nút.
+  static const Color disabled = Color(0xFFADB5BD);
+
   // -----------------------------------------
   // Input field
   // -----------------------------------------

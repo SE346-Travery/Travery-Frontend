@@ -24,7 +24,7 @@ class DepartureItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withOpacity(0.1)
+              ? AppColors.primary.withValues(alpha: 0.1)
               : AppColors.surface,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.inputBorder,
@@ -46,7 +46,7 @@ class DepartureItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color: AppColors.primaryLight.withOpacity(0.2),
+                color: AppColors.primaryLight.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(9999),
               ),
               child: Text(

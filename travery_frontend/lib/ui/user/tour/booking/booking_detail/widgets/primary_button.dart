@@ -21,7 +21,7 @@ class PrimaryButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           elevation: 3,
-          shadowColor: AppColors.primary.withOpacity(0.3),
+          shadowColor: AppColors.primary.withValues(alpha: 0.3),
         ),
         child: Text(
           text,

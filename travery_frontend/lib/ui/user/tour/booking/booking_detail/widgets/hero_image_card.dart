@@ -28,7 +28,7 @@ class HeroImageCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
@@ -40,7 +40,10 @@ class HeroImageCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.transparent, Colors.black.withOpacity(0.6)],
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.6),
+                ],
               ),
             ),
             padding: const EdgeInsets.all(16),
@@ -51,7 +54,7 @@ class HeroImageCard extends StatelessWidget {
                 Text(
                   'Khởi hành: $date',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 12,
                   ),
                 ),

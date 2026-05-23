@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onResult() {
     if (widget.viewModel.loginViaEmail.completed) {
       Utils.showSuccessNotification(context, 'Đăng nhập thành công');
-      context.go(Routes.roleSelection);
+      _navigateByRole(widget.viewModel.userRole);
       widget.viewModel.loginViaEmail.clearResult();
     }
     if (widget.viewModel.loginViaEmail.error) {
@@ -55,6 +55,21 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         widget.viewModel.loginViaEmail.error.toString(),
       );
+    }
+  }
+
+  /// Navigate đến màn hình phù hợp dựa trên role từ JWT.
+  void _navigateByRole(String? role) {
+    switch (role) {
+      case 'ROLE_ADMIN':
+        context.go(Routes.adminMain);
+      case 'ROLE_COORDINATOR':
+        context.go(Routes.coordinatorMain);
+      case 'ROLE_GUIDE':
+        context.go(Routes.guideHome);
+      case 'ROLE_TOURIST':
+      default:
+        context.go(Routes.tourHome);
     }
   }
 
@@ -190,6 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
 
                 AuthButton(title: 'Đăng nhập', onPressed: _handleLogin),
+
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

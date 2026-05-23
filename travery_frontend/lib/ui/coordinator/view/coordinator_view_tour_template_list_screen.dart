@@ -91,7 +91,7 @@ class _CoordinatorViewTourTemplateListScreenState
                   const SizedBox(width: 8.0),
                   // Create route button
                   Material(
-                    color: AppColors.primary,
+                    color: AppColors.primaryDarkBlackBlue,
                     borderRadius: BorderRadius.circular(8.0),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.0),

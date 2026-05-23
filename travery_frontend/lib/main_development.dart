@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
+import 'package:go_router/go_router.dart';
+import 'package:app_links/app_links.dart';
 
 import 'package:travery_frontend/config/dependencies.dart';
+import 'package:travery_frontend/data/services/deep_link_service.dart';
 import 'main.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Logger.root.level = Level.ALL;
-  runApp(MultiProvider(providers: providers, child: const MyApp()));
+
+  final appLinks = AppLinks();
+  final deepLinkService = DeepLinkService.instance;
+
+  runApp(
+    MultiProvider(
+      providers: providers,
+      child: Builder(
+        builder: (context) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            deepLinkService.registerRouter(GoRouter.of(context));
+          });
+          return const MyApp();
+        },
+      ),
+    ),
+  );
+
+  appLinks.uriLinkStream.listen((uri) {
+    deepLinkService.handleUri(uri);
+  });
 }

@@ -256,9 +256,6 @@ class BookingViewModel extends ChangeNotifier {
   }
 
   bool validateAll() {
-    if (validateContactName() != null) return false;
-    if (validateContactPhone() != null) return false;
-
     for (final member in _members) {
       if (member.fullName.isEmpty || member.identityNumber.isEmpty) {
         return false;
@@ -270,12 +267,6 @@ class BookingViewModel extends ChangeNotifier {
 
   List<String> getAllErrors() {
     final errors = <String>[];
-
-    final contactNameError = validateContactName();
-    if (contactNameError != null) errors.add(contactNameError);
-
-    final contactPhoneError = validateContactPhone();
-    if (contactPhoneError != null) errors.add(contactPhoneError);
 
     for (int i = 0; i < _members.length; i++) {
       final member = _members[i];

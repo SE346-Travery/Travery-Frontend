@@ -15,14 +15,21 @@ enum PaymentStatus {
   expired,
 }
 
+enum PaymentConfirmState { confirming, confirmed, failed, processingTimeout }
+
 class PaymentViewModel extends ChangeNotifier {
   PaymentViewModel({required TourService tourService})
     : _tourService = tourService;
 
   final TourService _tourService;
 
+  bool _disposed = false;
+
   String? _bookingId;
   String? get bookingId => _bookingId;
+
+  String? _txnRef;
+  String? get txnRef => _txnRef;
 
   TourBookingData? _bookingData;
   TourBookingData? get bookingData => _bookingData;
@@ -40,8 +47,19 @@ class PaymentViewModel extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  // Deep link state
+  PaymentConfirmState _confirmState = PaymentConfirmState.confirming;
+  PaymentConfirmState get confirmState => _confirmState;
+
+  String? _deeplinkResponseCode;
+
   Timer? _countdownTimer;
   Timer? _pollingTimer;
+  int _pollAttempt = 0;
+
+  // Exponential backoff delays in seconds: 2, 2, 3, 3, 5, 5, 5, 10, 10, 10
+  static const List<int> _pollDelays = [2, 2, 3, 3, 5, 5, 5, 10, 10, 10];
+  static const int _maxPollAttempts = 10;
 
   void _setStatus(PaymentStatus s) {
     _status = s;
@@ -61,6 +79,7 @@ class PaymentViewModel extends ChangeNotifier {
   Future<void> initPayment(TourBookingData bookingData) async {
     _bookingData = bookingData;
     _bookingId = bookingData.id;
+    _txnRef = bookingData.payment?.transactionId;
     _setStatus(PaymentStatus.loading);
     notifyListeners();
 
@@ -118,14 +137,94 @@ class PaymentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Called when a deep link arrives. Sets initial confirm state.
+  void onDeepLinkArrived({
+    required String txnRef,
+    required String status,
+    required String? responseCode,
+  }) {
+    _deeplinkResponseCode = responseCode;
+    _txnRef = txnRef;
+
+    if (status == 'failed') {
+      _confirmState = PaymentConfirmState.failed;
+      _setStatus(PaymentStatus.failed);
+    } else {
+      _confirmState = PaymentConfirmState.confirming;
+      _setStatus(PaymentStatus.processing);
+    }
+    notifyListeners();
+  }
+
+  /// Start polling with exponential backoff. Call after deep link arrives.
+  Future<void> startPollingWithBackoff() async {
+    _pollAttempt = 0;
+    await _pollOnce();
+  }
+
+  Future<void> _pollOnce() async {
+    if (_pollAttempt >= _maxPollAttempts) {
+      _confirmState = PaymentConfirmState.processingTimeout;
+      _setStatus(PaymentStatus.expired);
+      notifyListeners();
+      return;
+    }
+
+    if (_bookingId == null) {
+      _confirmState = PaymentConfirmState.processingTimeout;
+      notifyListeners();
+      return;
+    }
+
+    // Exponential backoff delay
+    final delay = _pollDelays[_pollAttempt];
+    await Future.delayed(Duration(seconds: delay));
+    _pollAttempt++;
+
+    if (_disposed) return;
+
+    final result = await _tourService.getBookingDetail(_bookingId!);
+
+    if (_disposed) return;
+
+    switch (result) {
+      case Ok<TourBookingData>():
+        _bookingData = result.value;
+        final bookingStatus = result.value.status.toUpperCase();
+        if (bookingStatus == 'PAID' ||
+            bookingStatus == 'CONFIRMED' ||
+            bookingStatus == 'IN_PROGRESS' ||
+            bookingStatus == 'COMPLETED') {
+          _confirmState = PaymentConfirmState.confirmed;
+          _setStatus(PaymentStatus.success);
+          notifyListeners();
+          return;
+        }
+        if (bookingStatus == 'CANCELLED') {
+          _confirmState = PaymentConfirmState.failed;
+          _setStatus(PaymentStatus.failed);
+          notifyListeners();
+          return;
+        }
+      case Error<TourBookingData>():
+        break;
+    }
+
+    // Continue polling
+    _pollOnce();
+  }
+
+  /// Old polling for the VNPayPaymentScreen (polling while user is on payment screen)
   void startPolling() {
     _pollingTimer?.cancel();
     _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
       if (_status == PaymentStatus.expired ||
-          _status == PaymentStatus.success) {
+          _status == PaymentStatus.success ||
+          _status == PaymentStatus.failed) {
         _pollingTimer?.cancel();
         return;
       }
+      if (_disposed) return;
       await _checkBookingStatus();
     });
   }
@@ -176,7 +275,7 @@ class PaymentViewModel extends ChangeNotifier {
       case PaymentStatus.pending:
         return 'Đang chờ thanh toán';
       case PaymentStatus.processing:
-        return 'Đang xử lý';
+        return 'Đang xác nhận thanh toán...';
       case PaymentStatus.success:
         return 'Thanh toán thành công';
       case PaymentStatus.failed:
@@ -186,12 +285,28 @@ class PaymentViewModel extends ChangeNotifier {
     }
   }
 
+  String get confirmStateText {
+    switch (_confirmState) {
+      case PaymentConfirmState.confirming:
+        return 'Đang xác nhận thanh toán...';
+      case PaymentConfirmState.confirmed:
+        return 'Xác nhận thành công!';
+      case PaymentConfirmState.failed:
+        return 'Thanh toán thất bại';
+      case PaymentConfirmState.processingTimeout:
+        return 'Đang xử lý...';
+    }
+  }
+
+  String? get deeplinkResponseCode => _deeplinkResponseCode;
+
   double get totalAmount => _bookingData?.totalPrice ?? 0;
   String get bookingCode => _bookingId ?? '';
   String get tourName => _bookingData?.tourName ?? '';
 
   @override
   void dispose() {
+    _disposed = true;
     _countdownTimer?.cancel();
     _stopPolling();
     super.dispose();

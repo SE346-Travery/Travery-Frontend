@@ -11,6 +11,8 @@ import 'package:travery_frontend/data/repositories/tour_progress_repository.dart
 import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 import 'package:travery_frontend/data/services/cancel/cancel_service_mock.dart';
 import 'package:travery_frontend/data/services/cancellation/cancellation_service_mock.dart';
+import 'package:travery_frontend/data/services/security_storage_service.dart';
+import 'package:travery_frontend/ui/core/auth_guard.dart';
 import 'package:travery_frontend/ui/admin/view/admin_main_screen.dart';
 import 'package:travery_frontend/ui/admin/view/view_detail_account_screen.dart';
 import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_model.dart';
@@ -53,7 +55,9 @@ import '../ui/user/tour/detail/tour_detail_screen.dart';
 import '../ui/user/tour/booking/tour_booking_screen.dart';
 import '../ui/user/tour/booking/review/booking_review_screen.dart';
 import '../ui/user/tour/booking/payment/vnpay_payment_screen.dart';
+import '../ui/user/tour/booking/payment/payment_result_screen.dart';
 import '../ui/user/tour/booking/booking_success_screen.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import '../ui/user/tour/booking/booking_detail/booking_detail_screen.dart';
 import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
@@ -161,7 +165,8 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.tourBooking,
-        builder: (context, state) => const TourBookingScreen(),
+        builder: (context, state) =>
+            AuthGuard(child: const TourBookingScreen()),
       ),
       GoRoute(
         path: Routes.tourBookingReview,
@@ -175,6 +180,22 @@ GoRouter appRouter(AuthRepository authRepository) {
             return VNPayPaymentScreen(bookingData: bookingData);
           }
           return const Center(child: Text('Không có thông tin thanh toán'));
+        },
+      ),
+      GoRoute(
+        path: Routes.paymentResult,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          TourBookingData? bookingData;
+          if (extra != null && extra['bookingData'] != null) {
+            bookingData = extra['bookingData'] as TourBookingData;
+          }
+          return PaymentResultScreen(
+            txnRef: extra?['txnRef'] as String?,
+            status: extra?['status'] as String?,
+            responseCode: extra?['responseCode'] as String?,
+            bookingData: bookingData,
+          );
         },
       ),
       GoRoute(

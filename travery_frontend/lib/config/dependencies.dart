@@ -80,22 +80,6 @@ List<SingleChildWidget> get providers => [
   ),
   ChangeNotifierProvider(
     create: (context) =>
-        TourHomeViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        TourListViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        TourDetailViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        BookingViewModel(tourService: context.read<TourService>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
         GuideHomeViewModel(guideService: context.read<GuideService>()),
   ),
   ChangeNotifierProvider(

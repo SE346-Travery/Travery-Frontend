@@ -13,7 +13,7 @@ _$VehicleImpl _$$VehicleImplFromJson(Map<String, dynamic> json) =>
       vehicleType: $enumDecode(_$VehicleTypeEnumMap, json['vehicleType']),
       totalSeats: (json['total_seats'] as num).toInt(),
       floorCount: (json['floor_count'] as num).toInt(),
-      status: $enumDecode(_$VehicleStatusEnumMap, json['status']),
+      status: $enumDecode(_$CoachStatusEnumMap, json['status']),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -32,7 +32,7 @@ Map<String, dynamic> _$$VehicleImplToJson(_$VehicleImpl instance) =>
       'vehicleType': _$VehicleTypeEnumMap[instance.vehicleType]!,
       'total_seats': instance.totalSeats,
       'floor_count': instance.floorCount,
-      'status': _$VehicleStatusEnumMap[instance.status]!,
+      'status': _$CoachStatusEnumMap[instance.status]!,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'seats': instance.seats,
@@ -44,9 +44,8 @@ const _$VehicleTypeEnumMap = {
   VehicleType.limosine: 'limosine',
 };
 
-const _$VehicleStatusEnumMap = {
+const _$CoachStatusEnumMap = {
   CoachStatus.active: 'active',
   CoachStatus.maintenance: 'maintenance',
   CoachStatus.retired: 'retired',
 };
-

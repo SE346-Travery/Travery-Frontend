@@ -22,37 +22,14 @@ TourInstance _$TourInstanceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TourInstance {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tour_id')
-  String get tourId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'start_date')
+  @JsonKey(name: 'startDate')
   DateTime get startDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'end_date')
+  @JsonKey(name: 'endDate')
   DateTime get endDate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'vehicle_id')
-  String? get vehicleId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'driver_id')
-  String? get driverId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'guide_id')
-  String? get guideId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'assigned_by')
-  String? get assignedBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'status')
   TourInstanceStatus get status => throw _privateConstructorUsedError;
-  @JsonKey(name: 'postponement_reason')
-  String? get postponementReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'postponed_at')
-  DateTime? get postponedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'postponed_by')
-  String? get postponedBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_at')
-  DateTime? get cancelledAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancellation_reason')
-  String? get cancellationReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancelled_by')
-  String? get cancelledBy => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'availableSlots')
+  int get availableSlots => throw _privateConstructorUsedError;
 
   /// RELATIONS
   List<TourBooking>? get bookings => throw _privateConstructorUsedError;
@@ -76,22 +53,10 @@ abstract class $TourInstanceCopyWith<$Res> {
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'start_date') DateTime startDate,
-    @JsonKey(name: 'end_date') DateTime endDate,
-    @JsonKey(name: 'vehicle_id') String? vehicleId,
-    @JsonKey(name: 'driver_id') String? driverId,
-    @JsonKey(name: 'guide_id') String? guideId,
-    @JsonKey(name: 'assigned_by') String? assignedBy,
-    TourInstanceStatus status,
-    @JsonKey(name: 'postponement_reason') String? postponementReason,
-    @JsonKey(name: 'postponed_at') DateTime? postponedAt,
-    @JsonKey(name: 'postponed_by') String? postponedBy,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'startDate') DateTime startDate,
+    @JsonKey(name: 'endDate') DateTime endDate,
+    @JsonKey(name: 'status') TourInstanceStatus status,
+    @JsonKey(name: 'availableSlots') int availableSlots,
     List<TourBooking>? bookings,
   });
 }
@@ -112,22 +77,10 @@ class _$TourInstanceCopyWithImpl<$Res, $Val extends TourInstance>
   @override
   $Res call({
     Object? id = freezed,
-    Object? tourId = null,
     Object? startDate = null,
     Object? endDate = null,
-    Object? vehicleId = freezed,
-    Object? driverId = freezed,
-    Object? guideId = freezed,
-    Object? assignedBy = freezed,
     Object? status = null,
-    Object? postponementReason = freezed,
-    Object? postponedAt = freezed,
-    Object? postponedBy = freezed,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? availableSlots = null,
     Object? bookings = freezed,
   }) {
     return _then(
@@ -136,10 +89,6 @@ class _$TourInstanceCopyWithImpl<$Res, $Val extends TourInstance>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String?,
-            tourId: null == tourId
-                ? _value.tourId
-                : tourId // ignore: cast_nullable_to_non_nullable
-                      as String,
             startDate: null == startDate
                 ? _value.startDate
                 : startDate // ignore: cast_nullable_to_non_nullable
@@ -148,58 +97,14 @@ class _$TourInstanceCopyWithImpl<$Res, $Val extends TourInstance>
                 ? _value.endDate
                 : endDate // ignore: cast_nullable_to_non_nullable
                       as DateTime,
-            vehicleId: freezed == vehicleId
-                ? _value.vehicleId
-                : vehicleId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            driverId: freezed == driverId
-                ? _value.driverId
-                : driverId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            guideId: freezed == guideId
-                ? _value.guideId
-                : guideId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            assignedBy: freezed == assignedBy
-                ? _value.assignedBy
-                : assignedBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
             status: null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as TourInstanceStatus,
-            postponementReason: freezed == postponementReason
-                ? _value.postponementReason
-                : postponementReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            postponedAt: freezed == postponedAt
-                ? _value.postponedAt
-                : postponedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            postponedBy: freezed == postponedBy
-                ? _value.postponedBy
-                : postponedBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledAt: freezed == cancelledAt
-                ? _value.cancelledAt
-                : cancelledAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            cancellationReason: freezed == cancellationReason
-                ? _value.cancellationReason
-                : cancellationReason // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            cancelledBy: freezed == cancelledBy
-                ? _value.cancelledBy
-                : cancelledBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            createdAt: freezed == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            updatedAt: freezed == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
+            availableSlots: null == availableSlots
+                ? _value.availableSlots
+                : availableSlots // ignore: cast_nullable_to_non_nullable
+                      as int,
             bookings: freezed == bookings
                 ? _value.bookings
                 : bookings // ignore: cast_nullable_to_non_nullable
@@ -221,22 +126,10 @@ abstract class _$$TourInstanceImplCopyWith<$Res>
   @useResult
   $Res call({
     String? id,
-    @JsonKey(name: 'tour_id') String tourId,
-    @JsonKey(name: 'start_date') DateTime startDate,
-    @JsonKey(name: 'end_date') DateTime endDate,
-    @JsonKey(name: 'vehicle_id') String? vehicleId,
-    @JsonKey(name: 'driver_id') String? driverId,
-    @JsonKey(name: 'guide_id') String? guideId,
-    @JsonKey(name: 'assigned_by') String? assignedBy,
-    TourInstanceStatus status,
-    @JsonKey(name: 'postponement_reason') String? postponementReason,
-    @JsonKey(name: 'postponed_at') DateTime? postponedAt,
-    @JsonKey(name: 'postponed_by') String? postponedBy,
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'startDate') DateTime startDate,
+    @JsonKey(name: 'endDate') DateTime endDate,
+    @JsonKey(name: 'status') TourInstanceStatus status,
+    @JsonKey(name: 'availableSlots') int availableSlots,
     List<TourBooking>? bookings,
   });
 }
@@ -256,22 +149,10 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? tourId = null,
     Object? startDate = null,
     Object? endDate = null,
-    Object? vehicleId = freezed,
-    Object? driverId = freezed,
-    Object? guideId = freezed,
-    Object? assignedBy = freezed,
     Object? status = null,
-    Object? postponementReason = freezed,
-    Object? postponedAt = freezed,
-    Object? postponedBy = freezed,
-    Object? cancelledAt = freezed,
-    Object? cancellationReason = freezed,
-    Object? cancelledBy = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? availableSlots = null,
     Object? bookings = freezed,
   }) {
     return _then(
@@ -280,10 +161,6 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String?,
-        tourId: null == tourId
-            ? _value.tourId
-            : tourId // ignore: cast_nullable_to_non_nullable
-                  as String,
         startDate: null == startDate
             ? _value.startDate
             : startDate // ignore: cast_nullable_to_non_nullable
@@ -292,58 +169,14 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
             ? _value.endDate
             : endDate // ignore: cast_nullable_to_non_nullable
                   as DateTime,
-        vehicleId: freezed == vehicleId
-            ? _value.vehicleId
-            : vehicleId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        driverId: freezed == driverId
-            ? _value.driverId
-            : driverId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        guideId: freezed == guideId
-            ? _value.guideId
-            : guideId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        assignedBy: freezed == assignedBy
-            ? _value.assignedBy
-            : assignedBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
         status: null == status
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as TourInstanceStatus,
-        postponementReason: freezed == postponementReason
-            ? _value.postponementReason
-            : postponementReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        postponedAt: freezed == postponedAt
-            ? _value.postponedAt
-            : postponedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        postponedBy: freezed == postponedBy
-            ? _value.postponedBy
-            : postponedBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledAt: freezed == cancelledAt
-            ? _value.cancelledAt
-            : cancelledAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        cancellationReason: freezed == cancellationReason
-            ? _value.cancellationReason
-            : cancellationReason // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        cancelledBy: freezed == cancelledBy
-            ? _value.cancelledBy
-            : cancelledBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        createdAt: freezed == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        updatedAt: freezed == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
+        availableSlots: null == availableSlots
+            ? _value.availableSlots
+            : availableSlots // ignore: cast_nullable_to_non_nullable
+                  as int,
         bookings: freezed == bookings
             ? _value._bookings
             : bookings // ignore: cast_nullable_to_non_nullable
@@ -358,22 +191,10 @@ class __$$TourInstanceImplCopyWithImpl<$Res>
 class _$TourInstanceImpl implements _TourInstance {
   const _$TourInstanceImpl({
     this.id,
-    @JsonKey(name: 'tour_id') required this.tourId,
-    @JsonKey(name: 'start_date') required this.startDate,
-    @JsonKey(name: 'end_date') required this.endDate,
-    @JsonKey(name: 'vehicle_id') this.vehicleId,
-    @JsonKey(name: 'driver_id') this.driverId,
-    @JsonKey(name: 'guide_id') this.guideId,
-    @JsonKey(name: 'assigned_by') this.assignedBy,
-    required this.status,
-    @JsonKey(name: 'postponement_reason') this.postponementReason,
-    @JsonKey(name: 'postponed_at') this.postponedAt,
-    @JsonKey(name: 'postponed_by') this.postponedBy,
-    @JsonKey(name: 'cancelled_at') this.cancelledAt,
-    @JsonKey(name: 'cancellation_reason') this.cancellationReason,
-    @JsonKey(name: 'cancelled_by') this.cancelledBy,
-    @JsonKey(name: 'created_at') this.createdAt,
-    @JsonKey(name: 'updated_at') this.updatedAt,
+    @JsonKey(name: 'startDate') required this.startDate,
+    @JsonKey(name: 'endDate') required this.endDate,
+    @JsonKey(name: 'status') required this.status,
+    @JsonKey(name: 'availableSlots') this.availableSlots = 0,
     final List<TourBooking>? bookings,
   }) : _bookings = bookings;
 
@@ -383,52 +204,17 @@ class _$TourInstanceImpl implements _TourInstance {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'tour_id')
-  final String tourId;
-  @override
-  @JsonKey(name: 'start_date')
+  @JsonKey(name: 'startDate')
   final DateTime startDate;
   @override
-  @JsonKey(name: 'end_date')
+  @JsonKey(name: 'endDate')
   final DateTime endDate;
   @override
-  @JsonKey(name: 'vehicle_id')
-  final String? vehicleId;
-  @override
-  @JsonKey(name: 'driver_id')
-  final String? driverId;
-  @override
-  @JsonKey(name: 'guide_id')
-  final String? guideId;
-  @override
-  @JsonKey(name: 'assigned_by')
-  final String? assignedBy;
-  @override
+  @JsonKey(name: 'status')
   final TourInstanceStatus status;
   @override
-  @JsonKey(name: 'postponement_reason')
-  final String? postponementReason;
-  @override
-  @JsonKey(name: 'postponed_at')
-  final DateTime? postponedAt;
-  @override
-  @JsonKey(name: 'postponed_by')
-  final String? postponedBy;
-  @override
-  @JsonKey(name: 'cancelled_at')
-  final DateTime? cancelledAt;
-  @override
-  @JsonKey(name: 'cancellation_reason')
-  final String? cancellationReason;
-  @override
-  @JsonKey(name: 'cancelled_by')
-  final String? cancelledBy;
-  @override
-  @JsonKey(name: 'created_at')
-  final DateTime? createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  final DateTime? updatedAt;
+  @JsonKey(name: 'availableSlots')
+  final int availableSlots;
 
   /// RELATIONS
   final List<TourBooking>? _bookings;
@@ -445,7 +231,7 @@ class _$TourInstanceImpl implements _TourInstance {
 
   @override
   String toString() {
-    return 'TourInstance(id: $id, tourId: $tourId, startDate: $startDate, endDate: $endDate, vehicleId: $vehicleId, driverId: $driverId, guideId: $guideId, assignedBy: $assignedBy, status: $status, postponementReason: $postponementReason, postponedAt: $postponedAt, postponedBy: $postponedBy, cancelledAt: $cancelledAt, cancellationReason: $cancellationReason, cancelledBy: $cancelledBy, createdAt: $createdAt, updatedAt: $updatedAt, bookings: $bookings)';
+    return 'TourInstance(id: $id, startDate: $startDate, endDate: $endDate, status: $status, availableSlots: $availableSlots, bookings: $bookings)';
   }
 
   @override
@@ -454,34 +240,12 @@ class _$TourInstanceImpl implements _TourInstance {
         (other.runtimeType == runtimeType &&
             other is _$TourInstanceImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.tourId, tourId) || other.tourId == tourId) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            (identical(other.vehicleId, vehicleId) ||
-                other.vehicleId == vehicleId) &&
-            (identical(other.driverId, driverId) ||
-                other.driverId == driverId) &&
-            (identical(other.guideId, guideId) || other.guideId == guideId) &&
-            (identical(other.assignedBy, assignedBy) ||
-                other.assignedBy == assignedBy) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.postponementReason, postponementReason) ||
-                other.postponementReason == postponementReason) &&
-            (identical(other.postponedAt, postponedAt) ||
-                other.postponedAt == postponedAt) &&
-            (identical(other.postponedBy, postponedBy) ||
-                other.postponedBy == postponedBy) &&
-            (identical(other.cancelledAt, cancelledAt) ||
-                other.cancelledAt == cancelledAt) &&
-            (identical(other.cancellationReason, cancellationReason) ||
-                other.cancellationReason == cancellationReason) &&
-            (identical(other.cancelledBy, cancelledBy) ||
-                other.cancelledBy == cancelledBy) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
+            (identical(other.availableSlots, availableSlots) ||
+                other.availableSlots == availableSlots) &&
             const DeepCollectionEquality().equals(other._bookings, _bookings));
   }
 
@@ -490,22 +254,10 @@ class _$TourInstanceImpl implements _TourInstance {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    tourId,
     startDate,
     endDate,
-    vehicleId,
-    driverId,
-    guideId,
-    assignedBy,
     status,
-    postponementReason,
-    postponedAt,
-    postponedBy,
-    cancelledAt,
-    cancellationReason,
-    cancelledBy,
-    createdAt,
-    updatedAt,
+    availableSlots,
     const DeepCollectionEquality().hash(_bookings),
   );
 
@@ -526,22 +278,10 @@ class _$TourInstanceImpl implements _TourInstance {
 abstract class _TourInstance implements TourInstance {
   const factory _TourInstance({
     final String? id,
-    @JsonKey(name: 'tour_id') required final String tourId,
-    @JsonKey(name: 'start_date') required final DateTime startDate,
-    @JsonKey(name: 'end_date') required final DateTime endDate,
-    @JsonKey(name: 'vehicle_id') final String? vehicleId,
-    @JsonKey(name: 'driver_id') final String? driverId,
-    @JsonKey(name: 'guide_id') final String? guideId,
-    @JsonKey(name: 'assigned_by') final String? assignedBy,
-    required final TourInstanceStatus status,
-    @JsonKey(name: 'postponement_reason') final String? postponementReason,
-    @JsonKey(name: 'postponed_at') final DateTime? postponedAt,
-    @JsonKey(name: 'postponed_by') final String? postponedBy,
-    @JsonKey(name: 'cancelled_at') final DateTime? cancelledAt,
-    @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
-    @JsonKey(name: 'cancelled_by') final String? cancelledBy,
-    @JsonKey(name: 'created_at') final DateTime? createdAt,
-    @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+    @JsonKey(name: 'startDate') required final DateTime startDate,
+    @JsonKey(name: 'endDate') required final DateTime endDate,
+    @JsonKey(name: 'status') required final TourInstanceStatus status,
+    @JsonKey(name: 'availableSlots') final int availableSlots,
     final List<TourBooking>? bookings,
   }) = _$TourInstanceImpl;
 
@@ -551,52 +291,17 @@ abstract class _TourInstance implements TourInstance {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'tour_id')
-  String get tourId;
-  @override
-  @JsonKey(name: 'start_date')
+  @JsonKey(name: 'startDate')
   DateTime get startDate;
   @override
-  @JsonKey(name: 'end_date')
+  @JsonKey(name: 'endDate')
   DateTime get endDate;
   @override
-  @JsonKey(name: 'vehicle_id')
-  String? get vehicleId;
-  @override
-  @JsonKey(name: 'driver_id')
-  String? get driverId;
-  @override
-  @JsonKey(name: 'guide_id')
-  String? get guideId;
-  @override
-  @JsonKey(name: 'assigned_by')
-  String? get assignedBy;
-  @override
+  @JsonKey(name: 'status')
   TourInstanceStatus get status;
   @override
-  @JsonKey(name: 'postponement_reason')
-  String? get postponementReason;
-  @override
-  @JsonKey(name: 'postponed_at')
-  DateTime? get postponedAt;
-  @override
-  @JsonKey(name: 'postponed_by')
-  String? get postponedBy;
-  @override
-  @JsonKey(name: 'cancelled_at')
-  DateTime? get cancelledAt;
-  @override
-  @JsonKey(name: 'cancellation_reason')
-  String? get cancellationReason;
-  @override
-  @JsonKey(name: 'cancelled_by')
-  String? get cancelledBy;
-  @override
-  @JsonKey(name: 'created_at')
-  DateTime? get createdAt;
-  @override
-  @JsonKey(name: 'updated_at')
-  DateTime? get updatedAt;
+  @JsonKey(name: 'availableSlots')
+  int get availableSlots;
 
   /// RELATIONS
   @override

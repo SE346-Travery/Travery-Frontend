@@ -26,6 +26,11 @@ class SecurityStorageService {
     return await _storage.read(key: _refreshToken);
   }
 
+  Future<bool> isLoggedIn() async {
+    final token = await getAccessToken();
+    return token != null && token.isNotEmpty;
+  }
+
   Future<void> deleteRefreshToken() async {
     await _storage.delete(key: _refreshToken);
   }

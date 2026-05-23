@@ -48,7 +48,9 @@ class RefundPolicySection extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: isFirst ? Colors.white.withOpacity(0.5) : Colors.transparent,
+            color: isFirst
+                ? Colors.white.withValues(alpha: 0.5)
+                : Colors.transparent,
             border: isLast
                 ? null
                 : const Border(bottom: BorderSide(color: AppColors.background)),

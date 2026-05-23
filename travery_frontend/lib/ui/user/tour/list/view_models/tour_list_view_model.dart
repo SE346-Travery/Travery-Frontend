@@ -1,20 +1,20 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:travery_frontend/data/seed_models/tour/tour.dart';
+import 'package:travery_frontend/data/models/tour/tour_search_item.dart';
+import 'package:travery_frontend/data/models/tour/tour_search_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 enum TourSortType { priceAsc, priceDesc }
 
 class TourListViewModel extends ChangeNotifier {
-  final TourService _tourService;
-
   TourListViewModel({required TourService tourService})
     : _tourService = tourService;
 
-  List<Tour> _allTours = [];
-  List<Tour> _filteredTours = [];
-  List<Tour> get tours => _filteredTours;
+  final TourService _tourService;
+
+  List<TourSearchItem> _allTours = [];
+  List<TourSearchItem> _filteredTours = [];
+  List<TourSearchItem> get tours => _filteredTours;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -25,7 +25,7 @@ class TourListViewModel extends ChangeNotifier {
   DateTime? _selectedDate;
   DateTime? get selectedDate => _selectedDate;
 
-  RangeValues _priceRange = const RangeValues(0, 10000000);
+  RangeValues _priceRange = const RangeValues(0, 50000000);
   RangeValues get priceRange => _priceRange;
 
   TourSortType _sortType = TourSortType.priceDesc;
@@ -71,13 +71,17 @@ class TourListViewModel extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    final result = await _tourService.getTours();
+    final result = await _tourService.searchTours(
+      minPrice: _priceRange.start,
+      maxPrice: _priceRange.end,
+      startDate: _selectedDate,
+    );
 
     switch (result) {
-      case Ok<List<Tour>>():
-        _allTours = result.value;
+      case Ok<TourSearchPageData>():
+        _allTours = result.value.content;
         _applyFiltersAndSort();
-      case Error<List<Tour>>():
+      case Error<TourSearchPageData>():
         _errorMessage = result.error.toString();
     }
 
@@ -90,32 +94,16 @@ class TourListViewModel extends ChangeNotifier {
 
     _filteredTours = _filteredTours.where((tour) {
       final priceOk =
-          tour.pricePerAdult >= _priceRange.start &&
-          tour.pricePerAdult <= _priceRange.end;
-
-      bool dateOk = true;
-      if (_selectedDate != null && tour.instances != null) {
-        dateOk = tour.instances!.any(
-          (instance) =>
-              instance.startDate.year == _selectedDate!.year &&
-              instance.startDate.month == _selectedDate!.month &&
-              instance.startDate.day == _selectedDate!.day,
-        );
-      }
-
-      return priceOk && dateOk;
+          tour.price >= _priceRange.start && tour.price <= _priceRange.end;
+      return priceOk;
     }).toList();
 
     switch (_sortType) {
       case TourSortType.priceAsc:
-        _filteredTours.sort(
-          (a, b) => a.pricePerAdult.compareTo(b.pricePerAdult),
-        );
+        _filteredTours.sort((a, b) => a.price.compareTo(b.price));
         break;
       case TourSortType.priceDesc:
-        _filteredTours.sort(
-          (a, b) => b.pricePerAdult.compareTo(a.pricePerAdult),
-        );
+        _filteredTours.sort((a, b) => b.price.compareTo(a.price));
         break;
     }
   }

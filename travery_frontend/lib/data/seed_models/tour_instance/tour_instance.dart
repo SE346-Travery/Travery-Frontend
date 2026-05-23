@@ -9,37 +9,13 @@ class TourInstance with _$TourInstance {
   const factory TourInstance({
     String? id,
 
-    @JsonKey(name: 'tour_id') required String tourId,
+    @JsonKey(name: 'startDate') required DateTime startDate,
 
-    @JsonKey(name: 'start_date') required DateTime startDate,
+    @JsonKey(name: 'endDate') required DateTime endDate,
 
-    @JsonKey(name: 'end_date') required DateTime endDate,
+    @JsonKey(name: 'status') required TourInstanceStatus status,
 
-    @JsonKey(name: 'vehicle_id') String? vehicleId,
-
-    @JsonKey(name: 'driver_id') String? driverId,
-
-    @JsonKey(name: 'guide_id') String? guideId,
-
-    @JsonKey(name: 'assigned_by') String? assignedBy,
-
-    required TourInstanceStatus status,
-
-    @JsonKey(name: 'postponement_reason') String? postponementReason,
-
-    @JsonKey(name: 'postponed_at') DateTime? postponedAt,
-
-    @JsonKey(name: 'postponed_by') String? postponedBy,
-
-    @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
-
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-
-    @JsonKey(name: 'cancelled_by') String? cancelledBy,
-
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'availableSlots') @Default(0) int availableSlots,
 
     /// RELATIONS
     List<TourBooking>? bookings,
@@ -51,12 +27,11 @@ class TourInstance with _$TourInstance {
 
 @JsonEnum()
 enum TourInstanceStatus {
-  scheduled,
-  pickedUp,
-  checkedIn,
-  inDiscovery,
-  checkedOut,
-  completed,
-  cancelled,
-  postponed,
+  PLANNING,
+  OPEN,
+  FULL,
+  IN_PROGRESS,
+  COMPLETED,
+  CANCELLED,
+  POSTPONED,
 }

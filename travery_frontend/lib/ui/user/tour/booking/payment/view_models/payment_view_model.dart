@@ -1,38 +1,264 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/data/seed_models/tour/tour.dart';
-import 'package:travery_frontend/data/seed_models/tour_instance/tour_instance.dart';
-import 'package:travery_frontend/ui/user/tour/booking/view_models/booking_view_model.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_payment_response/create_payment_response.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
+import 'package:travery_frontend/data/services/tour/tour_service.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
-enum PaymentStatus { pending, processing, success, failed, expired }
+enum PaymentStatus {
+  idle,
+  loading,
+  pending,
+  processing,
+  success,
+  failed,
+  expired,
+}
+
+enum PaymentConfirmState { confirming, confirmed, failed, processingTimeout }
 
 class PaymentViewModel extends ChangeNotifier {
-  final BookingViewModel _bookingViewModel;
+  PaymentViewModel({required TourService tourService})
+    : _tourService = tourService;
 
-  PaymentViewModel({required BookingViewModel bookingViewModel})
-    : _bookingViewModel = bookingViewModel;
+  final TourService _tourService;
 
-  Tour? get tour => _bookingViewModel.tour;
-  TourInstance? get selectedInstance => _bookingViewModel.selectedInstance;
-  String get contactName => _bookingViewModel.contactName;
-  String get contactPhone => _bookingViewModel.contactPhone;
-  double get totalPrice => _bookingViewModel.totalPrice;
-  int get adultCount => _bookingViewModel.adultCount;
-  int get childCount => _bookingViewModel.childCount;
+  bool _disposed = false;
 
-  PaymentStatus _status = PaymentStatus.pending;
-  PaymentStatus get status => _status;
+  String? _bookingId;
+  String? get bookingId => _bookingId;
 
-  int _remainingSeconds = 15 * 60;
+  String? _txnRef;
+  String? get txnRef => _txnRef;
+
+  TourBookingData? _bookingData;
+  TourBookingData? get bookingData => _bookingData;
+
+  String _paymentUrl = '';
+  String get paymentUrl => _paymentUrl;
+
+  DateTime? _expiresAt;
+  int _remainingSeconds = 0;
   int get remainingSeconds => _remainingSeconds;
 
-  String _qrCodeUrl = '';
-  String get qrCodeUrl => _qrCodeUrl;
+  PaymentStatus _status = PaymentStatus.idle;
+  PaymentStatus get status => _status;
 
-  Timer? _timer;
-  VoidCallback? _onPaymentSuccess;
-  VoidCallback? _onPaymentExpired;
-  VoidCallback? _onPaymentFailed;
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  // Deep link state
+  PaymentConfirmState _confirmState = PaymentConfirmState.confirming;
+  PaymentConfirmState get confirmState => _confirmState;
+
+  String? _deeplinkResponseCode;
+
+  Timer? _countdownTimer;
+  Timer? _pollingTimer;
+  int _pollAttempt = 0;
+
+  // Exponential backoff delays in seconds: 2, 2, 3, 3, 5, 5, 5, 10, 10, 10
+  static const List<int> _pollDelays = [2, 2, 3, 3, 5, 5, 5, 10, 10, 10];
+  static const int _maxPollAttempts = 10;
+
+  void _setStatus(PaymentStatus s) {
+    _status = s;
+    notifyListeners();
+  }
+
+  void _setError(String msg) {
+    _errorMessage = msg;
+    _setStatus(PaymentStatus.failed);
+  }
+
+  void clearError() {
+    _errorMessage = null;
+    notifyListeners();
+  }
+
+  Future<void> initPayment(TourBookingData bookingData) async {
+    _bookingData = bookingData;
+    _bookingId = bookingData.id;
+    _txnRef = bookingData.payment?.transactionId;
+    _setStatus(PaymentStatus.loading);
+    notifyListeners();
+
+    if (bookingData.payment != null &&
+        bookingData.payment!.paymentUrl.isNotEmpty) {
+      _paymentUrl = bookingData.payment!.paymentUrl;
+      if (bookingData.payment!.expiresAt != null) {
+        _expiresAt = DateTime.tryParse(bookingData.payment!.expiresAt!);
+        _startCountdown();
+      }
+      _setStatus(PaymentStatus.pending);
+    } else {
+      await _createPayment();
+    }
+  }
+
+  Future<void> _createPayment() async {
+    if (_bookingId == null) return;
+
+    final result = await _tourService.createPayment(_bookingId!);
+
+    switch (result) {
+      case Ok<PaymentResponseData>():
+        _paymentUrl = result.value.paymentUrl;
+        if (result.value.expiresAt != null) {
+          _expiresAt = DateTime.tryParse(result.value.expiresAt!);
+          _startCountdown();
+        }
+        _setStatus(PaymentStatus.pending);
+      case Error<PaymentResponseData>():
+        _setError(result.error.toString());
+    }
+  }
+
+  void _startCountdown() {
+    _countdownTimer?.cancel();
+    if (_expiresAt == null) return;
+
+    _updateRemainingSeconds();
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      _updateRemainingSeconds();
+      if (_remainingSeconds <= 0) {
+        _countdownTimer?.cancel();
+        _stopPolling();
+        _setStatus(PaymentStatus.expired);
+      }
+    });
+  }
+
+  void _updateRemainingSeconds() {
+    if (_expiresAt == null) return;
+    final now = DateTime.now().toUtc();
+    final diff = _expiresAt!.toUtc().difference(now);
+    _remainingSeconds = diff.inSeconds.clamp(0, 999999);
+    notifyListeners();
+  }
+
+  /// Called when a deep link arrives. Sets initial confirm state.
+  void onDeepLinkArrived({
+    required String txnRef,
+    required String status,
+    required String? responseCode,
+  }) {
+    _deeplinkResponseCode = responseCode;
+    _txnRef = txnRef;
+
+    if (status == 'failed') {
+      _confirmState = PaymentConfirmState.failed;
+      _setStatus(PaymentStatus.failed);
+    } else {
+      _confirmState = PaymentConfirmState.confirming;
+      _setStatus(PaymentStatus.processing);
+    }
+    notifyListeners();
+  }
+
+  /// Start polling with exponential backoff. Call after deep link arrives.
+  Future<void> startPollingWithBackoff() async {
+    _pollAttempt = 0;
+    await _pollOnce();
+  }
+
+  Future<void> _pollOnce() async {
+    if (_pollAttempt >= _maxPollAttempts) {
+      _confirmState = PaymentConfirmState.processingTimeout;
+      _setStatus(PaymentStatus.expired);
+      notifyListeners();
+      return;
+    }
+
+    if (_bookingId == null) {
+      _confirmState = PaymentConfirmState.processingTimeout;
+      notifyListeners();
+      return;
+    }
+
+    // Exponential backoff delay
+    final delay = _pollDelays[_pollAttempt];
+    await Future.delayed(Duration(seconds: delay));
+    _pollAttempt++;
+
+    if (_disposed) return;
+
+    final result = await _tourService.getBookingDetail(_bookingId!);
+
+    if (_disposed) return;
+
+    switch (result) {
+      case Ok<TourBookingData>():
+        _bookingData = result.value;
+        final bookingStatus = result.value.status.toUpperCase();
+        if (bookingStatus == 'PAID' ||
+            bookingStatus == 'CONFIRMED' ||
+            bookingStatus == 'IN_PROGRESS' ||
+            bookingStatus == 'COMPLETED') {
+          _confirmState = PaymentConfirmState.confirmed;
+          _setStatus(PaymentStatus.success);
+          notifyListeners();
+          return;
+        }
+        if (bookingStatus == 'CANCELLED') {
+          _confirmState = PaymentConfirmState.failed;
+          _setStatus(PaymentStatus.failed);
+          notifyListeners();
+          return;
+        }
+      case Error<TourBookingData>():
+        break;
+    }
+
+    // Continue polling
+    _pollOnce();
+  }
+
+  /// Old polling for the VNPayPaymentScreen (polling while user is on payment screen)
+  void startPolling() {
+    _pollingTimer?.cancel();
+    _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
+      if (_status == PaymentStatus.expired ||
+          _status == PaymentStatus.success ||
+          _status == PaymentStatus.failed) {
+        _pollingTimer?.cancel();
+        return;
+      }
+      if (_disposed) return;
+      await _checkBookingStatus();
+    });
+  }
+
+  void _stopPolling() {
+    _pollingTimer?.cancel();
+    _pollingTimer = null;
+  }
+
+  Future<void> _checkBookingStatus() async {
+    if (_bookingId == null) return;
+
+    final result = await _tourService.getBookingDetail(_bookingId!);
+
+    switch (result) {
+      case Ok<TourBookingData>():
+        _bookingData = result.value;
+        if (_isPaymentSuccess(result.value)) {
+          _stopPolling();
+          _countdownTimer?.cancel();
+          _setStatus(PaymentStatus.success);
+        }
+      case Error<TourBookingData>():
+        break;
+    }
+  }
+
+  bool _isPaymentSuccess(TourBookingData data) {
+    final status = data.status.toUpperCase();
+    return status == 'CONFIRMED' ||
+        status == 'PAID' ||
+        status == 'IN_PROGRESS' ||
+        status == 'COMPLETED';
+  }
 
   String get formattedTime {
     final minutes = _remainingSeconds ~/ 60;
@@ -42,10 +268,14 @@ class PaymentViewModel extends ChangeNotifier {
 
   String get statusText {
     switch (_status) {
+      case PaymentStatus.idle:
+        return 'Đang khởi tạo...';
+      case PaymentStatus.loading:
+        return 'Đang tạo thanh toán...';
       case PaymentStatus.pending:
         return 'Đang chờ thanh toán';
       case PaymentStatus.processing:
-        return 'Đang xử lý';
+        return 'Đang xác nhận thanh toán...';
       case PaymentStatus.success:
         return 'Thanh toán thành công';
       case PaymentStatus.failed:
@@ -55,68 +285,30 @@ class PaymentViewModel extends ChangeNotifier {
     }
   }
 
-  void startPayment({
-    VoidCallback? onSuccess,
-    VoidCallback? onExpired,
-    VoidCallback? onFailed,
-  }) {
-    _onPaymentSuccess = onSuccess;
-    _onPaymentExpired = onExpired;
-    _onPaymentFailed = onFailed;
-
-    _generateMockQrCode();
-    _startTimer();
-    notifyListeners();
+  String get confirmStateText {
+    switch (_confirmState) {
+      case PaymentConfirmState.confirming:
+        return 'Đang xác nhận thanh toán...';
+      case PaymentConfirmState.confirmed:
+        return 'Xác nhận thành công!';
+      case PaymentConfirmState.failed:
+        return 'Thanh toán thất bại';
+      case PaymentConfirmState.processingTimeout:
+        return 'Đang xử lý...';
+    }
   }
 
-  void _generateMockQrCode() {
-    _qrCodeUrl =
-        'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=VNPay_Payment_${DateTime.now().millisecondsSinceEpoch}';
-  }
+  String? get deeplinkResponseCode => _deeplinkResponseCode;
 
-  void _startTimer() {
-    _remainingSeconds = 15 * 60;
-    _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_remainingSeconds > 0) {
-        _remainingSeconds--;
-        notifyListeners();
-      } else {
-        _handlePaymentExpired();
-      }
-    });
-  }
-
-  void _handlePaymentExpired() {
-    _timer?.cancel();
-    _status = PaymentStatus.expired;
-    notifyListeners();
-    _onPaymentExpired?.call();
-  }
-
-  void simulatePaymentSuccess() {
-    _timer?.cancel();
-    _status = PaymentStatus.success;
-    notifyListeners();
-    _onPaymentSuccess?.call();
-  }
-
-  void simulatePaymentFailed() {
-    _timer?.cancel();
-    _status = PaymentStatus.failed;
-    notifyListeners();
-    _onPaymentFailed?.call();
-  }
-
-  void cancelPayment() {
-    _timer?.cancel();
-    _status = PaymentStatus.failed;
-    notifyListeners();
-  }
+  double get totalAmount => _bookingData?.totalPrice ?? 0;
+  String get bookingCode => _bookingId ?? '';
+  String get tourName => _bookingData?.tourName ?? '';
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _disposed = true;
+    _countdownTimer?.cancel();
+    _stopPolling();
     super.dispose();
   }
 }

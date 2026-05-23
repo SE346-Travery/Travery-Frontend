@@ -7,10 +7,10 @@ import 'package:travery_frontend/ui/user/tour/detail/view_models/tour_detail_vie
 import 'package:travery_frontend/ui/user/tour/booking/view_models/booking_view_model.dart';
 import 'package:travery_frontend/utils/format_utils.dart';
 import 'package:travery_frontend/data/seed_models/tour_instance/tour_instance.dart';
-import '../../../core/widgets/app_bar_widget.dart';
+import 'package:travery_frontend/data/models/tour/tour_detail_page_data.dart';
 import 'widgets/tour_image_carousel.dart';
 import 'widgets/section_title.dart';
-import 'widgets/price_card.dart';
+import 'widgets/departure_item.dart';
 
 class TourDetailScreen extends StatefulWidget {
   final String? tourId;
@@ -50,8 +50,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: const AppBarWidget(title: 'Chi Tiết Tour'),
+      backgroundColor: AppColors.background,
       body: Consumer<TourDetailViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.isLoading) {
@@ -94,195 +93,335 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
             return const Center(child: Text('Không tìm thấy tour'));
           }
 
-          final images = tour.images ?? [];
-          final pricePerAdult = FormatUtils.formatCurrency(tour.pricePerAdult);
-          final description = tour.description?['overview'] as String? ?? '';
+          final images = tour.images?.map((img) => img.url).toList() ?? [];
+          final priceAdult = FormatUtils.formatCurrency(tour.pricePerAdult);
+          final priceChild = FormatUtils.formatCurrency(tour.pricePerChild);
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TourImageCarousel(
-                  images: images.map((img) => img.imageUrl).toList(),
-                  pageController: _pageController,
-                  currentPage: _currentPage,
-                  onPageChanged: (index) {
-                    setState(() => _currentPage = index);
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tour.name,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const SectionTitle(
-                        icon: Icons.analytics,
-                        title: 'Tổng quan',
-                      ),
-                      PriceCard(price: pricePerAdult),
-                      const SizedBox(height: 24),
-                      if (viewModel.availableInstances.isNotEmpty) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const SectionTitle(
-                              icon: Icons.calendar_month,
-                              title: 'Lịch khởi hành',
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 110),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TourImageCarousel(
+                      images: images,
+                      pageController: _pageController,
+                      currentPage: _currentPage,
+                      onPageChanged: (index) {
+                        setState(() => _currentPage = index);
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            tour.name,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textPrimary,
+                              height: 1.25,
                             ),
-                            Text(
-                              '${viewModel.selectedInstanceIndex + 1}/${viewModel.availableInstances.length}',
-                              style: const TextStyle(
-                                color: AppColors.textSecondary,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        SizedBox(
-                          height: 50,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: viewModel.availableInstances.length,
-                            separatorBuilder: (_, __) =>
-                                const SizedBox(width: 8),
-                            itemBuilder: (context, index) {
-                              final instance =
-                                  viewModel.availableInstances[index];
-                              final isSelected =
-                                  index == viewModel.selectedInstanceIndex;
-                              return _buildInstanceChip(
-                                instance,
-                                isSelected,
-                                () => viewModel.selectInstance(index),
-                              );
-                            },
                           ),
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-                      const SectionTitle(
-                        icon: Icons.description,
-                        title: 'Mô tả',
+                          const SizedBox(height: 32),
+                          _buildPriceSection(priceAdult, priceChild),
+                          const SizedBox(height: 32),
+                          _buildScheduleSection(viewModel),
+                          const SizedBox(height: 32),
+                          _buildDetailedItinerarySection(tour),
+                          const SizedBox(height: 32),
+                          _buildDescriptionSection(tour),
+                        ],
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        description,
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
-                          height: 1.6,
-                        ),
-                      ),
-                      const SizedBox(height: 100),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              _buildBottomBookingBar(viewModel),
+            ],
           );
         },
       ),
-      bottomNavigationBar: _buildBottomBar(),
     );
   }
 
-  Widget _buildInstanceChip(
-    TourInstance instance,
-    bool isSelected,
-    VoidCallback onTap,
-  ) {
-    final startDate = FormatUtils.formatDate(instance.startDate);
-    final endDate = FormatUtils.formatDate(instance.endDate);
-    final dateRange = '$startDate - $endDate';
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.surface,
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.inputBorder,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+  Widget _buildPriceSection(String priceAdult, String priceChild) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionTitle(icon: Icons.payments, title: 'Giá tour'),
+        const SizedBox(height: 16),
+        Row(
           children: [
-            Icon(
-              Icons.calendar_today,
-              size: 14,
-              color: isSelected ? Colors.white : AppColors.textSecondary,
+            Expanded(child: _buildPriceCard('Giá người lớn', priceAdult)),
+            const SizedBox(width: 12),
+            Expanded(child: _buildPriceCard('Giá trẻ em', priceChild)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPriceCard(String label, String price) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.inputBackground,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label.toUpperCase(),
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textSecondary,
+              letterSpacing: 0.5,
             ),
-            const SizedBox(width: 8),
-            Text(
-              dateRange,
-              style: TextStyle(
-                color: isSelected ? Colors.white : AppColors.textPrimary,
-                fontWeight: FontWeight.w500,
-                fontSize: 12,
+          ),
+          const SizedBox(height: 4),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                price,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(width: 2),
+              const Text(
+                'đ',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildScheduleSection(TourDetailViewModel viewModel) {
+    final instances = viewModel.availableInstances;
+    if (instances.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionTitle(icon: Icons.calendar_month, title: 'Lịch khởi hành'),
+        const SizedBox(height: 16),
+        ...instances.map((instance) {
+          final idx = instances.indexOf(instance);
+          final isSelected = idx == viewModel.selectedInstanceIndex;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: DepartureItem(
+              dateRange:
+                  '${FormatUtils.formatDate(instance.startDate)} - ${FormatUtils.formatDate(instance.endDate)}',
+              status: _formatInstanceStatus(instance.status),
+              isSelected: isSelected,
+              onTap: () => viewModel.selectInstance(idx),
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  String _formatInstanceStatus(TourInstanceStatus status) {
+    switch (status) {
+      case TourInstanceStatus.PLANNING:
+        return 'Đang lên kế hoạch';
+      case TourInstanceStatus.OPEN:
+        return 'Mở bán';
+      case TourInstanceStatus.FULL:
+        return 'Đã đầy';
+      case TourInstanceStatus.IN_PROGRESS:
+        return 'Đang diễn ra';
+      case TourInstanceStatus.COMPLETED:
+        return 'Hoàn thành';
+      case TourInstanceStatus.CANCELLED:
+        return 'Đã hủy';
+      case TourInstanceStatus.POSTPONED:
+        return 'Tạm hoãn';
+    }
+  }
+
+  Widget _buildDetailedItinerarySection(TourDetailPageData tour) {
+    final itineraries = tour.itineraryList ?? [];
+
+    if (itineraries.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionTitle(icon: Icons.route, title: 'Lịch trình chi tiết'),
+        const SizedBox(height: 16),
+        ...itineraries.map((day) => _buildItineraryDay(day)),
+      ],
+    );
+  }
+
+  Widget _buildItineraryDay(TourItineraryPageData day) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.inputBackground,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'Ngày ${day.dayNumber}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      day.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ),
+            if (day.description.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  day.description,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textSecondary,
+                    height: 1.5,
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 
-  void _handleBookTour() {
-    final tourDetailViewModel = context.read<TourDetailViewModel>();
+  Widget _buildDescriptionSection(TourDetailPageData tour) {
+    final description = tour.description;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionTitle(icon: Icons.description, title: 'Mô tả'),
+        const SizedBox(height: 16),
+        if (description != null && description.isNotEmpty)
+          Text(
+            description,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textSecondary,
+              height: 1.5,
+            ),
+          )
+        else
+          const Text(
+            'Không có mô tả cho tour này.',
+            style: TextStyle(
+              fontSize: 14,
+              color: AppColors.textSecondary,
+              height: 1.5,
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _handleBookTour(TourDetailViewModel viewModel) {
     final bookingViewModel = context.read<BookingViewModel>();
 
-    if (tourDetailViewModel.tour == null) return;
-
-    if (tourDetailViewModel.availableInstances.isNotEmpty &&
-        tourDetailViewModel.selectedInstance == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Vui lòng chọn ngày khởi hành trước khi đặt tour'),
-          backgroundColor: AppColors.error,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-      return;
-    }
+    if (viewModel.tour == null) return;
 
     bookingViewModel.setTourData(
-      tour: tourDetailViewModel.tour!,
-      selectedInstance: tourDetailViewModel.selectedInstance,
+      tour: viewModel.tour!,
+      selectedInstance: viewModel.selectedInstance,
     );
     context.push(Routes.tourBooking);
   }
 
-  Widget _buildBottomBar() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: AppColors.inputBorder)),
-      ),
-      child: ElevatedButton(
-        onPressed: _handleBookTour,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.buttonPrimary,
-          minimumSize: const Size(double.infinity, 52),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  Widget _buildBottomBookingBar(TourDetailViewModel viewModel) {
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        decoration: BoxDecoration(
+          color: AppColors.surface.withValues(alpha: 0.95),
+          border: const Border(
+            top: BorderSide(color: AppColors.inputBorder, width: 0.5),
+          ),
         ),
-        child: const Text(
-          'ĐẶT TOUR NGAY',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.2,
+        child: SizedBox(
+          width: double.infinity,
+          height: 52,
+          child: ElevatedButton(
+            onPressed: () => _handleBookTour(viewModel),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.buttonPrimary,
+              foregroundColor: AppColors.buttonPrimaryText,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: const Text(
+              'ĐẶT TOUR NGAY',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
+            ),
           ),
         ),
       ),

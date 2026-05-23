@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/data/seed_models/tour/tour.dart';
+import 'package:travery_frontend/data/models/tour/tour_featured_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class TourHomeViewModel extends ChangeNotifier {
-  final TourService _tourService;
-
   TourHomeViewModel({required TourService tourService})
     : _tourService = tourService;
 
-  List<Tour> _tours = [];
-  List<Tour> get tours => _tours;
+  final TourService _tourService;
+
+  List<TourFeaturedItem> _featuredTours = [];
+  List<TourFeaturedItem> get featuredTours => _featuredTours;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -23,20 +23,16 @@ class TourHomeViewModel extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    final result = await _tourService.getTours();
+    final result = await _tourService.getFeaturedTours();
 
     switch (result) {
-      case Ok<List<Tour>>():
-        _tours = result.value;
-      case Error<List<Tour>>():
+      case Ok<List<TourFeaturedItem>>():
+        _featuredTours = result.value;
+      case Error<List<TourFeaturedItem>>():
         _errorMessage = result.error.toString();
     }
 
     _isLoading = false;
     notifyListeners();
-  }
-
-  List<Tour> get featuredTours {
-    return _tours.where((tour) => tour.status == TourStatus.active).toList();
   }
 }

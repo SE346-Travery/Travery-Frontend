@@ -71,7 +71,9 @@ class TourServiceImpl implements TourService {
       }
 
       final request = await client.getUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/tours').replace(queryParameters: queryParams),
+        Uri.parse(
+          '${AppConfig.baseUrl}/api/v1/tours',
+        ).replace(queryParameters: queryParams),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,

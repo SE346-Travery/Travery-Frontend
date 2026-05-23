@@ -17,7 +17,7 @@ import 'package:travery_frontend/utils/core_result.dart';
 
 class AuthService {
   AuthService({String? host, HttpClient Function()? clientFactory})
-    : _host = host ?? AppConfig.host,
+    : _host = host ?? AppConfig.baseUrl,
       _clientFactory = clientFactory ?? HttpClient.new;
 
   final String _host;

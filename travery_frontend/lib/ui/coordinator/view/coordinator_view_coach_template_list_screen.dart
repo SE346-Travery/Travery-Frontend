@@ -50,65 +50,76 @@ class _CoordinatorViewCoachTemplateListScreenState
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(
-          children: [
-            // AppBar
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-              child: Row(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8.0),
+              // Back Button
+              IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: AppColors.textPrimary,
+                  size: 28,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              const SizedBox(height: 16.0),
+              // Title and "+ Tạo lộ trình" Button Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: AppColors.textPrimary,
-                      size: 26,
-                    ),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           'Chọn lộ trình',
                           style: TextStyle(
-                            fontSize: AppTextTheme.headlineSmall,
+                            fontSize: AppTextTheme.headlineLarge,
                             fontWeight: FontWeight.bold,
                             color: AppColors.textPrimary,
                           ),
                         ),
-                        SizedBox(height: 2),
-                        Text(
+                        const SizedBox(height: 4.0),
+                        const Text(
                           'Chọn lộ trình để tiếp tục tạo chuyến xe',
                           style: TextStyle(
-                            fontSize: AppTextTheme.bodySmall,
+                            fontSize: AppTextTheme.bodyMedium,
                             color: AppColors.textSecondary,
                           ),
                         ),
                       ],
                     ),
                   ),
+                  const SizedBox(width: 8.0),
+                  // Create route button
                   Material(
                     color: AppColors.primaryDarkBlackBlue,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.0),
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.0),
                       onTap: _onCreateNew,
                       child: const Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
+                          horizontal: 12.0,
+                          vertical: 8.0,
                         ),
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.add, color: Colors.white, size: 16),
-                            SizedBox(width: 4),
+                            SizedBox(width: 4.0),
                             Text(
                               'Tạo lộ trình',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: AppTextTheme.bodySmall,
                                 fontWeight: FontWeight.bold,
+                                fontSize: AppTextTheme.bodySmall,
                               ),
                             ),
                           ],
@@ -118,91 +129,85 @@ class _CoordinatorViewCoachTemplateListScreenState
                   ),
                 ],
               ),
-            ),
+              const SizedBox(height: 20.0),
+              // Search Bar
+              _buildSearchBar(),
+              const SizedBox(height: 16.0),
+              // List of Templates
+              Expanded(
+                child: ListenableBuilder(
+                  listenable: widget.viewModel.loadStations,
+                  builder: (context, child) {
+                    final viewModel = widget.viewModel;
+                    if (viewModel.loadStations.running) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-            // Search Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    hintText: 'Tìm kiếm lộ trình...',
-                    hintStyle: TextStyle(
-                      color: AppColors.textHint,
-                      fontSize: AppTextTheme.bodyMedium,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: AppColors.textSecondary,
-                      size: 20,
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                    if (viewModel.loadStations.error) {
+                      final error =
+                          (viewModel.loadStations.result as Error).error;
+                      return Center(
+                        child: Text(
+                          error.toString(),
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      );
+                    }
 
-            // List of Templates
-            Expanded(
-              child: ListenableBuilder(
-                listenable: widget.viewModel.loadStations,
-                builder: (context, child) {
-                  final viewModel = widget.viewModel;
-                  if (viewModel.loadStations.running) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+                    final stations = viewModel.loadStations.completed
+                        ? (viewModel.loadStations.result
+                                  as Ok<List<CoordinatorStation>>)
+                              .value
+                        : <CoordinatorStation>[];
 
-                  if (viewModel.loadStations.error) {
-                    final error =
-                        (viewModel.loadStations.result as Error).error;
-                    return Center(
-                      child: Text(
-                        error.toString(),
-                        style: const TextStyle(color: Colors.red),
-                      ),
+                    if (stations.isEmpty) {
+                      return const Center(child: Text('Không có dữ liệu'));
+                    }
+
+                    return ListView.separated(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: stations.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        final station = stations[index];
+                        return _buildStationCard(station);
+                      },
                     );
-                  }
-
-                  final stations = viewModel.loadStations.completed
-                      ? (viewModel.loadStations.result
-                                as Ok<List<CoordinatorStation>>)
-                            .value
-                      : <CoordinatorStation>[];
-
-                  if (stations.isEmpty) {
-                    return const Center(child: Text('Không có dữ liệu'));
-                  }
-
-                  return ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: stations.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      final station = stations[index];
-                      return _buildStationCard(station);
-                    },
-                  );
-                },
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(
+          0xFFF3F4FB,
+        ), // Light grey/blue color matching the mockup
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: TextField(
+        controller: _searchController,
+        style: const TextStyle(
+          fontSize: AppTextTheme.bodyMedium,
+          color: AppColors.textPrimary,
+        ),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
+          hintText: 'Tìm kiếm lộ trình...',
+          hintStyle: TextStyle(
+            color: AppColors.textHint,
+            fontSize: AppTextTheme.bodyMedium,
+          ),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 14.0),
         ),
       ),
     );

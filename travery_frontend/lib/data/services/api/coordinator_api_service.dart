@@ -10,7 +10,7 @@ import 'package:travery_frontend/utils/core_result.dart';
 /// Service for coordinator staff GET APIs.
 class CoordinatorApiService {
   CoordinatorApiService({String? host, HttpClient Function()? clientFactory})
-    : _host = host ?? AppConfig.host,
+    : _host = host ?? AppConfig.baseUrl,
       _clientFactory = clientFactory ?? HttpClient.new;
 
   final String _host;

@@ -15,7 +15,6 @@ class CoordinatorBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90, // Sufficient height for icon + label + padding
       decoration: BoxDecoration(
         color: AppColors.surface,
         boxShadow: [
@@ -28,15 +27,18 @@ class CoordinatorBottomNavigationBar extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(0, Icons.outlined_flag, "Tour"),
-            _buildNavItem(1, Icons.directions_car_outlined, "Đặt xe"),
-            _buildNavItem(2, Icons.add, "Tạo mới", isCenter: true),
-            _buildNavItem(3, Icons.chat_bubble_outline_rounded, "Chat"),
-            _buildNavItem(4, Icons.notifications_none_rounded, "Thông báo"),
-          ],
+        child: SizedBox(
+          height: 74, // Enough height for the nav items
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavItem(0, Icons.outlined_flag, "Tour"),
+              _buildNavItem(1, Icons.directions_car_outlined, "Đặt xe"),
+              _buildNavItem(2, Icons.add, "Tạo mới", isCenter: true),
+              _buildNavItem(3, Icons.chat_bubble_outline_rounded, "Chat"),
+              _buildNavItem(4, Icons.notifications_none_rounded, "Thông báo"),
+            ],
+          ),
         ),
       ),
     );

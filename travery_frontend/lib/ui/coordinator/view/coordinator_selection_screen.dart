@@ -54,7 +54,7 @@ class _CoordinatorSelectionScreenState extends State<CoordinatorSelectionScreen>
                     height: 1.5,
                   ),
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: 24),
 
                 // Tạo Tour Mới Button
                 _buildSelectionCard(
@@ -70,7 +70,8 @@ class _CoordinatorSelectionScreenState extends State<CoordinatorSelectionScreen>
                         builder: (context) =>
                             CoordinatorViewTourTemplateListScreen(
                               viewModel: CoordinatorTourTemplateListViewModel(
-                                coordinatorRepository: context.read<CoordinatorRepository>(),
+                                coordinatorRepository: context
+                                    .read<CoordinatorRepository>(),
                               ),
                             ),
                       ),
@@ -78,7 +79,7 @@ class _CoordinatorSelectionScreenState extends State<CoordinatorSelectionScreen>
                   },
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 // Thiết lập Chuyến Xe Button
                 _buildSelectionCard(
@@ -94,14 +95,15 @@ class _CoordinatorSelectionScreenState extends State<CoordinatorSelectionScreen>
                         builder: (context) =>
                             CoordinatorViewCoachTemplateListScreen(
                               viewModel: CoordinatorCoachTemplateListViewModel(
-                                coordinatorRepository: context.read<CoordinatorRepository>(),
+                                coordinatorRepository: context
+                                    .read<CoordinatorRepository>(),
                               ),
                             ),
                       ),
                     );
                   },
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -125,7 +127,7 @@ class _CoordinatorSelectionScreenState extends State<CoordinatorSelectionScreen>
         border: Border.all(color: AppColors.primary, width: 2),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -137,22 +139,24 @@ class _CoordinatorSelectionScreenState extends State<CoordinatorSelectionScreen>
         child: InkWell(
           borderRadius: BorderRadius.circular(24),
           onTap: onTap,
-          splashColor: AppColors.primary.withOpacity(0.1),
-          highlightColor: AppColors.primary.withOpacity(0.05),
+          splashColor: AppColors.primary.withValues(alpha: 0.1),
+          highlightColor: AppColors.primary.withValues(alpha: 0.05),
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryLightWhiteBlue.withOpacity(0.5),
+                    color: AppColors.primaryLightWhiteBlue.withValues(
+                      alpha: 0.5,
+                    ),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(icon, size: 40, color: AppColors.primary),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 Text(
                   title,
                   style: const TextStyle(

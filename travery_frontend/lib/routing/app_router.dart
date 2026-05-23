@@ -70,6 +70,9 @@ import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_t
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_template_screen.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
+import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
 
 GoRouter appRouter(AuthRepository authRepository) {
   return GoRouter(
@@ -210,7 +213,12 @@ GoRouter appRouter(AuthRepository authRepository) {
       // --- COORDINATOR ROUTES ---
       GoRoute(
         path: Routes.coordinatorMain,
-        builder: (context, state) => const CoordinatorMainScreen(),
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (context) => CoordinatorTourListViewModel(
+            coordinatorRepository: context.read<CoordinatorRepository>(),
+          ),
+          child: const CoordinatorMainScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.coordinatorHome,
@@ -298,15 +306,44 @@ GoRouter appRouter(AuthRepository authRepository) {
       // --- ADMIN ROUTES ---
       GoRoute(
         path: Routes.adminMain,
-        builder: (context, state) => const AdminMainScreen(),
+        builder: (context, state) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => DashboardViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => AccountManagementViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => CreateAccountViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
+          ],
+          child: const AdminMainScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.adminDashboard,
-        builder: (context, state) => const DashboardScreen(),
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (context) => DashboardViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+          child: const DashboardScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.adminCreateAccount,
-        builder: (context, state) => CreateAccountScreen(),
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (context) => CreateAccountViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+          child: const CreateAccountScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.adminCreateHotel,
@@ -326,7 +363,12 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.adminAccountManagement,
-        builder: (context, state) => const AccountManagementScreen(),
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (context) => AccountManagementViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+          child: const AccountManagementScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.adminViewDetailAccountWithId(':id'),

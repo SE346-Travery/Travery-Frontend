@@ -8,6 +8,7 @@ class BookingDetailModel {
   final String? paymentMethod;
   final String status;
   final RefundPolicy refundPolicy;
+  final List<MemberDetail> members;
 
   const BookingDetailModel({
     required this.bookingId,
@@ -19,6 +20,7 @@ class BookingDetailModel {
     this.paymentMethod,
     required this.status,
     required this.refundPolicy,
+    this.members = const [],
   });
 
   BookingDetailModel copyWith({
@@ -31,6 +33,7 @@ class BookingDetailModel {
     String? paymentMethod,
     String? status,
     RefundPolicy? refundPolicy,
+    List<MemberDetail>? members,
   }) {
     return BookingDetailModel(
       bookingId: bookingId ?? this.bookingId,
@@ -42,8 +45,23 @@ class BookingDetailModel {
       paymentMethod: paymentMethod ?? this.paymentMethod,
       status: status ?? this.status,
       refundPolicy: refundPolicy ?? this.refundPolicy,
+      members: members ?? this.members,
     );
   }
+}
+
+class MemberDetail {
+  final String fullName;
+  final String identityNumber;
+  final String dateOfBirth;
+  final String memberType;
+
+  const MemberDetail({
+    required this.fullName,
+    required this.identityNumber,
+    required this.dateOfBirth,
+    required this.memberType,
+  });
 }
 
 class RefundPolicy {

@@ -1,445 +1,215 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:travery_frontend/routing/routes.dart';
-import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
-import 'package:travery_frontend/ui/user/tour/list/widgets/filter_sort_bar.dart';
-import 'package:travery_frontend/utils/format_utils.dart';
+import 'package:travery_frontend/ui/user/widgets/tour_card.dart';
 
 class TourListScreen extends StatefulWidget {
-  const TourListScreen({super.key});
+  const TourListScreen({
+    super.key,
+    required this.viewModel,
+    this.keyword,
+    this.destinationId,
+  });
+
+  final TourListViewModel viewModel;
+  final String? keyword;
+  final String? destinationId;
 
   @override
   State<TourListScreen> createState() => _TourListScreenState();
 }
 
 class _TourListScreenState extends State<TourListScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    _searchController.text = widget.keyword ?? '';
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TourListViewModel>().loadTours();
+      widget.viewModel.loadTours(
+        keyword: widget.keyword,
+        destinationId: widget.destinationId,
+      );
     });
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      widget.viewModel.loadMore();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color(0xFFFAFAFF),
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
-        elevation: 0.5,
+        backgroundColor: Colors.white,
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF131B2E)),
+          onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Danh sách tour',
+          'Danh sách Tour',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
             fontSize: 18,
-            color: AppColors.textPrimary,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF131B2E),
           ),
         ),
+        centerTitle: true,
       ),
-      body: Consumer<TourListViewModel>(
-        builder: (context, vm, child) {
-          return Column(
-            children: [
-              FilterSortBar(
-                hasActiveFilters: vm.selectedDate != null,
-                onFilterPressed: () => _showFilterBottomSheet(context, vm),
+      body: Column(
+        children: [
+          // Search Bar
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF2F3FF),
+                borderRadius: BorderRadius.circular(16),
               ),
-              Expanded(child: _buildBody(vm)),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildBody(TourListViewModel vm) {
-    if (vm.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: AppColors.primary),
-      );
-    }
-
-    if (vm.errorMessage != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, color: AppColors.error, size: 48),
-            const SizedBox(height: 16),
-            Text(
-              vm.errorMessage!,
-              style: const TextStyle(color: AppColors.error),
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () => vm.loadTours(),
-              child: const Text('Thử lại'),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (vm.tours.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.tour_outlined, color: AppColors.textHint, size: 56),
-            SizedBox(height: 16),
-            Text(
-              'Không có tour nào',
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return RefreshIndicator(
-      onRefresh: () => vm.loadTours(),
-      color: AppColors.primary,
-      child: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: vm.tours.length,
-        separatorBuilder: (_, idx) => const SizedBox(height: 16),
-        itemBuilder: (context, index) {
-          final tour = vm.tours[index];
-          return _TourListCard(
-            imageUrl:
-                tour.thumbnailUrl ?? 'https://picsum.photos/400?random=$index',
-            rating: '★ ${tour.averageRating?.toStringAsFixed(1) ?? 'N/A'}',
-            duration:
-                '${tour.durationDays ?? 0}N${(tour.durationDays ?? 1) - 1}Đ',
-            title: tour.name,
-            location: tour.destinationName ?? '',
-            price: FormatUtils.formatCurrency(tour.price),
-            onTap: () =>
-                context.push(Routes.tourDetail.replaceFirst(':id', tour.id)),
-          );
-        },
-      ),
-    );
-  }
-
-  void _showFilterBottomSheet(BuildContext context, TourListViewModel vm) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => _FilterBottomSheet(vm: vm),
-    );
-  }
-}
-
-class _TourListCard extends StatelessWidget {
-  final String imageUrl;
-  final String rating;
-  final String duration;
-  final String title;
-  final String location;
-  final String price;
-  final VoidCallback? onTap;
-
-  const _TourListCard({
-    required this.imageUrl,
-    required this.rating,
-    required this.duration,
-    required this.title,
-    required this.location,
-    required this.price,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
-              ),
-              child: Stack(
+              child: Row(
                 children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        color: AppColors.inputBackground,
-                        child: const Icon(
-                          Icons.tour,
-                          color: AppColors.textHint,
-                          size: 48,
-                        ),
+                  const Icon(Icons.search, color: Color(0xFF717786)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: const InputDecoration(
+                        hintText: 'Tìm kiếm tour...',
+                        hintStyle: TextStyle(color: Color(0xFF717786)),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 14),
                       ),
+                      onSubmitted: (value) {
+                        widget.viewModel.loadTours(keyword: value);
+                      },
                     ),
                   ),
-                  Positioned(
-                    top: 12,
-                    right: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.star, color: Colors.amber, size: 14),
-                          const SizedBox(width: 4),
-                          Text(
-                            rating,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                  if (_searchController.text.isNotEmpty)
+                    IconButton(
+                      icon: const Icon(Icons.clear, color: Color(0xFF717786)),
+                      onPressed: () {
+                        _searchController.clear();
+                        widget.viewModel.loadTours();
+                      },
                     ),
-                  ),
-                  Positioned(
-                    bottom: 12,
-                    left: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        duration,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: AppColors.textPrimary,
-                      height: 1.3,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (location.isNotEmpty) ...[
-                    const SizedBox(height: 6),
-                    Row(
+          ),
+
+          // Tour List
+          Expanded(
+            child: Consumer<TourListViewModel>(
+              builder: (context, vm, _) {
+                if (vm.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (vm.error != null) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(
-                          Icons.location_on_outlined,
-                          size: 14,
-                          color: AppColors.textSecondary,
+                          Icons.error_outline,
+                          size: 48,
+                          color: Colors.grey,
                         ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            location,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textSecondary,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                        const SizedBox(height: 12),
+                        Text(
+                          'Không thể tải danh sách tour',
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
+                        const SizedBox(height: 8),
+                        ElevatedButton(
+                          onPressed: () => vm.loadTours(
+                            keyword: widget.keyword,
+                            destinationId: widget.destinationId,
+                            refresh: true,
                           ),
+                          child: const Text('Thử lại'),
                         ),
                       ],
                     ),
-                  ],
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        price,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18,
-                          color: AppColors.primary,
+                  );
+                }
+
+                if (vm.tours.isEmpty) {
+                  return const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.travel_explore,
+                          size: 48,
+                          color: Colors.grey,
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 6,
+                        SizedBox(height: 12),
+                        Text(
+                          'Không tìm thấy tour nào',
+                          style: TextStyle(color: Colors.grey),
                         ),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Text(
-                          'Đặt ngay',
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  );
+                }
+
+                return RefreshIndicator(
+                  onRefresh: () => vm.loadTours(
+                    keyword: widget.keyword,
+                    destinationId: widget.destinationId,
+                    refresh: true,
                   ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: vm.tours.length + (vm.isLoadingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index >= vm.tours.length) {
+                        return const Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
 
-class _FilterBottomSheet extends StatelessWidget {
-  final TourListViewModel vm;
-
-  const _FilterBottomSheet({required this.vm});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        20,
-        20,
-        20,
-        MediaQuery.of(context).viewInsets.bottom + 20,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.inputBorder,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Sắp xếp theo giá',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              _SortChip(
-                label: 'Giá: Tăng dần',
-                isSelected: vm.sortType == TourSortType.priceAsc,
-                onTap: () => vm.setSortType(TourSortType.priceAsc),
-              ),
-              const SizedBox(width: 8),
-              _SortChip(
-                label: 'Giá: Giảm dần',
-                isSelected: vm.sortType == TourSortType.priceDesc,
-                onTap: () => vm.setSortType(TourSortType.priceDesc),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text(
-                'Áp dụng',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+                      final tour = vm.tours[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: TourCard(
+                          id: tour.id,
+                          name: tour.name,
+                          price: tour.price,
+                          thumbnailUrl: tour.thumbnailUrl,
+                          destinationName: tour.destinationName,
+                          durationDays: tour.durationDays,
+                          averageRating: tour.averageRating,
+                          onTap: () => context.push('/tour/${tour.id}'),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _SortChip extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _SortChip({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.inputBackground,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? Colors.white : AppColors.textSecondary,
-            fontWeight: FontWeight.w500,
-            fontSize: 13,
-          ),
-        ),
       ),
     );
   }

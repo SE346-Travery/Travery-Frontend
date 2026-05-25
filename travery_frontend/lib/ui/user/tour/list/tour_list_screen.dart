@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'package:travery_frontend/ui/user/widgets/tour_card.dart';
+import 'package:travery_frontend/ui/user/widgets/empty_state.dart';
+import 'package:travery_frontend/ui/user/widgets/error_state.dart';
 
 class TourListScreen extends StatefulWidget {
   const TourListScreen({
@@ -123,51 +125,20 @@ class _TourListScreenState extends State<TourListScreen> {
                 }
 
                 if (vm.error != null) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.error_outline,
-                          size: 48,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Không thể tải danh sách tour',
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                        const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () => vm.loadTours(
-                            keyword: widget.keyword,
-                            destinationId: widget.destinationId,
-                            refresh: true,
-                          ),
-                          child: const Text('Thử lại'),
-                        ),
-                      ],
+                  return ErrorState(
+                    message: 'Không thể tải danh sách tour',
+                    onRetry: () => vm.loadTours(
+                      keyword: widget.keyword,
+                      destinationId: widget.destinationId,
+                      refresh: true,
                     ),
                   );
                 }
 
                 if (vm.tours.isEmpty) {
-                  return const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.travel_explore,
-                          size: 48,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(height: 12),
-                        Text(
-                          'Không tìm thấy tour nào',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
+                  return const EmptyState(
+                    icon: Icons.travel_explore,
+                    title: 'Không tìm thấy tour nào',
                   );
                 }
 

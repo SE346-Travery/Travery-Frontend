@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
-
+import 'package:travery_frontend/ui/user/widgets/info_row.dart';
 import '../../../../routing/routes.dart';
 import 'view_models/booking_review_view_model.dart';
 
@@ -102,7 +102,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                     ),
                     const SizedBox(height: 12),
                     if (widget.startDate.isNotEmpty)
-                      _InfoRow(
+                      InfoRow(
                         icon: Icons.calendar_today,
                         text: '${widget.startDate} - ${widget.endDate}',
                       ),
@@ -451,26 +451,5 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.icon, required this.text});
-
-  final IconData icon;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: AppColors.primary),
-        const SizedBox(width: 8),
-        Text(
-          text,
-          style: const TextStyle(fontSize: 13, color: Color(0xFF414755)),
-        ),
-      ],
-    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/booking_input/view_models/booking_input_view_model.dart';
+import 'package:travery_frontend/ui/user/widgets/section_title.dart';
 
 class BookingInputScreen extends StatefulWidget {
   const BookingInputScreen({
@@ -102,7 +103,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
               padding: const EdgeInsets.all(20),
               children: [
                 // Guest Count Section
-                _SectionTitle(title: 'Số lượng hành khách'),
+                const SectionTitle(title: 'Số lượng hành khách'),
                 const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -143,7 +144,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
                 const SizedBox(height: 24),
 
                 // Members List
-                _SectionTitle(title: 'Danh sách thành viên'),
+                const SectionTitle(title: 'Danh sách thành viên'),
                 const SizedBox(height: 12),
                 ...List.generate(vm.members.length, (index) {
                   final member = vm.members[index];
@@ -180,7 +181,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
                 const SizedBox(height: 24),
 
                 // Special Requests
-                _SectionTitle(title: 'Ghi chú đặc biệt'),
+                const SectionTitle(title: 'Ghi chú đặc biệt'),
                 const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -403,24 +404,6 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
-        color: Color(0xFF131B2E),
-      ),
-    );
   }
 }
 

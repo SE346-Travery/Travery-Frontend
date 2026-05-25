@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/cancel/view_models/cancel_booking_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/widgets/policy_section.dart';
 
 class CancelBookingScreen extends StatefulWidget {
   const CancelBookingScreen({
@@ -157,13 +158,18 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                   children: [
                     _RefundRow(
                       label: 'Giá trị đơn hàng',
-                      value: _formatPrice(widget.bookingDetail?.totalPrice ?? 0),
+                      value: _formatPrice(
+                        widget.bookingDetail?.totalPrice ?? 0,
+                      ),
                     ),
                     const Divider(height: 24),
                     _RefundRow(
                       label: 'Chính sách áp dụng',
                       valueWidget: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
@@ -207,7 +213,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
               const SizedBox(height: 20),
 
               // Cancellation Policy
-              const _PolicySection(),
+              const PolicySection(),
 
               const SizedBox(height: 24),
 
@@ -293,7 +299,9 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
-                    onPressed: vm.isCancelling ? null : () => _onCancel(context, vm),
+                    onPressed: vm.isCancelling
+                        ? null
+                        : () => _onCancel(context, vm),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
@@ -310,8 +318,9 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
                             ),
                           )
                         : const Text(
@@ -328,7 +337,10 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
     );
   }
 
-  Future<void> _onCancel(BuildContext context, CancelBookingViewModel vm) async {
+  Future<void> _onCancel(
+    BuildContext context,
+    CancelBookingViewModel vm,
+  ) async {
     final success = await vm.submitCancellation(widget.bookingId);
 
     if (!mounted) return;
@@ -371,10 +383,7 @@ class _RefundRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Color(0xFF414755),
-          ),
+          style: const TextStyle(fontSize: 13, color: Color(0xFF414755)),
         ),
         valueWidget ??
             Text(
@@ -386,114 +395,6 @@ class _RefundRow extends StatelessWidget {
               ),
             ),
       ],
-    );
-  }
-}
-
-class _PolicySection extends StatelessWidget {
-  const _PolicySection();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.policy, size: 18, color: AppColors.primary),
-              SizedBox(width: 8),
-              Text(
-                'Chính sách hủy',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF131B2E),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _PolicyItem(
-            percentage: '100%',
-            label: 'Trước 7 ngày',
-            color: AppColors.primary,
-          ),
-          _PolicyItem(
-            percentage: '50%',
-            label: 'Từ 3 - 6 ngày',
-            color: Colors.orange,
-          ),
-          _PolicyItem(
-            percentage: '0%',
-            label: 'Dưới 3 ngày',
-            color: Colors.grey,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            '* Yêu cầu hủy sẽ được xử lý trong vòng 5-7 ngày làm việc.',
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.grey[600],
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PolicyItem extends StatelessWidget {
-  const _PolicyItem({
-    required this.percentage,
-    required this.label,
-    required this.color,
-  });
-
-  final String percentage;
-  final String label;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        children: [
-          Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 13,
-                color: Color(0xFF414755),
-              ),
-            ),
-          ),
-          Text(
-            'Hoàn $percentage',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: color,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
+import 'package:travery_frontend/ui/user/widgets/info_row.dart';
 
 class BookingSuccessScreen extends StatelessWidget {
   const BookingSuccessScreen({
@@ -131,7 +132,7 @@ class BookingSuccessScreen extends StatelessWidget {
                     const Divider(height: 32),
 
                     // Tour Name
-                    _InfoRow(
+                    InfoRow(
                       icon: Icons.map,
                       label: 'Chuyến đi',
                       value: tourName,
@@ -140,7 +141,7 @@ class BookingSuccessScreen extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // Date
-                    _InfoRow(
+                    InfoRow(
                       icon: Icons.calendar_today,
                       label: 'Ngày khởi hành',
                       value: startDate.isNotEmpty
@@ -151,7 +152,7 @@ class BookingSuccessScreen extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // Guest Count
-                    _InfoRow(
+                    InfoRow(
                       icon: Icons.group,
                       label: 'Số lượng khách',
                       value: _formatGuestCount(),
@@ -262,63 +263,8 @@ class BookingSuccessScreen extends StatelessWidget {
 
   String _formatGuestCount() {
     final parts = <String>[];
-    if (adultCount > 0) {
-      parts.add('$adultCount Người lớn');
-    }
-    if (childCount > 0) {
-      parts.add('$childCount Trẻ em');
-    }
+    if (adultCount > 0) parts.add('$adultCount Người lớn');
+    if (childCount > 0) parts.add('$childCount Trẻ em');
     return parts.isEmpty ? '0 khách' : parts.join(', ');
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: const Color(0xFFF2F3FF),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, size: 20, color: AppColors.primary),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: const TextStyle(fontSize: 11, color: Color(0xFF414755)),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF131B2E),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
   }
 }

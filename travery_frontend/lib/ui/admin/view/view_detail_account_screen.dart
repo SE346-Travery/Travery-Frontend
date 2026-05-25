@@ -474,15 +474,11 @@ class _InfoTile extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
-    this.suffix,
   });
 
   final IconData icon;
   final String label;
   final String value;
-
-  /// Optional secondary text rendered after the value (e.g. "~ 8 tháng trước")
-  final String? suffix;
 
   @override
   Widget build(BuildContext context) {
@@ -527,16 +523,6 @@ class _InfoTile extends StatelessWidget {
                   color: AppColors.textPrimary,
                 ),
               ),
-              if (suffix != null) ...[
-                const SizedBox(width: 8),
-                Text(
-                  suffix!,
-                  style: TextStyle(
-                    fontSize: AppTextTheme.bodySmall,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
             ],
           ),
         ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
@@ -12,10 +11,12 @@ class CoordinatorViewProfileScreen extends StatefulWidget {
   final AdminProfileViewModel viewModel;
 
   @override
-  State<CoordinatorViewProfileScreen> createState() => _CoordinatorViewProfileScreenState();
+  State<CoordinatorViewProfileScreen> createState() =>
+      _CoordinatorViewProfileScreenState();
 }
 
-class _CoordinatorViewProfileScreenState extends State<CoordinatorViewProfileScreen> {
+class _CoordinatorViewProfileScreenState
+    extends State<CoordinatorViewProfileScreen> {
   @override
   void initState() {
     super.initState();

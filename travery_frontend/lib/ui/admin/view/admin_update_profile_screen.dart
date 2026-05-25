@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
@@ -52,7 +51,9 @@ class _AdminUpdateProfileScreenState extends State<AdminUpdateProfileScreen> {
   }
 
   void _handleUpdate() {
-    final phoneError = widget.viewModel.validatePhoneNumber(_phoneController.text);
+    final phoneError = widget.viewModel.validatePhoneNumber(
+      _phoneController.text,
+    );
 
     if (phoneError != null) {
       ScaffoldMessenger.of(context).showSnackBar(

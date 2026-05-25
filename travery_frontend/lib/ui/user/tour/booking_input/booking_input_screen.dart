@@ -6,6 +6,62 @@ import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/booking_input/view_models/booking_input_view_model.dart';
 import 'package:travery_frontend/ui/user/widgets/section_title.dart';
 
+// ─── Top-level helpers for date-of-birth validation ───────────────────────────
+
+DateTime? _tryParseDob(String value) {
+  final parts = value.split('/');
+  if (parts.length != 3) return null;
+  final day = int.tryParse(parts[0]);
+  final month = int.tryParse(parts[1]);
+  final year = int.tryParse(parts[2]);
+  if (day == null || month == null || year == null) return null;
+  if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900)
+    return null;
+  return DateTime(year, month, day);
+}
+
+int _calcAge(DateTime dob) {
+  final now = DateTime.now();
+  int age = now.year - dob.year;
+  if (now.month < dob.month || (now.month == dob.month && now.day < dob.day)) {
+    age--;
+  }
+  return age;
+}
+
+String? Function(String?) _nameValidator() {
+  return (value) {
+    if (value == null || value.trim().isEmpty) return 'Vui lòng nhập họ và tên';
+    if (value.trim().length < 2) return 'Họ tên phải có ít nhất 2 ký tự';
+    return null;
+  };
+}
+
+String? Function(String?) _identityValidator() {
+  return (value) {
+    if (value == null || value.trim().isEmpty)
+      return 'Vui lòng nhập số CCCD/Hộ chiếu';
+    if (!RegExp(r'^\d{9,12}$').hasMatch(value.trim())) {
+      return 'Số CCCD phải từ 9 đến 12 chữ số';
+    }
+    return null;
+  };
+}
+
+String? Function(String?) _dobValidator(bool isAdult) {
+  return (value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Vui lòng nhập ngày sinh';
+    }
+    final dob = _tryParseDob(value.trim());
+    if (dob == null) return 'Định dạng: DD/MM/YYYY';
+    final age = _calcAge(dob);
+    if (isAdult && age < 10) return 'Người lớn phải từ 10 tuổi trở lên';
+    if (!isAdult && age >= 10) return 'Trẻ em phải dưới 10 tuổi';
+    return null;
+  };
+}
+
 class BookingInputScreen extends StatefulWidget {
   const BookingInputScreen({
     super.key,
@@ -130,7 +186,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
                       const Divider(height: 24),
                       _CounterRow(
                         label: 'Trẻ em',
-                        subtitle: 'Dưới 12 tuổi',
+                        subtitle: 'Từ 10 tuổi trở xuống',
                         count: vm.childCount,
                         onDecrease: vm.childCount > 0
                             ? () => vm.setChildCount(vm.childCount - 1)
@@ -337,6 +393,16 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
   }
 
   Future<void> _onSubmit(BuildContext context, BookingInputViewModel vm) async {
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vui lòng nhập đầy đủ thông tin hành khách'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     for (int i = 0; i < vm.members.length; i++) {
       vm.updateMember(
         i,
@@ -349,19 +415,11 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
       );
     }
 
-    if (!vm.validateMembers()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Vui lòng nhập đầy đủ thông tin hành khách'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
     final success = await vm.submitBooking(instanceId: widget.instanceId);
 
-    if (!success || !mounted) {
+    if (!mounted) return;
+
+    if (!success) {
       if (vm.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(vm.error!), backgroundColor: Colors.red),
@@ -568,6 +626,7 @@ class _MemberCard extends StatelessWidget {
             label: 'Họ và tên *',
             controller: nameController,
             hint: 'VD: Nguyễn Văn A',
+            validator: _nameValidator(),
             onChanged: (_) => onChanged(),
           ),
           const SizedBox(height: 12),
@@ -575,13 +634,17 @@ class _MemberCard extends StatelessWidget {
             label: 'Số CCCD/Hộ chiếu *',
             controller: identityController,
             hint: 'VD: 012345678901',
+            keyboardType: TextInputType.number,
+            validator: _identityValidator(),
             onChanged: (_) => onChanged(),
           ),
           const SizedBox(height: 12),
           _InputField(
-            label: 'Ngày sinh (Không bắt buộc)',
+            label: 'Ngày sinh *',
             controller: dobController,
             hint: 'DD/MM/YYYY',
+            keyboardType: TextInputType.datetime,
+            validator: _dobValidator(isAdult),
             onChanged: (_) => onChanged(),
           ),
         ],
@@ -596,12 +659,16 @@ class _InputField extends StatelessWidget {
     required this.controller,
     required this.hint,
     required this.onChanged,
+    this.validator,
+    this.keyboardType,
   });
 
   final String label;
   final TextEditingController? controller;
   final String hint;
   final ValueChanged<String> onChanged;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -618,8 +685,10 @@ class _InputField extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        TextField(
+        TextFormField(
           controller: controller,
+          keyboardType: keyboardType,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: const TextStyle(color: Color(0xFF717786)),
@@ -632,6 +701,10 @@ class _InputField extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: AppColors.primary),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Colors.red),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,

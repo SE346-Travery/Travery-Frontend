@@ -24,14 +24,74 @@ class TourListViewModel extends ChangeNotifier {
   String? _error;
   String? get error => _error;
 
+  // Filter state
   String _keyword = '';
   String? _destinationId;
+  double? _minPrice;
+  double? _maxPrice;
+  int? _minRating;
+  DateTime? _startDate;
   int _currentPage = 0;
   static const int _pageSize = 20;
+
+  // Getters for filter state
+  String get keyword => _keyword;
+  String? get destinationId => _destinationId;
+  double? get minPrice => _minPrice;
+  double? get maxPrice => _maxPrice;
+  int? get minRating => _minRating;
+  DateTime? get startDate => _startDate;
+
+  bool get hasActiveFilters =>
+      _destinationId != null ||
+      _minPrice != null ||
+      _maxPrice != null ||
+      _minRating != null ||
+      _startDate != null;
+
+  void setKeyword(String value) {
+    _keyword = value;
+    notifyListeners();
+  }
+
+  void setFilters({
+    String? destinationId,
+    double? minPrice,
+    double? maxPrice,
+    int? minRating,
+    DateTime? startDate,
+    bool clearDestinationId = false,
+    bool clearMinPrice = false,
+    bool clearMaxPrice = false,
+    bool clearMinRating = false,
+    bool clearStartDate = false,
+  }) {
+    _destinationId = clearDestinationId
+        ? null
+        : (destinationId ?? _destinationId);
+    _minPrice = clearMinPrice ? null : (minPrice ?? _minPrice);
+    _maxPrice = clearMaxPrice ? null : (maxPrice ?? _maxPrice);
+    _minRating = clearMinRating ? null : (minRating ?? _minRating);
+    _startDate = clearStartDate ? null : (startDate ?? _startDate);
+    notifyListeners();
+  }
+
+  void clearAllFilters() {
+    _destinationId = null;
+    _minPrice = null;
+    _maxPrice = null;
+    _minRating = null;
+    _startDate = null;
+    notifyListeners();
+  }
 
   Future<void> loadTours({
     String? keyword,
     String? destinationId,
+    double? minPrice,
+    double? maxPrice,
+    int? minRating,
+    DateTime? startDate,
     bool refresh = false,
   }) async {
     if (refresh) {
@@ -40,8 +100,12 @@ class TourListViewModel extends ChangeNotifier {
       _hasMore = true;
     }
 
-    _keyword = keyword ?? '';
-    _destinationId = destinationId;
+    _keyword = keyword ?? _keyword;
+    _destinationId = destinationId ?? _destinationId;
+    _minPrice = minPrice ?? _minPrice;
+    _maxPrice = maxPrice ?? _maxPrice;
+    _minRating = minRating ?? _minRating;
+    _startDate = startDate ?? _startDate;
 
     if (_isLoading) return;
 
@@ -52,6 +116,10 @@ class TourListViewModel extends ChangeNotifier {
     final result = await _tourService.searchTours(
       keyword: _keyword.isNotEmpty ? _keyword : null,
       destinationId: _destinationId,
+      minPrice: _minPrice,
+      maxPrice: _maxPrice,
+      minRating: _minRating,
+      startDate: _startDate,
       page: _currentPage,
       size: _pageSize,
     );
@@ -78,6 +146,10 @@ class TourListViewModel extends ChangeNotifier {
     final result = await _tourService.searchTours(
       keyword: _keyword.isNotEmpty ? _keyword : null,
       destinationId: _destinationId,
+      minPrice: _minPrice,
+      maxPrice: _maxPrice,
+      minRating: _minRating,
+      startDate: _startDate,
       page: _currentPage,
       size: _pageSize,
     );

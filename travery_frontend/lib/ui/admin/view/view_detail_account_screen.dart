@@ -97,14 +97,10 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
           'Hành động này không thể hoàn tác.',
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Hủy'),
-          ),
+          TextButton(onPressed: () => context.pop(), child: const Text('Hủy')),
           TextButton(
             onPressed: () {
-              Navigator.pop(ctx);
-              Navigator.pop(context);
+              context.pop();
             },
             child: Text('Xóa', style: TextStyle(color: AppColors.error)),
           ),
@@ -217,7 +213,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            onTap: () => context.pop(),
             child: Container(
               width: 36,
               height: 36,

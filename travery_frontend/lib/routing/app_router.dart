@@ -63,8 +63,12 @@ import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
 import '../ui/admin/view/create_vehicle_screen.dart';
 import '../ui/admin/view/update_vehicle_screen.dart';
+import '../ui/admin/view/admin_update_profile_screen.dart';
+import 'package:travery_frontend/ui/admin/view_model/admin_profile_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_list_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_view_profile_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view/coordinator_update_profile_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_template_list_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
@@ -77,6 +81,9 @@ import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_temp
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
 
 GoRouter appRouter(AuthRepository authRepository) {
   return GoRouter(
@@ -293,6 +300,22 @@ GoRouter appRouter(AuthRepository authRepository) {
           return CoordinatorViewTemplateScreen(template: template);
         },
       ),
+      GoRoute(
+        path: Routes.coordinatorViewProfile,
+        builder: (context, state) => CoordinatorViewProfileScreen(
+          viewModel: AdminProfileViewModel(
+            authRepository: context.read<AuthRepository>(),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: Routes.coordinatorUpdateProfile,
+        builder: (context, state) => CoordinatorUpdateProfileScreen(
+          viewModel: AdminProfileViewModel(
+            authRepository: context.read<AuthRepository>(),
+          ),
+        ),
+      ),
 
       // --- GUIDE ROUTES ---
       GoRoute(
@@ -350,6 +373,11 @@ GoRouter appRouter(AuthRepository authRepository) {
                 adminRepository: context.read<AdminRepository>(),
               ),
             ),
+            ChangeNotifierProvider(
+              create: (context) => AdminProfileViewModel(
+                authRepository: context.read<AuthRepository>(),
+              ),
+            ),
           ],
           child: const AdminMainScreen(),
         ),
@@ -378,7 +406,12 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.adminHotelManagement,
-        builder: (context, state) => HotelManagementScreen(),
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (context) => HotelManagementViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+          child: const HotelManagementScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.adminCreateHotel,
@@ -426,7 +459,12 @@ GoRouter appRouter(AuthRepository authRepository) {
       // ),
       GoRoute(
         path: Routes.adminVehicleManagement,
-        builder: (context, state) => const VehicleManagementScreen(),
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (context) => VehicleManagementViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+          child: const VehicleManagementScreen(),
+        ),
       ),
       GoRoute(
         path: Routes.adminCreateVehicle,
@@ -447,11 +485,20 @@ GoRouter appRouter(AuthRepository authRepository) {
       // ),
       GoRoute(
         path: Routes.adminTourManagement,
-        builder: (context, state) => const TourManagementScreen(),
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (context) => TourManagementViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+          child: const TourManagementScreen(),
+        ),
       ),
       GoRoute(
-        path: Routes.adminVehicleManagement,
-        builder: (context, state) => const VehicleManagementScreen(),
+        path: Routes.adminUpdateProfile,
+        builder: (context, state) => AdminUpdateProfileScreen(
+          viewModel: AdminProfileViewModel(
+            authRepository: context.read<AuthRepository>(),
+          ),
+        ),
       ),
     ],
   );

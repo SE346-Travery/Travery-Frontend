@@ -13,31 +13,19 @@ class Tour with _$Tour {
 
     required String name,
 
-    Map<String, dynamic>? description,
+    String? description,
 
-    @JsonKey(name: 'price_per_adult') required double pricePerAdult,
+    @JsonKey(name: 'pricePerAdult') required double pricePerAdult,
 
-    @JsonKey(name: 'price_per_child') required double pricePerChild,
+    @JsonKey(name: 'pricePerChild') required double pricePerChild,
 
-    @JsonKey(name: 'max_capacity') required int maxCapacity,
+    @JsonKey(name: 'averageRating') @Default(0.0) double averageRating,
 
-    @JsonKey(name: 'min_capacity') required int minCapacity,
+    @JsonKey(name: 'ratingCount') @Default(0) int ratingCount,
 
-    @JsonKey(name: 'is_custom') required bool isCustom,
+    @JsonKey(name: 'startLocation') @Default('') String startLocation,
 
-    @JsonKey(name: 'created_for_user_id') String? createdForUserId,
-
-    @JsonKey(name: 'expires_at') DateTime? expiresAt,
-
-    required TourStatus status,
-
-    @JsonKey(name: 'hotel_id') String? hotelId,
-
-    @JsonKey(name: 'couch_id') String? couchId,
-
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'durationDays') @Default(0) int durationDays,
 
     /// RELATIONS
     List<TourImage>? images,
@@ -46,6 +34,3 @@ class Tour with _$Tour {
 
   factory Tour.fromJson(Map<String, dynamic> json) => _$TourFromJson(json);
 }
-
-@JsonEnum()
-enum TourStatus { draft, active, expired, cancelled }

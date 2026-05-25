@@ -1,73 +1,90 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:travery_frontend/data/seed_models/tour/tour.dart';
-import 'package:travery_frontend/data/seed_models/tour_instance/tour_instance.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import 'package:travery_frontend/ui/user/tour/booking/view_models/booking_view_model.dart';
 
 class BookingSuccessViewModel extends ChangeNotifier {
   final BookingViewModel _bookingViewModel;
 
   BookingSuccessViewModel({required BookingViewModel bookingViewModel})
-    : _bookingViewModel = bookingViewModel {
-    _generateBookingCode();
+    : _bookingViewModel = bookingViewModel;
+
+  TourBookingData? get bookingData => _bookingViewModel.bookingResult;
+
+  String get bookingId => bookingData?.id ?? '';
+  String get bookingCode {
+    final id = bookingData?.id ?? '';
+    if (id.isEmpty) return 'N/A';
+    final shortCode = id.replaceAll('-', '');
+    final end = shortCode.length > 8
+        ? shortCode.substring(shortCode.length - 8)
+        : shortCode;
+    return 'TRV-$end'.toUpperCase();
   }
 
-  Tour? get tour => _bookingViewModel.tour;
-  TourInstance? get selectedInstance => _bookingViewModel.selectedInstance;
-  String get contactName => _bookingViewModel.contactName;
-  String get contactPhone => _bookingViewModel.contactPhone;
-  double get totalPrice => _bookingViewModel.totalPrice;
-  int get adultCount => _bookingViewModel.adultCount;
-  int get childCount => _bookingViewModel.childCount;
-
-  String _bookingCode = '';
-  String get bookingCode => _bookingCode;
-
-  void _generateBookingCode() {
-    final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-    final shortCode = timestamp.substring(timestamp.length - 6);
-    _bookingCode = 'TRV-$shortCode-VN';
-    notifyListeners();
-  }
+  String get tourName =>
+      bookingData?.tourName ?? _bookingViewModel.tour?.name ?? 'N/A';
+  double get totalPrice =>
+      bookingData?.totalPrice ?? _bookingViewModel.totalPrice;
 
   String get formattedDate {
-    if (selectedInstance == null) return 'N/A';
-    final date = selectedInstance!.startDate;
-    final months = [
-      'Tháng 1',
-      'Tháng 2',
-      'Tháng 3',
-      'Tháng 4',
-      'Tháng 5',
-      'Tháng 6',
-      'Tháng 7',
-      'Tháng 8',
-      'Tháng 9',
-      'Tháng 10',
-      'Tháng 11',
-      'Tháng 12',
-    ];
-    return '${date.day} ${months[date.month - 1]}, ${date.year}';
+    final start = bookingData?.startDate ?? '';
+    if (start.isEmpty) return 'N/A';
+    try {
+      final parts = start.split('-');
+      final year = parts[0];
+      final monthNum = int.tryParse(parts[1]) ?? 1;
+      final day = parts[2].split('T').first;
+      const months = [
+        'Tháng 1',
+        'Tháng 2',
+        'Tháng 3',
+        'Tháng 4',
+        'Tháng 5',
+        'Tháng 6',
+        'Tháng 7',
+        'Tháng 8',
+        'Tháng 9',
+        'Tháng 10',
+        'Tháng 11',
+        'Tháng 12',
+      ];
+      return '$day ${months[monthNum - 1]} $year';
+    } catch (_) {
+      return start;
+    }
+  }
+
+  int get adultCount {
+    if (bookingData == null) return _bookingViewModel.adultCount;
+    return bookingData!.members.where((m) => m.memberType == 'ADULT').length;
+  }
+
+  int get childCount {
+    if (bookingData == null) return _bookingViewModel.childCount;
+    return bookingData!.members.where((m) => m.memberType == 'CHILD').length;
   }
 
   String get guestSummary {
     final parts = <String>[];
-    if (adultCount > 0) {
-      parts.add('$adultCount Người lớn');
-    }
-    if (childCount > 0) {
-      parts.add('$childCount Trẻ em');
-    }
-    return parts.join(', ');
+    if (adultCount > 0) parts.add('$adultCount Người lớn');
+    if (childCount > 0) parts.add('$childCount Trẻ em');
+    return parts.isEmpty ? 'N/A' : parts.join(', ');
+  }
+
+  String formatCurrency(double amount) {
+    final str = amount.toInt().toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]}.',
+    );
+    return '$strđ';
   }
 
   void navigateToBookingDetail(BuildContext context) {
-    final bookingId = _bookingViewModel.bookingId ?? _bookingCode;
     context.push('/booking/$bookingId');
   }
 
   void navigateToHome() {
-    // TODO: Navigate to home
+    _bookingViewModel.reset();
   }
 }

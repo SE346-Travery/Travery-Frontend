@@ -8,34 +8,12 @@ import 'package:travery_frontend/data/repositories/coordinator/coordinator_repos
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository_remote.dart';
 import 'package:travery_frontend/data/repositories/user/user_booking_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/mission_repository.dart';
-import 'package:travery_frontend/data/repositories/mission_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/check_in_repository.dart';
-import 'package:travery_frontend/data/repositories/check_in_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_progress_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_completed_repository_mock.dart';
 
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
-import 'package:travery_frontend/data/services/guide/guide_service.dart';
-import 'package:travery_frontend/data/services/guide/guide_service_mock.dart';
-import 'package:travery_frontend/data/services/mission/mission_service.dart';
-import 'package:travery_frontend/data/services/mission/mission_service_mock.dart';
-import 'package:travery_frontend/ui/guide/home/view_models/guide_home_view_model.dart';
-import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_view_model.dart';
-import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
-import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
-import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_coach_template_list_view_model.dart';
 import 'package:travery_frontend/ui/user/home/view_models/home_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/detail/view_models/tour_detail_view_model.dart';
@@ -60,7 +38,6 @@ List<SingleChildWidget> get providers => [
             )
             as AuthRepository,
   ),
-  // Provider<TourRepository>(create: (context) => TourRepositoryMock()),
   Provider<TourService>(
     create: (context) => TourServiceImpl(
       securityStorageService: context.read<SecurityStorageService>(),
@@ -83,76 +60,44 @@ List<SingleChildWidget> get providers => [
       securityStorageService: context.read<SecurityStorageService>(),
     ),
   ),
-  Provider<GuideService>(create: (context) => GuideServiceMock()),
-  Provider<MissionRepository>(create: (context) => MissionRepositoryMock()),
-  Provider<MissionService>(create: (context) => MissionServiceMock()),
   ChangeNotifierProvider(
-    create: (context) => HomeViewModel(
-      tourService: context.read<TourService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => TourListViewModel(
-      tourService: context.read<TourService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => TourDetailViewModel(
-      tourService: context.read<TourService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => BookingInputViewModel(
-      tourService: context.read<TourService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => BookingReviewViewModel(
-      tourService: context.read<TourService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => VNPayPaymentViewModel(
-      tourService: context.read<TourService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => PaymentResultViewModel(
-      tourService: context.read<TourService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => BookingListViewModel(
-      bookingService: context.read<BookingService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => BookingDetailViewModel(
-      bookingService: context.read<BookingService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => CancelBookingViewModel(
-      bookingService: context.read<BookingService>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => MissionDetailViewModel(
-      missionRepository: context.read<MissionRepository>(),
-    ),
+    create: (context) =>
+        HomeViewModel(tourService: context.read<TourService>()),
   ),
   ChangeNotifierProvider(
     create: (context) =>
-        CheckInViewModel(checkInRepository: context.read<CheckInRepository>()),
+        TourListViewModel(tourService: context.read<TourService>()),
   ),
   ChangeNotifierProvider(
-    create: (context) => TourProgressViewModel(
-      repository: context.read<TourProgressRepository>(),
-    ),
+    create: (context) =>
+        TourDetailViewModel(tourService: context.read<TourService>()),
   ),
   ChangeNotifierProvider(
-    create: (context) => TourCompletedViewModel(
-      repository: context.read<TourCompletedRepository>(),
-    ),
+    create: (context) =>
+        BookingInputViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        BookingReviewViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        VNPayPaymentViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        PaymentResultViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        BookingListViewModel(bookingService: context.read<BookingService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        BookingDetailViewModel(bookingService: context.read<BookingService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        CancelBookingViewModel(bookingService: context.read<BookingService>()),
   ),
 ];

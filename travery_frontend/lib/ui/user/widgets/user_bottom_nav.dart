@@ -2,17 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/home/home_screen.dart';
+import 'package:travery_frontend/ui/user/tour/booking_list/booking_list_screen.dart';
+import 'package:travery_frontend/ui/user/tour/booking_list/view_models/booking_list_view_model.dart';
 
-class UserBottomNav extends StatelessWidget {
+class UserBottomNav extends StatefulWidget {
   const UserBottomNav({super.key, this.initialIndex = 0});
 
   final int initialIndex;
 
   @override
+  State<UserBottomNav> createState() => _UserBottomNavState();
+}
+
+class _UserBottomNavState extends State<UserBottomNav> {
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
-        index: initialIndex,
+        index: _currentIndex,
         children: const [
           _UserHomeContent(),
           _UserBookingsContent(),
@@ -20,7 +35,14 @@ class UserBottomNav extends StatelessWidget {
           _UserProfileContent(),
         ],
       ),
-      bottomNavigationBar: _BottomNavBar(currentIndex: initialIndex),
+      bottomNavigationBar: _BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
     );
   }
 }
@@ -39,7 +61,7 @@ class _UserBookingsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Text('My Bookings Content'));
+    return const BookingListScreen();
   }
 }
 
@@ -62,9 +84,10 @@ class _UserProfileContent extends StatelessWidget {
 }
 
 class _BottomNavBar extends StatelessWidget {
-  const _BottomNavBar({required this.currentIndex});
+  const _BottomNavBar({required this.currentIndex, required this.onTap});
 
   final int currentIndex;
+  final void Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -91,28 +114,28 @@ class _BottomNavBar extends StatelessWidget {
                 activeIcon: Icons.home,
                 label: 'Trang chủ',
                 isActive: currentIndex == 0,
-                onTap: () {},
+                onTap: () => onTap(0),
               ),
               _NavItem(
                 icon: Icons.confirmation_number_outlined,
                 activeIcon: Icons.confirmation_number,
                 label: 'Đơn của tôi',
                 isActive: currentIndex == 1,
-                onTap: () {},
+                onTap: () => onTap(1),
               ),
               _NavItem(
                 icon: Icons.chat_bubble_outline,
                 activeIcon: Icons.chat_bubble,
                 label: 'Chat',
                 isActive: currentIndex == 2,
-                onTap: () {},
+                onTap: () => onTap(2),
               ),
               _NavItem(
                 icon: Icons.person_outline,
                 activeIcon: Icons.person,
                 label: 'Cá nhân',
                 isActive: currentIndex == 3,
-                onTap: () {},
+                onTap: () => onTap(3),
               ),
             ],
           ),

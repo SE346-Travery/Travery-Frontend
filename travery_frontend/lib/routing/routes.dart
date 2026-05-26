@@ -19,7 +19,6 @@ class Routes {
   static const String tourBooking = '/tour/:id/book';
   static const String tourBookingReview = '/tour/:id/book/review';
   static const String vnpayPayment = '/payment/vnpay';
-  static const String bookingSuccess = '/payment/success';
   static const String paymentResult = '/payment/result';
   static const String bookingDetail = '/booking/:id';
 

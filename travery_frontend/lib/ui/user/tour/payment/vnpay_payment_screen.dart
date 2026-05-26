@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
+import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/user/tour/payment/view_models/vnpay_payment_view_model.dart';
 
 class VNPayPaymentScreen extends StatefulWidget {
@@ -311,10 +312,10 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
         if (!mounted) return;
 
-        // Navigate to payment result screen.
-        // Do NOT hardcode status='success' — wait for real deeplink or user check.
-        context.push(
-          '/payment/result',
+        // Navigate to payment result screen to wait for deeplink callback
+        // Do NOT hardcode status='success' — wait for real deeplink or user check
+        context.pushReplacement(
+          Routes.paymentResult,
           extra: {
             'bookingId': widget.bookingId,
             'txnRef': widget.transactionId,
@@ -356,7 +357,7 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(ctx);
-              context.go('/');
+              context.go(Routes.home);
             },
             child: const Text('Thoát'),
           ),

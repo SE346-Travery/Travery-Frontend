@@ -341,20 +341,6 @@ GoRouter appRouter(
         },
       ),
       GoRoute(
-        path: Routes.paymentResult,
-        builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          return BookingSuccessScreen(
-            bookingId: extra?['bookingId'] as String? ?? '',
-            tourName: extra?['tourName'] as String? ?? '',
-            startDate: extra?['startDate'] as String? ?? '',
-            totalPrice: extra?['totalPrice'] as double? ?? 0,
-            adultCount: extra?['adultCount'] as int? ?? 0,
-            childCount: extra?['childCount'] as int? ?? 0,
-          );
-        },
-      ),
-      GoRoute(
         path: Routes.bookingDetailScreen,
         builder: (context, state) {
           final bookingId = state.pathParameters['id'] ?? '';

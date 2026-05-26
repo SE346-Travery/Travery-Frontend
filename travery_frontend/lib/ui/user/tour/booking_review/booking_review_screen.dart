@@ -572,7 +572,9 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     }
 
     if (booking.payment != null && booking.payment!.paymentUrl.isNotEmpty) {
-      context.push(
+      // Navigate to VNPay payment screen
+      // After payment, user will be redirected via deeplink to PaymentResultScreen
+      context.pushReplacement(
         Routes.vnpayPayment,
         extra: {
           'bookingId': booking.id,
@@ -584,15 +586,14 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
         },
       );
     } else {
-      context.push(
-        Routes.bookingSuccess,
+      // No payment needed - navigate to payment result (will show pending state)
+      context.pushReplacement(
+        Routes.paymentResult,
         extra: {
           'bookingId': booking.id,
-          'tourName': widget.tourName,
-          'startDate': widget.startDate,
-          'totalPrice': booking.totalPrice,
-          'adultCount': widget.adultCount,
-          'childCount': widget.childCount,
+          'txnRef': booking.payment?.transactionId,
+          'deeplinkStatus': null,
+          'responseCode': null,
         },
       );
     }

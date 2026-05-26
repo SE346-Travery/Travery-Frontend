@@ -45,17 +45,18 @@ class PaymentResultViewModel extends ChangeNotifier {
     String? responseCode,
     String? bookingId,
   }) {
-    _txnRef = txnRef;
-    _deeplinkStatus = deeplinkStatus;
-    _responseCode = responseCode;
-    _bookingId ??= bookingId;
+    // Update values if provided (non-null)
+    if (txnRef != null) _txnRef = txnRef;
+    if (deeplinkStatus != null) _deeplinkStatus = deeplinkStatus;
+    if (responseCode != null) _responseCode = responseCode;
+    if (bookingId != null) _bookingId = bookingId;
 
-    if (deeplinkStatus == 'success') {
+    if (_deeplinkStatus == 'success') {
       // Real deeplink arrived with success — start polling
       _state = PaymentConfirmState.confirming;
       notifyListeners();
       _pollBookingStatus();
-    } else if (deeplinkStatus == 'failed') {
+    } else if (_deeplinkStatus == 'failed') {
       // Real deeplink arrived with failure
       _state = PaymentConfirmState.failed;
       notifyListeners();

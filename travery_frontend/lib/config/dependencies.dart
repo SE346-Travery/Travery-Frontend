@@ -2,13 +2,11 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
-import 'package:travery_frontend/data/repositories/admin/admin_repository_dev.dart';
+import 'package:travery_frontend/data/repositories/admin/admin_repository_remote.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository_dev.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository_remote.dart';
-import 'package:travery_frontend/data/repositories/tour_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
 import 'package:travery_frontend/data/repositories/mission_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository.dart';
@@ -18,6 +16,7 @@ import 'package:travery_frontend/data/repositories/tour_progress_repository_mock
 import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 import 'package:travery_frontend/data/repositories/tour_completed_repository_mock.dart';
 
+import 'package:travery_frontend/data/services/api/admin_api_service.dart';
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
@@ -37,9 +36,18 @@ import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_vie
 import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_coach_template_list_view_model.dart';
+
+import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_hotel_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_vehicle_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/update_hotel_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/update_vehicle_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_model.dart';
 
 import '../data/services/tour/tour_service_impl.dart';
 
@@ -54,21 +62,82 @@ List<SingleChildWidget> get providers => [
             )
             as AuthRepository,
   ),
-  // Provider<TourRepository>(create: (context) => TourRepositoryMock()),
   Provider<TourService>(
     create: (context) => TourServiceImpl(
       securityStorageService: context.read<SecurityStorageService>(),
     ),
   ),
 
-  // ── Admin repository ──────────────────────────────────────────────────────
+  // ── Admin service ─────────────────────────────────────────────────────────
+  Provider<AdminApiService>(create: (context) => AdminApiService()),
+
+  // ── Admin repository (remote — hits real API) ────────────────────────────
   ChangeNotifierProvider<AdminRepository>(
-    create: (context) => AdminRepositoryDev(),
+    create: (context) => AdminRepositoryRemote(
+      adminApiService: context.read<AdminApiService>(),
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
   ),
 
   // ── Coordinator repository ────────────────────────────────────────────────
   ChangeNotifierProvider<CoordinatorRepository>(
     create: (context) => CoordinatorRepositoryDev(),
+  ),
+
+  // ── Admin ViewModels ──────────────────────────────────────────────────────
+  ChangeNotifierProvider(
+    create: (context) => AccountManagementViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => CreateAccountViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => CreateHotelViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => UpdateHotelViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => CreateVehicleViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => UpdateVehicleViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        DashboardViewModel(adminRepository: context.read<AdminRepository>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => HotelManagementViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => TourManagementViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => VehicleManagementViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => ViewDetailAccountViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
   ),
 
   // ── User ViewModels ───────────────────────────────────────────────────────

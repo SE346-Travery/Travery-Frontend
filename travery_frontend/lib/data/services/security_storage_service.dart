@@ -5,6 +5,7 @@ class SecurityStorageService {
 
   static const String _accessToken = 'access_token';
   static const String _refreshToken = 'refresh_token';
+  static const String _cometchatUid = 'cometchat_uid';
 
   Future<void> saveAccessToken(String token) async {
     await _storage.write(key: _accessToken, value: token);
@@ -26,6 +27,18 @@ class SecurityStorageService {
     return await _storage.read(key: _refreshToken);
   }
 
+  Future<void> saveCometchatUid(String uid) async {
+    await _storage.write(key: _cometchatUid, value: uid);
+  }
+
+  Future<String?> getCometchatUid() async {
+    return await _storage.read(key: _cometchatUid);
+  }
+
+  Future<void> deleteCometchatUid() async {
+    await _storage.delete(key: _cometchatUid);
+  }
+
   Future<bool> isLoggedIn() async {
     final token = await getAccessToken();
     return token != null && token.isNotEmpty;
@@ -38,5 +51,6 @@ class SecurityStorageService {
   Future<void> deleteAllTokens() async {
     await _storage.delete(key: _accessToken);
     await _storage.delete(key: _refreshToken);
+    await _storage.delete(key: _cometchatUid);
   }
 }

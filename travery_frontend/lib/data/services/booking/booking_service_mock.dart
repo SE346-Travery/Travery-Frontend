@@ -17,17 +17,21 @@ class BookingServiceMock implements BookingService {
 
   BookingDetailModel _createMockBookingDetail(String bookingId) {
     final departureDate = DateTime(2025, 10, 15);
+    final isCustom = bookingId.startsWith('custom_');
 
     return BookingDetailModel(
       bookingId: bookingId,
-      tourName: 'Kỳ nghỉ tại Vịnh Hạ Long',
-      tourImageUrl:
-          'https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=1000',
-      totalPrice: 4500000,
+      tourInstanceId: 'instance_mock_123',
+      tourName: isCustom ? 'Tour Thiết kế riêng: Hà Nội - Sapa' : 'Kỳ nghỉ tại Vịnh Hạ Long',
+      tourImageUrl: isCustom
+          ? 'https://images.unsplash.com/photo-1504457047772-27faf1c00561?auto=format&fit=crop&q=80&w=1000'
+          : 'https://images.unsplash.com/photo-1524230507669-5ff97982bb5e?auto=format&fit=crop&q=80&w=1000',
+      totalPrice: isCustom ? 12500000 : 4500000,
       departureDate: departureDate,
       guestCount: 2,
       paymentMethod: 'VNPay',
       status: 'Đã xác nhận',
+      isCustom: isCustom,
       refundPolicy: RefundPolicy(
         lastFreeCancellationDate: DateTime(2025, 10, 12, 23, 59),
         tiers: [

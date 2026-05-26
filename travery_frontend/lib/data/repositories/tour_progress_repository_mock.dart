@@ -5,8 +5,6 @@ import 'package:travery_frontend/data/services/tour_progress/tour_progress_servi
 import 'package:travery_frontend/utils/core_result.dart';
 
 class TourProgressRepositoryMock implements TourProgressRepository {
-  final TourProgressServiceMock _service = TourProgressServiceMock();
-
   @override
   Future<Result<TourProgress?>> getTourProgressByMission(
     String missionId,

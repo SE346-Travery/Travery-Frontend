@@ -7,8 +7,6 @@ import 'package:travery_frontend/data/repositories/coordinator/coordinator_repos
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository_dev.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository_remote.dart';
-import 'package:travery_frontend/data/repositories/tour_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
 import 'package:travery_frontend/data/repositories/mission_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository.dart';
@@ -21,6 +19,8 @@ import 'package:travery_frontend/data/repositories/tour_completed_repository_moc
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
+import 'package:travery_frontend/data/services/tour/tour_service_impl.dart';
+import 'package:travery_frontend/data/services/chat/chat_service.dart';
 
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
 import 'package:travery_frontend/data/services/booking/booking_service_mock.dart';
@@ -37,24 +37,23 @@ import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_vie
 import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_coach_template_list_view_model.dart';
-
-import '../data/services/tour/tour_service_impl.dart';
+import 'package:travery_frontend/ui/chat/view_models/chat_view_model.dart';
 
 List<SingleChildWidget> get providers => [
   Provider(create: (context) => AuthService()),
   Provider(create: (context) => SecurityStorageService()),
+  Provider(create: (context) => ChatService()),
+  ChangeNotifierProvider(create: (context) => ChatViewModel()),
   ChangeNotifierProvider(
-    create: (context) =>
-        AuthRepositoryRemote(
-              authService: context.read(),
-              securityStorageService: context.read(),
-            )
-            as AuthRepository,
+    create:
+        (context) =>
+            AuthRepositoryRemote(
+                  authService: context.read(),
+                  securityStorageService: context.read(),
+                  chatService: context.read(),
+                )
+                as AuthRepository,
   ),
-  // Provider<TourRepository>(create: (context) => TourRepositoryMock()),
   Provider<TourService>(
     create: (context) => TourServiceImpl(
       securityStorageService: context.read<SecurityStorageService>(),

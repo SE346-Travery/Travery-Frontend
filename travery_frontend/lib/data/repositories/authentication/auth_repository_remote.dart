@@ -11,16 +11,20 @@ import 'package:travery_frontend/utils/core_result.dart';
 import 'auth_repository.dart';
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
+import 'package:travery_frontend/data/services/chat/chat_service.dart';
 
 class AuthRepositoryRemote extends AuthRepository {
   final AuthService _authService;
   final SecurityStorageService _securityStorageService;
+  final ChatService _chatService;
 
   AuthRepositoryRemote({
     required AuthService authService,
     required SecurityStorageService securityStorageService,
+    required ChatService chatService,
   }) : _authService = authService,
-       _securityStorageService = securityStorageService;
+       _securityStorageService = securityStorageService,
+       _chatService = chatService;
 
   @override
   Future<Result<void>> loginViaEmail({
@@ -41,6 +45,14 @@ class AuthRepositoryRemote extends AuthRepository {
           await _securityStorageService.saveRefreshToken(
             result.value.refreshToken,
           );
+
+          if (result.value.cometchatUid != null) {
+            await _securityStorageService.saveCometchatUid(
+              result.value.cometchatUid!,
+            );
+            await _chatService.login(result.value.cometchatUid!);
+          }
+
           return const Result.ok(null);
 
         case Error<LoginResponse>():
@@ -177,6 +189,8 @@ class AuthRepositoryRemote extends AuthRepository {
         case Ok<void>():
           await _securityStorageService.deleteAccessToken();
           await _securityStorageService.deleteRefreshToken();
+          await _securityStorageService.deleteCometchatUid();
+          await _chatService.logout();
           return const Result.ok(null);
 
         case Error<void>():

@@ -278,10 +278,10 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
 
           return Container(
             padding: EdgeInsets.fromLTRB(
-              20,
-              16,
-              20,
-              MediaQuery.of(context).padding.bottom + 16,
+              12,
+              12,
+              12,
+              MediaQuery.of(context).padding.bottom + 12,
             ),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -293,57 +293,33 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
                 ),
               ],
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tổng cộng ($totalGuests người)',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF414755),
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _formatPrice(totalPrice),
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Tổng cộng ($totalGuests người)',
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF414755),
+                      ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        'Bao gồm thuế phí',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary,
-                        ),
+                    const SizedBox(height: 2),
+                    Text(
+                      _formatPrice(totalPrice),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
+                const SizedBox(width: 16),
+                Expanded(
                   child: ElevatedButton(
                     onPressed: vm.isSubmitting
                         ? null
@@ -351,9 +327,9 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       elevation: 0,
                     ),
@@ -374,12 +350,12 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
                               Text(
                                 'Tiếp tục thanh toán',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              SizedBox(width: 8),
-                              Icon(Icons.arrow_forward, size: 20),
+                              SizedBox(width: 6),
+                              Icon(Icons.arrow_forward, size: 18),
                             ],
                           ),
                   ),
@@ -639,12 +615,10 @@ class _MemberCard extends StatelessWidget {
             onChanged: (_) => onChanged(),
           ),
           const SizedBox(height: 12),
-          _InputField(
+          _DatePickerField(
             label: 'Ngày sinh *',
             controller: dobController,
-            hint: 'DD/MM/YYYY',
-            keyboardType: TextInputType.datetime,
-            validator: _dobValidator(isAdult),
+            isAdult: isAdult,
             onChanged: (_) => onChanged(),
           ),
         ],
@@ -712,6 +686,121 @@ class _InputField extends StatelessWidget {
             ),
           ),
           onChanged: onChanged,
+        ),
+      ],
+    );
+  }
+}
+
+class _DatePickerField extends StatelessWidget {
+  const _DatePickerField({
+    required this.label,
+    required this.controller,
+    required this.isAdult,
+    required this.onChanged,
+  });
+
+  final String label;
+  final TextEditingController? controller;
+  final bool isAdult;
+  final ValueChanged<String> onChanged;
+
+  String? _validate(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Vui lòng chọn ngày sinh';
+    }
+    return null;
+  }
+
+  Future<void> _pickDate(BuildContext context) async {
+    final now = DateTime.now();
+    final initial = _tryParseDob(controller?.text ?? '');
+    final eighteenYearsAgo = DateTime(now.year - 18, now.month, now.day);
+    final maxDate = isAdult
+        ? eighteenYearsAgo
+        : DateTime(now.year - 1, now.month, now.day);
+    final minDate = DateTime(now.year - 100, now.month, now.day);
+
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initial ?? maxDate,
+      firstDate: minDate,
+      lastDate: maxDate,
+      helpText: 'Chọn ngày sinh',
+      cancelText: 'Hủy',
+      confirmText: 'Xác nhận',
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: AppColors.primary,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Color(0xFF131B2E),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && context.mounted) {
+      final formatted =
+          '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+      controller?.text = formatted;
+      onChanged(formatted);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hasError = controller?.text.isEmpty ?? true;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF414755),
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 6),
+        GestureDetector(
+          onTap: () => _pickDate(context),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF2F3FF),
+              borderRadius: BorderRadius.circular(12),
+              border: hasError ? Border.all(color: Colors.red, width: 1) : null,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    controller?.text.isNotEmpty == true
+                        ? controller!.text
+                        : 'Chọn ngày sinh',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: controller?.text.isNotEmpty == true
+                          ? const Color(0xFF131B2E)
+                          : const Color(0xFF717786),
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.calendar_month,
+                  size: 20,
+                  color: AppColors.primary,
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );

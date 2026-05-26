@@ -7,39 +7,39 @@ import 'package:travery_frontend/data/repositories/coordinator/coordinator_repos
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository_dev.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository_remote.dart';
-import 'package:travery_frontend/data/repositories/tour_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/mission_repository.dart';
-import 'package:travery_frontend/data/repositories/mission_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/check_in_repository.dart';
-import 'package:travery_frontend/data/repositories/check_in_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_progress_repository_mock.dart';
-import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_completed_repository_mock.dart';
+import 'package:travery_frontend/data/repositories/user/user_booking_repository.dart';
 
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
+import 'package:travery_frontend/data/services/guide/guide_service.dart';
+import 'package:travery_frontend/data/services/guide/guide_service_impl.dart';
 
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
-import 'package:travery_frontend/data/services/booking/booking_service_mock.dart';
-import 'package:travery_frontend/data/services/guide/guide_service.dart';
-import 'package:travery_frontend/data/services/guide/guide_service_mock.dart';
-import 'package:travery_frontend/data/services/mission/mission_service.dart';
-import 'package:travery_frontend/data/services/mission/mission_service_mock.dart';
-import 'package:travery_frontend/ui/user/home/view_models/tour_home_view_model.dart';
+import 'package:travery_frontend/data/repositories/mission_repository.dart';
+import 'package:travery_frontend/data/repositories/mission_repository_impl.dart';
+import 'package:travery_frontend/data/repositories/check_in_repository.dart';
+import 'package:travery_frontend/data/repositories/check_in_repository_impl.dart';
+import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
+import 'package:travery_frontend/data/repositories/tour_progress_repository_impl.dart';
+import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
+
+import 'package:travery_frontend/ui/user/home/view_models/home_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/detail/view_models/tour_detail_view_model.dart';
-import 'package:travery_frontend/ui/user/tour/booking/view_models/booking_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/booking_input/view_models/booking_input_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/booking_review/view_models/booking_review_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/payment/view_models/vnpay_payment_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/payment_result/view_models/payment_result_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/booking_list/view_models/booking_list_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/booking_detail/view_models/booking_detail_view_model.dart';
+import 'package:travery_frontend/ui/user/tour/cancel/view_models/cancel_booking_view_model.dart';
+
 import 'package:travery_frontend/ui/guide/home/view_models/guide_home_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
-import 'package:travery_frontend/ui/coordinator/view_models/coordinator_coach_template_list_view_model.dart';
 
 import '../data/services/tour/tour_service_impl.dart';
 
@@ -54,7 +54,6 @@ List<SingleChildWidget> get providers => [
             )
             as AuthRepository,
   ),
-  // Provider<TourRepository>(create: (context) => TourRepositoryMock()),
   Provider<TourService>(
     create: (context) => TourServiceImpl(
       securityStorageService: context.read<SecurityStorageService>(),
@@ -72,20 +71,14 @@ List<SingleChildWidget> get providers => [
   ),
 
   // ── User ViewModels ───────────────────────────────────────────────────────
-  Provider<BookingService>(create: (context) => BookingServiceMock()),
-  Provider<GuideService>(create: (context) => GuideServiceMock()),
-  Provider<MissionRepository>(create: (context) => MissionRepositoryMock()),
-  Provider<MissionService>(create: (context) => MissionServiceMock()),
-  Provider<CheckInRepository>(create: (context) => CheckInRepositoryMock()),
-  Provider<TourProgressRepository>(
-    create: (context) => TourProgressRepositoryMock(),
-  ),
-  Provider<TourCompletedRepository>(
-    create: (context) => TourCompletedRepositoryMock(),
+  Provider<BookingService>(
+    create: (context) => UserBookingRepository(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
   ),
   ChangeNotifierProvider(
     create: (context) =>
-        TourHomeViewModel(tourService: context.read<TourService>()),
+        HomeViewModel(tourService: context.read<TourService>()),
   ),
   ChangeNotifierProvider(
     create: (context) =>
@@ -97,7 +90,53 @@ List<SingleChildWidget> get providers => [
   ),
   ChangeNotifierProvider(
     create: (context) =>
-        BookingViewModel(tourService: context.read<TourService>()),
+        BookingInputViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        BookingReviewViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        VNPayPaymentViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        PaymentResultViewModel(tourService: context.read<TourService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        BookingListViewModel(bookingService: context.read<BookingService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        BookingDetailViewModel(bookingService: context.read<BookingService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        CancelBookingViewModel(bookingService: context.read<BookingService>()),
+  ),
+
+  // ── Guide Service & ViewModels ─────────────────────────────────────────────
+  Provider<GuideService>(
+    create: (context) => GuideServiceImpl(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
+  ),
+  Provider<MissionRepository>(
+    create: (context) => MissionRepositoryImpl(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
+  ),
+  Provider<CheckInRepository>(
+    create: (context) => CheckInRepositoryImpl(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
+  ),
+  Provider<TourProgressRepository>(
+    create: (context) => TourProgressRepositoryImpl(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
   ),
   ChangeNotifierProvider(
     create: (context) =>

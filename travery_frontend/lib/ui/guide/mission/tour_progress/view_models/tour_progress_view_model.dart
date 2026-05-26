@@ -65,12 +65,23 @@ class TourProgressViewModel extends ChangeNotifier {
     if (activeStepIndex == -1) return false;
 
     final activeStep = steps[activeStepIndex];
+    return await _completeStep(activeStep.id);
+  }
+
+  Future<bool> completeStepById(String stepId) async {
+    return await _completeStep(stepId);
+  }
+
+  Future<bool> _completeStep(String stepId) async {
+    final stepIndex = steps.indexWhere((s) => s.id == stepId);
+    if (stepIndex == -1) return false;
+
     _isUpdating = true;
     notifyListeners();
 
     final result = await _repository.updateStepStatus(
       progressId: _progress!.id,
-      stepId: activeStep.id,
+      stepId: stepId,
       newStatus: TimelineStepStatus.completed,
     );
 
@@ -79,14 +90,14 @@ class TourProgressViewModel extends ChangeNotifier {
       case Ok<TourProgressStep>():
         success = true;
         _successMessage = 'Cập nhật thành công';
-        // Update local state
         final updatedSteps = List<TourProgressStep>.from(steps);
-        updatedSteps[activeStepIndex] = result.value;
+        updatedSteps[stepIndex] = result.value;
 
         // Mark next step as active
-        if (activeStepIndex + 1 < updatedSteps.length) {
-          updatedSteps[activeStepIndex + 1] = updatedSteps[activeStepIndex + 1]
-              .copyWith(status: TimelineStepStatus.active);
+        if (stepIndex + 1 < updatedSteps.length) {
+          updatedSteps[stepIndex + 1] = updatedSteps[stepIndex + 1].copyWith(
+            status: TimelineStepStatus.active,
+          );
         }
         _progress = _progress!.copyWith(steps: updatedSteps);
       case Error<TourProgressStep>():

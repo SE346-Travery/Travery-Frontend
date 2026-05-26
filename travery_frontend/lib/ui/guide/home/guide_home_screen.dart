@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
@@ -10,7 +9,9 @@ import 'package:travery_frontend/ui/guide/home/widgets/guide_custom_tab_bar.dart
 import 'package:travery_frontend/ui/guide/home/widgets/guide_tour_card.dart';
 
 class GuideHomeScreen extends StatefulWidget {
-  const GuideHomeScreen({super.key});
+  final GuideHomeViewModel viewModel;
+
+  const GuideHomeScreen({super.key, required this.viewModel});
 
   @override
   State<GuideHomeScreen> createState() => _GuideHomeScreenState();
@@ -23,7 +24,7 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<GuideHomeViewModel>().loadGuideTours();
+      widget.viewModel.loadGuideTours();
     });
   }
 
@@ -31,8 +32,9 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Consumer<GuideHomeViewModel>(
-        builder: (context, viewModel, child) {
+      body: Builder(
+        builder: (context) {
+          final viewModel = widget.viewModel;
           return Stack(
             children: [
               SafeArea(

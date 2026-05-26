@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
@@ -12,8 +11,13 @@ import '../../../core/widgets/app_bar_widget.dart';
 
 class TourProgressScreen extends StatefulWidget {
   final String missionId;
+  final TourProgressViewModel viewModel;
 
-  const TourProgressScreen({super.key, required this.missionId});
+  const TourProgressScreen({
+    super.key,
+    required this.missionId,
+    required this.viewModel,
+  });
 
   @override
   State<TourProgressScreen> createState() => _TourProgressScreenState();
@@ -24,7 +28,7 @@ class _TourProgressScreenState extends State<TourProgressScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TourProgressViewModel>().loadTourProgress(widget.missionId);
+      widget.viewModel.loadTourProgress(widget.missionId);
     });
   }
 
@@ -33,8 +37,9 @@ class _TourProgressScreenState extends State<TourProgressScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBarWidget(title: 'Tiến độ chuyến đi'),
-      body: Consumer<TourProgressViewModel>(
-        builder: (context, viewModel, child) {
+      body: Builder(
+        builder: (context) {
+          final viewModel = widget.viewModel;
           if (viewModel.isLoading) {
             return const Center(
               child: CircularProgressIndicator(color: AppColors.primary),

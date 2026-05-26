@@ -14,6 +14,7 @@ import 'package:travery_frontend/ui/authentication/view_models/forgot_password_v
 import 'package:travery_frontend/ui/authentication/view_models/register_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_main_screen.dart';
 import 'package:travery_frontend/ui/guide/home/guide_home_screen.dart';
+import 'package:travery_frontend/ui/guide/home/view_models/guide_home_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/mission_detail_screen.dart';
 import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/check_in/check_in_screen.dart';
@@ -212,34 +213,47 @@ GoRouter appRouter(
       // --- GUIDE ROUTES ---
       GoRoute(
         path: Routes.guideHome,
-        builder: (context, state) => const GuideHomeScreen(),
+        builder: (context, state) =>
+            GuideHomeScreen(viewModel: context.read<GuideHomeViewModel>()),
       ),
       GoRoute(
         path: Routes.missionDetail,
         builder: (context, state) {
           final missionId = state.pathParameters['id'] ?? '';
-          return MissionDetailScreen(missionId: missionId);
+          return MissionDetailScreen(
+            missionId: missionId,
+            viewModel: context.read<MissionDetailViewModel>(),
+          );
         },
       ),
       GoRoute(
         path: Routes.checkIn,
         builder: (context, state) {
           final missionId = state.pathParameters['id'] ?? '';
-          return CheckInScreen(missionId: missionId);
+          return CheckInScreen(
+            missionId: missionId,
+            viewModel: context.read<CheckInViewModel>(),
+          );
         },
       ),
       GoRoute(
         path: Routes.tourProgress,
         builder: (context, state) {
           final missionId = state.pathParameters['id'] ?? '';
-          return TourProgressScreen(missionId: missionId);
+          return TourProgressScreen(
+            missionId: missionId,
+            viewModel: context.read<TourProgressViewModel>(),
+          );
         },
       ),
       GoRoute(
         path: Routes.tourCompleted,
         builder: (context, state) {
           final missionId = state.pathParameters['id'] ?? '';
-          return TourCompletedScreen(missionId: missionId);
+          return TourCompletedScreen(
+            missionId: missionId,
+            viewModel: context.read<TourCompletedViewModel>(),
+          );
         },
       ),
 

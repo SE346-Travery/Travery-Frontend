@@ -319,6 +319,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                   vm.tourDetail?.pricePerAdult ?? 0,
                               'pricePerChild':
                                   vm.tourDetail?.pricePerChild ?? 0,
+                              'startDate': _formatDate(
+                                _selectedInstance!.startDate,
+                              ),
+                              'endDate': _formatDate(
+                                _selectedInstance!.endDate,
+                              ),
                             },
                           );
                         }

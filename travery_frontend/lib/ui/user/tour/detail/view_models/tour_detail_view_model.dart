@@ -56,6 +56,7 @@ class TourDetailViewModel extends ChangeNotifier {
 
   Future<void> loadTourInstances(String tourId) async {
     _isLoadingInstances = true;
+    _selectedInstanceId = null;
     notifyListeners();
 
     final result = await _tourService.getTourInstances(tourId);

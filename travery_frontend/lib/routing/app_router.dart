@@ -283,6 +283,8 @@ GoRouter appRouter(AuthRepository authRepository) {
             tourName: tourName,
             pricePerAdult: pricePerAdult,
             pricePerChild: pricePerChild,
+            startDate: extra?['startDate'] as String?,
+            endDate: extra?['endDate'] as String?,
           );
         },
       ),

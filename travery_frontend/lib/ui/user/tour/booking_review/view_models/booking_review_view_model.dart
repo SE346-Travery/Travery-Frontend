@@ -27,6 +27,18 @@ class BookingReviewViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Converts date from DD/MM/YYYY to YYYY-MM-DD (ISO 8601) format.
+  String _toIsoDate(String dateStr) {
+    if (dateStr.isEmpty) return '';
+    // dateStr is in DD/MM/YYYY format from the date picker
+    final parts = dateStr.split('/');
+    if (parts.length != 3) return dateStr;
+    final day = parts[0];
+    final month = parts[1];
+    final year = parts[2];
+    return '$year-$month-$day';
+  }
+
   Future<bool> createBooking({
     required String instanceId,
     required List<Map<String, dynamic>> members,
@@ -62,10 +74,11 @@ class BookingReviewViewModel extends ChangeNotifier {
     String specialRequests,
   ) {
     final bookingMembers = members.map((m) {
+      final rawDob = m['dateOfBirth'] as String? ?? '';
       return BookingMemberRequest(
         fullName: m['fullName'] as String? ?? '',
         identityNumber: m['identityNumber'] as String? ?? '',
-        dateOfBirth: m['dateOfBirth'] as String? ?? '',
+        dateOfBirth: _toIsoDate(rawDob),
         memberType: m['memberType'] as String? ?? 'ADULT',
       );
     }).toList();

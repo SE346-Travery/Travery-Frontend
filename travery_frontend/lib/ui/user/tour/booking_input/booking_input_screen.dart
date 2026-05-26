@@ -71,6 +71,8 @@ class BookingInputScreen extends StatefulWidget {
     required this.tourName,
     this.pricePerAdult,
     this.pricePerChild,
+    this.startDate,
+    this.endDate,
   });
 
   final BookingInputViewModel viewModel;
@@ -79,6 +81,8 @@ class BookingInputScreen extends StatefulWidget {
   final String tourName;
   final double? pricePerAdult;
   final double? pricePerChild;
+  final String? startDate;
+  final String? endDate;
 
   @override
   State<BookingInputScreen> createState() => _BookingInputScreenState();
@@ -412,11 +416,11 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
             .toList(),
         'adultCount': widget.viewModel.adultCount,
         'childCount': widget.viewModel.childCount,
-        'pricePerAdult': 0.0,
-        'pricePerChild': 0.0,
+        'pricePerAdult': widget.pricePerAdult ?? 0.0,
+        'pricePerChild': widget.pricePerChild ?? 0.0,
         'specialRequests': widget.viewModel.specialRequests,
-        'startDate': '',
-        'endDate': '',
+        'startDate': widget.startDate,
+        'endDate': widget.endDate,
       },
     );
   }

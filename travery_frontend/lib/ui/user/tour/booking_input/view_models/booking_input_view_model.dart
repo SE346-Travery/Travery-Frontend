@@ -20,9 +20,17 @@ class MemberFormData {
   BookingMemberRequest toRequest() => BookingMemberRequest(
     fullName: fullName,
     identityNumber: identityNumber,
-    dateOfBirth: dateOfBirth,
+    dateOfBirth: _toIsoDate(dateOfBirth),
     memberType: memberType,
   );
+
+  /// Converts date from DD/MM/YYYY to YYYY-MM-DD (ISO 8601) format.
+  static String _toIsoDate(String dateStr) {
+    if (dateStr.isEmpty) return '';
+    final parts = dateStr.split('/');
+    if (parts.length != 3) return dateStr;
+    return '${parts[2]}-${parts[1]}-${parts[0]}';
+  }
 }
 
 class BookingInputViewModel extends ChangeNotifier {

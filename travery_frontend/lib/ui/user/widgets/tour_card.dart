@@ -138,6 +138,7 @@ class TourCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       if (durationDays != null) ...[
                         Icon(
@@ -146,22 +147,28 @@ class TourCard extends StatelessWidget {
                           color: const Color(0xFF414755),
                         ),
                         const SizedBox(width: 4),
-                        Text(
-                          _formatDuration(durationDays!),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: const Color(0xFF414755),
+                        Flexible(
+                          child: Text(
+                            _formatDuration(durationDays!),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: const Color(0xFF414755),
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: 12),
                       ],
                       const Spacer(),
-                      Text(
-                        _formatPrice(price),
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.primary,
+                      Flexible(
+                        child: Text(
+                          _formatPrice(price),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.primary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

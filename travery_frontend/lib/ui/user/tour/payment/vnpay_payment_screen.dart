@@ -254,7 +254,7 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -263,13 +263,13 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.open_in_new, size: 20),
+                            Icon(Icons.open_in_new, size: 18),
                             SizedBox(width: 8),
                             Text(
                               'Chuyển đến trang thanh toán',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -277,10 +277,13 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
 
                     TextButton(
                       onPressed: () => _openVNPay(context),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                      ),
                       child: const Text(
                         'Đã thanh toán? Kiểm tra kết quả',
                         style: TextStyle(
@@ -316,14 +319,15 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
         if (!mounted) return;
 
-        // Navigate to payment result screen to poll
+        // Navigate to payment result screen.
+        // Do NOT hardcode status='success' — wait for real deeplink or user check.
         context.push(
           '/payment/result',
           extra: {
             'bookingId': widget.bookingId,
             'txnRef': widget.transactionId,
-            'status': 'success',
-            'responseCode': '00',
+            'deeplinkStatus': null,
+            'responseCode': null,
           },
         );
       } else {

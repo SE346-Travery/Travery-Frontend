@@ -227,7 +227,7 @@ class BookingSuccessScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -235,18 +235,24 @@ class BookingSuccessScreen extends StatelessWidget {
                   ),
                   child: const Text(
                     'Xem chi tiết đặt tour',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
 
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
                   onPressed: () => context.go(Routes.home),
-                  child: const Text('Về trang chủ'),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                  child: const Text(
+                    'Về trang chủ',
+                    style: TextStyle(fontSize: 13),
+                  ),
                 ),
               ),
             ],

@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travery_frontend/data/services/deep_link_service.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/payment_result/view_models/payment_result_view_model.dart';
@@ -26,17 +28,47 @@ class PaymentResultScreen extends StatefulWidget {
 }
 
 class _PaymentResultScreenState extends State<PaymentResultScreen> {
+  StreamSubscription<Uri>? _deeplinkSubscription;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.viewModel.initState(
-        txnRef: widget.txnRef,
-        deeplinkStatus: widget.deeplinkStatus,
-        responseCode: widget.responseCode,
-        bookingId: widget.bookingId,
-      );
+      _initFromExtra();
+      _subscribeToDeepLinks();
     });
+  }
+
+  void _initFromExtra() {
+    widget.viewModel.initState(
+      txnRef: widget.txnRef,
+      deeplinkStatus: widget.deeplinkStatus,
+      responseCode: widget.responseCode,
+      bookingId: widget.bookingId,
+    );
+  }
+
+  void _subscribeToDeepLinks() {
+    _deeplinkSubscription = DeepLinkService.instance.uriStream.listen((uri) {
+      if (uri.scheme == 'travery' && uri.host == 'payment-result') {
+        final status = uri.queryParameters['status'];
+        final code = uri.queryParameters['responseCode'];
+        final ref = uri.queryParameters['txnRef'];
+        // Re-initialize viewModel with deeplink data
+        widget.viewModel.initState(
+          txnRef: ref,
+          deeplinkStatus: status,
+          responseCode: code,
+          bookingId: null,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _deeplinkSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -49,7 +81,24 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFFAFAFF),
+        backgroundColor: const Color(0xFFF8FAFC),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.close, color: Color(0xFF1E293B)),
+            onPressed: () => context.go(Routes.home),
+          ),
+          title: const Text(
+            'Kết quả thanh toán',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF1E293B),
+            ),
+          ),
+          centerTitle: true,
+        ),
         body: Consumer<PaymentResultViewModel>(
           builder: (context, vm, _) {
             return SafeArea(
@@ -59,13 +108,8 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(),
-
-                    // State-based content
                     _buildContent(vm),
-
                     const Spacer(),
-
-                    // Action buttons
                     _buildActions(vm),
                   ],
                 ),
@@ -79,30 +123,56 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
 
   Widget _buildContent(PaymentResultViewModel vm) {
     switch (vm.state) {
+      case PaymentConfirmState.waitingDeeplink:
+        return _WaitingUI(onCheckManually: () => vm.checkManually());
       case PaymentConfirmState.confirming:
-        return _ConfirmingUI(
-          onCheck: () => vm.retryPolling(),
-        );
+        return _ConfirmingUI();
       case PaymentConfirmState.confirmed:
-        return _SuccessUI(
-          booking: vm.bookingData,
-        );
+        return _SuccessUI(booking: vm.bookingData);
       case PaymentConfirmState.failed:
         return _FailedUI(
           message: vm.getErrorMessage(),
-          txnRef: vm.state.toString(),
+          responseCode: vm.responseCode,
         );
       case PaymentConfirmState.processingTimeout:
-        return _ProcessingUI(
-          onRetry: () => vm.retryPolling(),
-        );
+        return _ProcessingUI(onRetry: () => vm.retryPolling());
     }
   }
 
   Widget _buildActions(PaymentResultViewModel vm) {
     switch (vm.state) {
-      case PaymentConfirmState.confirming:
-        return const SizedBox.shrink();
+      case PaymentConfirmState.waitingDeeplink:
+        return Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => vm.checkManually(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 0,
+                ),
+                child: const Text(
+                  'Đã thanh toán — Kiểm tra ngay',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: () => context.go(Routes.home),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+              child: const Text('Về trang chủ', style: TextStyle(fontSize: 13)),
+            ),
+          ],
+        );
 
       case PaymentConfirmState.confirmed:
         return Column(
@@ -112,14 +182,17 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   context.go(
-                    Routes.bookingDetail.replaceFirst(':id', vm.bookingData?.id ?? ''),
+                    Routes.bookingDetail.replaceFirst(
+                      ':id',
+                      vm.bookingData?.id ?? '',
+                    ),
                     extra: {'bookingId': vm.bookingData?.id ?? ''},
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -127,17 +200,17 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
                 ),
                 child: const Text(
                   'Xem chi tiết đặt tour',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             TextButton(
               onPressed: () => context.go(Routes.home),
-              child: const Text('Về trang chủ'),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+              child: const Text('Về trang chủ', style: TextStyle(fontSize: 13)),
             ),
           ],
         );
@@ -154,7 +227,7 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -162,18 +235,18 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
                   ),
                   child: const Text(
                     'Kiểm tra lại',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
             if (vm.state == PaymentConfirmState.processingTimeout)
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
             TextButton(
               onPressed: () => context.go(Routes.home),
-              child: const Text('Về trang chủ'),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+              child: const Text('Về trang chủ', style: TextStyle(fontSize: 13)),
             ),
           ],
         );
@@ -184,26 +257,71 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
   }
 }
 
-class _ConfirmingUI extends StatelessWidget {
-  const _ConfirmingUI({required this.onCheck});
+class _WaitingUI extends StatelessWidget {
+  const _WaitingUI({required this.onCheckManually});
 
-  final VoidCallback onCheck;
+  final VoidCallback onCheckManually;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          width: 96,
-          height: 96,
+          width: 88,
+          height: 88,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F5F9),
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.receipt_long_outlined,
+            size: 44,
+            color: Color(0xFF64748B),
+          ),
+        ),
+        const SizedBox(height: 24),
+        const Text(
+          'Chờ thanh toán...',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF1E293B),
+          ),
+        ),
+        const SizedBox(height: 12),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          child: Text(
+            'Vui lòng hoàn tất thanh toán trên VNPay.\nKết quả sẽ tự động cập nhật khi bạn quay lại app.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF64748B),
+              height: 1.5,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ConfirmingUI extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 88,
+          height: 88,
           decoration: BoxDecoration(
             color: AppColors.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: const Center(
             child: SizedBox(
-              width: 48,
-              height: 48,
+              width: 44,
+              height: 44,
               child: CircularProgressIndicator(
                 strokeWidth: 3,
                 valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
@@ -217,18 +335,18 @@ class _ConfirmingUI extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
+            color: Color(0xFF1E293B),
           ),
         ),
         const SizedBox(height: 12),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             'Vui lòng không tắt ứng dụng.\nHệ thống đang xác nhận với ngân hàng.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF414755),
+              color: Color(0xFF64748B),
               height: 1.5,
             ),
           ),
@@ -248,8 +366,8 @@ class _SuccessUI extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 96,
-          height: 96,
+          width: 88,
+          height: 88,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFF10B981), Color(0xFF059669)],
@@ -258,57 +376,61 @@ class _SuccessUI extends StatelessWidget {
             ),
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Icons.check_circle,
-            size: 56,
-            color: Colors.white,
-          ),
+          child: const Icon(Icons.check_circle, size: 52, color: Colors.white),
         ),
         const SizedBox(height: 24),
         const Text(
           'Thanh toán thành công!',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF131B2E),
+            color: Color(0xFF1E293B),
           ),
         ),
         const SizedBox(height: 12),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: Text(
-            'Cảm ơn bạn đã đặt tour. Booking của bạn đã được xác nhận.',
+            'Cảm ơn bạn đã đặt tour.\nBooking của bạn đã được xác nhận.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF414755),
+              color: Color(0xFF64748B),
               height: 1.5,
             ),
           ),
         ),
         if (booking != null) ...[
-          const SizedBox(height: 32),
+          const SizedBox(height: 28),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.06),
-                  blurRadius: 24,
-                  offset: const Offset(0, 8),
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 16,
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: Column(
               children: [
-                _InfoItem(label: 'Mã đặt chỗ', value: '#${booking.id.substring(0, 8).toUpperCase()}'),
+                _InfoItem(
+                  label: 'Mã đặt chỗ',
+                  value:
+                      '#${(booking.id as String).substring(0, 8).toUpperCase()}',
+                ),
                 const Divider(height: 24),
-                _InfoItem(label: 'Tổng tiền', value: _formatPrice(booking.totalPrice)),
+                _InfoItem(
+                  label: 'Tổng tiền',
+                  value: _formatPrice(booking.totalPrice as double),
+                ),
                 const Divider(height: 24),
-                _InfoItem(label: 'Trạng thái', value: 'Đã thanh toán'),
+                const _InfoItem(label: 'Trạng thái', value: 'Đã thanh toán'),
               ],
             ),
           ),
@@ -324,46 +446,42 @@ class _SuccessUI extends StatelessWidget {
 }
 
 class _FailedUI extends StatelessWidget {
-  const _FailedUI({required this.message, required this.txnRef});
+  const _FailedUI({required this.message, required this.responseCode});
 
   final String message;
-  final String txnRef;
+  final String? responseCode;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          width: 96,
-          height: 96,
+          width: 88,
+          height: 88,
           decoration: BoxDecoration(
             color: Colors.red.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Icons.cancel,
-            size: 56,
-            color: Colors.red,
-          ),
+          child: const Icon(Icons.cancel_outlined, size: 52, color: Colors.red),
         ),
         const SizedBox(height: 24),
         const Text(
           'Thanh toán thất bại',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF131B2E),
+            color: Color(0xFF1E293B),
           ),
         ),
         const SizedBox(height: 12),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             message,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 14,
-              color: Color(0xFF414755),
+              color: Color(0xFF64748B),
               height: 1.5,
             ),
           ),
@@ -383,15 +501,15 @@ class _ProcessingUI extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 96,
-          height: 96,
+          width: 88,
+          height: 88,
           decoration: BoxDecoration(
             color: Colors.orange.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: const Icon(
             Icons.hourglass_empty,
-            size: 56,
+            size: 52,
             color: Colors.orange,
           ),
         ),
@@ -399,20 +517,20 @@ class _ProcessingUI extends StatelessWidget {
         const Text(
           'Thanh toán đang xử lý',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF131B2E),
+            color: Color(0xFF1E293B),
           ),
         ),
         const SizedBox(height: 12),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: Text(
-            'Hệ thống chưa xác nhận được thanh toán của bạn. Vui lòng kiểm tra lại sau vài phút.',
+            'Hệ thống chưa xác nhận được thanh toán của bạn.\nVui lòng kiểm tra lại sau vài phút.',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF414755),
+              color: Color(0xFF64748B),
               height: 1.5,
             ),
           ),
@@ -435,17 +553,14 @@ class _InfoItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Color(0xFF414755),
-          ),
+          style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
         ),
         Text(
           value,
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
+            color: Color(0xFF1E293B),
           ),
         ),
       ],

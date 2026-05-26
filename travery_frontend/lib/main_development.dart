@@ -20,10 +20,11 @@ void main() async {
       providers: providers,
       child: Builder(
         builder: (context) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            deepLinkService.registerRouter(GoRouter.of(context));
-          });
-          return const MyApp();
+          return MyApp(
+            onRouterInitialized: (router) {
+              deepLinkService.registerRouter(router);
+            },
+          );
         },
       ),
     ),

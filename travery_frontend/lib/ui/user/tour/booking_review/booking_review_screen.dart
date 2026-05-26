@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travery_frontend/data/services/payment_session_storage.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import '../../../../routing/routes.dart';
 import 'view_models/booking_review_view_model.dart';
@@ -418,7 +419,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                       Text(
                         _formatPrice(_totalPrice),
                         style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 16,
                           fontWeight: FontWeight.w900,
                           fontFamily: 'Be Vietnam Pro',
                           color: AppColors.primary,
@@ -428,28 +429,28 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                   ),
                 ),
                 const SizedBox(width: 16),
-                Expanded(
-                  flex: 2,
+                SizedBox(
+                  width: 160,
                   child: GestureDetector(
                     onTap: !_termsAccepted || vm.isCreatingBooking
                         ? null
                         : () => _onConfirm(context),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      height: 56,
+                      height: 48,
                       decoration: BoxDecoration(
                         color: _termsAccepted && !vm.isCreatingBooking
                             ? AppColors.primary
                             : const Color(0xFFE2E8F0),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(12),
                         boxShadow: _termsAccepted && !vm.isCreatingBooking
                             ? [
                                 BoxShadow(
                                   color: AppColors.primary.withValues(
-                                    alpha: 0.3,
+                                    alpha: 0.25,
                                   ),
-                                  blurRadius: 16,
-                                  offset: const Offset(0, 6),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
                                 ),
                               ]
                             : null,
@@ -457,8 +458,8 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                       child: Center(
                         child: vm.isCreatingBooking
                             ? const SizedBox(
-                                width: 24,
-                                height: 24,
+                                width: 22,
+                                height: 22,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2.5,
                                   valueColor: AlwaysStoppedAnimation<Color>(
@@ -472,7 +473,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                   Text(
                                     'Tiếp tục',
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.w700,
                                       fontFamily: 'Be Vietnam Pro',
                                       color: Colors.white,
@@ -481,7 +482,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                   SizedBox(width: 6),
                                   Icon(
                                     Icons.arrow_forward,
-                                    size: 20,
+                                    size: 18,
                                     color: Colors.white,
                                   ),
                                 ],
@@ -561,6 +562,14 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
 
     final booking = vm.bookingData;
     if (booking == null) return;
+
+    // Save txnRef → bookingId mapping so deeplink can look up bookingId later
+    if (booking.payment != null && booking.payment!.transactionId.isNotEmpty) {
+      await PaymentSessionStorage.save(
+        booking.payment!.transactionId,
+        booking.id,
+      );
+    }
 
     if (booking.payment != null && booking.payment!.paymentUrl.isNotEmpty) {
       context.push(

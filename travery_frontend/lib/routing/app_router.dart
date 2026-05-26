@@ -80,8 +80,11 @@ import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_t
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_template_screen.dart';
 import 'routes.dart';
 
-GoRouter appRouter(AuthRepository authRepository) {
-  return GoRouter(
+GoRouter appRouter(
+  AuthRepository authRepository, {
+  void Function(GoRouter router)? onInitialized,
+}) {
+  final router = GoRouter(
     initialLocation: Routes.login,
     debugLogDiagnostics: true,
     routes: [
@@ -331,7 +334,7 @@ GoRouter appRouter(AuthRepository authRepository) {
           return PaymentResultScreen(
             viewModel: context.read<PaymentResultViewModel>(),
             txnRef: extra?['txnRef'] as String?,
-            deeplinkStatus: extra?['status'] as String?,
+            deeplinkStatus: extra?['deeplinkStatus'] as String?,
             responseCode: extra?['responseCode'] as String?,
             bookingId: extra?['bookingId'] as String?,
           );
@@ -486,4 +489,7 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
     ],
   );
+
+  onInitialized?.call(router);
+  return router;
 }

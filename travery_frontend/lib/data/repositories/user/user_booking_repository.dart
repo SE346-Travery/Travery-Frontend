@@ -136,9 +136,7 @@ class UserBookingRepository extends BookingService {
       }
 
       final request = await client.getUrl(
-        Uri.parse(
-          '${AppConfig.baseUrl}/api/v1/bookings/me',
-        ).replace(queryParameters: queryParams),
+        Uri.https(AppConfig.baseUrl, '/api/v1/bookings/me', queryParams),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,

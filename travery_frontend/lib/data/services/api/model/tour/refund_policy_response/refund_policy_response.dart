@@ -4,7 +4,7 @@ part 'refund_policy_response.freezed.dart';
 part 'refund_policy_response.g.dart';
 
 @freezed
-class RefundPolicyRuleResponse with _$RefundPolicyRuleResponse {
+abstract class RefundPolicyRuleResponse with _$RefundPolicyRuleResponse {
   const factory RefundPolicyRuleResponse({
     required String id,
     required int daysBefore,
@@ -16,7 +16,7 @@ class RefundPolicyRuleResponse with _$RefundPolicyRuleResponse {
 }
 
 @freezed
-class RefundPolicyResponse with _$RefundPolicyResponse {
+abstract class RefundPolicyResponse with _$RefundPolicyResponse {
   const factory RefundPolicyResponse({
     required String id,
     required String name,

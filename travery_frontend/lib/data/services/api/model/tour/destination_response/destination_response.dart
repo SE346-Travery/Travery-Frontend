@@ -4,7 +4,7 @@ part 'destination_response.freezed.dart';
 part 'destination_response.g.dart';
 
 @freezed
-class DestinationResponse with _$DestinationResponse {
+abstract class DestinationResponse with _$DestinationResponse {
   const factory DestinationResponse({
     required String id,
     required String code,

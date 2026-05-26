@@ -4,7 +4,7 @@ part 'create_payment_response.freezed.dart';
 part 'create_payment_response.g.dart';
 
 @freezed
-class CreatePaymentResponse with _$CreatePaymentResponse {
+abstract class CreatePaymentResponse with _$CreatePaymentResponse {
   const factory CreatePaymentResponse({required PaymentResponseData data}) =
       _CreatePaymentResponse;
 
@@ -13,7 +13,7 @@ class CreatePaymentResponse with _$CreatePaymentResponse {
 }
 
 @freezed
-class PaymentResponseData with _$PaymentResponseData {
+abstract class PaymentResponseData with _$PaymentResponseData {
   const factory PaymentResponseData({
     @Default('') String transactionId,
     @Default(0) double amount,

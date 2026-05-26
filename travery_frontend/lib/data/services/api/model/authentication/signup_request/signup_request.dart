@@ -4,7 +4,7 @@ part 'signup_request.freezed.dart';
 part 'signup_request.g.dart';
 
 @freezed
-class SignupRequest with _$SignupRequest {
+abstract class SignupRequest with _$SignupRequest {
   const factory SignupRequest({
     required String email,
     required String password,

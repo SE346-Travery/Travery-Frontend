@@ -7,6 +7,7 @@ import 'package:travery_frontend/data/services/api/model/authentication/reset_pa
 import 'package:travery_frontend/data/services/api/model/authentication/signup_request/signup_request.dart';
 import 'package:travery_frontend/data/services/api/model/authentication/verify_otp_request/verify_otp_request.dart';
 import 'package:travery_frontend/utils/core_result.dart';
+import 'package:travery_frontend/utils/jwt_utils.dart';
 
 import 'auth_repository.dart';
 import 'package:travery_frontend/data/services/api/auth_service.dart';
@@ -23,7 +24,7 @@ class AuthRepositoryRemote extends AuthRepository {
        _securityStorageService = securityStorageService;
 
   @override
-  Future<Result<void>> loginViaEmail({
+  Future<Result<String>> loginViaEmail({
     required String email,
     required String password,
   }) async {
@@ -32,7 +33,7 @@ class AuthRepositoryRemote extends AuthRepository {
       final result = await _authService.loginViaEmail(
         LoginRequest(email: email, password: password),
       );
-      // Lưu token vào storage
+      // Lưu token vào storage và decode role
       switch (result) {
         case Ok<LoginResponse>():
           await _securityStorageService.saveAccessToken(
@@ -41,7 +42,10 @@ class AuthRepositoryRemote extends AuthRepository {
           await _securityStorageService.saveRefreshToken(
             result.value.refreshToken,
           );
-          return const Result.ok(null);
+          // Decode role từ JWT access token
+          final role =
+              JwtUtils.extractRole(result.value.accessToken) ?? 'ROLE_TOURIST';
+          return Result.ok(role);
 
         case Error<LoginResponse>():
           return Result.error(result.error);

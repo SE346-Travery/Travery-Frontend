@@ -3,6 +3,9 @@ import 'dashboard_screen.dart';
 import 'account_management_screen.dart';
 import 'create_account_screen.dart';
 import 'widgets/admin_bottom_nav_bar.dart';
+import 'admin_view_profile_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:travery_frontend/ui/admin/view_model/admin_profile_view_model.dart';
 
 class AdminMainScreen extends StatefulWidget {
   const AdminMainScreen({super.key});
@@ -56,11 +59,14 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        children: const [
-          DashboardScreen(),
-          AccountManagementScreen(),
-          CreateAccountScreen(),
-          Center(child: Text('Chat')),
+        children: [
+          const DashboardScreen(),
+          const AccountManagementScreen(),
+          const CreateAccountScreen(),
+          const Center(child: Text('Chat')),
+          AdminViewProfileScreen(
+            viewModel: context.read<AdminProfileViewModel>(),
+          ),
         ],
       ),
       bottomNavigationBar: AdminBottomNavBar(

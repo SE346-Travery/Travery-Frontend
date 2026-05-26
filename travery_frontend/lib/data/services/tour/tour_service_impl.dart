@@ -59,13 +59,15 @@ class TourServiceImpl implements TourService {
         'page': page.toString(),
         'size': size.toString(),
       };
-      if (keyword != null && keyword.isNotEmpty)
+      if (keyword != null && keyword.isNotEmpty) {
         queryParams['keyword'] = keyword;
+      }
       if (minPrice != null) queryParams['minPrice'] = minPrice.toString();
       if (maxPrice != null) queryParams['maxPrice'] = maxPrice.toString();
       if (minRating != null) queryParams['minRating'] = minRating.toString();
-      if (startDate != null)
+      if (startDate != null) {
         queryParams['startDate'] = startDate.toIso8601String().split('T').first;
+      }
       if (destinationId != null && destinationId.isNotEmpty) {
         queryParams['destinationId'] = destinationId;
       }

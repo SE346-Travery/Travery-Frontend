@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
+import 'package:travery_frontend/ui/user/home/home_screen.dart';
 
 class UserBottomNav extends StatelessWidget {
   const UserBottomNav({super.key, this.initialIndex = 0});
@@ -28,7 +30,7 @@ class _UserHomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Text('Home Content'));
+    return const HomeScreen();
   }
 }
 

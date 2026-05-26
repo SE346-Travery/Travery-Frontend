@@ -26,10 +26,27 @@ class TourDetailScreen extends StatefulWidget {
 }
 
 class _TourDetailScreenState extends State<TourDetailScreen> {
+  TourInstance? _selectedInstance;
+  bool _isInitializing = false;
+
+  @override
+  void didUpdateWidget(TourDetailScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.tourId != widget.tourId) {
+      _selectedInstance = null;
+      _isInitializing = true;
+      widget.viewModel.loadTourDetail(widget.tourId);
+      widget.viewModel.loadTourInstances(widget.tourId);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _selectedInstance = null;
+    _isInitializing = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _isInitializing = false;
       widget.viewModel.loadTourDetail(widget.tourId);
       widget.viewModel.loadTourInstances(widget.tourId);
     });
@@ -261,25 +278,87 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 ),
               ],
             ),
-            child: ElevatedButton(
-              onPressed: () => _showInstancePicker(context, vm),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (_selectedInstance != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          size: 14,
+                          color: AppColors.primary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '${_formatDate(_selectedInstance!.startDate)} - ${_formatDate(_selectedInstance!.endDate)}',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          _selectedInstance!.availableSlots > 0
+                              ? 'Còn ${_selectedInstance!.availableSlots} chỗ'
+                              : 'Hết chỗ',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: _selectedInstance!.availableSlots > 0
+                                ? const Color(0xFF0058BC)
+                                : const Color(0xFFBA1A1A),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ElevatedButton(
+                  onPressed:
+                      _selectedInstance != null &&
+                          _selectedInstance!.availableSlots > 0
+                      ? () {
+                          context.push(
+                            '/tour/${widget.tourId}/book',
+                            extra: {
+                              'instanceId': _selectedInstance!.id,
+                              'tourName': vm.tourDetail?.name ?? '',
+                              'pricePerAdult':
+                                  vm.tourDetail?.pricePerAdult ?? 0,
+                              'pricePerChild':
+                                  vm.tourDetail?.pricePerChild ?? 0,
+                            },
+                          );
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                    disabledBackgroundColor: Colors.grey[300],
+                  ),
+                  child: Text(
+                    _selectedInstance == null
+                        ? 'Không có lịch khả dụng'
+                        : _selectedInstance!.availableSlots <= 0
+                        ? 'Hết chỗ'
+                        : 'ĐẶT TOUR NGAY',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
-                elevation: 0,
-              ),
-              child: const Text(
-                'ĐẶT TOUR NGAY',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                ),
-              ),
+              ],
             ),
           );
         },
@@ -303,67 +382,108 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
         ),
       );
     }
+
+    if (_selectedInstance == null && _isInitializing) {
+      _isInitializing = false;
+      _selectedInstance = vm.instances.isEmpty
+          ? null
+          : vm.instances.firstWhere(
+              (i) => i.availableSlots > 0,
+              orElse: () => vm.instances.first,
+            );
+    }
+
     return Column(
       children: vm.instances.map((instance) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 8),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFFC1C6D7).withValues(alpha: 0.3),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${_formatDate(instance.startDate)} - ${_formatDate(instance.endDate)}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF131B2E),
-                      ),
-                    ),
-                    Text(
-                      _getInstanceStatusLabel(instance.status),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: _getInstanceStatusColor(instance.status),
-                      ),
-                    ),
-                  ],
-                ),
+        final isAvailable = instance.availableSlots > 0;
+        final isSelected = _selectedInstance?.id == instance.id;
+        return GestureDetector(
+          onTap: () => setState(() => _selectedInstance = instance),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppColors.primary.withValues(alpha: 0.06)
+                  : Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.primary
+                    : const Color(0xFFC1C6D7).withValues(alpha: 0.3),
+                width: isSelected ? 1.5 : 1,
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected
+                          ? AppColors.primary
+                          : const Color(0xFFC1C6D7),
+                      width: 1.5,
+                    ),
+                    color: isSelected ? AppColors.primary : Colors.transparent,
+                  ),
+                  child: isSelected
+                      ? const Icon(Icons.check, size: 12, color: Colors.white)
+                      : null,
                 ),
-                decoration: BoxDecoration(
-                  color: instance.availableSlots > 0
-                      ? const Color(0xFFD2E1F7)
-                      : const Color(0xFFFFDAD6),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  instance.availableSlots > 0
-                      ? 'Còn ${instance.availableSlots} chỗ'
-                      : 'Hết chỗ',
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: instance.availableSlots > 0
-                        ? const Color(0xFF0058BC)
-                        : const Color(0xFFBA1A1A),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${_formatDate(instance.startDate)} - ${_formatDate(instance.endDate)}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: isAvailable
+                              ? const Color(0xFF131B2E)
+                              : Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        _getInstanceStatusLabel(instance.status),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: _getInstanceStatusColor(instance.status),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: instance.availableSlots > 0
+                        ? const Color(0xFFD2E1F7)
+                        : const Color(0xFFFFDAD6),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    instance.availableSlots > 0
+                        ? 'Còn ${instance.availableSlots} chỗ'
+                        : 'Hết chỗ',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: instance.availableSlots > 0
+                          ? const Color(0xFF0058BC)
+                          : const Color(0xFFBA1A1A),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       }).toList(),
@@ -437,126 +557,6 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
               );
             }),
         ],
-      ),
-    );
-  }
-
-  void _showInstancePicker(BuildContext context, TourDetailViewModel vm) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (ctx) => DraggableScrollableSheet(
-        initialChildSize: 0.5,
-        minChildSize: 0.3,
-        maxChildSize: 0.8,
-        expand: false,
-        builder: (_, scrollController) => Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 12),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                'Chọn lịch khởi hành',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF131B2E),
-                ),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                controller: scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: vm.instances.length,
-                itemBuilder: (ctx, index) {
-                  final instance = vm.instances[index];
-                  final isAvailable = instance.availableSlots > 0;
-                  return GestureDetector(
-                    onTap: isAvailable
-                        ? () {
-                            Navigator.pop(ctx);
-                            context.push(
-                              '/tour/${widget.tourId}/book',
-                              extra: {
-                                'instanceId': instance.id,
-                                'tourName': vm.tourDetail?.name ?? '',
-                                'pricePerAdult':
-                                    vm.tourDetail?.pricePerAdult ?? 0,
-                                'pricePerChild':
-                                    vm.tourDetail?.pricePerChild ?? 0,
-                              },
-                            );
-                          }
-                        : null,
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: const Color(0xFFC1C6D7).withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${_formatDate(instance.startDate)} - ${_formatDate(instance.endDate)}',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: isAvailable
-                                        ? const Color(0xFF131B2E)
-                                        : Colors.grey,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  isAvailable
-                                      ? 'Còn ${instance.availableSlots} chỗ'
-                                      : 'Hết chỗ',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: isAvailable
-                                        ? AppColors.primary
-                                        : Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Icon(
-                            isAvailable ? Icons.arrow_forward_ios : Icons.block,
-                            size: 16,
-                            color: isAvailable
-                                ? AppColors.primary
-                                : Colors.grey,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

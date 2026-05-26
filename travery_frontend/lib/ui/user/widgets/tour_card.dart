@@ -99,23 +99,27 @@ class TourCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (durationDays != null)
+                  if (destinationName != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Row(
                         children: [
                           Icon(
-                            Icons.schedule,
+                            Icons.location_on,
                             size: 12,
                             color: AppColors.primary,
                           ),
                           const SizedBox(width: 4),
-                          Text(
-                            _formatDuration(durationDays!),
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.primary,
+                          Expanded(
+                            child: Text(
+                              destinationName!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
                         ],
@@ -135,25 +139,23 @@ class TourCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      if (destinationName != null) ...[
-                        const Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: Color(0xFF414755),
+                      if (durationDays != null) ...[
+                        Icon(
+                          Icons.schedule,
+                          size: 12,
+                          color: const Color(0xFF414755),
                         ),
                         const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            destinationName!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Color(0xFF414755),
-                            ),
+                        Text(
+                          _formatDuration(durationDays!),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: const Color(0xFF414755),
                           ),
                         ),
+                        const SizedBox(width: 12),
                       ],
+                      const Spacer(),
                       Text(
                         _formatPrice(price),
                         style: const TextStyle(
@@ -177,11 +179,7 @@ class TourCard extends StatelessWidget {
     return Container(
       color: const Color(0xFFEAEDFF),
       child: const Center(
-        child: Icon(
-          Icons.image_outlined,
-          size: 40,
-          color: Color(0xFF717786),
-        ),
+        child: Icon(Icons.image_outlined, size: 40, color: Color(0xFF717786)),
       ),
     );
   }

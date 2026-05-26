@@ -44,7 +44,7 @@ class UserBookingRepository extends BookingService {
 
     try {
       final request = await client.getUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/bookings/$bookingId'),
+        Uri.https(AppConfig.baseUrl, '/api/v1/bookings/$bookingId'),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
@@ -176,7 +176,7 @@ class UserBookingRepository extends BookingService {
 
     try {
       final requestObj = await client.postUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/bookings/$bookingId/cancel'),
+        Uri.https(AppConfig.baseUrl, '/api/v1/bookings/$bookingId/cancel'),
       );
       requestObj.headers.set(
         HttpHeaders.contentTypeHeader,

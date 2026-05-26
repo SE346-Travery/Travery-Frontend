@@ -240,26 +240,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
 
-                return SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      if (index >= vm.featuredTours.length) return null;
-                      final tour = vm.featuredTours[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: TourCard(
-                          id: tour.id,
-                          name: tour.name,
-                          price: tour.price,
-                          thumbnailUrl: tour.thumbnailUrl,
-                          destinationName: tour.destinationName,
-                          durationDays: tour.durationDays,
-                          averageRating: tour.averageRating,
-                          onTap: () => context.push('/tour/${tour.id}'),
-                        ),
-                      );
-                    }, childCount: vm.featuredTours.length),
+                return SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 270,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: vm.featuredTours.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 10),
+                      itemBuilder: (context, index) {
+                        final tour = vm.featuredTours[index];
+                        return SizedBox(
+                          width: 200,
+                          child: TourCard(
+                            id: tour.id,
+                            name: tour.name,
+                            price: tour.price,
+                            thumbnailUrl: tour.fullThumbnailUrl,
+                            destinationName: tour.destinationName,
+                            durationDays: tour.durationDays,
+                            averageRating: tour.averageRating,
+                            onTap: () => context.push('/tour/${tour.id}'),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               },

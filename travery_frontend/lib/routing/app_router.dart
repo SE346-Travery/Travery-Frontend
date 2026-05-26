@@ -242,7 +242,7 @@ GoRouter appRouter(AuthRepository authRepository) {
 
       // --- USER ROUTES ---
       GoRoute(
-        path: Routes.home,
+        path: Routes.tourHome,
         builder: (context, state) => const UserBottomNav(initialIndex: 0),
       ),
       GoRoute(

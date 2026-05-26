@@ -575,7 +575,7 @@ class _TourListScreenState extends State<TourListScreen> {
                         ),
                       if (vm.minRating != null)
                         _FilterChip(
-                          label: '${vm.minRating}+ sao',
+                          label: '${vm.minRating} sao',
                           onRemove: () {
                             vm.setFilters(clearMinRating: true);
                             vm.loadTours(refresh: true);
@@ -670,7 +670,7 @@ class _TourListScreenState extends State<TourListScreen> {
                           id: tour.id,
                           name: tour.name,
                           price: tour.price,
-                          thumbnailUrl: tour.thumbnailUrl,
+                          thumbnailUrl: tour.fullThumbnailUrl,
                           destinationName: tour.destinationName,
                           durationDays: tour.durationDays,
                           averageRating: tour.averageRating,

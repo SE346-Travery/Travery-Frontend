@@ -71,9 +71,7 @@ class TourServiceImpl implements TourService {
       }
 
       final request = await client.getUrl(
-        Uri.parse(
-          '${AppConfig.baseUrl}/api/v1/tours',
-        ).replace(queryParameters: queryParams),
+        Uri.https(AppConfig.baseUrl, '/api/v1/tours', queryParams),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
@@ -108,7 +106,7 @@ class TourServiceImpl implements TourService {
 
     try {
       final request = await client.getUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/tours/featured'),
+        Uri.https(AppConfig.baseUrl, '/api/v1/tours/featured'),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
@@ -143,7 +141,7 @@ class TourServiceImpl implements TourService {
 
     try {
       final request = await client.getUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/tours/$tourId'),
+        Uri.https(AppConfig.baseUrl, '/api/v1/tours/$tourId'),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
@@ -183,7 +181,7 @@ class TourServiceImpl implements TourService {
 
     try {
       final request = await client.getUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/tours/$tourId/instances'),
+        Uri.https(AppConfig.baseUrl, '/api/v1/tours/$tourId/instances'),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
@@ -225,8 +223,9 @@ class TourServiceImpl implements TourService {
 
     try {
       final requestObj = await client.postUrl(
-        Uri.parse(
-          '${AppConfig.baseUrl}/api/v1/tour-instances/$instanceId/bookings',
+        Uri.https(
+          AppConfig.baseUrl,
+          '/api/v1/tour-instances/$instanceId/bookings',
         ),
       );
       requestObj.headers.set(
@@ -264,7 +263,7 @@ class TourServiceImpl implements TourService {
 
     try {
       final request = await client.getUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/bookings/$bookingId'),
+        Uri.https(AppConfig.baseUrl, '/api/v1/bookings/$bookingId'),
       );
       request.headers.set(
         HttpHeaders.contentTypeHeader,
@@ -300,7 +299,7 @@ class TourServiceImpl implements TourService {
 
     try {
       final requestObj = await client.postUrl(
-        Uri.parse('${AppConfig.baseUrl}/api/v1/bookings/$bookingId/payments'),
+        Uri.https(AppConfig.baseUrl, '/api/v1/bookings/$bookingId/payments'),
       );
       requestObj.headers.set(
         HttpHeaders.contentTypeHeader,

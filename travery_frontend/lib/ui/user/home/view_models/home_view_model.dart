@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:travery_frontend/config/app_config.dart';
 import 'package:travery_frontend/data/models/tour/tour_featured_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';

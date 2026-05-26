@@ -12,6 +12,7 @@ class TourCard extends StatelessWidget {
     this.durationDays,
     this.averageRating,
     required this.onTap,
+    this.width,
   });
 
   final String id;
@@ -22,10 +23,11 @@ class TourCard extends StatelessWidget {
   final int? durationDays;
   final double? averageRating;
   final VoidCallback onTap;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final card = GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
@@ -43,7 +45,6 @@ class TourCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Thumbnail
             AspectRatio(
               aspectRatio: 4 / 3,
               child: Stack(
@@ -93,7 +94,6 @@ class TourCard extends StatelessWidget {
                 ],
               ),
             ),
-            // Info
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -138,37 +138,41 @@ class TourCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      if (durationDays != null) ...[
-                        Icon(
-                          Icons.schedule,
-                          size: 12,
-                          color: const Color(0xFF414755),
-                        ),
-                        const SizedBox(width: 4),
+                      if (durationDays != null)
                         Flexible(
-                          child: Text(
-                            _formatDuration(durationDays!),
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: const Color(0xFF414755),
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.schedule,
+                                size: 12,
+                                color: const Color(0xFF414755),
+                              ),
+                              const SizedBox(width: 4),
+                              Flexible(
+                                child: Text(
+                                  _formatDuration(durationDays!),
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF414755),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                      ],
-                      const Spacer(),
-                      Flexible(
-                        child: Text(
-                          _formatPrice(price),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.primary,
-                          ),
-                          overflow: TextOverflow.ellipsis,
+                        )
+                      else
+                        const SizedBox.shrink(),
+                      Text(
+                        _formatPrice(price),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.primary,
                         ),
                       ),
                     ],
@@ -180,6 +184,11 @@ class TourCard extends StatelessWidget {
         ),
       ),
     );
+
+    if (width != null) {
+      return SizedBox(width: width, child: card);
+    }
+    return card;
   }
 
   Widget _placeholderImage() {

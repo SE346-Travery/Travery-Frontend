@@ -242,26 +242,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 return SliverToBoxAdapter(
                   child: SizedBox(
-                    height: 270,
+                    height: 260,
                     child: ListView.separated(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       scrollDirection: Axis.horizontal,
                       itemCount: vm.featuredTours.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 10),
+                      separatorBuilder: (_, __) => const SizedBox(width: 12),
                       itemBuilder: (context, index) {
                         final tour = vm.featuredTours[index];
-                        return SizedBox(
-                          width: 200,
-                          child: TourCard(
-                            id: tour.id,
-                            name: tour.name,
-                            price: tour.price,
-                            thumbnailUrl: tour.fullThumbnailUrl,
-                            destinationName: tour.destinationName,
-                            durationDays: tour.durationDays,
-                            averageRating: tour.averageRating,
-                            onTap: () => context.push('/tour/${tour.id}'),
-                          ),
+                        return TourCard(
+                          id: tour.id,
+                          name: tour.name,
+                          price: tour.price,
+                          thumbnailUrl: tour.fullThumbnailUrl,
+                          destinationName: tour.destinationName,
+                          durationDays: tour.durationDays,
+                          averageRating: tour.averageRating,
+                          onTap: () => context.push('/tour/${tour.id}'),
+                          width: 185,
                         );
                       },
                     ),

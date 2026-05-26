@@ -341,7 +341,7 @@ GoRouter appRouter(
         },
       ),
       GoRoute(
-        path: Routes.bookingSuccess,
+        path: Routes.paymentResult,
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           return BookingSuccessScreen(

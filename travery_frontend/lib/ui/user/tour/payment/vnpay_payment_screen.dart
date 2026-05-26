@@ -104,38 +104,38 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      body: SafeArea(
         child: Column(
           children: [
             // Countdown Timer
             if (_isCountdownActive)
               Container(
+                margin: const EdgeInsets.fromLTRB(20, 16, 20, 0),
                 padding: const EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 20,
+                  vertical: 10,
+                  horizontal: 16,
                 ),
                 decoration: BoxDecoration(
                   color: _remainingTime.inMinutes < 5
                       ? Colors.red.withValues(alpha: 0.1)
                       : const Color(0xFFF2F3FF),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.schedule,
-                      size: 18,
+                      size: 16,
                       color: _remainingTime.inMinutes < 5
                           ? Colors.red
                           : AppColors.primary,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 6),
                     Text(
                       'Giữ chỗ trong $_countdownText',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: _remainingTime.inMinutes < 5
                             ? Colors.red
@@ -146,166 +146,158 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
                 ),
               ),
 
-            const SizedBox(height: 24),
-
             // Payment Card
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.06),
-                      blurRadius: 24,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    // VNPay Logo/Icon
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF007AFF).withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.06),
+                        blurRadius: 24,
+                        offset: const Offset(0, 8),
                       ),
-                      child: const Center(
-                        child: Text(
-                          'VNPay',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            color: Color(0xFF007AFF),
-                          ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      // VNPay Logo/Icon
+                      Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF007AFF).withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    Text(
-                      widget.tourName,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF131B2E),
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    Text(
-                      _formatPrice(widget.amount),
-                      style: const TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.primary,
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF2F3FF),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.lock,
-                            size: 16,
-                            color: Color(0xFF717786),
-                          ),
-                          const SizedBox(width: 8),
-                          const Expanded(
-                            child: Text(
-                              'Thanh toán an toàn qua VNPay',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF717786),
-                              ),
+                        child: const Center(
+                          child: Text(
+                            'VNPay',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF007AFF),
                             ),
                           ),
-                          const Icon(
-                            Icons.check_circle,
-                            size: 16,
-                            color: AppColors.primary,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const Spacer(),
-
-                    // Open VNPay Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => _openVNPay(context),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 0,
                         ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      Text(
+                        widget.tourName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF131B2E),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      Text(
+                        _formatPrice(widget.amount),
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.primary,
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF2F3FF),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
                           children: [
-                            Icon(Icons.open_in_new, size: 18),
-                            SizedBox(width: 8),
-                            Text(
-                              'Chuyển đến trang thanh toán',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                            const Icon(
+                              Icons.lock,
+                              size: 14,
+                              color: Color(0xFF717786),
+                            ),
+                            const SizedBox(width: 6),
+                            const Expanded(
+                              child: Text(
+                                'Thanh toán an toàn qua VNPay',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF717786),
+                                ),
                               ),
+                            ),
+                            const Icon(
+                              Icons.check_circle,
+                              size: 14,
+                              color: AppColors.primary,
                             ),
                           ],
                         ),
                       ),
-                    ),
 
-                    const SizedBox(height: 10),
+                      const Spacer(),
 
-                    TextButton(
-                      onPressed: () => _openVNPay(context),
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                      ),
-                      child: const Text(
-                        'Đã thanh toán? Kiểm tra kết quả',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w500,
+                      // Open VNPay Button
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => _openVNPay(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.open_in_new, size: 18),
+                              SizedBox(width: 6),
+                              Text(
+                                'Chuyển đến trang thanh toán',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      const SizedBox(height: 8),
+
+                      TextButton(
+                        onPressed: () => _openVNPay(context),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                        ),
+                        child: const Text(
+                          'Đã thanh toán? Kiểm tra kết quả',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-
-            const SizedBox(height: 16),
-
-            Text(
-              'Thanh toán qua VNPay',
-              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-            ),
-
-            const SizedBox(height: 20),
           ],
         ),
       ),

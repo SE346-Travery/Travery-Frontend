@@ -11,6 +11,7 @@ import 'package:travery_frontend/ui/user/tour/booking/booking_detail/widgets/ref
 import 'package:travery_frontend/ui/user/tour/booking/booking_detail/widgets/primary_button.dart';
 import 'package:travery_frontend/ui/user/tour/booking/booking_detail/widgets/secondary_button.dart';
 import 'package:travery_frontend/ui/core/widgets/app_bar_widget.dart';
+import 'package:travery_frontend/routing/routes.dart';
 
 class BookingDetailScreen extends StatelessWidget {
   const BookingDetailScreen({super.key, required this.bookingId});
@@ -116,6 +117,69 @@ class _BookingDetailScreenContent extends StatelessWidget {
                       onPressed: () =>
                           context.push('/booking/$bookingId/cancel'),
                     ),
+                    if (detail.isCustom) ...[
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            context.push(
+                              Routes.chat,
+                              extra: {
+                                'uid': 'c0000000-0000-0000-0000-000000000001',
+                                'title': 'Điều phối viên',
+                              },
+                            );
+                          },
+                          icon: const Icon(Icons.support_agent_outlined, size: 20),
+                          label: const Text(
+                            'Chat với điều phối viên',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColors.primary,
+                            side: const BorderSide(color: AppColors.primary),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    if (detail.status == 'Confirmed' || 
+                        detail.status == 'Paid' || 
+                        detail.status == 'Đã xác nhận' || 
+                        detail.status == 'Đã thanh toán') ...[
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            context.push(
+                              Routes.chat,
+                              extra: {
+                                'guid': detail.tourInstanceId, // TODO: Ensure group exists in CometChat
+                                'title': 'Nhóm thảo luận: ${detail.tourName}',
+                              },
+                            );
+                          },
+                          icon: const Icon(Icons.group_outlined, size: 20),
+                          label: const Text(
+                            'Chat với đoàn',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColors.primary,
+                            side: const BorderSide(color: AppColors.primary),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 32),
                   ]),
                 ),

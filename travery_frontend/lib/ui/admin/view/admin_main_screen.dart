@@ -3,6 +3,7 @@ import 'dashboard_screen.dart';
 import 'account_management_screen.dart';
 import 'create_account_screen.dart';
 import 'widgets/admin_bottom_nav_bar.dart';
+import 'package:travery_frontend/ui/chat/chat_screen.dart';
 
 class AdminMainScreen extends StatefulWidget {
   const AdminMainScreen({super.key});
@@ -34,15 +35,6 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
   }
 
   void _onBottomNavTapped(int index) {
-    if (index == 3) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Tính năng Chat đang được phát triển'),
-          duration: Duration(seconds: 1),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    }
     _pageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 300),
@@ -60,7 +52,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
           DashboardScreen(),
           AccountManagementScreen(),
           CreateAccountScreen(),
-          Center(child: Text('Chat')),
+          ChatScreen(title: 'Tin nhắn', showBackButton: false),
         ],
       ),
       bottomNavigationBar: AdminBottomNavBar(

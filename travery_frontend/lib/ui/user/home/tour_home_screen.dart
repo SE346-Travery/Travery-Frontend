@@ -89,7 +89,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 16),
                   _buildTourList(viewModel),
                   const SizedBox(height: 32),
-                  ConsultationBanner(onContactPressed: () {}),
+                  ConsultationBanner(
+                    onContactPressed: () {
+                      context.push(
+                        Routes.chat,
+                        extra: {
+                          'uid': 'c0000000-0000-0000-0000-000000000001', // Standardized seed ID
+                          'title': 'Chuyên gia tư vấn',
+                        },
+                      );
+                    },
+                  ),
                   const SizedBox(height: 30),
                 ],
               ),
@@ -121,6 +131,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       actions: [
+        IconButton(
+          onPressed: () {
+            context.push(Routes.chat, extra: {
+                'title': 'Tin nhắn',
+              }
+            );
+          },
+          icon: const Icon(
+            Icons.chat_bubble_outline,
+            color: AppColors.textPrimary,
+          ),
+        ),
         IconButton(
           onPressed: () {},
           icon: const Icon(

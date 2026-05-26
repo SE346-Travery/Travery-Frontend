@@ -214,22 +214,22 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
-  void _onAccountTap(BusinessAccount BusinessAccount) {
-    context.push(Routes.adminViewDetailAccountWithId(BusinessAccount.id));
+  void _onAccountTap(BusinessAccount businessAccount) {
+    context.push(Routes.adminViewDetailAccountWithId(businessAccount.id));
   }
 
   void _onAddAccount() {
     context.push(Routes.adminCreateAccount);
   }
 
-  void _showAccountMenu(BuildContext context, BusinessAccount BusinessAccount) {
+  void _showAccountMenu(BuildContext context, BusinessAccount businessAccount) {
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) => _AccountMenuSheet(account: BusinessAccount),
+      builder: (_) => _AccountMenuSheet(account: businessAccount),
     );
   }
 }

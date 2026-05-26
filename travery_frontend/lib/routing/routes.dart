@@ -71,4 +71,7 @@ class Routes {
   static const String checkIn = '/guide/mission/:id/check-in';
   static const String tourProgress = '/guide/mission/:id/progress';
   static const String tourCompleted = '/guide/mission/:id/completed';
+
+  // Chat
+  static const String chat = '/chat';
 }

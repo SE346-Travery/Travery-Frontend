@@ -5,13 +5,8 @@ import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
-import 'package:travery_frontend/data/repositories/mission_repository.dart';
-import 'package:travery_frontend/data/repositories/check_in_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 import 'package:travery_frontend/data/services/cancel/cancel_service_mock.dart';
 import 'package:travery_frontend/data/services/cancellation/cancellation_service_mock.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/ui/core/auth_guard.dart';
 import 'package:travery_frontend/ui/admin/view/admin_main_screen.dart';
 import 'package:travery_frontend/ui/admin/view/view_detail_account_screen.dart';
@@ -26,13 +21,9 @@ import 'package:travery_frontend/ui/user/tour/booking/cancellation_success/cance
 import 'package:travery_frontend/ui/user/tour/booking/cancellation_success/view_models/cancellation_success_view_model.dart';
 import 'package:travery_frontend/ui/guide/home/guide_home_screen.dart';
 import 'package:travery_frontend/ui/guide/mission/mission_detail_screen.dart';
-import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/check_in/check_in_screen.dart';
-import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_progress/tour_progress_screen.dart';
-import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/our_completed_screen.dart';
-import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
 import 'routes.dart';
 
 import '../ui/authentication/view/login_screen.dart';
@@ -60,9 +51,7 @@ import '../ui/user/tour/booking/booking_success_screen.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import '../ui/user/tour/booking/booking_detail/booking_detail_screen.dart';
 import '../ui/admin/view/create_hotel_screen.dart';
-import '../ui/admin/view/update_hotel_screen.dart';
 import '../ui/admin/view/create_vehicle_screen.dart';
-import '../ui/admin/view/update_vehicle_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_list_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_screen.dart';
@@ -77,12 +66,29 @@ import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_temp
 import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
+import 'package:travery_frontend/ui/chat/chat_screen.dart';
 
 GoRouter appRouter(AuthRepository authRepository) {
   return GoRouter(
     initialLocation: Routes.login,
     debugLogDiagnostics: true,
     routes: [
+      // ... previous routes ...
+      GoRoute(
+        path: Routes.chat,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final uid = extra['uid'] as String?;
+          final guid = extra['guid'] as String?;
+          final title = extra['title'] as String;
+
+          return ChatScreen(
+            uid: uid,
+            guid: guid,
+            title: title,
+          );
+        },
+      ),
       // --- AUTHENTICATION ROUTES ---
       GoRoute(
         path: Routes.login,

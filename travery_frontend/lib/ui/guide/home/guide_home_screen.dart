@@ -62,7 +62,13 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
                 right: 0,
                 child: GuideBottomNavBar(
                   currentIndex: _selectedNavIndex,
-                  onTap: (index) => setState(() => _selectedNavIndex = index),
+                  onTap: (index) {
+                    if (index == 2) {
+                      context.push(Routes.chat, extra: {'title': 'Tin nhắn'});
+                    } else {
+                      setState(() => _selectedNavIndex = index);
+                    }
+                  },
                 ),
               ),
             ],

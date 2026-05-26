@@ -107,6 +107,37 @@ class _MissionDetailScreenState extends State<MissionDetailScreen> {
                     },
                   ),
                   const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        context.push(
+                          Routes.chat,
+                          extra: {
+                            'guid': mission.tourInstanceId,
+                            'title': 'Nhóm: ${mission.tourName}',
+                          },
+                        );
+                      },
+                      icon: const Icon(Icons.group_outlined),
+                      label: const Text(
+                        'Chat với đoàn',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   MissionOperationsCard(
                     licensePlate: mission.vehiclePlate ?? 'Chưa có',
                     driverName: mission.driverName ?? 'Chưa có',

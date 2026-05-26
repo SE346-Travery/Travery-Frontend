@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_request/create_tour_booking_request.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -35,9 +36,11 @@ class BookingReviewViewModel extends ChangeNotifier {
     _error = null;
     notifyListeners();
 
+    final request = _buildRequest(members, specialRequests);
+
     final result = await _tourService.createTourBooking(
       instanceId: instanceId,
-      request: _buildRequest(members, specialRequests),
+      request: request,
     );
 
     switch (result) {
@@ -54,12 +57,22 @@ class BookingReviewViewModel extends ChangeNotifier {
     }
   }
 
-  dynamic _buildRequest(
+  CreateTourBookingRequest _buildRequest(
     List<Map<String, dynamic>> members,
     String specialRequests,
   ) {
-    // This is handled by the input view model that already built the request
-    // We just need the instanceId and the members/specialRequests from the state
-    return null;
+    final bookingMembers = members.map((m) {
+      return BookingMemberRequest(
+        fullName: m['fullName'] as String? ?? '',
+        identityNumber: m['identityNumber'] as String? ?? '',
+        dateOfBirth: m['dateOfBirth'] as String? ?? '',
+        memberType: m['memberType'] as String? ?? 'ADULT',
+      );
+    }).toList();
+
+    return CreateTourBookingRequest(
+      members: bookingMembers,
+      specialRequests: specialRequests,
+    );
   }
 }

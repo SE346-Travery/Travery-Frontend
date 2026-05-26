@@ -323,7 +323,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
                   child: ElevatedButton(
                     onPressed: vm.isSubmitting
                         ? null
-                        : () => _onSubmit(context, vm),
+                        : () => _onSubmit(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
@@ -368,7 +368,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
     );
   }
 
-  Future<void> _onSubmit(BuildContext context, BookingInputViewModel vm) async {
+  Future<void> _onSubmit(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -379,33 +379,19 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
       return;
     }
 
-    for (int i = 0; i < vm.members.length; i++) {
-      vm.updateMember(
+    for (int i = 0; i < widget.viewModel.members.length; i++) {
+      widget.viewModel.updateMember(
         i,
         MemberFormData(
           fullName: _nameControllers[i].text,
           identityNumber: _identityControllers[i].text,
           dateOfBirth: _dobControllers[i].text,
-          memberType: vm.members[i].memberType,
+          memberType: widget.viewModel.members[i].memberType,
         ),
       );
     }
 
-    final success = await vm.submitBooking(instanceId: widget.instanceId);
-
     if (!mounted) return;
-
-    if (!success) {
-      if (vm.error != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(vm.error!), backgroundColor: Colors.red),
-        );
-      }
-      return;
-    }
-
-    final booking = vm.bookingData;
-    if (booking == null) return;
 
     context.push(
       Routes.tourBookingReview.replaceFirst(':id', widget.tourId),
@@ -414,7 +400,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
         'instanceId': widget.instanceId,
         'tourName': widget.tourName,
         'tourImageUrl': null,
-        'members': vm.members
+        'members': widget.viewModel.members
             .map(
               (m) => {
                 'fullName': m.fullName,
@@ -424,11 +410,11 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
               },
             )
             .toList(),
-        'adultCount': vm.adultCount,
-        'childCount': vm.childCount,
+        'adultCount': widget.viewModel.adultCount,
+        'childCount': widget.viewModel.childCount,
         'pricePerAdult': 0.0,
         'pricePerChild': 0.0,
-        'specialRequests': vm.specialRequests,
+        'specialRequests': widget.viewModel.specialRequests,
         'startDate': '',
         'endDate': '',
       },
@@ -615,11 +601,12 @@ class _MemberCard extends StatelessWidget {
             onChanged: (_) => onChanged(),
           ),
           const SizedBox(height: 12),
-          _DatePickerField(
+          _DatePickerFormField(
             label: 'Ngày sinh *',
             controller: dobController,
             isAdult: isAdult,
             onChanged: (_) => onChanged(),
+            validator: _dobValidator(isAdult),
           ),
         ],
       ),
@@ -692,117 +679,119 @@ class _InputField extends StatelessWidget {
   }
 }
 
-class _DatePickerField extends StatelessWidget {
-  const _DatePickerField({
-    required this.label,
-    required this.controller,
-    required this.isAdult,
-    required this.onChanged,
-  });
+class _DatePickerFormField extends FormField<String> {
+  _DatePickerFormField({
+    required String label,
+    required TextEditingController? controller,
+    required bool isAdult,
+    required ValueChanged<String> onChanged,
+    String? Function(String?)? validator,
+  }) : super(
+         builder: (FormFieldState<String> state) {
+           return Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               Text(
+                 label,
+                 style: const TextStyle(
+                   fontSize: 11,
+                   fontWeight: FontWeight.w700,
+                   color: Color(0xFF414755),
+                   letterSpacing: 0.5,
+                 ),
+               ),
+               const SizedBox(height: 6),
+               GestureDetector(
+                 onTap: () async {
+                   final now = DateTime.now();
+                   final initial = _tryParseDob(controller?.text ?? '');
+                   final eighteenYearsAgo = DateTime(
+                     now.year - 18,
+                     now.month,
+                     now.day,
+                   );
+                   final maxDate = isAdult
+                       ? eighteenYearsAgo
+                       : DateTime(now.year - 1, now.month, now.day);
+                   final minDate = DateTime(now.year - 100, now.month, now.day);
 
-  final String label;
-  final TextEditingController? controller;
-  final bool isAdult;
-  final ValueChanged<String> onChanged;
+                   final picked = await showDatePicker(
+                     context: state.context,
+                     initialDate: initial ?? maxDate,
+                     firstDate: minDate,
+                     lastDate: maxDate,
+                     helpText: 'Chọn ngày sinh',
+                     cancelText: 'Hủy',
+                     confirmText: 'Xác nhận',
+                     builder: (ctx, child) {
+                       return Theme(
+                         data: Theme.of(ctx).copyWith(
+                           colorScheme: const ColorScheme.light(
+                             primary: AppColors.primary,
+                             onPrimary: Colors.white,
+                             surface: Colors.white,
+                             onSurface: Color(0xFF131B2E),
+                           ),
+                         ),
+                         child: child!,
+                       );
+                     },
+                   );
 
-  String? _validate(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Vui lòng chọn ngày sinh';
-    }
-    return null;
-  }
-
-  Future<void> _pickDate(BuildContext context) async {
-    final now = DateTime.now();
-    final initial = _tryParseDob(controller?.text ?? '');
-    final eighteenYearsAgo = DateTime(now.year - 18, now.month, now.day);
-    final maxDate = isAdult
-        ? eighteenYearsAgo
-        : DateTime(now.year - 1, now.month, now.day);
-    final minDate = DateTime(now.year - 100, now.month, now.day);
-
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initial ?? maxDate,
-      firstDate: minDate,
-      lastDate: maxDate,
-      helpText: 'Chọn ngày sinh',
-      cancelText: 'Hủy',
-      confirmText: 'Xác nhận',
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.primary,
-              onPrimary: Colors.white,
-              surface: Colors.white,
-              onSurface: Color(0xFF131B2E),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (picked != null && context.mounted) {
-      final formatted =
-          '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
-      controller?.text = formatted;
-      onChanged(formatted);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final hasError = controller?.text.isEmpty ?? true;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF414755),
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: () => _pickDate(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF2F3FF),
-              borderRadius: BorderRadius.circular(12),
-              border: hasError ? Border.all(color: Colors.red, width: 1) : null,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    controller?.text.isNotEmpty == true
-                        ? controller!.text
-                        : 'Chọn ngày sinh',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: controller?.text.isNotEmpty == true
-                          ? const Color(0xFF131B2E)
-                          : const Color(0xFF717786),
-                    ),
-                  ),
-                ),
-                const Icon(
-                  Icons.calendar_month,
-                  size: 20,
-                  color: AppColors.primary,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+                   if (picked != null) {
+                     final formatted =
+                         '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+                     controller?.text = formatted;
+                     state.didChange(formatted);
+                     onChanged(formatted);
+                   }
+                 },
+                 child: Container(
+                   width: double.infinity,
+                   padding: const EdgeInsets.symmetric(
+                     horizontal: 16,
+                     vertical: 14,
+                   ),
+                   decoration: BoxDecoration(
+                     color: const Color(0xFFF2F3FF),
+                     borderRadius: BorderRadius.circular(12),
+                     border: state.hasError
+                         ? Border.all(color: Colors.red, width: 1)
+                         : null,
+                   ),
+                   child: Row(
+                     children: [
+                       Expanded(
+                         child: Text(
+                           controller?.text.isNotEmpty == true
+                               ? controller!.text
+                               : 'Chọn ngày sinh',
+                           style: TextStyle(
+                             fontSize: 15,
+                             color: controller?.text.isNotEmpty == true
+                                 ? const Color(0xFF131B2E)
+                                 : const Color(0xFF717786),
+                           ),
+                         ),
+                       ),
+                       const Icon(
+                         Icons.calendar_month,
+                         size: 20,
+                         color: AppColors.primary,
+                       ),
+                     ],
+                   ),
+                 ),
+               ),
+               if (state.hasError) ...[
+                 const SizedBox(height: 4),
+                 Text(
+                   state.errorText ?? '',
+                   style: const TextStyle(fontSize: 11, color: Colors.red),
+                 ),
+               ],
+             ],
+           );
+         },
+       );
 }

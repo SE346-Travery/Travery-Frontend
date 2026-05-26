@@ -1,5 +1,6 @@
 class BookingDetailModel {
   final String bookingId;
+  final String? tourInstanceId;
   final String tourName;
   final String? tourImageUrl;
   final double totalPrice;
@@ -8,9 +9,11 @@ class BookingDetailModel {
   final String? paymentMethod;
   final String status;
   final RefundPolicy refundPolicy;
+  final bool isCustom;
 
   const BookingDetailModel({
     required this.bookingId,
+    this.tourInstanceId,
     required this.tourName,
     this.tourImageUrl,
     required this.totalPrice,
@@ -19,10 +22,12 @@ class BookingDetailModel {
     this.paymentMethod,
     required this.status,
     required this.refundPolicy,
+    this.isCustom = false,
   });
 
   BookingDetailModel copyWith({
     String? bookingId,
+    String? tourInstanceId,
     String? tourName,
     String? tourImageUrl,
     double? totalPrice,
@@ -31,9 +36,11 @@ class BookingDetailModel {
     String? paymentMethod,
     String? status,
     RefundPolicy? refundPolicy,
+    bool? isCustom,
   }) {
     return BookingDetailModel(
       bookingId: bookingId ?? this.bookingId,
+      tourInstanceId: tourInstanceId ?? this.tourInstanceId,
       tourName: tourName ?? this.tourName,
       tourImageUrl: tourImageUrl ?? this.tourImageUrl,
       totalPrice: totalPrice ?? this.totalPrice,
@@ -42,6 +49,7 @@ class BookingDetailModel {
       paymentMethod: paymentMethod ?? this.paymentMethod,
       status: status ?? this.status,
       refundPolicy: refundPolicy ?? this.refundPolicy,
+      isCustom: isCustom ?? this.isCustom,
     );
   }
 }

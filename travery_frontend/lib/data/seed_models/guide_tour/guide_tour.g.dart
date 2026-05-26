@@ -6,31 +6,30 @@ part of 'guide_tour.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GuideTourImpl _$$GuideTourImplFromJson(Map<String, dynamic> json) =>
-    _$GuideTourImpl(
-      id: json['id'] as String?,
-      tourInstanceId: json['tour_instance_id'] as String,
-      tourId: json['tour_id'] as String,
-      tourName: json['tourName'] as String,
-      startDate: DateTime.parse(json['start_date'] as String),
-      endDate: DateTime.parse(json['end_date'] as String),
-      groupSize: (json['group_size'] as num).toInt(),
-      groupDescription: json['group_description'] as String,
-      status: $enumDecode(_$GuideTourStatusEnumMap, json['status']),
-      bookingId: json['booking_id'] as String?,
-      customerName: json['customer_name'] as String?,
-      customerPhone: json['customer_phone'] as String?,
-      vehiclePlate: json['vehicle_plate'] as String?,
-      driverName: json['driver_name'] as String?,
-      createdAt: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
-          ? null
-          : DateTime.parse(json['updated_at'] as String),
-    );
+_GuideTour _$GuideTourFromJson(Map<String, dynamic> json) => _GuideTour(
+  id: json['id'] as String?,
+  tourInstanceId: json['tour_instance_id'] as String,
+  tourId: json['tour_id'] as String,
+  tourName: json['tourName'] as String,
+  startDate: DateTime.parse(json['start_date'] as String),
+  endDate: DateTime.parse(json['end_date'] as String),
+  groupSize: (json['group_size'] as num).toInt(),
+  groupDescription: json['group_description'] as String,
+  status: $enumDecode(_$GuideTourStatusEnumMap, json['status']),
+  bookingId: json['booking_id'] as String?,
+  customerName: json['customer_name'] as String?,
+  customerPhone: json['customer_phone'] as String?,
+  vehiclePlate: json['vehicle_plate'] as String?,
+  driverName: json['driver_name'] as String?,
+  createdAt: json['created_at'] == null
+      ? null
+      : DateTime.parse(json['created_at'] as String),
+  updatedAt: json['updated_at'] == null
+      ? null
+      : DateTime.parse(json['updated_at'] as String),
+);
 
-Map<String, dynamic> _$$GuideTourImplToJson(_$GuideTourImpl instance) =>
+Map<String, dynamic> _$GuideTourToJson(_GuideTour instance) =>
     <String, dynamic>{
       'id': instance.id,
       'tour_instance_id': instance.tourInstanceId,

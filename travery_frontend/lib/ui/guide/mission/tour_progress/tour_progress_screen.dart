@@ -112,8 +112,8 @@ class _TourProgressScreenState extends State<TourProgressScreen> {
                   const SizedBox(height: 12),
                   TourProgressTimeline(
                     steps: viewModel.steps,
-                    onCompleteStep: () async {
-                      final success = await viewModel.completeCurrentStep();
+                    onCompleteStep: (stepId) async {
+                      final success = await viewModel.completeStepById(stepId);
                       if (success && mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

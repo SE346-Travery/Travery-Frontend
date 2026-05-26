@@ -27,108 +27,122 @@ class _BookingListScreenState extends State<BookingListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF131B2E)),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Đơn đặt tour của tôi',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Consumer<BookingListViewModel>(
-        builder: (context, vm, _) {
-          return Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: vm.statusFilters.map((filter) {
-                      final isSelected =
-                          (vm.selectedStatus ?? 'Tất cả') == filter;
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: GestureDetector(
-                          onTap: () => vm.loadBookings(status: filter),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? const Color(0xFF0058BC)
-                                  : const Color(0xFFDAE2FD),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              _getStatusDisplayName(filter),
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: isSelected
-                                    ? Colors.white
-                                    : const Color(0xFF414755),
-                              ),
-                            ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 16, 20, 12),
+              child: Row(
+                children: [
+                  Text(
+                    'Đơn đặt tour của tôi',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF131B2E),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Content
+            Expanded(
+              child: Consumer<BookingListViewModel>(
+                builder: (context, vm, _) {
+                  return Column(
+                    children: [
+                      // Filter chips
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: vm.statusFilters.map((filter) {
+                              final isSelected =
+                                  (vm.selectedStatus ?? 'Tất cả') == filter;
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: GestureDetector(
+                                  onTap: () => vm.loadBookings(status: filter),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? const Color(0xFF0058BC)
+                                          : const Color(0xFFDAE2FD),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      _getStatusDisplayName(filter),
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : const Color(0xFF414755),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: vm.isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : vm.error != null
-                    ? ErrorState(
-                        message: '',
-                        onRetry: () => vm.loadBookings(refresh: true),
-                      )
-                    : vm.bookings.isEmpty
-                    ? const EmptyState(
-                        icon: Icons.confirmation_number_outlined,
-                        title: 'Chưa có đơn đặt tour nào',
-                        subtitle: 'Hãy khám phá và đặt tour ngay!',
-                      )
-                    : RefreshIndicator(
-                        onRefresh: () => vm.loadBookings(refresh: true),
-                        child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemCount: vm.bookings.length,
-                          itemBuilder: (context, index) {
-                            final booking = vm.bookings[index];
-                            return BookingCard(
-                              booking: booking,
-                              statusLabel: vm.getStatusLabel(booking.status),
-                              onTap: () => context.push(
-                                Routes.bookingDetail.replaceFirst(
-                                  ':id',
-                                  booking.id,
+                      ),
+                      // Booking list
+                      Expanded(
+                        child: vm.isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : vm.error != null
+                            ? ErrorState(
+                                message: '',
+                                onRetry: () => vm.loadBookings(refresh: true),
+                              )
+                            : vm.bookings.isEmpty
+                            ? const EmptyState(
+                                icon: Icons.confirmation_number_outlined,
+                                title: 'Chưa có đơn đặt tour nào',
+                                subtitle: 'Hãy khám phá và đặt tour ngay!',
+                              )
+                            : RefreshIndicator(
+                                onRefresh: () => vm.loadBookings(refresh: true),
+                                child: ListView.builder(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                  ),
+                                  itemCount: vm.bookings.length,
+                                  itemBuilder: (context, index) {
+                                    final booking = vm.bookings[index];
+                                    return BookingCard(
+                                      booking: booking,
+                                      statusLabel: vm.getStatusLabel(
+                                        booking.status,
+                                      ),
+                                      onTap: () => context.push(
+                                        Routes.bookingDetail.replaceFirst(
+                                          ':id',
+                                          booking.id,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
-                            );
-                          },
-                        ),
                       ),
+                    ],
+                  );
+                },
               ),
-            ],
-          );
-        },
+            ),
+          ],
+        ),
       ),
     );
   }

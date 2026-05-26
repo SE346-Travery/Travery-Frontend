@@ -6,6 +6,7 @@ import 'package:travery_frontend/data/services/deep_link_service.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/payment_result/view_models/payment_result_view_model.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class PaymentResultScreen extends StatefulWidget {
   const PaymentResultScreen({
@@ -382,7 +383,7 @@ class _SuccessUI extends StatelessWidget {
         const Text(
           'Thanh toán thành công!',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 18,
             fontWeight: FontWeight.w800,
             color: Color(0xFF1E293B),
           ),
@@ -468,7 +469,7 @@ class _FailedUI extends StatelessWidget {
         const Text(
           'Thanh toán thất bại',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 20,
             fontWeight: FontWeight.w800,
             color: Color(0xFF1E293B),
           ),
@@ -517,7 +518,7 @@ class _ProcessingUI extends StatelessWidget {
         const Text(
           'Thanh toán đang xử lý',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 20,
             fontWeight: FontWeight.w800,
             color: Color(0xFF1E293B),
           ),

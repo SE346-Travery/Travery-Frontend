@@ -9,7 +9,7 @@ class Routes {
   static const String roleSelection = '/role-selection';
 
   // Main Features nhóm
-  static const String home = '/home';
+  static const String home = '/tour-home';
   static const String testHome = '/test-home';
   static const String tourHome = '/tour-home';
 

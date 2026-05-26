@@ -65,7 +65,7 @@ class BookingSuccessScreen extends StatelessWidget {
               const Text(
                 'Đặt tour thành công!',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 20,
                   fontWeight: FontWeight.w900,
                   color: Color(0xFF131B2E),
                 ),

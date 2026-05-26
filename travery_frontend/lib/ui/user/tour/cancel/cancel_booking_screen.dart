@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/cancel/view_models/cancel_booking_view_model.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 import 'package:travery_frontend/ui/user/tour/widgets/policy_section.dart';
 
 class CancelBookingScreen extends StatefulWidget {
@@ -35,23 +36,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF131B2E)),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Xác nhận hủy tour',
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const UserAppBar(title: 'Xác nhận hủy tour'),
       body: Consumer<CancelBookingViewModel>(
         builder: (context, vm, _) {
           return ListView(
@@ -199,7 +184,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                         Text(
                           _formatPrice(widget.bookingDetail?.totalPrice ?? 0),
                           style: const TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.w900,
                             color: AppColors.primary,
                           ),

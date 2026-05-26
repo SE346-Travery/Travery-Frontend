@@ -49,7 +49,7 @@ class CancelSuccessScreen extends StatelessWidget {
               const Text(
                 'Hủy tour thành công!',
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: 20,
                   fontWeight: FontWeight.w900,
                   color: Color(0xFF131B2E),
                 ),
@@ -91,8 +91,10 @@ class CancelSuccessScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.account_balance_wallet,
-                            color: AppColors.primary),
+                        const Icon(
+                          Icons.account_balance_wallet,
+                          color: AppColors.primary,
+                        ),
                         const SizedBox(width: 10),
                         const Text(
                           'Thông tin hoàn tiền',
@@ -107,7 +109,10 @@ class CancelSuccessScreen extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
-                    _RefundInfoRow(label: 'Mã đặt chỗ', value: '#${bookingId.substring(0, 8).toUpperCase()}'),
+                    _RefundInfoRow(
+                      label: 'Mã đặt chỗ',
+                      value: '#${bookingId.substring(0, 8).toUpperCase()}',
+                    ),
                     const Divider(height: 24),
 
                     _RefundInfoRow(
@@ -115,7 +120,7 @@ class CancelSuccessScreen extends StatelessWidget {
                       valueWidget: Text(
                         _formatPrice(refundAmount),
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.w900,
                           color: AppColors.primary,
                         ),
@@ -255,10 +260,7 @@ class _RefundInfoRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Color(0xFF414755),
-          ),
+          style: const TextStyle(fontSize: 13, color: Color(0xFF414755)),
         ),
         valueWidget ??
             Text(

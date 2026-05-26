@@ -7,6 +7,7 @@ import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_mo
 import 'package:travery_frontend/ui/user/widgets/tour_card.dart';
 import 'package:travery_frontend/ui/user/widgets/empty_state.dart';
 import 'package:travery_frontend/ui/user/widgets/error_state.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class TourListScreen extends StatefulWidget {
   const TourListScreen({
@@ -430,23 +431,7 @@ class _TourListScreenState extends State<TourListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF131B2E)),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Danh sách Tour',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const UserAppBar(title: 'Danh sách Tour'),
       body: Column(
         children: [
           // Search Bar

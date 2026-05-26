@@ -4,12 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/booking_detail/view_models/booking_detail_view_model.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 import 'package:travery_frontend/data/seed_models/booking_detail/booking_detail_model.dart';
 import 'package:travery_frontend/ui/user/tour/widgets/status_banner.dart';
 import 'package:travery_frontend/ui/user/tour/widgets/info_card.dart';
 import 'package:travery_frontend/ui/user/widgets/section_title.dart';
 import 'package:travery_frontend/ui/user/widgets/member_row.dart';
 import 'package:travery_frontend/ui/user/tour/widgets/refund_policy_widget.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class BookingDetailScreen extends StatefulWidget {
   const BookingDetailScreen({
@@ -38,23 +40,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF131B2E)),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Chi tiết đặt tour',
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const UserAppBar(title: 'Chi tiết đặt tour'),
       body: Consumer<BookingDetailViewModel>(
         builder: (context, vm, _) {
           if (vm.isLoading) {
@@ -89,7 +75,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
               Text(
                 booking.tourName,
                 style: const TextStyle(
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.w800,
                   color: Color(0xFF131B2E),
                 ),

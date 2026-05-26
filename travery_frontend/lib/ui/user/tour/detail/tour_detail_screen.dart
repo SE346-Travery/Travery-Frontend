@@ -102,7 +102,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       Text(
                         tour.name,
                         style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF131B2E),
                           height: 1.2,
@@ -252,9 +252,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
           return Container(
             padding: EdgeInsets.fromLTRB(
               20,
-              16,
+              12,
               20,
-              MediaQuery.of(context).padding.bottom + 16,
+              MediaQuery.of(context).padding.bottom + 12,
             ),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -332,9 +332,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     elevation: 0,
                     disabledBackgroundColor: Colors.grey[300],
@@ -344,11 +344,10 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                         ? 'Không có lịch khả dụng'
                         : _selectedInstance!.availableSlots <= 0
                         ? 'Hết chỗ'
-                        : 'ĐẶT TOUR NGAY',
+                        : 'Đặt Tour Ngay',
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 0.5,
                     ),
                   ),
                 ),

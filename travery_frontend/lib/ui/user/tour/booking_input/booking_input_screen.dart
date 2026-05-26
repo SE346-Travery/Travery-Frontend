@@ -5,6 +5,7 @@ import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/booking_input/view_models/booking_input_view_model.dart';
 import 'package:travery_frontend/ui/user/widgets/section_title.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 // ─── Top-level helpers for date-of-birth validation ───────────────────────────
 
@@ -138,23 +139,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF131B2E)),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Thông tin đặt tour',
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const UserAppBar(title: 'Thông tin đặt tour'),
       body: Consumer<BookingInputViewModel>(
         builder: (context, vm, _) {
           return Form(

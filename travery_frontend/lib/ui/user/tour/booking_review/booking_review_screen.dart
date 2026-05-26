@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travery_frontend/data/services/payment_session_storage.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 import '../../../../routing/routes.dart';
 import 'view_models/booking_review_view_model.dart';
 
@@ -53,40 +54,24 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
-      // ── Fixed Header ──
-      appBar: AppBar(
-        backgroundColor: Colors.white.withValues(alpha: 0.9),
-        elevation: 0,
-        scrolledUnderElevation: 0.5,
-        leading: IconButton(
-          icon: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: const Icon(Icons.arrow_back, color: Color(0xFF1E293B)),
+      appBar: UserAppBar(
+        title: 'Xác nhận thông tin',
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-          onPressed: () => context.pop(),
+          child: const Icon(Icons.arrow_back, color: Color(0xFF1E293B)),
         ),
-        title: const Text(
-          'Xác nhận thông tin',
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Be Vietnam Pro',
-            color: Color(0xFF1E293B),
-          ),
-        ),
-        centerTitle: true,
       ),
       body: Consumer<BookingReviewViewModel>(
         builder: (context, vm, _) {

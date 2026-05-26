@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/user/tour/payment/view_models/vnpay_payment_view_model.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class VNPayPaymentScreen extends StatefulWidget {
   const VNPayPaymentScreen({
@@ -88,22 +89,12 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+      appBar: UserAppBar(
+        title: 'Thanh toán VNPay',
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF131B2E)),
           onPressed: () => _showExitDialog(context),
         ),
-        title: const Text(
-          'Thanh toán VNPay',
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
-          ),
-        ),
-        centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
@@ -205,7 +196,7 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
                       Text(
                         _formatPrice(widget.amount),
                         style: const TextStyle(
-                          fontSize: 28,
+                          fontSize: 20,
                           fontWeight: FontWeight.w900,
                           color: AppColors.primary,
                         ),

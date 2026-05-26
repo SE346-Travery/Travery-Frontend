@@ -16,6 +16,9 @@ class TourDetailViewModel extends ChangeNotifier {
   List<TourInstance> _instances = [];
   List<TourInstance> get instances => _instances;
 
+  String? _loadedInstancesForTourId;
+  String? get loadedInstancesForTourId => _loadedInstancesForTourId;
+
   bool _isLoadingDetail = false;
   bool get isLoadingDetail => _isLoadingDetail;
 
@@ -60,6 +63,7 @@ class TourDetailViewModel extends ChangeNotifier {
     switch (result) {
       case Ok(value: final data):
         _instances = data;
+        _loadedInstancesForTourId = tourId;
       case Error(error: final e):
         _error = e.toString();
     }

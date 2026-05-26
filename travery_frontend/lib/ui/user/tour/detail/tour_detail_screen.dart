@@ -27,26 +27,14 @@ class TourDetailScreen extends StatefulWidget {
 
 class _TourDetailScreenState extends State<TourDetailScreen> {
   TourInstance? _selectedInstance;
-  bool _isInitializing = false;
-
-  @override
-  void didUpdateWidget(TourDetailScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.tourId != widget.tourId) {
-      _selectedInstance = null;
-      _isInitializing = true;
-      widget.viewModel.loadTourDetail(widget.tourId);
-      widget.viewModel.loadTourInstances(widget.tourId);
-    }
-  }
+  String? _selectedTourId;
 
   @override
   void initState() {
     super.initState();
     _selectedInstance = null;
-    _isInitializing = true;
+    _selectedTourId = null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _isInitializing = false;
       widget.viewModel.loadTourDetail(widget.tourId);
       widget.viewModel.loadTourInstances(widget.tourId);
     });
@@ -383,110 +371,137 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
       );
     }
 
-    if (_selectedInstance == null && _isInitializing) {
-      _isInitializing = false;
-      _selectedInstance = vm.instances.isEmpty
-          ? null
-          : vm.instances.firstWhere(
-              (i) => i.availableSlots > 0,
-              orElse: () => vm.instances.first,
-            );
-    }
-
     return Column(
-      children: vm.instances.map((instance) {
-        final isAvailable = instance.availableSlots > 0;
-        final isSelected = _selectedInstance?.id == instance.id;
-        return GestureDetector(
-          onTap: () => setState(() => _selectedInstance = instance),
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.all(12),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (_selectedInstance == null)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            margin: const EdgeInsets.only(bottom: 12),
             decoration: BoxDecoration(
-              color: isSelected
-                  ? AppColors.primary.withValues(alpha: 0.06)
-                  : Colors.white,
+              color: const Color(0xFFF2F3FF),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: isSelected
-                    ? AppColors.primary
-                    : const Color(0xFFC1C6D7).withValues(alpha: 0.3),
-                width: isSelected ? 1.5 : 1,
-              ),
+              border: Border.all(color: const Color(0xFFC1C6D7), width: 1),
             ),
             child: Row(
               children: [
-                Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: isSelected
-                          ? AppColors.primary
-                          : const Color(0xFFC1C6D7),
-                      width: 1.5,
-                    ),
-                    color: isSelected ? AppColors.primary : Colors.transparent,
-                  ),
-                  child: isSelected
-                      ? const Icon(Icons.check, size: 12, color: Colors.white)
-                      : null,
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: 18,
+                  color: const Color(0xFF414755),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${_formatDate(instance.startDate)} - ${_formatDate(instance.endDate)}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isAvailable
-                              ? const Color(0xFF131B2E)
-                              : Colors.grey,
-                        ),
-                      ),
-                      Text(
-                        _getInstanceStatusLabel(instance.status),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: _getInstanceStatusColor(instance.status),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: instance.availableSlots > 0
-                        ? const Color(0xFFD2E1F7)
-                        : const Color(0xFFFFDAD6),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    instance.availableSlots > 0
-                        ? 'Còn ${instance.availableSlots} chỗ'
-                        : 'Hết chỗ',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      color: instance.availableSlots > 0
-                          ? const Color(0xFF0058BC)
-                          : const Color(0xFFBA1A1A),
-                    ),
+                const SizedBox(width: 10),
+                const Text(
+                  'Chưa chọn ngày khởi hành',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF414755),
                   ),
                 ),
               ],
             ),
           ),
-        );
-      }).toList(),
+        ...vm.instances.map((instance) {
+          final isAvailable = instance.availableSlots > 0;
+          final isSelected = _selectedInstance?.id == instance.id;
+          return GestureDetector(
+            onTap: () => setState(() {
+              _selectedInstance = instance;
+              _selectedTourId = widget.tourId;
+            }),
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? AppColors.primary.withValues(alpha: 0.06)
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: isSelected
+                      ? AppColors.primary
+                      : const Color(0xFFC1C6D7).withValues(alpha: 0.3),
+                  width: isSelected ? 1.5 : 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isSelected
+                            ? AppColors.primary
+                            : const Color(0xFFC1C6D7),
+                        width: 1.5,
+                      ),
+                      color: isSelected
+                          ? AppColors.primary
+                          : Colors.transparent,
+                    ),
+                    child: isSelected
+                        ? const Icon(Icons.check, size: 12, color: Colors.white)
+                        : null,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${_formatDate(instance.startDate)} - ${_formatDate(instance.endDate)}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: isAvailable
+                                ? const Color(0xFF131B2E)
+                                : Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          _getInstanceStatusLabel(instance.status),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: _getInstanceStatusColor(instance.status),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: instance.availableSlots > 0
+                          ? const Color(0xFFD2E1F7)
+                          : const Color(0xFFFFDAD6),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      instance.availableSlots > 0
+                          ? 'Còn ${instance.availableSlots} chỗ'
+                          : 'Hết chỗ',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: instance.availableSlots > 0
+                            ? const Color(0xFF0058BC)
+                            : const Color(0xFFBA1A1A),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+      ],
     );
   }
 

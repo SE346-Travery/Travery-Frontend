@@ -109,66 +109,140 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      if (tour.averageRating != null && tour.averageRating! > 0)
-                        Row(
-                          children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.orange.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  size: 16,
+                                  color: Colors.orange,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  tour.averageRating!.toStringAsFixed(1),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF131B2E),
+                                  ),
+                                ),
+                                if (tour.ratingCount != null)
+                                  Text(
+                                    ' (${tour.ratingCount} đánh giá)',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF414755),
+                                    ),
+                                  )
+                                else
+                                  const Text(
+                                    ' (0 đánh giá)',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF414755),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          if (tour.durationDays != null)
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.orange.withValues(alpha: 0.1),
+                                color: const Color(0xFFE8F4F8),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Row(
                                 children: [
                                   const Icon(
-                                    Icons.star,
-                                    size: 16,
-                                    color: Colors.orange,
+                                    Icons.schedule,
+                                    size: 14,
+                                    color: Color(0xFF0058BC),
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
-                                    tour.averageRating!.toStringAsFixed(1),
+                                    _formatDuration(tour.durationDays!),
                                     style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF131B2E),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF0058BC),
                                     ),
                                   ),
-                                  if (tour.ratingCount != null)
-                                    Text(
-                                      ' (${tour.ratingCount} đánh giá)',
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Color(0xFF414755),
-                                      ),
-                                    ),
                                 ],
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.flight_takeoff,
+                            size: 14,
+                            color: Color(0xFF414755),
+                          ),
+                          const SizedBox(width: 6),
+                          const Text(
+                            'Điểm xuất phát: ',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF414755),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              tour.startLocation ?? 'N/A',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF131B2E),
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            if (tour.destination != null)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    size: 16,
-                                    color: Color(0xFF414755),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    tour.destination!.name,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF414755),
-                                    ),
-                                  ),
-                                ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.flight_land,
+                            size: 14,
+                            color: Color(0xFF414755),
+                          ),
+                          const SizedBox(width: 6),
+                          const Text(
+                            'Điểm đến: ',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF414755),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              tour.destination?.name ?? 'N/A',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF131B2E),
                               ),
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 24),
                       const SectionTitle(
                         title: 'Giá tour',
@@ -230,8 +304,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                         const SizedBox(height: 24),
                       ],
                       if (tour.refundPolicy != null) ...[
-                        const SectionTitle(
-                          title: 'Chính sách hoàn hủy',
+                        SectionTitle(
+                          title:
+                              tour.refundPolicy!.name ?? 'Chính sách hoàn hủy',
                           icon: Icons.policy,
                         ),
                         const SizedBox(height: 12),
@@ -529,18 +604,6 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (policy.name != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Text(
-                policy.name!,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF131B2E),
-                ),
-              ),
-            ),
           if (policy.rules != null)
             ...policy.rules!.map((rule) {
               return Padding(
@@ -583,6 +646,13 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
   String _formatDate(DateTime date) =>
       '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+
+  String _formatDuration(int days) {
+    if (days == 1) return '1N';
+    final nights = days - 1;
+    if (nights == 1) return '1N1Đ';
+    return '${days}N${nights}Đ';
+  }
 
   String _getInstanceStatusLabel(TourInstanceStatus status) {
     switch (status) {

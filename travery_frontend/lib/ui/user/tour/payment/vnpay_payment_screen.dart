@@ -94,7 +94,7 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
   void _startPolling() {
     _pollAttempts = 0;
     _pollingTimer?.cancel();
-    _pollingTimer = Timer.periodic(const Duration(seconds: 2), (_) async {
+    _pollingTimer = Timer.periodic(const Duration(seconds: 5), (_) async {
       if (!mounted || _hasNavigatedAway) {
         _pollingTimer?.cancel();
         return;

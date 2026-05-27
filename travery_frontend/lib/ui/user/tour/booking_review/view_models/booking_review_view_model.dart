@@ -2,13 +2,24 @@ import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_request/create_tour_booking_request.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
+import 'package:travery_frontend/ui/user/providers/user_info_provider.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class BookingReviewViewModel extends ChangeNotifier {
-  BookingReviewViewModel({required TourService tourService})
-    : _tourService = tourService;
+  BookingReviewViewModel({
+    required TourService tourService,
+    required UserInfoProvider userInfoProvider,
+  }) : _tourService = tourService,
+       _userInfoProvider = userInfoProvider {
+    _userInfoProvider.loadFromToken();
+  }
 
   final TourService _tourService;
+  final UserInfoProvider _userInfoProvider;
+
+  String? get userName => _userInfoProvider.name;
+  String? get userPhone => _userInfoProvider.phone;
+  String? get userEmail => _userInfoProvider.email;
 
   bool _isCreatingBooking = false;
   bool get isCreatingBooking => _isCreatingBooking;

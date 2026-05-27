@@ -52,6 +52,8 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final vm = widget.viewModel;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: UserAppBar(
@@ -61,318 +63,272 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: Consumer<BookingReviewViewModel>(
-        builder: (context, vm, _) {
-          return ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              // ── Section 1: Tour Info & Members ──
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.04),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Tour name
-                    Text(
-                      widget.tourName,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        fontFamily: 'Be Vietnam Pro',
-                        color: Color(0xFF1E293B),
-                        height: 1.3,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // ── Contact Info ──
+          _buildContactSection(vm),
 
-                    // Date & Location rows
-                    if (widget.startDate.isNotEmpty) ...[
-                      _buildInfoRow(
-                        icon: Icons.calendar_today_outlined,
-                        text: '${widget.startDate} - ${widget.endDate}',
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                    if (widget.tourImageUrl != null) ...[
-                      const SizedBox(height: 8),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          widget.tourImageUrl!,
-                          height: 160,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+          // ── Section 1: Tour Info & Members ──
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.tourName,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Be Vietnam Pro',
+                    color: Color(0xFF1E293B),
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                if (widget.startDate.isNotEmpty) ...[
+                  _buildInfoRow(
+                    icon: Icons.calendar_today_outlined,
+                    text: '${widget.startDate} - ${widget.endDate}',
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                if (widget.tourImageUrl != null) ...[
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      widget.tourImageUrl!,
+                      height: 160,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Container(height: 1, color: const Color(0xFFE2E8F0)),
+                const SizedBox(height: 16),
+                const Text(
+                  'DANH SÁCH KHÁCH',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Be Vietnam Pro',
+                    color: Color(0xFF64748B),
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ...widget.members.map((m) {
+                  final isAdult = m['memberType'] == 'ADULT';
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            isAdult ? Icons.person : Icons.child_care,
+                            size: 20,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                m['fullName'] ?? '',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1E293B),
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                'CCCD: ${m['identityNumber'] ?? ''}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // ── Section 2: Special Requests ──
+          if (widget.specialRequests.isNotEmpty) ...[
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.edit_note, color: AppColors.primary, size: 20),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'Ghi chú đặc biệt',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Be Vietnam Pro',
+                          color: AppColors.primary,
                         ),
                       ),
                     ],
-
-                    // Members divider & label
-                    const SizedBox(height: 20),
-                    Container(height: 1, color: const Color(0xFFE2E8F0)),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'DANH SÁCH KHÁCH',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Be Vietnam Pro',
-                        color: Color(0xFF64748B),
-                        letterSpacing: 0.8,
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.2),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    child: Text(
+                      '"${widget.specialRequests}"',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF64748B),
+                        fontStyle: FontStyle.italic,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
 
-                    // Member list
-                    ...widget.members.map(
-                      (m) => Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF1F5F9),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Icon(
-                                Icons.person_outline,
-                                size: 20,
-                                color: AppColors.primary,
-                              ),
+          // ── Section 3: Terms Checkbox ──
+          GestureDetector(
+            onTap: () => setState(() => _termsAccepted = !_termsAccepted),
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: Checkbox(
+                      value: _termsAccepted,
+                      onChanged: (v) =>
+                          setState(() => _termsAccepted = v ?? false),
+                      activeColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      side: BorderSide(
+                        color: _termsAccepted
+                            ? AppColors.primary
+                            : const Color(0xFFCBD5E1),
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF64748B),
+                            height: 1.5,
+                          ),
+                          children: const [
+                            TextSpan(text: 'Tôi đã đọc và đồng ý với các '),
+                            TextSpan(
+                              text: 'Điều khoản sử dụng',
+                              style: TextStyle(fontWeight: FontWeight.w600),
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    m['fullName'] ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF1E293B),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    _buildIdentityLabel(m),
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Color(0xFF64748B),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            TextSpan(text: ' và '),
+                            TextSpan(
+                              text: 'Chính sách hoàn hủy',
+                              style: TextStyle(fontWeight: FontWeight.w600),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: m['memberType'] == 'ADULT'
-                                    ? AppColors.primary.withValues(alpha: 0.1)
-                                    : Colors.orange.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                _memberTypeLabel(m['memberType'] as String?),
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: m['memberType'] == 'ADULT'
-                                      ? AppColors.primary
-                                      : Colors.orange[700],
-                                ),
-                              ),
-                            ),
+                            TextSpan(text: ' của Travery.'),
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-
-              const SizedBox(height: 16),
-
-              // ── Section 2: Special Requests ──
-              if (widget.specialRequests.isNotEmpty) ...[
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: const Color(0xFFE2E8F0)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.04),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.edit_note,
-                            color: AppColors.primary,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          const Text(
-                            'Ghi chú đặc biệt',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Be Vietnam Pro',
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF1F5F9),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: AppColors.primary.withValues(alpha: 0.2),
-                          ),
-                        ),
-                        child: Text(
-                          '"${widget.specialRequests}"',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Color(0xFF64748B),
-                            fontStyle: FontStyle.italic,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
-
-              // ── Section 3: Terms Checkbox ──
-              GestureDetector(
-                onTap: () => setState(() => _termsAccepted = !_termsAccepted),
-                behavior: HitTestBehavior.opaque,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Checkbox(
-                          value: _termsAccepted,
-                          onChanged: (v) =>
-                              setState(() => _termsAccepted = v ?? false),
-                          activeColor: AppColors.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          side: BorderSide(
-                            color: _termsAccepted
-                                ? AppColors.primary
-                                : const Color(0xFFCBD5E1),
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: RichText(
-                            text: TextSpan(
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Color(0xFF64748B),
-                                height: 1.5,
-                              ),
-                              children: [
-                                const TextSpan(
-                                  text: 'Tôi đã đọc và đồng ý với các ',
-                                ),
-                                TextSpan(
-                                  text: 'Điều khoản sử dụng',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                                const TextSpan(text: ' và '),
-                                TextSpan(
-                                  text: 'Chính sách hoàn hủy',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                                const TextSpan(text: ' của Travery.'),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 100),
-            ],
-          );
-        },
-      ),
-
-      // ── Fixed Footer Action Bar ──
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.fromLTRB(
-          24,
-          16,
-          24,
-          MediaQuery.of(context).padding.bottom + 16,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
-              blurRadius: 20,
-              offset: const Offset(0, -4),
             ),
-          ],
-        ),
-        child: Consumer<BookingReviewViewModel>(
-          builder: (context, vm, _) {
-            return Row(
+          ),
+
+          const SizedBox(height: 100),
+        ],
+      ),
+      bottomNavigationBar: Consumer<BookingReviewViewModel>(
+        builder: (context, vm, _) {
+          return Container(
+            padding: EdgeInsets.fromLTRB(
+              24,
+              16,
+              24,
+              MediaQuery.of(context).padding.bottom + 16,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 20,
+                  offset: const Offset(0, -4),
+                ),
+              ],
+            ),
+            child: Row(
               children: [
                 Expanded(
                   child: Column(
@@ -465,10 +421,64 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                   ),
                 ),
               ],
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
+    );
+  }
+
+  Widget _buildContactSection(BookingReviewViewModel vm) {
+    final hasContact =
+        vm.userName != null || vm.userPhone != null || vm.userEmail != null;
+    if (!hasContact) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'THÔNG TIN LIÊN LẠC',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Be Vietnam Pro',
+            color: Color(0xFF64748B),
+            letterSpacing: 0.8,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              if (vm.userName != null)
+                _buildInfoRow(icon: Icons.person_outline, text: vm.userName!),
+              if (vm.userPhone != null) ...[
+                if (vm.userName != null) const SizedBox(height: 10),
+                _buildInfoRow(icon: Icons.phone_outlined, text: vm.userPhone!),
+              ],
+              if (vm.userEmail != null) ...[
+                if (vm.userName != null || vm.userPhone != null)
+                  const SizedBox(height: 10),
+                _buildInfoRow(icon: Icons.email_outlined, text: vm.userEmail!),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 
@@ -487,30 +497,6 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
         ),
       ],
     );
-  }
-
-  String _buildIdentityLabel(Map<String, dynamic> m) {
-    final parts = <String>[];
-    final idNum = m['identityNumber'] as String?;
-    if (idNum != null && idNum.isNotEmpty) {
-      parts.add('CCCD/Hộ chiếu: $idNum');
-    }
-    final dob = m['dateOfBirth'] as String?;
-    if (dob != null && dob.isNotEmpty) {
-      parts.add('Ngày sinh: $dob');
-    }
-    return parts.isEmpty ? 'Chưa có thông tin CCCD' : parts.join('  •  ');
-  }
-
-  String _memberTypeLabel(String? type) {
-    switch (type) {
-      case 'ADULT':
-        return 'NL';
-      case 'CHILD':
-        return 'TE';
-      default:
-        return 'NL';
-    }
   }
 
   Future<void> _onConfirm(BuildContext context) async {
@@ -536,7 +522,6 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     final booking = vm.bookingData;
     if (booking == null) return;
 
-    // Save txnRef → bookingId mapping so deeplink can look up bookingId later
     if (booking.payment != null && booking.payment!.transactionId.isNotEmpty) {
       await PaymentSessionStorage.save(
         booking.payment!.transactionId,
@@ -545,8 +530,6 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     }
 
     if (booking.payment != null && booking.payment!.paymentUrl.isNotEmpty) {
-      // Navigate to VNPay payment screen
-      // After payment, user will be redirected via deeplink to PaymentResultScreen
       context.pushReplacement(
         Routes.vnpayPayment,
         extra: {
@@ -559,7 +542,6 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
         },
       );
     } else {
-      // No payment needed - navigate to payment result (will show pending state)
       context.pushReplacement(
         Routes.paymentResult,
         extra: {

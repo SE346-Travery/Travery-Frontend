@@ -98,8 +98,10 @@ List<SingleChildWidget> get providers => [
         BookingInputViewModel(tourService: context.read<TourService>()),
   ),
   ChangeNotifierProvider(
-    create: (context) =>
-        BookingReviewViewModel(tourService: context.read<TourService>()),
+    create: (context) => BookingReviewViewModel(
+      tourService: context.read<TourService>(),
+      userInfoProvider: context.read<UserInfoProvider>(),
+    ),
   ),
   ChangeNotifierProvider(
     create: (context) =>

@@ -10,11 +10,22 @@ import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 // ─── Top-level helpers for date-of-birth validation ───────────────────────────
 
 DateTime? _tryParseDob(String value) {
-  final parts = value.split('/');
-  if (parts.length != 3) return null;
-  final day = int.tryParse(parts[0]);
-  final month = int.tryParse(parts[1]);
-  final year = int.tryParse(parts[2]);
+  if (value.isEmpty) return null;
+  var parts = value.split('/');
+  if (parts.length != 3) {
+    parts = value.split('-');
+    if (parts.length != 3) return null;
+  }
+  int? day, month, year;
+  if (int.tryParse(parts[0]) != null && int.parse(parts[0]) > 31) {
+    year = int.tryParse(parts[0]);
+    month = int.tryParse(parts[1]);
+    day = int.tryParse(parts[2]);
+  } else {
+    day = int.tryParse(parts[0]);
+    month = int.tryParse(parts[1]);
+    year = int.tryParse(parts[2]);
+  }
   if (day == null || month == null || year == null) return null;
   if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900)
     return null;
@@ -85,7 +96,6 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
   @override
   void initState() {
     super.initState();
-    _syncControllers();
   }
 
   void _syncControllers() {
@@ -127,6 +137,7 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
       appBar: const UserAppBar(title: 'Thông tin đặt tour'),
       body: Consumer<BookingInputViewModel>(
         builder: (context, vm, _) {
+          _syncControllers();
           return Form(
             key: _formKey,
             child: ListView(

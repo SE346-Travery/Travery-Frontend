@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
+enum CheckResult { paid, pending, failed, error }
+
 class VNPayPaymentViewModel extends ChangeNotifier {
   VNPayPaymentViewModel({required TourService tourService})
     : _tourService = tourService;
@@ -31,6 +33,24 @@ class VNPayPaymentViewModel extends ChangeNotifier {
         _isCreatingPayment = false;
         notifyListeners();
         return null;
+    }
+  }
+
+  Future<CheckResult> checkBookingStatus(String bookingId) async {
+    final result = await _tourService.getBookingDetail(bookingId);
+
+    switch (result) {
+      case Ok(value: final data):
+        if (data.status == 'PAID' ||
+            data.status == 'Đã thanh toán' ||
+            data.paymentStatus == 'PAID') {
+          return CheckResult.paid;
+        } else if (data.status == 'CANCELLED' || data.status == 'Đã hủy') {
+          return CheckResult.failed;
+        }
+        return CheckResult.pending;
+      case Error():
+        return CheckResult.error;
     }
   }
 }

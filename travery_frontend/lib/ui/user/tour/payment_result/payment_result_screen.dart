@@ -417,7 +417,10 @@ class _SuccessUI extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _InfoItem(label: 'Mã đặt chỗ', value: booking.id as String),
+                _InfoItem(
+                  label: 'Mã đặt chỗ',
+                  value: '#${_shortCode(booking.id as String)}',
+                ),
                 const Divider(height: 24),
                 _InfoItem(
                   label: 'Tổng tiền',
@@ -436,6 +439,13 @@ class _SuccessUI extends StatelessWidget {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  }
+
+  String _shortCode(String id) {
+    final clean = id.replaceAll('-', '');
+    return clean.length >= 8
+        ? clean.substring(0, 8).toUpperCase()
+        : clean.toUpperCase();
   }
 }
 

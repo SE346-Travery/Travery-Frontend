@@ -45,6 +45,8 @@ app.*.map.json
 /android/app/release
 
 # Custom ignores
-Models/
+
 Travery API Documentation.md
 config.json
+deeplink-integration.md
+VNPAY_FE_Integration_Guide.md

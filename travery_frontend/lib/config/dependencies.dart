@@ -8,13 +8,9 @@ import 'package:travery_frontend/data/repositories/coordinator/coordinator_repos
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository_remote.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
-import 'package:travery_frontend/data/repositories/mission_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository.dart';
-import 'package:travery_frontend/data/repositories/check_in_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_progress_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
-import 'package:travery_frontend/data/repositories/tour_completed_repository_mock.dart';
 import 'package:travery_frontend/data/repositories/user/user_booking_repository.dart';
 
 import 'package:travery_frontend/data/services/api/admin_api_service.dart';
@@ -96,9 +92,7 @@ List<SingleChildWidget> get providers => [
   ),
 
   // ── Coordinator service ───────────────────────────────────────────────
-  Provider<CoordinatorApiService>(
-    create: (context) => CoordinatorApiService(),
-  ),
+  Provider<CoordinatorApiService>(create: (context) => CoordinatorApiService()),
 
   // ── Coordinator repository (remote — hits real API) ──────────────────────
   ChangeNotifierProvider<CoordinatorRepository>(
@@ -120,14 +114,12 @@ List<SingleChildWidget> get providers => [
     ),
   ),
   ChangeNotifierProvider(
-    create: (context) => CreateHotelViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
+    create: (context) =>
+        CreateHotelViewModel(adminRepository: context.read<AdminRepository>()),
   ),
   ChangeNotifierProvider(
-    create: (context) => UpdateHotelViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
+    create: (context) =>
+        UpdateHotelViewModel(adminRepository: context.read<AdminRepository>()),
   ),
   ChangeNotifierProvider(
     create: (context) => CreateVehicleViewModel(

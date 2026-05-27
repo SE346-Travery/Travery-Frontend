@@ -109,7 +109,17 @@ class CancelSuccessScreen extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
-                    _RefundInfoRow(label: 'Mã đặt chỗ', value: bookingId),
+                    _RefundInfoRow(
+                      label: 'Mã đặt chỗ',
+                      valueWidget: Text(
+                        '#${_shortCode}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
                     const Divider(height: 24),
 
                     _RefundInfoRow(
@@ -240,6 +250,13 @@ class CancelSuccessScreen extends StatelessWidget {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  }
+
+  String get _shortCode {
+    final clean = bookingId.replaceAll('-', '');
+    return clean.length >= 8
+        ? clean.substring(0, 8).toUpperCase()
+        : clean.toUpperCase();
   }
 }
 

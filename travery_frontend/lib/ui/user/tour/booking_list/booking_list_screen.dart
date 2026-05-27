@@ -126,10 +126,8 @@ class _BookingListScreenState extends State<BookingListScreen> {
                                         booking.status,
                                       ),
                                       onTap: () => context.push(
-                                        Routes.bookingDetail.replaceFirst(
-                                          ':id',
-                                          booking.id,
-                                        ),
+                                        Routes.bookingDetailScreen,
+                                        extra: {'bookingId': booking.id},
                                       ),
                                     );
                                   },

@@ -385,7 +385,9 @@ GoRouter appRouter(
       GoRoute(
         path: Routes.bookingDetailScreen,
         builder: (context, state) {
-          final bookingId = state.pathParameters['id'] ?? '';
+          final pathId = state.pathParameters['id'];
+          final extra = state.extra as Map<String, dynamic>?;
+          final bookingId = pathId ?? (extra?['bookingId'] as String?) ?? '';
           return BookingDetailScreen(
             viewModel: context.read<BookingDetailViewModel>(),
             bookingId: bookingId,
@@ -395,10 +397,13 @@ GoRouter appRouter(
       GoRoute(
         path: Routes.cancelConfirmation,
         builder: (context, state) {
-          final bookingId = state.pathParameters['id'] ?? '';
+          final pathId = state.pathParameters['id'];
+          final extra = state.extra as Map<String, dynamic>?;
+          final bookingId = pathId ?? (extra?['bookingId'] as String?) ?? '';
           return CancelBookingScreen(
             viewModel: context.read<CancelBookingViewModel>(),
             bookingId: bookingId,
+            bookingDetail: extra?['bookingDetail'],
           );
         },
       ),

@@ -333,7 +333,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
     if (success) {
       final cancelData = vm.cancelData;
       context.pushReplacement(
-        Routes.cancellationSuccess.replaceFirst(':id', widget.bookingId),
+        Routes.cancellationSuccess,
         extra: {
           'bookingId': widget.bookingId,
           'tourName': widget.bookingDetail?.tourName ?? '',
@@ -344,7 +344,8 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
     }
   }
 
-  String _formatDate(DateTime date) {
+  String _formatDate(DateTime? date) {
+    if (date == null) return 'N/A';
     return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 

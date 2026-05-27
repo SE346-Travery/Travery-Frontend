@@ -109,10 +109,7 @@ class CancelSuccessScreen extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
-                    _RefundInfoRow(
-                      label: 'Mã đặt chỗ',
-                      value: '#${bookingId.substring(0, 8).toUpperCase()}',
-                    ),
+                    _RefundInfoRow(label: 'Mã đặt chỗ', value: bookingId),
                     const Divider(height: 24),
 
                     _RefundInfoRow(

@@ -60,47 +60,31 @@ class UserBookingRepository extends BookingService {
         final data = jsonMap['data'] as Map<String, dynamic>?;
         if (data == null) return const Result.ok(null);
 
-        final statusMap = {
-          'PENDING': 'Đang chờ',
-          'PAID': 'Đã thanh toán',
-          'CHECKED_IN': 'Đã check-in',
-          'CHECKED_OUT': 'Đã check-out',
-          'CANCELLED': 'Đã hủy',
-        };
-
         final members =
             (data['members'] as List<dynamic>?)
-                ?.map((m) => _memberFromJson(m as Map<String, dynamic>))
+                ?.map((m) => BookingMember.fromJson(m as Map<String, dynamic>))
                 .toList() ??
             [];
 
         return Result.ok(
           BookingDetailModel(
-            bookingId: data['id'] as String,
-            tourName: data['tourName'] as String? ?? '',
-            tourImageUrl: null,
+            id: data['id'] as String? ?? '',
+            status: data['status'] as String? ?? '',
             totalPrice: (data['totalPrice'] as num?)?.toDouble() ?? 0,
-            departureDate: _parseDate(data['startDate'] as String?),
-            guestCount: members.length,
+            pricePerAdultAtBooking: (data['pricePerAdultAtBooking'] as num?)
+                ?.toDouble(),
+            pricePerChildAtBooking: (data['pricePerChildAtBooking'] as num?)
+                ?.toDouble(),
+            paymentDeadline: data['paymentDeadline'] as String?,
+            specialRequests: data['specialRequests'] as String?,
+            createdAt: data['createdAt'] as String?,
+            tourName: data['tourName'] as String? ?? '',
+            startDate: data['startDate'] as String?,
+            endDate: data['endDate'] as String?,
+            members: members,
             paymentMethod: data['paymentMethod'] as String?,
-            status:
-                statusMap[data['status'] as String? ?? ''] ??
-                data['status'] as String? ??
-                '',
-            refundPolicy: RefundPolicy(
-              tiers: [
-                RefundTier(
-                  label: 'Trước ngày khởi hành',
-                  description: 'Hoàn 100%',
-                  refundPercentage: 100,
-                  startDate: null,
-                  endDate: _parseDate(data['startDate'] as String?),
-                ),
-              ],
-              lastFreeCancellationDate: _parseDate(
-                data['startDate'] as String?,
-              ),
-            ),
+            paymentStatus: data['paymentStatus'] as String?,
+            transactionId: data['transactionId'] as String?,
           ),
         );
       } else {
@@ -149,7 +133,9 @@ class UserBookingRepository extends BookingService {
       if (response.statusCode == 200) {
         final stringData = await response.transform(utf8.decoder).join();
         final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
-        return Result.ok(UserBookingPageData.fromJson(jsonMap));
+        final data = jsonMap['data'] as Map<String, dynamic>?;
+        if (data == null) return Result.ok(const UserBookingPageData());
+        return Result.ok(UserBookingPageData.fromJson(data));
       } else {
         final errorMsg = await _extractErrorMessage(
           response,
@@ -213,36 +199,4 @@ class UserBookingRepository extends BookingService {
       client.close();
     }
   }
-
-  DateTime _parseDate(String? dateStr) {
-    if (dateStr == null || dateStr.isEmpty) return DateTime.now();
-    try {
-      return DateTime.parse(dateStr);
-    } catch (_) {
-      return DateTime.now();
-    }
-  }
-
-  _BookingMember _memberFromJson(Map<String, dynamic> json) {
-    return _BookingMember(
-      fullName: json['fullName'] as String? ?? '',
-      identityNumber: json['identityNumber'] as String? ?? '',
-      dateOfBirth: json['dateOfBirth'] as String? ?? '',
-      memberType: json['memberType'] as String? ?? 'ADULT',
-    );
-  }
-}
-
-class _BookingMember {
-  final String fullName;
-  final String identityNumber;
-  final String dateOfBirth;
-  final String memberType;
-
-  _BookingMember({
-    required this.fullName,
-    required this.identityNumber,
-    required this.dateOfBirth,
-    required this.memberType,
-  });
 }

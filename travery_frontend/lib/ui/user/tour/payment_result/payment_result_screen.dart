@@ -182,11 +182,8 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.go(
-                    Routes.bookingDetail.replaceFirst(
-                      ':id',
-                      vm.bookingData?.id ?? '',
-                    ),
+                  context.push(
+                    Routes.bookingDetailScreen,
                     extra: {'bookingId': vm.bookingData?.id ?? ''},
                   );
                 },
@@ -420,11 +417,7 @@ class _SuccessUI extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _InfoItem(
-                  label: 'Mã đặt chỗ',
-                  value:
-                      '#${(booking.id as String).substring(0, 8).toUpperCase()}',
-                ),
+                _InfoItem(label: 'Mã đặt chỗ', value: booking.id as String),
                 const Divider(height: 24),
                 _InfoItem(
                   label: 'Tổng tiền',

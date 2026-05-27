@@ -8,6 +8,7 @@ import 'package:travery_frontend/domain/models/admin/business_dashboard/business
 import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
 import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 /// Remote implementation of [AdminRepository] that calls the real backend API.
@@ -116,7 +117,22 @@ class AdminRepositoryRemote extends AdminRepository {
 
   @override
   Future<Result<void>> deleteAccount({required String id}) async {
-    return Result.error(_notImplemented);
+    final token = await _getAccessToken();
+    if (token == null) {
+      return Result.error(Exception('Phiên đăng nhập hết hạn'));
+    }
+
+    final result = await _adminApiService.deleteAccount(
+      accessToken: token,
+      id: id,
+    );
+    switch (result) {
+      case Ok<void>():
+        notifyListeners();
+        return const Result.ok(null);
+      case Error<void>():
+        return Result.error(result.error);
+    }
   }
 
   // ── Vehicles ───────────────────────────────────────────────────────────────
@@ -309,5 +325,79 @@ class AdminRepositoryRemote extends AdminRepository {
   @override
   Future<Result<TourSummary>> getTourSummaryStats() async {
     return Result.error(_notImplemented);
+  }
+
+  // ── Tour Templates ─────────────────────────────────────────────
+
+  @override
+  Future<Result<List<CoordinatorTourTemplate>>> getTourTemplates() async {
+    final token = await _getAccessToken();
+    if (token == null) {
+      return Result.error(Exception('Phiên đăng nhập hết hạn'));
+    }
+
+    final result = await _adminApiService.getTourTemplates(accessToken: token);
+    switch (result) {
+      case Ok<List<Map<String, dynamic>>>():
+        final templates = result.value.map((map) {
+          return CoordinatorTourTemplate(
+            id: map['id'] as String? ?? '',
+            name: map['name'] as String? ?? '',
+            imageUrl: '',
+            description: map['description'] as String? ?? '',
+            adultPrice: (map['pricePerAdult'] ?? 0).toString(),
+            childPrice: (map['pricePerChild'] ?? 0).toString(),
+            startTime: '',
+            endTime: '',
+            minTotalPerson: 0,
+            maxTotalPerson: 0,
+            itineraries: [],
+          );
+        }).toList();
+        notifyListeners();
+        return Result.ok(templates);
+      case Error<List<Map<String, dynamic>>>():
+        return Result.error(result.error);
+    }
+  }
+
+  @override
+  Future<Result<void>> createTourTemplate({
+    required String name,
+    required String description,
+    required String destinationId,
+    String? hotelId,
+    required String pickupLocation,
+    required double pricePerAdult,
+    required double pricePerChild,
+    String? refundPolicyId,
+    required bool isCustom,
+    required List<Map<String, dynamic>> itineraries,
+  }) async {
+    final token = await _getAccessToken();
+    if (token == null) {
+      return Result.error(Exception('Phiên đăng nhập hết hạn'));
+    }
+
+    final result = await _adminApiService.createTourTemplate(
+      accessToken: token,
+      name: name,
+      description: description,
+      destinationId: destinationId,
+      hotelId: hotelId,
+      pickupLocation: pickupLocation,
+      pricePerAdult: pricePerAdult,
+      pricePerChild: pricePerChild,
+      refundPolicyId: refundPolicyId,
+      isCustom: isCustom,
+      itineraries: itineraries,
+    );
+    switch (result) {
+      case Ok<Map<String, dynamic>>():
+        notifyListeners();
+        return const Result.ok(null);
+      case Error<Map<String, dynamic>>():
+        return Result.error(result.error);
+    }
   }
 }

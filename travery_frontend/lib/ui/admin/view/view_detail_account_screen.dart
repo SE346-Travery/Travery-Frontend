@@ -32,6 +32,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
   void initState() {
     super.initState();
     widget.viewModel.loadAccount.addListener(_onResult);
+    widget.viewModel.deleteAccount.addListener(_onDeleteResult);
     widget.viewModel.loadAccount.execute(widget.accountId);
   }
 
@@ -40,16 +41,40 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
     super.didUpdateWidget(oldWidget);
     oldWidget.viewModel.loadAccount.removeListener(_onResult);
     widget.viewModel.loadAccount.addListener(_onResult);
+    oldWidget.viewModel.deleteAccount.removeListener(_onDeleteResult);
+    widget.viewModel.deleteAccount.addListener(_onDeleteResult);
   }
 
   @override
   void dispose() {
     widget.viewModel.loadAccount.removeListener(_onResult);
+    widget.viewModel.deleteAccount.removeListener(_onDeleteResult);
     super.dispose();
   }
 
   void _onResult() {
     setState(() {});
+  }
+
+  void _onDeleteResult() {
+    final cmd = widget.viewModel.deleteAccount;
+    if (cmd.running) return;
+    if (cmd.error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Không thể xóa tài khoản'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else if (cmd.completed) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Xóa tài khoản thành công'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      context.pop(); // pop screen
+    }
   }
 
   // ── Role display text (title-case for profile header) ────────────────────
@@ -86,7 +111,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
     );
   }
 
-  void _onDelete(String accountName) {
+  void _onDelete(String accountName, String accountId) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -101,6 +126,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
           TextButton(
             onPressed: () {
               context.pop();
+              widget.viewModel.deleteAccount.execute(accountId);
             },
             child: Text('Xóa', style: TextStyle(color: AppColors.error)),
           ),
@@ -300,7 +326,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
           const SizedBox(height: 20),
 
           // ── Action buttons ────────────────────────────────────────────
-          _buildActionButtons(displayStatus, account.name),
+          _buildActionButtons(displayStatus, account.name, account.id),
         ],
       ),
     );
@@ -336,7 +362,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
   // ── Action buttons ────────────────────────────────────────────────────────
 
-  Widget _buildActionButtons(AccountStatus currentStatus, String accountName) {
+  Widget _buildActionButtons(AccountStatus currentStatus, String accountName, String accountId) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -391,7 +417,7 @@ class _ViewDetailAccountScreenState extends State<ViewDetailAccountScreen> {
 
         // Xóa tài khoản — outlined with red icon
         OutlinedButton.icon(
-          onPressed: () => _onDelete(accountName),
+          onPressed: () => _onDelete(accountName, accountId),
           icon: Icon(
             Icons.delete_outline_rounded,
             size: 18,

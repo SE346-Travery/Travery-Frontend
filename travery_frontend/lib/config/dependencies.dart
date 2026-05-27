@@ -4,7 +4,7 @@ import 'package:provider/single_child_widget.dart';
 import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/data/repositories/admin/admin_repository_remote.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
-import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository_dev.dart';
+import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository_remote.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository_remote.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
@@ -18,6 +18,7 @@ import 'package:travery_frontend/data/repositories/tour_completed_repository_moc
 
 import 'package:travery_frontend/data/services/api/admin_api_service.dart';
 import 'package:travery_frontend/data/services/api/auth_service.dart';
+import 'package:travery_frontend/data/services/api/coordinator_api_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 
@@ -48,6 +49,8 @@ import 'package:travery_frontend/ui/admin/view_model/update_hotel_view_model.dar
 import 'package:travery_frontend/ui/admin/view_model/update_vehicle_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/admin_tour_template_list_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/admin_create_tour_template_view_model.dart';
 
 import '../data/services/tour/tour_service_impl.dart';
 
@@ -79,9 +82,17 @@ List<SingleChildWidget> get providers => [
     ),
   ),
 
-  // ── Coordinator repository ────────────────────────────────────────────────
+  // ── Coordinator service ───────────────────────────────────────────────
+  Provider<CoordinatorApiService>(
+    create: (context) => CoordinatorApiService(),
+  ),
+
+  // ── Coordinator repository (remote — hits real API) ──────────────────────
   ChangeNotifierProvider<CoordinatorRepository>(
-    create: (context) => CoordinatorRepositoryDev(),
+    create: (context) => CoordinatorRepositoryRemote(
+      apiService: context.read<CoordinatorApiService>(),
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
   ),
 
   // ── Admin ViewModels ──────────────────────────────────────────────────────
@@ -136,6 +147,16 @@ List<SingleChildWidget> get providers => [
   ),
   ChangeNotifierProvider(
     create: (context) => ViewDetailAccountViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => AdminTourTemplateListViewModel(
+      adminRepository: context.read<AdminRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => AdminCreateTourTemplateViewModel(
       adminRepository: context.read<AdminRepository>(),
     ),
   ),

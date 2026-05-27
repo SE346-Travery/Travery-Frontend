@@ -75,6 +75,7 @@ import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_scree
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_template_list_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_template_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_template_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_template_screen.dart';
@@ -283,8 +284,11 @@ GoRouter appRouter(AuthRepository authRepository) {
       ),
       GoRoute(
         path: Routes.coordinatorCreateTourTemplate,
-        builder: (context, state) =>
-            const CoordinatorCreateTourTemplateScreen(),
+        builder: (context, state) => CoordinatorCreateTourTemplateScreen(
+          viewModel: CoordinatorCreateTourTemplateViewModel(
+            coordinatorRepository: context.read<CoordinatorRepository>(),
+          ),
+        ),
       ),
       GoRoute(
         path: Routes.coordinatorCreateTour,

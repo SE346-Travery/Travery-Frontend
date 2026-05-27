@@ -6,7 +6,7 @@ import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 
 class TourProgressTimeline extends StatelessWidget {
   final List<TourProgressStep> steps;
-  final VoidCallback onCompleteStep;
+  final void Function(String stepId) onCompleteStep;
   final bool isUpdating;
 
   const TourProgressTimeline({
@@ -25,8 +25,8 @@ class TourProgressTimeline extends StatelessWidget {
         return _TimelineItem(
           step: step,
           isLast: isLast,
-          onComplete: onCompleteStep,
-          isUpdating: isUpdating,
+          onComplete: () => onCompleteStep(step.id),
+          isUpdating: isUpdating && step.isActive,
         );
       }).toList(),
     );
@@ -50,7 +50,6 @@ class _TimelineItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Color cardColor;
     double opacity = 1.0;
-    Widget? actionButton;
 
     switch (step.status) {
       case TimelineStepStatus.completed:
@@ -65,46 +64,13 @@ class _TimelineItem extends StatelessWidget {
         break;
     }
 
-    if (step.isActive) {
-      actionButton = Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: ElevatedButton.icon(
-          onPressed: isUpdating ? null : onComplete,
-          icon: isUpdating
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                )
-              : const Icon(Icons.check_circle_outline, size: 16),
-          label: const Text('Xác nhận hoàn thành'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            foregroundColor: Colors.white,
-            minimumSize: const Size(double.infinity, 40),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            elevation: 0,
-            textStyle: const TextStyle(
-              fontSize: AppTextTheme.buttonSmall,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      );
-    }
-
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildTimelineIndicator(),
           const SizedBox(width: 12),
-          Expanded(child: _buildContentCard(cardColor, opacity, actionButton)),
+          Expanded(child: _buildContentCard(cardColor, opacity)),
         ],
       ),
     );
@@ -134,7 +100,9 @@ class _TimelineItem extends StatelessWidget {
             Expanded(
               child: Container(
                 width: 2,
-                color: AppColors.inputBorder.withValues(alpha: 0.5),
+                color: step.isCompleted
+                    ? AppColors.primary
+                    : AppColors.inputBorder.withValues(alpha: 0.5),
               ),
             ),
         ],
@@ -172,11 +140,7 @@ class _TimelineItem extends StatelessWidget {
     return null;
   }
 
-  Widget _buildContentCard(
-    Color cardColor,
-    double opacity,
-    Widget? actionButton,
-  ) {
+  Widget _buildContentCard(Color cardColor, double opacity) {
     return Opacity(
       opacity: opacity,
       child: Container(
@@ -233,8 +197,66 @@ class _TimelineItem extends StatelessWidget {
                 ),
               ),
             ],
-            if (actionButton != null) actionButton,
+            const SizedBox(height: 12),
+            _buildActionButton(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton() {
+    if (step.isCompleted) {
+      return Row(
+        children: [
+          Icon(Icons.check_circle, color: AppColors.primary, size: 16),
+          const SizedBox(width: 6),
+          const Text(
+            'Đã hoàn thành',
+            style: TextStyle(
+              color: AppColors.primary,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: isUpdating ? null : onComplete,
+        icon: isUpdating
+            ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : const Icon(Icons.check_circle_outline, size: 16),
+        label: Text(
+          step.isActive ? 'Xác nhận hoàn thành' : 'Đánh dấu hoàn thành',
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: step.isActive
+              ? AppColors.primary
+              : AppColors.surface,
+          foregroundColor: step.isActive ? Colors.white : AppColors.primary,
+          minimumSize: const Size(double.infinity, 40),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: step.isActive
+                ? BorderSide.none
+                : const BorderSide(color: AppColors.primary, width: 1.5),
+          ),
+          elevation: step.isActive ? 2 : 0,
+          textStyle: const TextStyle(
+            fontSize: AppTextTheme.buttonSmall,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -251,7 +273,7 @@ class _TimelineItem extends StatelessWidget {
         isPulse: true,
       );
     }
-    return const SizedBox.shrink();
+    return _StatusTag(text: 'CHƯA BẮT ĐẦU', color: AppColors.textHint);
   }
 }
 

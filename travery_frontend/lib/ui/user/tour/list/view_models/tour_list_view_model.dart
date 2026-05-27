@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/models/tour/tour_search_item.dart';
-import 'package:travery_frontend/data/models/tour/tour_search_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
-
-enum TourSortType { priceAsc, priceDesc }
 
 class TourListViewModel extends ChangeNotifier {
   TourListViewModel({required TourService tourService})
@@ -12,99 +9,161 @@ class TourListViewModel extends ChangeNotifier {
 
   final TourService _tourService;
 
-  List<TourSearchItem> _allTours = [];
-  List<TourSearchItem> _filteredTours = [];
-  List<TourSearchItem> get tours => _filteredTours;
+  List<TourSearchItem> _tours = [];
+  List<TourSearchItem> get tours => _tours;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
+  bool _isLoadingMore = false;
+  bool get isLoadingMore => _isLoadingMore;
 
-  DateTime? _selectedDate;
-  DateTime? get selectedDate => _selectedDate;
+  bool _hasMore = true;
+  bool get hasMore => _hasMore;
 
-  RangeValues _priceRange = const RangeValues(0, 50000000);
-  RangeValues get priceRange => _priceRange;
+  String? _error;
+  String? get error => _error;
 
-  TourSortType _sortType = TourSortType.priceDesc;
-  TourSortType get sortType => _sortType;
+  // Filter state
+  String _keyword = '';
+  String? _destinationId;
+  double? _minPrice;
+  double? _maxPrice;
+  int? _minRating;
+  DateTime? _startDate;
+  int _currentPage = 0;
+  static const int _pageSize = 20;
 
-  String get sortLabel {
-    switch (_sortType) {
-      case TourSortType.priceAsc:
-        return 'Giá: Tăng dần';
-      case TourSortType.priceDesc:
-        return 'Giá: Giảm dần';
+  // Getters for filter state
+  String get keyword => _keyword;
+  String? get destinationId => _destinationId;
+  double? get minPrice => _minPrice;
+  double? get maxPrice => _maxPrice;
+  int? get minRating => _minRating;
+  DateTime? get startDate => _startDate;
+
+  bool get hasActiveFilters =>
+      _destinationId != null ||
+      _minPrice != null ||
+      _maxPrice != null ||
+      _minRating != null ||
+      _startDate != null;
+
+  void setKeyword(String value) {
+    _keyword = value;
+    notifyListeners();
+  }
+
+  void setFilters({
+    String? destinationId,
+    double? minPrice,
+    double? maxPrice,
+    int? minRating,
+    DateTime? startDate,
+    bool clearDestinationId = false,
+    bool clearMinPrice = false,
+    bool clearMaxPrice = false,
+    bool clearMinRating = false,
+    bool clearStartDate = false,
+  }) {
+    _destinationId = clearDestinationId
+        ? null
+        : (destinationId ?? _destinationId);
+    _minPrice = clearMinPrice ? null : (minPrice ?? _minPrice);
+    _maxPrice = clearMaxPrice ? null : (maxPrice ?? _maxPrice);
+    _minRating = clearMinRating ? null : (minRating ?? _minRating);
+    _startDate = clearStartDate ? null : (startDate ?? _startDate);
+    notifyListeners();
+  }
+
+  void clearAllFilters() {
+    _destinationId = null;
+    _minPrice = null;
+    _maxPrice = null;
+    _minRating = null;
+    _startDate = null;
+    notifyListeners();
+  }
+
+  Future<void> loadTours({
+    String? keyword,
+    String? destinationId,
+    double? minPrice,
+    double? maxPrice,
+    int? minRating,
+    DateTime? startDate,
+    bool refresh = false,
+  }) async {
+    if (refresh) {
+      _currentPage = 0;
+      _tours = [];
+      _hasMore = true;
     }
-  }
 
-  void setDateFilter(DateTime? date) {
-    _selectedDate = date;
-    _applyFiltersAndSort();
-    notifyListeners();
-  }
+    _keyword = keyword ?? _keyword;
+    _destinationId = destinationId ?? _destinationId;
+    _minPrice = minPrice ?? _minPrice;
+    _maxPrice = maxPrice ?? _maxPrice;
+    _minRating = minRating ?? _minRating;
+    _startDate = startDate ?? _startDate;
 
-  void setPriceRange(RangeValues range) {
-    _priceRange = range;
-    _applyFiltersAndSort();
-    notifyListeners();
-  }
+    if (_isLoading) return;
 
-  void toggleSort() {
-    _sortType = _sortType == TourSortType.priceAsc
-        ? TourSortType.priceDesc
-        : TourSortType.priceAsc;
-    _applyFiltersAndSort();
-    notifyListeners();
-  }
-
-  void setSortType(TourSortType type) {
-    _sortType = type;
-    _applyFiltersAndSort();
-    notifyListeners();
-  }
-
-  Future<void> loadTours() async {
-    _isLoading = true;
-    _errorMessage = null;
+    _isLoading = _currentPage == 0;
+    _error = null;
     notifyListeners();
 
     final result = await _tourService.searchTours(
-      minPrice: _priceRange.start,
-      maxPrice: _priceRange.end,
-      startDate: _selectedDate,
+      keyword: _keyword.isNotEmpty ? _keyword : null,
+      destinationId: _destinationId,
+      minPrice: _minPrice,
+      maxPrice: _maxPrice,
+      minRating: _minRating,
+      startDate: _startDate,
+      page: _currentPage,
+      size: _pageSize,
     );
 
     switch (result) {
-      case Ok<TourSearchPageData>():
-        _allTours = result.value.content;
-        _applyFiltersAndSort();
-      case Error<TourSearchPageData>():
-        _errorMessage = result.error.toString();
+      case Ok(value: final data):
+        _tours = data.content;
+        _hasMore = _tours.length >= _pageSize;
+      case Error(error: final e):
+        _error = e.toString();
     }
 
     _isLoading = false;
     notifyListeners();
   }
 
-  void _applyFiltersAndSort() {
-    _filteredTours = List.from(_allTours);
+  Future<void> loadMore() async {
+    if (_isLoadingMore || !_hasMore) return;
 
-    _filteredTours = _filteredTours.where((tour) {
-      final priceOk =
-          tour.price >= _priceRange.start && tour.price <= _priceRange.end;
-      return priceOk;
-    }).toList();
+    _isLoadingMore = true;
+    notifyListeners();
 
-    switch (_sortType) {
-      case TourSortType.priceAsc:
-        _filteredTours.sort((a, b) => a.price.compareTo(b.price));
-        break;
-      case TourSortType.priceDesc:
-        _filteredTours.sort((a, b) => b.price.compareTo(a.price));
-        break;
+    _currentPage++;
+    final result = await _tourService.searchTours(
+      keyword: _keyword.isNotEmpty ? _keyword : null,
+      destinationId: _destinationId,
+      minPrice: _minPrice,
+      maxPrice: _maxPrice,
+      minRating: _minRating,
+      startDate: _startDate,
+      page: _currentPage,
+      size: _pageSize,
+    );
+
+    switch (result) {
+      case Ok(value: final data):
+        _tours.addAll(data.content);
+        _hasMore = data.content.length >= _pageSize;
+      case Error(error: final e):
+        _currentPage--;
+        _error = e.toString();
     }
+
+    _isLoadingMore = false;
+    notifyListeners();
   }
 }

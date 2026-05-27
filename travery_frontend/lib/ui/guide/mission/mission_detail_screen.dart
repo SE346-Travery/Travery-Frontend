@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
@@ -12,8 +11,13 @@ import 'package:travery_frontend/ui/guide/mission/widgets/mission_action_buttons
 
 class MissionDetailScreen extends StatefulWidget {
   final String missionId;
+  final MissionDetailViewModel viewModel;
 
-  const MissionDetailScreen({super.key, required this.missionId});
+  const MissionDetailScreen({
+    super.key,
+    required this.missionId,
+    required this.viewModel,
+  });
 
   @override
   State<MissionDetailScreen> createState() => _MissionDetailScreenState();
@@ -24,9 +28,7 @@ class _MissionDetailScreenState extends State<MissionDetailScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MissionDetailViewModel>().loadMissionDetail(
-        missionId: widget.missionId,
-      );
+      widget.viewModel.loadMissionDetail(missionId: widget.missionId);
     });
   }
 
@@ -35,8 +37,9 @@ class _MissionDetailScreenState extends State<MissionDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBarWidget(title: 'Chi tiết Nhiệm vụ'),
-      body: Consumer<MissionDetailViewModel>(
-        builder: (context, viewModel, child) {
+      body: Builder(
+        builder: (context) {
+          final viewModel = widget.viewModel;
           if (viewModel.isLoading) {
             return const Center(
               child: CircularProgressIndicator(color: AppColors.primary),

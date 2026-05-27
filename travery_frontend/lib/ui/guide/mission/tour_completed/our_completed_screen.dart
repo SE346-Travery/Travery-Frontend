@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
@@ -11,8 +10,13 @@ import 'package:travery_frontend/ui/guide/mission/tour_completed/widgets/our_com
 
 class TourCompletedScreen extends StatefulWidget {
   final String missionId;
+  final TourCompletedViewModel viewModel;
 
-  const TourCompletedScreen({super.key, required this.missionId});
+  const TourCompletedScreen({
+    super.key,
+    required this.missionId,
+    required this.viewModel,
+  });
 
   @override
   State<TourCompletedScreen> createState() => _TourCompletedScreenState();
@@ -23,9 +27,7 @@ class _TourCompletedScreenState extends State<TourCompletedScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TourCompletedViewModel>().loadTourDetail(
-        missionId: widget.missionId,
-      );
+      widget.viewModel.loadTourDetail(missionId: widget.missionId);
     });
   }
 
@@ -64,8 +66,10 @@ class _TourCompletedScreenState extends State<TourCompletedScreen> {
           ),
         ],
       ),
-      body: Consumer<TourCompletedViewModel>(
-        builder: (context, viewModel, child) {
+      body: Builder(
+        builder: (context) {
+          final viewModel = widget.viewModel;
+
           if (viewModel.isLoading) {
             return const Center(
               child: CircularProgressIndicator(color: AppColors.primary),

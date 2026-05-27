@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
@@ -12,12 +11,12 @@ import '../../../core/widgets/app_bar_widget.dart';
 
 class CheckInScreen extends StatefulWidget {
   final String missionId;
-  final String missionCode;
+  final CheckInViewModel viewModel;
 
   const CheckInScreen({
     super.key,
     required this.missionId,
-    this.missionCode = 'VN-DAD-2024-05',
+    required this.viewModel,
   });
 
   @override
@@ -29,7 +28,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CheckInViewModel>().loadPassengers(widget.missionId);
+      widget.viewModel.loadPassengers(widget.missionId);
     });
   }
 
@@ -38,8 +37,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBarWidget(title: 'Điểm danh đoàn'),
-      body: Consumer<CheckInViewModel>(
-        builder: (context, viewModel, child) {
+      body: Builder(
+        builder: (context) {
+          final viewModel = widget.viewModel;
           if (viewModel.isLoading) {
             return const Center(
               child: CircularProgressIndicator(color: AppColors.primary),

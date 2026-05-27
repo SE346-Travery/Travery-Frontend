@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travery_frontend/data/seed_models/check_in/check_in_passenger.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
-import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 
 class CheckInPassengerCard extends StatelessWidget {
   final CheckInPassenger passenger;
@@ -66,17 +65,23 @@ class CheckInPassengerCard extends StatelessWidget {
                                 fontSize: 13,
                                 color: AppColors.textPrimary,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 4),
                             Row(
                               children: [
                                 _buildTypeBadge(isChild, passenger.typeLabel),
                                 const SizedBox(width: 6),
-                                Text(
-                                  '#${passenger.id.split('_').last}',
-                                  style: const TextStyle(
-                                    color: AppColors.textSecondary,
-                                    fontSize: 10,
+                                Flexible(
+                                  child: Text(
+                                    '#${_extractShortId(passenger.id)}',
+                                    style: const TextStyle(
+                                      color: AppColors.textSecondary,
+                                      fontSize: 10,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
@@ -89,8 +94,10 @@ class CheckInPassengerCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   _buildInfoRow(Icons.badge_outlined, passenger.idNumber),
-                  const SizedBox(height: 3),
-                  _buildInfoRow(Icons.mail_outline, passenger.email),
+                  if (passenger.email.isNotEmpty) ...[
+                    const SizedBox(height: 3),
+                    _buildInfoRow(Icons.mail_outline, passenger.email),
+                  ],
                 ],
               ),
             ),
@@ -175,10 +182,16 @@ class CheckInPassengerCard extends StatelessWidget {
               fontSize: 11,
               color: AppColors.textSecondary,
             ),
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
     );
+  }
+
+  String _extractShortId(String id) {
+    if (id.length <= 8) return id;
+    return id.substring(id.length - 8);
   }
 }

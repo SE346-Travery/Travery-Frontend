@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
@@ -12,8 +11,8 @@ import 'widgets/fliter_list.dart';
 import 'widgets/search_bar.dart';
 
 class AccountManagementScreen extends StatefulWidget {
-  const AccountManagementScreen({super.key});
-
+  const AccountManagementScreen({super.key, required this.viewModel});
+  final AccountManagementViewModel viewModel;
   @override
   State<AccountManagementScreen> createState() =>
       _AccountManagementScreenState();
@@ -35,7 +34,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AccountManagementViewModel>().loadAccounts.execute();
+      widget.viewModel.loadAccounts.execute();
     });
   }
 
@@ -73,8 +72,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.read<AccountManagementViewModel>();
-
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
@@ -110,9 +107,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
             // ── BusinessAccount list ───────────────────────────────────────────────
             Expanded(
               child: ListenableBuilder(
-                listenable: vm.loadAccounts,
+                listenable: widget.viewModel.loadAccounts,
                 builder: (context, _) {
-                  final cmd = vm.loadAccounts;
+                  final cmd = widget.viewModel.loadAccounts;
 
                   if (cmd.running) {
                     return const Center(child: CircularProgressIndicator());

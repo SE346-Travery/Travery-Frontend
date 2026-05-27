@@ -7,6 +7,7 @@ import 'package:travery_frontend/domain/models/admin/business_dashboard/business
 import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
 import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
 
 abstract class AdminRepository extends ChangeNotifier {
   // ── Dashboard ──────────────────────────────────────────────────────────────
@@ -131,4 +132,21 @@ abstract class AdminRepository extends ChangeNotifier {
   Future<Result<BusinessTour>> getTour({required String id});
 
   Future<Result<TourSummary>> getTourSummaryStats();
+
+  // ── Tour Templates ─────────────────────────────────────────────
+
+  Future<Result<List<CoordinatorTourTemplate>>> getTourTemplates();
+
+  Future<Result<void>> createTourTemplate({
+    required String name,
+    required String description,
+    required String destinationId,
+    String? hotelId,
+    required String pickupLocation,
+    required double pricePerAdult,
+    required double pricePerChild,
+    String? refundPolicyId,
+    required bool isCustom,
+    required List<Map<String, dynamic>> itineraries,
+  });
 }

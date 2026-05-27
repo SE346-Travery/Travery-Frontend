@@ -16,15 +16,9 @@ class AdminUpdateProfileScreen extends StatefulWidget {
 }
 
 class _AdminUpdateProfileScreenState extends State<AdminUpdateProfileScreen> {
-  final TextEditingController _emailController = TextEditingController(
-    text: 'coordinator20@gmail.com',
-  );
-  final TextEditingController _nameController = TextEditingController(
-    text: 'Nguyen Van A',
-  );
-  final TextEditingController _phoneController = TextEditingController(
-    text: '0942555321',
-  );
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   @override
   void initState() {

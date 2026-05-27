@@ -173,9 +173,24 @@ class AuthRepositoryRemote extends AuthRepository {
   @override
   Future<Result<void>> logout({required String refreshToken}) async {
     try {
+      // Lấy accessToken và refreshToken từ storage
+      final accessToken = await _securityStorageService.getAccessToken();
+      String? actualRefreshToken = await _securityStorageService.getRefreshToken();
+      if (actualRefreshToken == null || actualRefreshToken.isEmpty) {
+        actualRefreshToken = refreshToken;
+      }
+      
+      if (accessToken == null || accessToken.isEmpty) {
+        // Nếu không có accessToken thì xóa token local và coi như đã logout
+        await _securityStorageService.deleteAccessToken();
+        await _securityStorageService.deleteRefreshToken();
+        return const Result.ok(null);
+      }
+
       // Gọi API logout
       final result = await _authService.logout(
-        LogoutRequest(refreshToken: refreshToken),
+        LogoutRequest(refreshToken: actualRefreshToken),
+        accessToken: accessToken,
       );
       switch (result) {
         case Ok<void>():

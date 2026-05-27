@@ -92,7 +92,7 @@ class _AdminViewProfileScreenState extends State<AdminViewProfileScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Nguyen Van A',
+              '',
               style: TextStyle(
                 fontSize: AppTextTheme.headlineLarge,
                 fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class _AdminViewProfileScreenState extends State<AdminViewProfileScreen> {
             ),
             const SizedBox(height: 4),
             Text(
-              'Điều phối viên',
+              '',
               style: TextStyle(
                 fontSize: AppTextTheme.bodyMedium,
                 fontWeight: FontWeight.w500,
@@ -141,19 +141,19 @@ class _AdminViewProfileScreenState extends State<AdminViewProfileScreen> {
             const SizedBox(height: 24),
             _buildInfoCard(
               title: 'TÊN NHÂN VIÊN',
-              value: 'Nguyễn Văn A',
+              value: '',
               icon: Icons.badge_outlined,
             ),
             const SizedBox(height: 12),
             _buildInfoCard(
               title: 'SỐ ĐIỆN THOẠI',
-              value: '09088080080',
+              value: '',
               icon: Icons.phone_outlined,
             ),
             const SizedBox(height: 12),
             _buildInfoCard(
               title: 'EMAIL',
-              value: 'nguyenvana@gm.travery.com',
+              value: '',
               icon: Icons.email_outlined,
             ),
             const SizedBox(height: 32),

@@ -4,9 +4,16 @@ import 'package:travery_frontend/ui/core/themes/app_text_theme.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_input_field.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_button.dart';
 import 'package:travery_frontend/ui/coordinator/view/widgets/coordinator_hotel_selection_bottomsheet.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_template_view_model.dart';
+import 'package:travery_frontend/utils/core_result.dart' as core_result;
 
 class CoordinatorCreateTourTemplateScreen extends StatefulWidget {
-  const CoordinatorCreateTourTemplateScreen({super.key});
+  final CoordinatorCreateTourTemplateViewModel viewModel;
+
+  const CoordinatorCreateTourTemplateScreen({
+    super.key,
+    required this.viewModel,
+  });
 
   @override
   State<CoordinatorCreateTourTemplateScreen> createState() =>
@@ -34,27 +41,65 @@ class _CoordinatorCreateTourTemplateScreenState
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _adultPriceController = TextEditingController();
   final TextEditingController _childPriceController = TextEditingController();
-  final TextEditingController _minPersonController = TextEditingController();
-  final TextEditingController _maxPersonController = TextEditingController();
   final TextEditingController _pickupLocationController =
+      TextEditingController();
+  final TextEditingController _destinationIdController =
       TextEditingController();
 
   final List<_ItineraryEntry> _itineraries = [_ItineraryEntry()];
 
   String? _selectedHotelName;
+  String? _selectedHotelId;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.createTemplate.addListener(_onCreateResult);
+  }
+
+  @override
+  void didUpdateWidget(CoordinatorCreateTourTemplateScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.viewModel != widget.viewModel) {
+      oldWidget.viewModel.createTemplate.removeListener(_onCreateResult);
+      widget.viewModel.createTemplate.addListener(_onCreateResult);
+    }
+  }
 
   @override
   void dispose() {
+    widget.viewModel.createTemplate.removeListener(_onCreateResult);
     _nameController.dispose();
     _descriptionController.dispose();
     _adultPriceController.dispose();
     _childPriceController.dispose();
-    _minPersonController.dispose();
-    _maxPersonController.dispose();
+    _pickupLocationController.dispose();
+    _destinationIdController.dispose();
     for (final e in _itineraries) {
       e.dispose();
     }
     super.dispose();
+  }
+
+  void _onCreateResult() {
+    final cmd = widget.viewModel.createTemplate;
+    if (cmd.completed) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Lộ trình đã được tạo thành công!'),
+          backgroundColor: AppColors.success,
+        ),
+      );
+      Navigator.of(context).pop(true);
+    } else if (cmd.error) {
+      final error = (cmd.result as core_result.Error).error;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Lỗi: ${error.toString()}'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
   }
 
   void _addItinerary() {
@@ -71,9 +116,71 @@ class _CoordinatorCreateTourTemplateScreenState
   }
 
   void _onConfirm() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Lộ trình đã được tạo!')));
+    // Validate required fields
+    final name = _nameController.text.trim();
+    final description = _descriptionController.text.trim();
+    final destinationId = _destinationIdController.text.trim();
+    final pickupLocation = _pickupLocationController.text.trim();
+    final adultPriceStr = _adultPriceController.text.trim();
+    final childPriceStr = _childPriceController.text.trim();
+
+    if (name.isEmpty ||
+        destinationId.isEmpty ||
+        pickupLocation.isEmpty ||
+        adultPriceStr.isEmpty ||
+        childPriceStr.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vui lòng nhập đầy đủ thông tin bắt buộc'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    final adultPrice = double.tryParse(adultPriceStr);
+    final childPrice = double.tryParse(childPriceStr);
+    if (adultPrice == null || childPrice == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Giá tiền không hợp lệ'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    if (_itineraries.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vui lòng thêm ít nhất một lịch trình'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    final itineraries = <Map<String, dynamic>>[];
+    for (int i = 0; i < _itineraries.length; i++) {
+      final e = _itineraries[i];
+      itineraries.add({
+        'dayNumber': i + 1,
+        'title': e.labelController.text.trim(),
+        'description': e.descriptionController.text.trim(),
+      });
+    }
+
+    widget.viewModel.createTemplate.execute({
+      'name': name,
+      'description': description,
+      'destinationId': destinationId,
+      'hotelId': _selectedHotelId,
+      'pickupLocation': pickupLocation,
+      'pricePerAdult': adultPrice,
+      'pricePerChild': childPrice,
+      'isCustom': false,
+      'itineraries': itineraries,
+    });
   }
 
   void _openHotelSelection() {
@@ -85,6 +192,8 @@ class _CoordinatorCreateTourTemplateScreenState
         onHotelSelected: (hotelName) {
           setState(() {
             _selectedHotelName = hotelName;
+            // Hotel ID would come from the selection — store name as id for now
+            _selectedHotelId = hotelName;
           });
         },
       ),
@@ -135,27 +244,46 @@ class _CoordinatorCreateTourTemplateScreenState
                     ),
                   ),
                   // Xác nhận button
-                  Material(
-                    color: AppColors.primaryDarkBlackBlue,
-                    borderRadius: BorderRadius.circular(8),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8),
-                      onTap: _onConfirm,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        child: Text(
-                          'Xác nhận',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: AppTextTheme.bodyMedium,
-                            fontWeight: FontWeight.bold,
+                  ListenableBuilder(
+                    listenable: widget.viewModel.createTemplate,
+                    builder: (context, _) {
+                      final isRunning = widget.viewModel.createTemplate.running;
+                      return Material(
+                        color: isRunning
+                            ? AppColors.primaryDarkBlackBlue.withValues(
+                                alpha: 0.5,
+                              )
+                            : AppColors.primaryDarkBlackBlue,
+                        borderRadius: BorderRadius.circular(8),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: isRunning ? null : _onConfirm,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            child: isRunning
+                                ? const SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const Text(
+                                    'Xác nhận',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: AppTextTheme.bodyMedium,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -195,12 +323,26 @@ class _CoordinatorCreateTourTemplateScreenState
 
                     // Tên tour
                     CoordinatorInputField(
-                      label: 'Tên tour',
+                      label: 'Tên tour *',
                       hintText: 'Nhập tên tour...',
                       controller: _nameController,
                       isMultipleLine: true,
                       suffixIcon: const Icon(
                         Icons.edit,
+                        size: 16,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Destination ID
+                    CoordinatorInputField(
+                      label: 'Địa điểm đến *',
+                      hintText: 'Chọn điểm đến...',
+                      controller: _destinationIdController,
+                      isMultipleLine: false,
+                      suffixIcon: const Icon(
+                        Icons.location_city_outlined,
                         size: 16,
                         color: AppColors.textSecondary,
                       ),
@@ -226,7 +368,7 @@ class _CoordinatorCreateTourTemplateScreenState
                       children: [
                         Expanded(
                           child: CoordinatorInputField(
-                            label: 'Giá người lớn',
+                            label: 'Giá người lớn *',
                             hintText: 'Nhập giá...',
                             controller: _adultPriceController,
                             isMultipleLine: false,
@@ -240,7 +382,7 @@ class _CoordinatorCreateTourTemplateScreenState
                         const SizedBox(width: 12),
                         Expanded(
                           child: CoordinatorInputField(
-                            label: 'Giá trẻ em',
+                            label: 'Giá trẻ em *',
                             hintText: 'Nhập giá...',
                             controller: _childPriceController,
                             isMultipleLine: false,
@@ -255,42 +397,9 @@ class _CoordinatorCreateTourTemplateScreenState
                     ),
                     const SizedBox(height: 12),
 
-                    // Số lượng tối thiểu & tối đa
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CoordinatorInputField(
-                            label: 'Số lượng người tối thiểu',
-                            hintText: 'Nhập số lượng...',
-                            controller: _minPersonController,
-                            isMultipleLine: false,
-                            suffixIcon: const Icon(
-                              Icons.person_remove_outlined,
-                              size: 18,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: CoordinatorInputField(
-                            label: 'Số lượng người tối đa',
-                            hintText: 'Nhập số lượng...',
-                            controller: _maxPersonController,
-                            isMultipleLine: false,
-                            suffixIcon: const Icon(
-                              Icons.person_add_outlined,
-                              size: 18,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    // ── Thông tin khách sạn ──────────────────────────────────
+                    // Pickup Location
                     CoordinatorInputField(
-                      label: 'Pickup Location',
+                      label: 'Địa điểm đón khách *',
                       hintText: 'Nhập địa điểm đón khách...',
                       controller: _pickupLocationController,
                       isMultipleLine: true,

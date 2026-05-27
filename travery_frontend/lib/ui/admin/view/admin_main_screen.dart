@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
 import 'dashboard_screen.dart';
 import 'account_management_screen.dart';
 import 'create_account_screen.dart';
@@ -60,9 +63,13 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
         controller: _pageController,
         onPageChanged: _onPageChanged,
         children: [
-          const DashboardScreen(),
-          const AccountManagementScreen(),
-          const CreateAccountScreen(),
+          DashboardScreen(viewModel: context.read<DashboardViewModel>()),
+          AccountManagementScreen(
+            viewModel: context.read<AccountManagementViewModel>(),
+          ),
+          CreateAccountScreen(
+            viewModel: context.read<CreateAccountViewModel>(),
+          ),
           const Center(child: Text('Chat')),
           AdminViewProfileScreen(
             viewModel: context.read<AdminProfileViewModel>(),

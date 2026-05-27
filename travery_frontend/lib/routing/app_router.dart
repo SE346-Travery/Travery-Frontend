@@ -5,6 +5,8 @@ import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
+import 'package:travery_frontend/ui/admin/view_model/update_hotel_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/update_vehicle_view_model.dart';
 import 'package:travery_frontend/ui/core/auth_guard.dart';
 import 'package:travery_frontend/ui/admin/view/admin_main_screen.dart';
 import 'package:travery_frontend/ui/admin/view/view_detail_account_screen.dart';
@@ -80,6 +82,7 @@ import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_scree
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_template_list_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_template_list_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_template_screen.dart';
+import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_template_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_template_screen.dart';
@@ -92,6 +95,8 @@ import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.d
 import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_hotel_view_model.dart';
+import 'package:travery_frontend/ui/admin/view_model/create_vehicle_view_model.dart';
 
 GoRouter appRouter(
   AuthRepository authRepository, {
@@ -200,8 +205,11 @@ GoRouter appRouter(
       ),
       GoRoute(
         path: Routes.coordinatorCreateTourTemplate,
-        builder: (context, state) =>
-            const CoordinatorCreateTourTemplateScreen(),
+        builder: (context, state) => CoordinatorCreateTourTemplateScreen(
+          viewModel: CoordinatorCreateTourTemplateViewModel(
+            coordinatorRepository: context.read<CoordinatorRepository>(),
+          ),
+        ),
       ),
       GoRoute(
         path: Routes.coordinatorCreateTour,
@@ -444,52 +452,57 @@ GoRouter appRouter(
           child: const AdminMainScreen(),
         ),
       ),
-      GoRoute(
-        path: Routes.adminDashboard,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => DashboardViewModel(
-            adminRepository: context.read<AdminRepository>(),
-          ),
-          child: const DashboardScreen(),
-        ),
-      ),
+      // GoRoute(
+      //   path: Routes.adminDashboard,
+      //   builder: (context, state) => ChangeNotifierProvider(
+      //     create: (context) => DashboardViewModel(
+      //       adminRepository: context.read<AdminRepository>(),
+      //     ),
+      //     child: DashboardScreen(
+      //       viewModel: context.read<DashboardViewModel>(),
+      //     ),
+      //   ),
+      // ),
       GoRoute(
         path: Routes.adminCreateAccount,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => CreateAccountViewModel(
+        builder: (context, state) => CreateAccountScreen(
+          viewModel: CreateAccountViewModel(
             adminRepository: context.read<AdminRepository>(),
           ),
-          child: const CreateAccountScreen(),
         ),
       ),
       GoRoute(
         path: Routes.adminCreateHotel,
-        builder: (context, state) => CreateHotelScreen(),
+        builder: (context, state) => CreateHotelScreen(
+          viewModel: CreateHotelViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+        ),
       ),
       GoRoute(
         path: Routes.adminHotelManagement,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => HotelManagementViewModel(
-            adminRepository: context.read<AdminRepository>(),
-          ),
-          child: const HotelManagementScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Routes.adminCreateHotel,
-        builder: (context, state) => CreateHotelScreen(),
+        builder: (context, state) {
+          return (HotelManagementScreen(
+            viewModel: HotelManagementViewModel(
+              adminRepository: context.read<AdminRepository>(),
+            ),
+          ));
+        },
       ),
       GoRoute(
         path: Routes.adminCreateVehicle,
-        builder: (context, state) => CreateVehicleScreen(),
+        builder: (context, state) => CreateVehicleScreen(
+          viewModel: CreateVehicleViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          ),
+        ),
       ),
       GoRoute(
         path: Routes.adminAccountManagement,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => AccountManagementViewModel(
+        builder: (context, state) => AccountManagementScreen(
+          viewModel: AccountManagementViewModel(
             adminRepository: context.read<AdminRepository>(),
           ),
-          child: const AccountManagementScreen(),
         ),
       ),
       GoRoute(
@@ -506,29 +519,42 @@ GoRouter appRouter(
         },
       ),
       GoRoute(
-        path: Routes.adminCreateHotel,
-        builder: (context, state) => CreateHotelScreen(),
+        path: Routes.adminUpdateHotelWithId(':id'),
+        builder: (context, state) {
+          final hotelId = state.pathParameters['id']!;
+          final viewModel = UpdateHotelViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          );
+          return UpdateHotelScreen(viewModel: viewModel, hotelId: hotelId);
+        },
       ),
       GoRoute(
         path: Routes.adminVehicleManagement,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => VehicleManagementViewModel(
+        builder: (context, state) => VehicleManagementScreen(
+          viewModel: VehicleManagementViewModel(
             adminRepository: context.read<AdminRepository>(),
           ),
-          child: const VehicleManagementScreen(),
         ),
       ),
       GoRoute(
-        path: Routes.adminCreateVehicle,
-        builder: (context, state) => CreateVehicleScreen(),
+        path: Routes.adminUpdateVehicleWithId(':id'),
+        builder: (context, state) {
+          final vehicleId = state.pathParameters['id']!;
+          final viewModel = UpdateVehicleViewModel(
+            adminRepository: context.read<AdminRepository>(),
+          );
+          return UpdateVehicleScreen(
+            viewModel: viewModel,
+            vehicleId: vehicleId,
+          );
+        },
       ),
       GoRoute(
         path: Routes.adminTourManagement,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => TourManagementViewModel(
+        builder: (context, state) => TourManagementScreen(
+          viewModel: TourManagementViewModel(
             adminRepository: context.read<AdminRepository>(),
           ),
-          child: const TourManagementScreen(),
         ),
       ),
       GoRoute(

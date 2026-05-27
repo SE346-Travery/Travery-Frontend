@@ -7,6 +7,7 @@ import 'package:travery_frontend/domain/models/admin/business_coach/business_coa
 import 'package:travery_frontend/domain/models/admin/business_hotel/business_hotel.dart';
 import 'package:travery_frontend/domain/models/admin/business_tour/business_tour.dart';
 import 'package:travery_frontend/domain/models/admin/tour_summary/tour_summary.dart';
+import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
 
 /// Development/local implementation of [AdminRepository] that returns
 /// in-memory seed data. Simulates a network delay of 300 ms.
@@ -728,5 +729,31 @@ class AdminRepositoryDev extends AdminRepository {
   }) {
     // TODO: implement updateVehicle
     throw UnimplementedError();
+  }
+
+  // ── Tour Templates ─────────────────────────────────────────────
+
+  @override
+  Future<Result<List<CoordinatorTourTemplate>>> getTourTemplates() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return const Result.ok([]);
+  }
+
+  @override
+  Future<Result<void>> createTourTemplate({
+    required String name,
+    required String description,
+    required String destinationId,
+    String? hotelId,
+    required String pickupLocation,
+    required double pricePerAdult,
+    required double pricePerChild,
+    String? refundPolicyId,
+    required bool isCustom,
+    required List<Map<String, dynamic>> itineraries,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    notifyListeners();
+    return const Result.ok(null);
   }
 }

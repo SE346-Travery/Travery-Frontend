@@ -44,7 +44,7 @@ class BookingDetailModel {
     }
   }
 
-  bool get canCancel => status == 'PENDING';
+  bool get canCancel => status == 'PENDING' || status == 'PAID';
 }
 
 class BookingMember {

@@ -27,6 +27,18 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
   final TextEditingController _reasonController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.bookingDetail == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          widget.viewModel.loadBookingDetail(widget.bookingId);
+        }
+      });
+    }
+  }
+
+  @override
   void dispose() {
     _reasonController.dispose();
     super.dispose();
@@ -39,6 +51,13 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
       appBar: const UserAppBar(title: 'Xác nhận hủy tour'),
       body: Consumer<CancelBookingViewModel>(
         builder: (context, vm, _) {
+          final booking = widget.bookingDetail ?? vm.bookingDetail;
+          final isLoading = widget.bookingDetail == null && vm.isLoading;
+
+          if (isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
@@ -99,7 +118,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.bookingDetail?.tourName ?? 'Tour',
+                      booking?.tourName ?? 'Tour',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -116,9 +135,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          widget.bookingDetail != null
-                              ? _formatDate(widget.bookingDetail!.departureDate)
-                              : '',
+                          _formatDate(booking?.departureDate),
                           style: const TextStyle(
                             fontSize: 13,
                             color: Color(0xFF414755),
@@ -143,9 +160,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                   children: [
                     _RefundRow(
                       label: 'Giá trị đơn hàng',
-                      value: _formatPrice(
-                        widget.bookingDetail?.totalPrice ?? 0,
-                      ),
+                      value: _formatPrice(booking?.totalPrice ?? 0),
                     ),
                     const Divider(height: 24),
                     _RefundRow(
@@ -182,7 +197,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
                           ),
                         ),
                         Text(
-                          _formatPrice(widget.bookingDetail?.totalPrice ?? 0),
+                          _formatPrice(booking?.totalPrice ?? 0),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
@@ -267,7 +282,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => context.pop(),
+                    onPressed: vm.isCancelling ? null : () => context.pop(),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
@@ -326,6 +341,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
     BuildContext context,
     CancelBookingViewModel vm,
   ) async {
+    final booking = widget.bookingDetail ?? vm.bookingDetail;
     final success = await vm.submitCancellation(widget.bookingId);
 
     if (!mounted) return;
@@ -336,7 +352,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
         Routes.cancellationSuccess,
         extra: {
           'bookingId': widget.bookingId,
-          'tourName': widget.bookingDetail?.tourName ?? '',
+          'tourName': booking?.tourName ?? '',
           'refundAmount': cancelData?.refundAmount ?? 0,
           'refundPercentage': cancelData?.refundPercentage ?? 0,
         },

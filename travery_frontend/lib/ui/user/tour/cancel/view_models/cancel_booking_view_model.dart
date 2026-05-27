@@ -29,7 +29,7 @@ class CancelBookingViewModel extends ChangeNotifier {
   BookingDetailModel? _bookingDetail;
   BookingDetailModel? get bookingDetail => _bookingDetail;
 
-  bool get canSubmit => _reason.trim().length >= 10;
+  bool get canSubmit => _reason.trim().length >= 3;
 
   void setReason(String value) {
     _reason = value;
@@ -62,7 +62,7 @@ class CancelBookingViewModel extends ChangeNotifier {
     }
 
     if (!canSubmit) {
-      _error = 'Vui lòng nhập lý do hủy (ít nhất 10 ký tự)';
+      _error = 'Vui lòng nhập lý do hủy';
       notifyListeners();
       return false;
     }

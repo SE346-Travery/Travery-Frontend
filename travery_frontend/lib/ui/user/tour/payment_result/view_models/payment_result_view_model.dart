@@ -51,13 +51,12 @@ class PaymentResultViewModel extends ChangeNotifier {
     if (responseCode != null) _responseCode = responseCode;
     if (bookingId != null) _bookingId = bookingId;
 
-    if (_deeplinkStatus == 'success') {
-      // Real deeplink arrived with success — start polling
-      _state = PaymentConfirmState.confirming;
+    // VNPay returned 00 = immediate success
+    if (_responseCode == '00' || _deeplinkStatus == 'success') {
+      _state = PaymentConfirmState.confirmed;
       notifyListeners();
-      _pollBookingStatus();
-    } else if (_deeplinkStatus == 'failed') {
-      // Real deeplink arrived with failure
+    } else if (_deeplinkStatus == 'failed' || _responseCode != null) {
+      // VNPay returned non-00 code = failed
       _state = PaymentConfirmState.failed;
       notifyListeners();
     } else {
@@ -98,11 +97,12 @@ class PaymentResultViewModel extends ChangeNotifier {
       switch (result) {
         case Ok(value: final data):
           _bookingData = data;
-          if (data.status == 'PAID' || data.status == 'Đã thanh toán') {
+          // Check paymentStatus (PENDING/PAID) or status (PAID)
+          if (data.paymentStatus == 'PAID' || data.status == 'PAID') {
             _state = PaymentConfirmState.confirmed;
             notifyListeners();
             return;
-          } else if (data.status == 'CANCELLED' || data.status == 'Đã hủy') {
+          } else if (data.status == 'CANCELLED') {
             _state = PaymentConfirmState.failed;
             notifyListeners();
             return;

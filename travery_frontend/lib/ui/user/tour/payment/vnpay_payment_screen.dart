@@ -69,9 +69,7 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
   }
 
   void _handleNavigation(String url) {
-    // VNPay return URL check
-    // VNPay redirects back with vnp_ResponseCode parameter
-    // 00 = success, other codes = failed/cancelled
+    // VNPay return URL check - vnp_ResponseCode=00 means success
     if (url.contains('vnp_ResponseCode') || url.contains('responseCode')) {
       _hasNavigatedAway = true;
       _pollingTimer?.cancel();
@@ -81,11 +79,15 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
           uri.queryParameters['vnp_ResponseCode'] ??
           uri.queryParameters['responseCode'];
 
+      // DEBUG: log VNPay response
+      debugPrint('=== VNPay Return URL: $url');
+      debugPrint('=== VNPay ResponseCode: $responseCode');
+
+      // VNPay 00 = success, otherwise stay on screen
       if (responseCode == '00') {
         _navigateToResult(success: true);
-      } else {
-        _navigateToResult(success: false, responseCode: responseCode);
       }
+      // If not 00, user can continue payment - stay on screen
     }
   }
 
@@ -118,36 +120,27 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
         case CheckResult.pending:
         case CheckResult.error:
         case CheckResult.failed:
-          // Continue polling - don't navigate to failure
+          // Continue polling - stay on screen
           break;
       }
     });
   }
 
   void _navigateToResult({required bool success, String? responseCode}) {
+    debugPrint(
+      '=== _navigateToResult called: success=$success, responseCode=$responseCode',
+    );
     if (!mounted) return;
 
-    if (success) {
-      context.pushReplacement(
-        Routes.paymentResult,
-        extra: {
-          'bookingId': widget.bookingId,
-          'txnRef': widget.transactionId,
-          'deeplinkStatus': 'success',
-          'responseCode': responseCode ?? '00',
-        },
-      );
-    } else {
-      context.pushReplacement(
-        Routes.paymentResult,
-        extra: {
-          'bookingId': widget.bookingId,
-          'txnRef': widget.transactionId,
-          'deeplinkStatus': 'failed',
-          'responseCode': responseCode,
-        },
-      );
-    }
+    context.pushReplacement(
+      Routes.paymentResult,
+      extra: {
+        'bookingId': widget.bookingId,
+        'txnRef': widget.transactionId,
+        'deeplinkStatus': success ? 'success' : 'failed',
+        'responseCode': responseCode ?? (success ? '00' : null),
+      },
+    );
   }
 
   @override
@@ -251,33 +244,6 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
                     ),
                   ),
               ],
-            ),
-          ),
-
-          // Bottom action bar
-          Container(
-            padding: const EdgeInsets.all(16),
-            color: Colors.white,
-            child: SafeArea(
-              top: false,
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => _navigateToResult(success: true),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    side: const BorderSide(color: AppColors.primary),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Đã thanh toán — Kiểm tra kết quả',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
             ),
           ),
         ],

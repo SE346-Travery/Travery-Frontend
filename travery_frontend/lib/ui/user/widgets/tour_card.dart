@@ -201,15 +201,22 @@ class TourCard extends StatelessWidget {
   }
 
   String _formatDuration(int days) {
-    if (days == 1) return '1 Ngày';
+    if (days == 1) return '1N';
     final nightCount = days - 1;
-    if (nightCount == 1) return '1 Đêm';
-    return '$days Ngày $nightCount Đêm';
+    if (nightCount == 0) return '${days}N';
+    if (days == 1 && nightCount > 0) return '${nightCount}Đ';
+    return '${days}N${nightCount}Đ';
   }
 
   String _formatPrice(double price) {
-    if (price >= 1000000) {
-      return '${(price / 1000000).toStringAsFixed(price % 1000000 == 0 ? 0 : 1)}trđ';
+    if (price >= 1000) {
+      final formatted = price
+          .toStringAsFixed(0)
+          .replaceAllMapped(
+            RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+            (Match m) => '${m[1]}.',
+          );
+      return '$formattedđ';
     }
     return '${price.toStringAsFixed(0)}đ';
   }

@@ -25,6 +25,7 @@ import 'package:travery_frontend/data/repositories/tour_progress_repository_impl
 import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 
 import 'package:travery_frontend/ui/user/home/view_models/home_view_model.dart';
+import 'package:travery_frontend/ui/user/providers/user_info_provider.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/detail/view_models/tour_detail_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/booking_input/view_models/booking_input_view_model.dart';
@@ -53,6 +54,10 @@ List<SingleChildWidget> get providers => [
               securityStorageService: context.read(),
             )
             as AuthRepository,
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        UserInfoProvider(storage: context.read<SecurityStorageService>()),
   ),
   Provider<TourService>(
     create: (context) => TourServiceImpl(

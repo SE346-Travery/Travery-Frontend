@@ -21,15 +21,6 @@ DateTime? _tryParseDob(String value) {
   return DateTime(year, month, day);
 }
 
-int _calcAge(DateTime dob) {
-  final now = DateTime.now();
-  int age = now.year - dob.year;
-  if (now.month < dob.month || (now.month == dob.month && now.day < dob.day)) {
-    age--;
-  }
-  return age;
-}
-
 String? Function(String?) _nameValidator() {
   return (value) {
     if (value == null || value.trim().isEmpty) return 'Vui lòng nhập họ và tên';
@@ -40,25 +31,19 @@ String? Function(String?) _nameValidator() {
 
 String? Function(String?) _identityValidator() {
   return (value) {
-    if (value == null || value.trim().isEmpty)
-      return 'Vui lòng nhập số CCCD/Hộ chiếu';
-    if (!RegExp(r'^\d{9,12}$').hasMatch(value.trim())) {
-      return 'Số CCCD phải từ 9 đến 12 chữ số';
+    if (value == null || value.trim().isEmpty) return 'Vui lòng nhập số CCCD';
+    if (!RegExp(r'^\d{12}$').hasMatch(value.trim())) {
+      return 'Số CCCD phải đủ 12 chữ số';
     }
     return null;
   };
 }
 
-String? Function(String?) _dobValidator(bool isAdult) {
+String? Function(String?) _dobValidator() {
   return (value) {
     if (value == null || value.trim().isEmpty) {
       return 'Vui lòng nhập ngày sinh';
     }
-    final dob = _tryParseDob(value.trim());
-    if (dob == null) return 'Định dạng: DD/MM/YYYY';
-    final age = _calcAge(dob);
-    if (isAdult && age < 10) return 'Người lớn phải từ 10 tuổi trở lên';
-    if (!isAdult && age >= 10) return 'Trẻ em phải dưới 10 tuổi';
     return null;
   };
 }
@@ -555,15 +540,15 @@ class _MemberCard extends StatelessWidget {
                   color: AppColors.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.person,
+                child: Icon(
+                  isAdult ? Icons.person : Icons.child_care,
                   size: 18,
                   color: AppColors.primary,
                 ),
               ),
               const SizedBox(width: 12),
               Text(
-                'Hành khách ${index + 1} (${isAdult ? 'Người lớn' : 'Trẻ em'})',
+                'Hành khách ${index + 1}',
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
@@ -582,7 +567,7 @@ class _MemberCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _InputField(
-            label: 'Số CCCD/Hộ chiếu *',
+            label: 'Số CCCD *',
             controller: identityController,
             hint: 'VD: 012345678901',
             keyboardType: TextInputType.number,
@@ -593,9 +578,8 @@ class _MemberCard extends StatelessWidget {
           _DatePickerFormField(
             label: 'Ngày sinh *',
             controller: dobController,
-            isAdult: isAdult,
             onChanged: (_) => onChanged(),
-            validator: _dobValidator(isAdult),
+            validator: _dobValidator(),
           ),
         ],
       ),
@@ -672,7 +656,6 @@ class _DatePickerFormField extends FormField<String> {
   _DatePickerFormField({
     required String label,
     required TextEditingController? controller,
-    required bool isAdult,
     required ValueChanged<String> onChanged,
     String? Function(String?)? validator,
   }) : super(
@@ -694,21 +677,11 @@ class _DatePickerFormField extends FormField<String> {
                  onTap: () async {
                    final now = DateTime.now();
                    final initial = _tryParseDob(controller?.text ?? '');
-                   final eighteenYearsAgo = DateTime(
-                     now.year - 18,
-                     now.month,
-                     now.day,
-                   );
-                   final maxDate = isAdult
-                       ? eighteenYearsAgo
-                       : DateTime(now.year - 1, now.month, now.day);
-                   final minDate = DateTime(now.year - 100, now.month, now.day);
-
                    final picked = await showDatePicker(
                      context: state.context,
-                     initialDate: initial ?? maxDate,
-                     firstDate: minDate,
-                     lastDate: maxDate,
+                     initialDate: initial ?? DateTime(2000),
+                     firstDate: DateTime(1900),
+                     lastDate: now,
                      helpText: 'Chọn ngày sinh',
                      cancelText: 'Hủy',
                      confirmText: 'Xác nhận',

@@ -263,7 +263,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                             child: PriceCard(
                               label: 'Trẻ em',
                               price: tour.pricePerChild,
-                              subtitle: 'Từ 10 tuổi trở xuống',
+                              subtitle: 'Từ 11 tuổi trở xuống',
                             ),
                           ),
                         ],

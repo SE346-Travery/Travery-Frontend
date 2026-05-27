@@ -342,13 +342,14 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
     CancelBookingViewModel vm,
   ) async {
     final booking = widget.bookingDetail ?? vm.bookingDetail;
+    final navigator = GoRouter.of(context);
     final success = await vm.submitCancellation(widget.bookingId);
 
     if (!mounted) return;
 
     if (success) {
       final cancelData = vm.cancelData;
-      context.pushReplacement(
+      navigator.pushReplacement(
         Routes.cancellationSuccess,
         extra: {
           'bookingId': widget.bookingId,

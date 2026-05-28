@@ -48,6 +48,8 @@ class TourServiceImpl implements TourService {
     int? minRating,
     DateTime? startDate,
     String? destinationId,
+    String? sortBy,
+    String? sortDir,
     int page = 0,
     int size = 20,
   }) async {
@@ -70,6 +72,9 @@ class TourServiceImpl implements TourService {
       }
       if (destinationId != null && destinationId.isNotEmpty) {
         queryParams['destinationId'] = destinationId;
+      }
+      if (sortBy != null && sortBy.isNotEmpty && sortDir != null) {
+        queryParams['sort'] = '$sortBy,$sortDir';
       }
 
       final request = await client.getUrl(

@@ -83,9 +83,9 @@ class _TourListScreenState extends State<TourListScreen> {
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
             child: DraggableScrollableSheet(
-              initialChildSize: 0.72,
+              initialChildSize: 0.7,
               minChildSize: 0.4,
-              maxChildSize: 0.9,
+              maxChildSize: 0.95,
               expand: false,
               builder: (_, scrollController) => ListView(
                 controller: scrollController,

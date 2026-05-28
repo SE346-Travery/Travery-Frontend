@@ -27,10 +27,13 @@ class TourListViewModel extends ChangeNotifier {
 
   // Filter state
   String _keyword = '';
+  String? _destinationId;
   double? _minPrice;
   double? _maxPrice;
   int? _minRating;
   DateTime? _startDate;
+  String? _sortBy;
+  String? _sortDir;
   int _currentPage = 0;
   static const int _pageSize = 20;
 
@@ -40,10 +43,13 @@ class TourListViewModel extends ChangeNotifier {
 
   // Getters for filter state
   String get keyword => _keyword;
+  String? get destinationId => _destinationId;
   double? get minPrice => _minPrice;
   double? get maxPrice => _maxPrice;
   int? get minRating => _minRating;
   DateTime? get startDate => _startDate;
+  String? get sortBy => _sortBy;
+  String? get sortDir => _sortDir;
 
   bool get hasActiveFilters =>
       _minPrice != null ||
@@ -57,27 +63,40 @@ class TourListViewModel extends ChangeNotifier {
   }
 
   void setFilters({
+    String? destinationId,
     double? minPrice,
     double? maxPrice,
     int? minRating,
     DateTime? startDate,
+    String? sortBy,
+    String? sortDir,
+    bool clearDestinationId = false,
     bool clearMinPrice = false,
     bool clearMaxPrice = false,
     bool clearMinRating = false,
     bool clearStartDate = false,
+    bool clearSort = false,
   }) {
+    _destinationId = clearDestinationId
+        ? null
+        : (destinationId ?? _destinationId);
     _minPrice = clearMinPrice ? null : (minPrice ?? _minPrice);
     _maxPrice = clearMaxPrice ? null : (maxPrice ?? _maxPrice);
     _minRating = clearMinRating ? null : (minRating ?? _minRating);
     _startDate = clearStartDate ? null : (startDate ?? _startDate);
+    _sortBy = clearSort ? null : (sortBy ?? _sortBy);
+    _sortDir = clearSort ? null : (sortDir ?? _sortDir);
     notifyListeners();
   }
 
   void clearAllFilters() {
+    _destinationId = null;
     _minPrice = null;
     _maxPrice = null;
     _minRating = null;
     _startDate = null;
+    _sortBy = null;
+    _sortDir = null;
     notifyListeners();
   }
 
@@ -106,10 +125,13 @@ class TourListViewModel extends ChangeNotifier {
 
   Future<void> loadTours({
     String? keyword,
+    String? destinationId,
     double? minPrice,
     double? maxPrice,
     int? minRating,
     DateTime? startDate,
+    String? sortBy,
+    String? sortDir,
     bool refresh = false,
   }) async {
     if (refresh) {
@@ -119,10 +141,13 @@ class TourListViewModel extends ChangeNotifier {
     }
 
     _keyword = keyword ?? _keyword;
+    _destinationId = destinationId ?? _destinationId;
     _minPrice = minPrice ?? _minPrice;
     _maxPrice = maxPrice ?? _maxPrice;
     _minRating = minRating ?? _minRating;
     _startDate = startDate ?? _startDate;
+    _sortBy = sortBy ?? _sortBy;
+    _sortDir = sortDir ?? _sortDir;
 
     if (_isLoading) return;
 
@@ -132,10 +157,13 @@ class TourListViewModel extends ChangeNotifier {
 
     final result = await _tourService.searchTours(
       keyword: _keyword.isNotEmpty ? _keyword : null,
+      destinationId: _destinationId,
       minPrice: _minPrice,
       maxPrice: _maxPrice,
       minRating: _minRating,
       startDate: _startDate,
+      sortBy: _sortBy,
+      sortDir: _sortDir,
       page: _currentPage,
       size: _pageSize,
     );
@@ -161,10 +189,13 @@ class TourListViewModel extends ChangeNotifier {
     _currentPage++;
     final result = await _tourService.searchTours(
       keyword: _keyword.isNotEmpty ? _keyword : null,
+      destinationId: _destinationId,
       minPrice: _minPrice,
       maxPrice: _maxPrice,
       minRating: _minRating,
       startDate: _startDate,
+      sortBy: _sortBy,
+      sortDir: _sortDir,
       page: _currentPage,
       size: _pageSize,
     );

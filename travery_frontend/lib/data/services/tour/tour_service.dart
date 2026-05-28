@@ -17,6 +17,8 @@ abstract class TourService {
     int? minRating,
     DateTime? startDate,
     String? destinationId,
+    String? sortBy,
+    String? sortDir,
     int page = 0,
     int size = 20,
   });

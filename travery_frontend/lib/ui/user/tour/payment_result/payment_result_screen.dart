@@ -6,7 +6,6 @@ import 'package:travery_frontend/data/services/deep_link_service.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/payment_result/view_models/payment_result_view_model.dart';
-import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class PaymentResultScreen extends StatefulWidget {
   const PaymentResultScreen({
@@ -182,11 +181,8 @@ class _PaymentResultScreenState extends State<PaymentResultScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.go(
-                    Routes.bookingDetail.replaceFirst(
-                      ':id',
-                      vm.bookingData?.id ?? '',
-                    ),
+                  context.push(
+                    Routes.bookingDetailScreen,
                     extra: {'bookingId': vm.bookingData?.id ?? ''},
                   );
                 },
@@ -422,8 +418,7 @@ class _SuccessUI extends StatelessWidget {
               children: [
                 _InfoItem(
                   label: 'Mã đặt chỗ',
-                  value:
-                      '#${(booking.id as String).substring(0, 8).toUpperCase()}',
+                  value: '#${_shortCode(booking.id as String)}',
                 ),
                 const Divider(height: 24),
                 _InfoItem(
@@ -443,6 +438,13 @@ class _SuccessUI extends StatelessWidget {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  }
+
+  String _shortCode(String id) {
+    final clean = id.replaceAll('-', '');
+    return clean.length >= 8
+        ? clean.substring(0, 8).toUpperCase()
+        : clean.toUpperCase();
   }
 }
 

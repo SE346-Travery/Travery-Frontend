@@ -41,6 +41,9 @@ _$TourBookingDataImpl _$$TourBookingDataImplFromJson(
   payment: json['payment'] == null
       ? null
       : PaymentData.fromJson(json['payment'] as Map<String, dynamic>),
+  paymentMethod: json['paymentMethod'] as String? ?? '',
+  paymentStatus: json['paymentStatus'] as String? ?? '',
+  transactionId: json['transactionId'] as String? ?? '',
 );
 
 Map<String, dynamic> _$$TourBookingDataImplToJson(
@@ -60,6 +63,9 @@ Map<String, dynamic> _$$TourBookingDataImplToJson(
   'endDate': instance.endDate,
   'members': instance.members,
   'payment': instance.payment,
+  'paymentMethod': instance.paymentMethod,
+  'paymentStatus': instance.paymentStatus,
+  'transactionId': instance.transactionId,
 };
 
 _$BookingMemberDataImpl _$$BookingMemberDataImplFromJson(

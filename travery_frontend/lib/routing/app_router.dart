@@ -334,6 +334,8 @@ GoRouter appRouter(
             tourId: tourId,
             instanceId: instanceId,
             tourName: tourName,
+            destinationName: extra?['destinationName'] as String? ?? '',
+            // 'startLocation': extra?['startLocation'] as String? ?? '',
             pricePerAdult: pricePerAdult,
             pricePerChild: pricePerChild,
             startDate: extra?['startDate'] as String?,
@@ -350,6 +352,8 @@ GoRouter appRouter(
             tourId: extra['tourId'] as String,
             instanceId: extra['instanceId'] as String,
             tourName: extra['tourName'] as String,
+            destinationName: extra['destinationName'] as String? ?? '',
+            // startLocation: extra['startLocation'] as String? ?? '',
             tourImageUrl: extra['tourImageUrl'] as String?,
             members: extra['members'] as List<Map<String, dynamic>>,
             adultCount: extra['adultCount'] as int,
@@ -393,7 +397,9 @@ GoRouter appRouter(
       GoRoute(
         path: Routes.bookingDetailScreen,
         builder: (context, state) {
-          final bookingId = state.pathParameters['id'] ?? '';
+          final pathId = state.pathParameters['id'];
+          final extra = state.extra as Map<String, dynamic>?;
+          final bookingId = pathId ?? (extra?['bookingId'] as String?) ?? '';
           return BookingDetailScreen(
             viewModel: context.read<BookingDetailViewModel>(),
             bookingId: bookingId,
@@ -403,10 +409,13 @@ GoRouter appRouter(
       GoRoute(
         path: Routes.cancelConfirmation,
         builder: (context, state) {
-          final bookingId = state.pathParameters['id'] ?? '';
+          final pathId = state.pathParameters['id'];
+          final extra = state.extra as Map<String, dynamic>?;
+          final bookingId = pathId ?? (extra?['bookingId'] as String?) ?? '';
           return CancelBookingScreen(
             viewModel: context.read<CancelBookingViewModel>(),
             bookingId: bookingId,
+            bookingDetail: extra?['bookingDetail'],
           );
         },
       ),

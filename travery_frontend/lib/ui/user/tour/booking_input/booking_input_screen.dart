@@ -66,6 +66,8 @@ class BookingInputScreen extends StatefulWidget {
     required this.tourId,
     required this.instanceId,
     required this.tourName,
+    this.destinationName,
+    // this.startLocation,
     this.pricePerAdult,
     this.pricePerChild,
     this.startDate,
@@ -76,6 +78,8 @@ class BookingInputScreen extends StatefulWidget {
   final String tourId;
   final String instanceId;
   final String tourName;
+  final String? destinationName;
+  // final String? startLocation;
   final double? pricePerAdult;
   final double? pricePerChild;
   final String? startDate;
@@ -384,6 +388,8 @@ class _BookingInputScreenState extends State<BookingInputScreen> {
         'tourId': widget.tourId,
         'instanceId': widget.instanceId,
         'tourName': widget.tourName,
+        'destinationName': widget.destinationName ?? '',
+        // 'startLocation': widget.startLocation ?? '',
         'tourImageUrl': null,
         'members': widget.viewModel.members
             .map(

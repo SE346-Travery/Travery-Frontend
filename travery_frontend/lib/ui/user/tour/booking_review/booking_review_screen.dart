@@ -14,6 +14,8 @@ class BookingReviewScreen extends StatefulWidget {
     required this.tourId,
     required this.instanceId,
     required this.tourName,
+    this.destinationName,
+    // this.startLocation,
     required this.tourImageUrl,
     required this.members,
     required this.adultCount,
@@ -29,6 +31,8 @@ class BookingReviewScreen extends StatefulWidget {
   final String tourId;
   final String instanceId;
   final String tourName;
+  final String? destinationName;
+  // final String? startLocation;
   final String? tourImageUrl;
   final List<Map<String, dynamic>> members;
   final int adultCount;
@@ -97,6 +101,24 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                     height: 1.3,
                   ),
                 ),
+                if (widget.destinationName != null &&
+                    widget.destinationName!.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  _buildInfoRow(
+                    icon: Icons.location_on_outlined,
+                    label: 'Điểm đến',
+                    text: widget.destinationName!,
+                  ),
+                ],
+                // if (widget.startLocation != null &&
+                //     widget.startLocation!.isNotEmpty) ...[
+                //   const SizedBox(height: 6),
+                //   _buildInfoRow(
+                //     icon: Icons.flight_takeoff_outlined,
+                //     label: 'Điểm xuất phát',
+                //     text: widget.startLocation!,
+                //   ),
+                // ],
                 const SizedBox(height: 16),
                 if (widget.startDate.isNotEmpty) ...[
                   _buildInfoRow(
@@ -493,17 +515,33 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     );
   }
 
-  Widget _buildInfoRow({required IconData icon, required String text}) {
+  Widget _buildInfoRow({
+    required IconData icon,
+    required String text,
+    String? label,
+  }) {
     return Row(
       children: [
         Icon(icon, size: 20, color: AppColors.primary),
         const SizedBox(width: 8),
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF64748B),
+        if (label != null) ...[
+          Text(
+            '$label: ',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF64748B),
+            ),
+          ),
+        ],
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF64748B),
+            ),
           ),
         ),
       ],

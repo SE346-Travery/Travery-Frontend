@@ -191,7 +191,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       Row(
                         children: [
                           const Icon(
-                            Icons.flight_takeoff,
+                            Icons.trip_origin,
                             size: 14,
                             color: Color(0xFF414755),
                           ),
@@ -219,7 +219,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       Row(
                         children: [
                           const Icon(
-                            Icons.flight_land,
+                            Icons.location_on,
                             size: 14,
                             color: Color(0xFF414755),
                           ),
@@ -390,6 +390,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                             extra: {
                               'instanceId': _selectedInstance!.id,
                               'tourName': vm.tourDetail?.name ?? '',
+                              'destinationName':
+                                  vm.tourDetail?.destination?.name ?? '',
+                              // 'startLocation': vm.tourDetail?.startLocation ?? '',
                               'pricePerAdult':
                                   vm.tourDetail?.pricePerAdult ?? 0,
                               'pricePerChild':

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/booking_detail/view_models/booking_detail_view_model.dart';
 import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
@@ -162,8 +163,56 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         builder: (context, vm, _) {
           if (vm.bookingDetail == null) return const SizedBox.shrink();
           final status = vm.bookingDetail!.status;
-          if (status == 'CANCELLED' || status == 'PENDING') {
+          if (status == 'CANCELLED') {
             return const SizedBox.shrink();
+          }
+          if (status == 'PENDING') {
+            return Container(
+              padding: EdgeInsets.fromLTRB(
+                20,
+                16,
+                20,
+                MediaQuery.of(context).padding.bottom + 16,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 20,
+                    offset: const Offset(0, -4),
+                  ),
+                ],
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: vm.isCreatingPayment
+                      ? null
+                      : () => _onContinuePayment(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.payment, size: 18),
+                      SizedBox(width: 8),
+                      Text(
+                        'Tiếp tục thanh toán',
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           }
           final canCancel = vm.bookingDetail!.canCancel;
           return Container(
@@ -237,6 +286,28 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
           );
         },
       ),
+    );
+  }
+
+  void _onContinuePayment(BuildContext context) async {
+    final booking = widget.viewModel.bookingDetail;
+    if (booking == null) return;
+
+    final paymentData = await widget.viewModel.createPayment(booking.id);
+
+    if (!mounted || paymentData == null) return;
+    if (paymentData.paymentUrl.isEmpty) return;
+
+    context.push(
+      Routes.vnpayPayment,
+      extra: {
+        'bookingId': booking.id,
+        'paymentUrl': paymentData.paymentUrl,
+        'transactionId': paymentData.transactionId,
+        'amount': paymentData.amount,
+        'expiresAt': paymentData.expiresAt,
+        'tourName': booking.tourName,
+      },
     );
   }
 

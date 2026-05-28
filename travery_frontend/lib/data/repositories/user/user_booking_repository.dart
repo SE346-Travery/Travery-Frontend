@@ -5,6 +5,7 @@ import 'package:travery_frontend/config/app_config.dart';
 import 'package:travery_frontend/data/seed_models/booking_detail/booking_detail_model.dart';
 import 'package:travery_frontend/data/services/api/model/booking/cancel_booking_request/cancel_booking_request.dart';
 import 'package:travery_frontend/data/services/api/model/booking/cancel_booking_response/cancel_booking_response.dart';
+import 'package:travery_frontend/data/services/api/model/booking/create_payment_response/create_payment_response.dart';
 import 'package:travery_frontend/data/services/api/model/booking/user_booking_list_response/user_booking_list_response.dart';
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
@@ -85,6 +86,15 @@ class UserBookingRepository extends BookingService {
             paymentMethod: data['paymentMethod'] as String?,
             paymentStatus: data['paymentStatus'] as String?,
             transactionId: data['transactionId'] as String?,
+            paymentUrl:
+                (data['payment'] as Map<String, dynamic>?)?['paymentUrl']
+                    as String?,
+            paymentAmount:
+                ((data['payment'] as Map<String, dynamic>?)?['amount'] as num?)
+                    ?.toDouble(),
+            paymentExpiresAt:
+                (data['payment'] as Map<String, dynamic>?)?['expiresAt']
+                    as String?,
           ),
         );
       } else {
@@ -190,6 +200,42 @@ class UserBookingRepository extends BookingService {
         final errorMsg = await _extractErrorMessage(
           response,
           'Hủy booking thất bại',
+        );
+        return Result.error(HttpException(errorMsg));
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    } finally {
+      client.close();
+    }
+  }
+
+  @override
+  Future<Result<PaymentResponseData>> createPayment(String bookingId) async {
+    final client = HttpClient();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
+
+    try {
+      final requestObj = await client.postUrl(
+        Uri.https(AppConfig.baseUrl, '/api/v1/bookings/$bookingId/payments'),
+      );
+      requestObj.headers.set(
+        HttpHeaders.contentTypeHeader,
+        ContentType.json.value,
+      );
+      await _setBearerAuth(requestObj);
+
+      final response = await requestObj.close();
+
+      if (response.statusCode == 200) {
+        final stringData = await response.transform(utf8.decoder).join();
+        final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+        final data = jsonMap['data'] as Map<String, dynamic>?;
+        return Result.ok(PaymentResponseData.fromJson(data ?? {}));
+      } else {
+        final errorMsg = await _extractErrorMessage(
+          response,
+          'Tạo thanh toán thất bại',
         );
         return Result.error(HttpException(errorMsg));
       }

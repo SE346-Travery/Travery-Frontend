@@ -14,6 +14,9 @@ class BookingDetailModel {
   final String? paymentMethod;
   final String? paymentStatus;
   final String? transactionId;
+  final String? paymentUrl;
+  final double? paymentAmount;
+  final String? paymentExpiresAt;
 
   const BookingDetailModel({
     required this.id,
@@ -31,6 +34,9 @@ class BookingDetailModel {
     this.paymentMethod,
     this.paymentStatus,
     this.transactionId,
+    this.paymentUrl,
+    this.paymentAmount,
+    this.paymentExpiresAt,
   });
 
   int get guestCount => members.length;
@@ -45,6 +51,9 @@ class BookingDetailModel {
   }
 
   bool get canCancel => status == 'PENDING' || status == 'PAID';
+
+  bool get canRetryPayment =>
+      status == 'PENDING' && paymentUrl != null && paymentUrl!.isNotEmpty;
 }
 
 class BookingMember {

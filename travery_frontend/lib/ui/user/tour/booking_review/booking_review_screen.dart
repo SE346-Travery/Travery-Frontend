@@ -172,6 +172,17 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
                                   color: Color(0xFF64748B),
                                 ),
                               ),
+                              if (m['dateOfBirth'] != null &&
+                                  (m['dateOfBirth'] as String).isNotEmpty) ...[
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Ngày sinh: ${m['dateOfBirth']}',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF64748B),
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),
@@ -510,7 +521,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
     if (!mounted) return;
 
     if (!success) {
-      _showErrorDialog(context, vm.error ?? 'Có lỗi xảy ra khi đặt tour');
+      _showErrorDialog(context, vm.error ?? 'Error');
       return;
     }
 

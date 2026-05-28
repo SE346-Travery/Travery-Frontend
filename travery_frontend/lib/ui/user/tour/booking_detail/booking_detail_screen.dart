@@ -161,6 +161,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
       bottomNavigationBar: Consumer<BookingDetailViewModel>(
         builder: (context, vm, _) {
           if (vm.bookingDetail == null) return const SizedBox.shrink();
+          final status = vm.bookingDetail!.status;
+          if (status == 'CANCELLED' || status == 'PENDING') {
+            return const SizedBox.shrink();
+          }
           final canCancel = vm.bookingDetail!.canCancel;
           return Container(
             padding: EdgeInsets.fromLTRB(

@@ -61,7 +61,6 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              // Warning Section
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -100,7 +99,6 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
 
               const SizedBox(height: 20),
 
-              // Booking Info
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -149,7 +147,6 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
 
               const SizedBox(height: 20),
 
-              // Refund Info
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -212,12 +209,10 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
 
               const SizedBox(height: 20),
 
-              // Cancellation Policy
               const PolicySection(),
 
               const SizedBox(height: 24),
 
-              // Reason Input
               const Text(
                 'Lý do hủy *',
                 style: TextStyle(
@@ -341,6 +336,25 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
     BuildContext context,
     CancelBookingViewModel vm,
   ) async {
+    if (!vm.canSubmit) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.white, size: 20),
+              SizedBox(width: 8),
+              Text('Vui lòng nhập lý do hủy tour (ít nhất 3 ký tự)'),
+            ],
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          margin: const EdgeInsets.all(16),
+        ),
+      );
+      return;
+    }
+
     final booking = widget.bookingDetail ?? vm.bookingDetail;
     final navigator = GoRouter.of(context);
     final success = await vm.submitCancellation(widget.bookingId);
@@ -357,6 +371,22 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
           'refundAmount': cancelData?.refundAmount ?? 0,
           'refundPercentage': cancelData?.refundPercentage ?? 0,
         },
+      );
+    } else if (vm.error != null && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error_outline, color: Colors.white, size: 20),
+              const SizedBox(width: 8),
+              Expanded(child: Text(vm.error!)),
+            ],
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          margin: const EdgeInsets.all(16),
+        ),
       );
     }
   }

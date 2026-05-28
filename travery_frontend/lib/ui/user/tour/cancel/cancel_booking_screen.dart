@@ -341,7 +341,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
         SnackBar(
           content: const Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.white, size: 20),
+              Icon(Icons.warning_amber_rounded, color: Colors.white, size: 14),
               SizedBox(width: 8),
               Text('Vui lòng nhập lý do hủy tour (ít nhất 3 ký tự)'),
             ],
@@ -349,7 +349,7 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          margin: const EdgeInsets.all(16),
+          margin: const EdgeInsets.all(10),
         ),
       );
       return;

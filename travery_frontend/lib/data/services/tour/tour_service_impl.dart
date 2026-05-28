@@ -316,7 +316,7 @@ class TourServiceImpl implements TourService {
 
       final response = await requestObj.close();
 
-      if (response.statusCode == 200) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         final stringData = await response.transform(utf8.decoder).join();
         final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
         final data = CreatePaymentResponse.fromJson(jsonMap).data;
@@ -324,7 +324,7 @@ class TourServiceImpl implements TourService {
       } else {
         final errorMsg = await _extractErrorMessage(
           response,
-          'Tạo thanh toán thất bại',
+          'Tạo thanh toán thất bại (${response.statusCode})',
         );
         return Result.error(HttpException(errorMsg));
       }

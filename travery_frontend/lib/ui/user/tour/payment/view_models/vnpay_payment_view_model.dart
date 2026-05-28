@@ -4,6 +4,20 @@ import 'package:travery_frontend/utils/core_result.dart';
 
 enum CheckResult { paid, pending, failed, error }
 
+class PaymentData {
+  final String paymentUrl;
+  final String transactionId;
+  final double amount;
+  final String? expiresAt;
+
+  PaymentData({
+    required this.paymentUrl,
+    required this.transactionId,
+    required this.amount,
+    this.expiresAt,
+  });
+}
+
 class VNPayPaymentViewModel extends ChangeNotifier {
   VNPayPaymentViewModel({required TourService tourService})
     : _tourService = tourService;
@@ -28,6 +42,31 @@ class VNPayPaymentViewModel extends ChangeNotifier {
         _isCreatingPayment = false;
         notifyListeners();
         return data.paymentUrl;
+      case Error(error: final e):
+        _error = e.toString();
+        _isCreatingPayment = false;
+        notifyListeners();
+        return null;
+    }
+  }
+
+  Future<PaymentData?> createPaymentData(String bookingId) async {
+    _isCreatingPayment = true;
+    _error = null;
+    notifyListeners();
+
+    final result = await _tourService.createPayment(bookingId);
+
+    switch (result) {
+      case Ok(value: final data):
+        _isCreatingPayment = false;
+        notifyListeners();
+        return PaymentData(
+          paymentUrl: data.paymentUrl,
+          transactionId: data.transactionId,
+          amount: data.amount,
+          expiresAt: data.expiresAt,
+        );
       case Error(error: final e):
         _error = e.toString();
         _isCreatingPayment = false;

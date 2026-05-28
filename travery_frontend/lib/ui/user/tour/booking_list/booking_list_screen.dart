@@ -6,6 +6,7 @@ import 'package:travery_frontend/ui/user/tour/booking_list/view_models/booking_l
 import 'package:travery_frontend/ui/user/widgets/empty_state.dart';
 import 'package:travery_frontend/ui/user/widgets/error_state.dart';
 import 'package:travery_frontend/ui/user/tour/widgets/booking_card.dart';
+import 'package:travery_frontend/ui/user/tour/payment/view_models/vnpay_payment_view_model.dart';
 
 class BookingListScreen extends StatefulWidget {
   const BookingListScreen({super.key});
@@ -21,6 +22,76 @@ class _BookingListScreenState extends State<BookingListScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<BookingListViewModel>().loadBookings();
     });
+  }
+
+  Future<void> _handleBookingTap(booking) async {
+    debugPrint('=== _handleBookingTap - status: ${booking.status}');
+    if (booking.status != 'PENDING') {
+      context.push(
+        Routes.bookingDetailScreen,
+        extra: {'bookingId': booking.id},
+      );
+    }
+  }
+
+  Future<void> _handlePaymentTap(booking) async {
+    debugPrint('=== _handlePaymentTap called for booking: ${booking.id}');
+
+    // Create new payment for PENDING booking
+    final vm = context.read<VNPayPaymentViewModel>();
+    debugPrint('=== VNPayPaymentViewModel obtained');
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => const Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Đang tạo liên kết thanh toán...'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    debugPrint('=== Calling createPaymentData with bookingId: ${booking.id}');
+    final paymentData = await vm.createPaymentData(booking.id);
+    debugPrint('=== createPaymentData result: $paymentData');
+
+    if (!mounted) return;
+    Navigator.pop(context);
+
+    if (paymentData != null) {
+      debugPrint('=== Navigating to VNPayPaymentScreen');
+      context.push(
+        Routes.vnpayPayment,
+        extra: {
+          'bookingId': booking.id,
+          'paymentUrl': paymentData.paymentUrl,
+          'transactionId': paymentData.transactionId,
+          'amount': paymentData.amount,
+          'expiresAt': paymentData.expiresAt,
+          'tourName': booking.tourName,
+        },
+      );
+    } else {
+      debugPrint('=== Payment failed, showing error: ${vm.error}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Lỗi: ${vm.error ?? 'Không thể tạo liên kết thanh toán'}',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -125,10 +196,10 @@ class _BookingListScreenState extends State<BookingListScreen> {
                                       statusLabel: vm.getStatusLabel(
                                         booking.status,
                                       ),
-                                      onTap: () => context.push(
-                                        Routes.bookingDetailScreen,
-                                        extra: {'bookingId': booking.id},
-                                      ),
+                                      onTap: () => _handleBookingTap(booking),
+                                      onPaymentTap: booking.status == 'PENDING'
+                                          ? () => _handlePaymentTap(booking)
+                                          : null,
                                     );
                                   },
                                 ),
@@ -149,6 +220,8 @@ class _BookingListScreenState extends State<BookingListScreen> {
     switch (filter) {
       case 'Tất cả':
         return 'Tất cả';
+      case 'PENDING':
+        return 'Đang chờ';
       case 'PAID':
         return 'Đã thanh toán';
       case 'CANCELLED':

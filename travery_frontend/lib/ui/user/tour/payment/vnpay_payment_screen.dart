@@ -24,7 +24,7 @@ class VNPayPaymentScreen extends StatefulWidget {
   final String paymentUrl;
   final String transactionId;
   final double amount;
-  final String tourName;
+  final String? tourName;
   final String? expiresAt;
 
   @override
@@ -190,7 +190,7 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    widget.tourName,
+                    widget.tourName ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(

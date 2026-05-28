@@ -6,7 +6,6 @@ import 'package:travery_frontend/data/services/deep_link_service.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/tour/payment_result/view_models/payment_result_view_model.dart';
-import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class PaymentResultScreen extends StatefulWidget {
   const PaymentResultScreen({

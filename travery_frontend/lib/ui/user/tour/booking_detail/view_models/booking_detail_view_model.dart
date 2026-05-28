@@ -63,4 +63,10 @@ class BookingDetailViewModel extends ChangeNotifier {
         return null;
     }
   }
+
+  Future<void> refreshBookingDetail() async {
+    if (_bookingDetail != null) {
+      await loadBookingDetail(_bookingDetail!.id);
+    }
+  }
 }

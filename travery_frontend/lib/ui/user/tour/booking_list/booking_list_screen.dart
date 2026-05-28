@@ -149,8 +149,6 @@ class _BookingListScreenState extends State<BookingListScreen> {
     switch (filter) {
       case 'Tất cả':
         return 'Tất cả';
-      case 'PENDING':
-        return 'Đang chờ';
       case 'PAID':
         return 'Đã thanh toán';
       case 'CANCELLED':

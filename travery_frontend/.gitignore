@@ -46,6 +46,7 @@ app.*.map.json
 
 # Custom ignores
 
+Model_documentation
 Travery API Documentation.md
 config.json
 deeplink-integration.md

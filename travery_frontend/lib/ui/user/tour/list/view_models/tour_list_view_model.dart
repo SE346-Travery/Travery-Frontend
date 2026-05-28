@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/models/tour/tour_search_item.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
@@ -26,7 +27,6 @@ class TourListViewModel extends ChangeNotifier {
 
   // Filter state
   String _keyword = '';
-  String? _destinationId;
   double? _minPrice;
   double? _maxPrice;
   int? _minRating;
@@ -34,16 +34,18 @@ class TourListViewModel extends ChangeNotifier {
   int _currentPage = 0;
   static const int _pageSize = 20;
 
+  // Debounce timer for search
+  Timer? _debounceTimer;
+  static const Duration _debounceDuration = Duration(milliseconds: 500);
+
   // Getters for filter state
   String get keyword => _keyword;
-  String? get destinationId => _destinationId;
   double? get minPrice => _minPrice;
   double? get maxPrice => _maxPrice;
   int? get minRating => _minRating;
   DateTime? get startDate => _startDate;
 
   bool get hasActiveFilters =>
-      _destinationId != null ||
       _minPrice != null ||
       _maxPrice != null ||
       _minRating != null ||
@@ -55,20 +57,15 @@ class TourListViewModel extends ChangeNotifier {
   }
 
   void setFilters({
-    String? destinationId,
     double? minPrice,
     double? maxPrice,
     int? minRating,
     DateTime? startDate,
-    bool clearDestinationId = false,
     bool clearMinPrice = false,
     bool clearMaxPrice = false,
     bool clearMinRating = false,
     bool clearStartDate = false,
   }) {
-    _destinationId = clearDestinationId
-        ? null
-        : (destinationId ?? _destinationId);
     _minPrice = clearMinPrice ? null : (minPrice ?? _minPrice);
     _maxPrice = clearMaxPrice ? null : (maxPrice ?? _maxPrice);
     _minRating = clearMinRating ? null : (minRating ?? _minRating);
@@ -77,7 +74,6 @@ class TourListViewModel extends ChangeNotifier {
   }
 
   void clearAllFilters() {
-    _destinationId = null;
     _minPrice = null;
     _maxPrice = null;
     _minRating = null;
@@ -85,9 +81,31 @@ class TourListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Set keyword with debounce support
+  void setKeywordDebounced(String value) {
+    _keyword = value;
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(_debounceDuration, () {
+      loadTours(keyword: value, refresh: true);
+    });
+    notifyListeners();
+  }
+
+  /// Immediate search without debounce
+  void setKeywordImmediate(String value) {
+    _keyword = value;
+    _debounceTimer?.cancel();
+    notifyListeners();
+  }
+
+  /// Perform immediate search
+  void searchNow() {
+    _debounceTimer?.cancel();
+    loadTours(keyword: _keyword, refresh: true);
+  }
+
   Future<void> loadTours({
     String? keyword,
-    String? destinationId,
     double? minPrice,
     double? maxPrice,
     int? minRating,
@@ -101,7 +119,6 @@ class TourListViewModel extends ChangeNotifier {
     }
 
     _keyword = keyword ?? _keyword;
-    _destinationId = destinationId ?? _destinationId;
     _minPrice = minPrice ?? _minPrice;
     _maxPrice = maxPrice ?? _maxPrice;
     _minRating = minRating ?? _minRating;
@@ -115,7 +132,6 @@ class TourListViewModel extends ChangeNotifier {
 
     final result = await _tourService.searchTours(
       keyword: _keyword.isNotEmpty ? _keyword : null,
-      destinationId: _destinationId,
       minPrice: _minPrice,
       maxPrice: _maxPrice,
       minRating: _minRating,
@@ -145,7 +161,6 @@ class TourListViewModel extends ChangeNotifier {
     _currentPage++;
     final result = await _tourService.searchTours(
       keyword: _keyword.isNotEmpty ? _keyword : null,
-      destinationId: _destinationId,
       minPrice: _minPrice,
       maxPrice: _maxPrice,
       minRating: _minRating,
@@ -165,5 +180,11 @@ class TourListViewModel extends ChangeNotifier {
 
     _isLoadingMore = false;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    super.dispose();
   }
 }

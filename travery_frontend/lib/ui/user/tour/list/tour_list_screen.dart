@@ -10,16 +10,10 @@ import 'package:travery_frontend/ui/user/widgets/error_state.dart';
 import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class TourListScreen extends StatefulWidget {
-  const TourListScreen({
-    super.key,
-    required this.viewModel,
-    this.keyword,
-    this.destinationId,
-  });
+  const TourListScreen({super.key, required this.viewModel, this.keyword});
 
   final TourListViewModel viewModel;
   final String? keyword;
-  final String? destinationId;
 
   @override
   State<TourListScreen> createState() => _TourListScreenState();
@@ -35,10 +29,7 @@ class _TourListScreenState extends State<TourListScreen> {
     super.initState();
     _searchController.text = widget.keyword ?? '';
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.viewModel.loadTours(
-        keyword: widget.keyword,
-        destinationId: widget.destinationId,
-      );
+      widget.viewModel.loadTours(keyword: widget.keyword);
     });
     _scrollController.addListener(_onScroll);
   }
@@ -58,15 +49,19 @@ class _TourListScreenState extends State<TourListScreen> {
     }
   }
 
-  void _onSearch(String value) {
-    widget.viewModel.loadTours(keyword: value, refresh: true);
+  void _onSearchChanged(String value) {
+    widget.viewModel.setKeywordDebounced(value);
+  }
+
+  void _onSubmitSearch(String value) {
+    widget.viewModel.searchNow();
   }
 
   void _clearSearch() {
     _searchController.clear();
     _searchFocus.unfocus();
-    widget.viewModel.setKeyword('');
-    widget.viewModel.loadTours(keyword: '', refresh: true);
+    widget.viewModel.setKeywordImmediate('');
+    widget.viewModel.searchNow();
   }
 
   void _showFilterSheet(BuildContext context) {
@@ -74,7 +69,6 @@ class _TourListScreenState extends State<TourListScreen> {
     double? tempMinPrice;
     double? tempMaxPrice;
     int? tempMinRating;
-    String? tempDestinationId;
     DateTime? tempStartDate;
 
     showModalBottomSheet(
@@ -125,7 +119,6 @@ class _TourListScreenState extends State<TourListScreen> {
                             tempMinPrice = null;
                             tempMaxPrice = null;
                             tempMinRating = null;
-                            tempDestinationId = null;
                             tempStartDate = null;
                           });
                         },
@@ -139,57 +132,6 @@ class _TourListScreenState extends State<TourListScreen> {
                         ),
                       ),
                     ],
-                  ),
-
-                  // Destination filter
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Điểm đến',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF131B2E),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: kPopularDestinations.map((dest) {
-                      final selected = tempDestinationId == dest.id;
-                      return FilterChip(
-                        label: Text(dest.name),
-                        selected: selected,
-                        onSelected: (_) {
-                          setSheetState(() {
-                            tempDestinationId = selected ? null : dest.id;
-                          });
-                        },
-                        selectedColor: AppColors.primary.withValues(
-                          alpha: 0.15,
-                        ),
-                        checkmarkColor: AppColors.primary,
-                        labelStyle: TextStyle(
-                          fontSize: 13,
-                          color: selected
-                              ? AppColors.primary
-                              : const Color(0xFF414755),
-                          fontWeight: selected
-                              ? FontWeight.w600
-                              : FontWeight.w500,
-                        ),
-                        backgroundColor: const Color(0xFFF2F3FF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                            color: selected
-                                ? AppColors.primary
-                                : Colors.transparent,
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                      );
-                    }).toList(),
                   ),
 
                   // Price filter
@@ -272,14 +214,12 @@ class _TourListScreenState extends State<TourListScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(opt.label),
-                            if (opt.minRating != null) ...[
-                              const SizedBox(width: 2),
-                              const Icon(
-                                Icons.star,
-                                size: 14,
-                                color: Colors.orange,
-                              ),
-                            ],
+                            const SizedBox(width: 2),
+                            const Icon(
+                              Icons.star,
+                              size: 14,
+                              color: Colors.orange,
+                            ),
                           ],
                         ),
                         selected: selected,
@@ -373,14 +313,10 @@ class _TourListScreenState extends State<TourListScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         vm.setFilters(
-                          destinationId: tempDestinationId,
                           minPrice: tempMinPrice,
                           maxPrice: tempMaxPrice,
                           minRating: tempMinRating,
                           startDate: tempStartDate,
-                          clearDestinationId:
-                              tempDestinationId == null &&
-                              vm.destinationId != null,
                           clearMinPrice:
                               tempMinPrice == null && vm.minPrice != null,
                           clearMaxPrice:
@@ -391,7 +327,6 @@ class _TourListScreenState extends State<TourListScreen> {
                               tempStartDate == null && vm.startDate != null,
                         );
                         vm.loadTours(
-                          destinationId: tempDestinationId,
                           minPrice: tempMinPrice,
                           maxPrice: tempMaxPrice,
                           minRating: tempMinRating,
@@ -467,7 +402,8 @@ class _TourListScreenState extends State<TourListScreen> {
                               ),
                             ),
                             textInputAction: TextInputAction.search,
-                            onSubmitted: _onSearch,
+                            onChanged: _onSearchChanged,
+                            onSubmitted: _onSubmitSearch,
                           ),
                         ),
                         if (_searchController.text.isNotEmpty)
@@ -534,19 +470,6 @@ class _TourListScreenState extends State<TourListScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      if (vm.destinationId != null)
-                        _FilterChip(
-                          label:
-                              kPopularDestinations
-                                  .where((d) => d.id == vm.destinationId)
-                                  .map((d) => d.name)
-                                  .firstOrNull ??
-                              'Điểm đến',
-                          onRemove: () {
-                            vm.setFilters(clearDestinationId: true);
-                            vm.loadTours(refresh: true);
-                          },
-                        ),
                       if (vm.minPrice != null || vm.maxPrice != null)
                         _FilterChip(
                           label: _priceLabel(vm.minPrice, vm.maxPrice),
@@ -610,11 +533,8 @@ class _TourListScreenState extends State<TourListScreen> {
                 if (vm.error != null) {
                   return ErrorState(
                     message: 'Không thể tải danh sách tour',
-                    onRetry: () => vm.loadTours(
-                      keyword: widget.keyword,
-                      destinationId: widget.destinationId,
-                      refresh: true,
-                    ),
+                    onRetry: () =>
+                        vm.loadTours(keyword: widget.keyword, refresh: true),
                   );
                 }
 
@@ -631,11 +551,8 @@ class _TourListScreenState extends State<TourListScreen> {
                 }
 
                 return RefreshIndicator(
-                  onRefresh: () => vm.loadTours(
-                    keyword: widget.keyword,
-                    destinationId: widget.destinationId,
-                    refresh: true,
-                  ),
+                  onRefresh: () =>
+                      vm.loadTours(keyword: widget.keyword, refresh: true),
                   child: ListView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.symmetric(horizontal: 16),

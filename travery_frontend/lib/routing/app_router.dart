@@ -302,11 +302,9 @@ GoRouter appRouter(
         path: Routes.tourList,
         builder: (context, state) {
           final keyword = state.uri.queryParameters['keyword'];
-          final destinationId = state.uri.queryParameters['destinationId'];
           return TourListScreen(
             viewModel: context.read<TourListViewModel>(),
             keyword: keyword,
-            destinationId: destinationId,
           );
         },
       ),

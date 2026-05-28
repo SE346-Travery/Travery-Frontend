@@ -126,10 +126,8 @@ class _BookingListScreenState extends State<BookingListScreen> {
                                         booking.status,
                                       ),
                                       onTap: () => context.push(
-                                        Routes.bookingDetail.replaceFirst(
-                                          ':id',
-                                          booking.id,
-                                        ),
+                                        Routes.bookingDetailScreen,
+                                        extra: {'bookingId': booking.id},
                                       ),
                                     );
                                   },
@@ -151,8 +149,6 @@ class _BookingListScreenState extends State<BookingListScreen> {
     switch (filter) {
       case 'Tất cả':
         return 'Tất cả';
-      case 'PENDING':
-        return 'Đang chờ';
       case 'PAID':
         return 'Đã thanh toán';
       case 'CANCELLED':

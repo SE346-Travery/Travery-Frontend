@@ -2,13 +2,24 @@ import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_request/create_tour_booking_request.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
+import 'package:travery_frontend/ui/user/providers/user_info_provider.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class BookingReviewViewModel extends ChangeNotifier {
-  BookingReviewViewModel({required TourService tourService})
-    : _tourService = tourService;
+  BookingReviewViewModel({
+    required TourService tourService,
+    required UserInfoProvider userInfoProvider,
+  }) : _tourService = tourService,
+       _userInfoProvider = userInfoProvider {
+    _userInfoProvider.loadFromToken();
+  }
 
   final TourService _tourService;
+  final UserInfoProvider _userInfoProvider;
+
+  String? get userName => _userInfoProvider.name;
+  String? get userPhone => _userInfoProvider.phone;
+  String? get userEmail => _userInfoProvider.email;
 
   bool _isCreatingBooking = false;
   bool get isCreatingBooking => _isCreatingBooking;
@@ -62,11 +73,69 @@ class BookingReviewViewModel extends ChangeNotifier {
         notifyListeners();
         return true;
       case Error(error: final e):
-        _error = e.toString();
+        _error = _friendlyError(e.toString());
         _isCreatingBooking = false;
         notifyListeners();
         return false;
     }
+  }
+
+  String _friendlyError(String raw) {
+    final lower = raw.toLowerCase();
+
+    if (lower.contains('age') ||
+        lower.contains('12 tuổi') ||
+        lower.contains('11 tuổi') ||
+        lower.contains('adult') && lower.contains('child') ||
+        lower.contains('người lớn') && lower.contains('trẻ em') ||
+        lower.contains('độ tuổi') ||
+        lower.contains('invalid age') ||
+        lower.contains('member type')) {
+      return 'Người lớn phải từ 12 tuổi trở lên, trẻ em phải từ 11 tuổi trở xuống.';
+    }
+    if (lower.contains('slot') ||
+        lower.contains('full') ||
+        lower.contains('capacity')) {
+      return 'Tour đã hết chỗ trống. Vui lòng chọn ngày khác.';
+    }
+    if (lower.contains('member') || lower.contains('khách')) {
+      return 'Thông tin khách không hợp lệ. Vui lòng kiểm tra lại.';
+    }
+    if (lower.contains('auth') ||
+        lower.contains('token') ||
+        lower.contains('unauthorized')) {
+      return 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.';
+    }
+    if (lower.contains('network') ||
+        lower.contains('connection') ||
+        lower.contains('socket')) {
+      return 'Không có kết nối mạng. Vui lòng kiểm tra internet.';
+    }
+    if (lower.contains('timeout')) {
+      return 'Yêu cầu bị giới hạn thời gian. Vui lòng thử lại.';
+    }
+    if (lower.contains('instance') ||
+        lower.contains('not found') ||
+        lower.contains('không tìm thấy')) {
+      return 'Tour không tồn tại hoặc đã kết thúc.';
+    }
+    if (lower.contains('already') ||
+        lower.contains('duplicate') ||
+        lower.contains('đã tồn tại')) {
+      return 'Bạn đã đặt tour này rồi.';
+    }
+    if (lower.contains('closed') ||
+        lower.contains('booking') && lower.contains('close')) {
+      return 'Đặt tour đã bị đóng. Vui lòng chọn tour khác.';
+    }
+
+    // Strip generic prefixes like "Exception:" or "Error:"
+    var msg = raw.replaceAll(
+      RegExp(r'^(Exception|Error|ErrorCode)?[:\s]*', caseSensitive: false),
+      '',
+    );
+    if (msg.length > 100) msg = 'Có lỗi xảy ra. Vui lòng thử lại.';
+    return msg.isEmpty ? 'Có lỗi xảy ra. Vui lòng thử lại.' : msg;
   }
 
   CreateTourBookingRequest _buildRequest(

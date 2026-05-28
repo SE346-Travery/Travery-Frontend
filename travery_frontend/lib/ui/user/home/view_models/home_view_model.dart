@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:travery_frontend/config/app_config.dart';
 import 'package:travery_frontend/data/models/tour/tour_featured_response.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -18,6 +17,8 @@ class HomeViewModel extends ChangeNotifier {
 
   String? _error;
   String? get error => _error;
+
+  Future<void> refresh() => loadFeaturedTours();
 
   Future<void> loadFeaturedTours() async {
     _isLoading = true;

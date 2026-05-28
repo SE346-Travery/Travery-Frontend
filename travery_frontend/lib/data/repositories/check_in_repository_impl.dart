@@ -153,6 +153,7 @@ class CheckInRepositoryImpl implements CheckInRepository {
 
   @override
   Future<Result<CheckInPassenger>> updatePassengerStatus({
+    required String missionId,
     required String passengerId,
     required CheckInStatus status,
   }) async {
@@ -163,7 +164,7 @@ class CheckInRepositoryImpl implements CheckInRepository {
       final requestObj = await client.patchUrl(
         Uri.https(
           AppConfig.baseUrl,
-          '/api/v1/staff/guide/instances/TODO/attendance',
+          '/api/v1/staff/guide/instances/$missionId/attendance',
         ),
       );
       requestObj.headers.set(
@@ -172,8 +173,7 @@ class CheckInRepositoryImpl implements CheckInRepository {
       );
       await _setBearerAuth(requestObj);
 
-      // Map CheckInStatus to API attendance status
-      final attendanceStatus = switch (status) {
+      final apiStatus = switch (status) {
         CheckInStatus.arrived => 'CHECKED_IN',
         CheckInStatus.pending => 'NOT_CHECKED',
         CheckInStatus.noShow => 'NO_SHOW',
@@ -181,15 +181,29 @@ class CheckInRepositoryImpl implements CheckInRepository {
 
       requestObj.write(
         jsonEncode({
-          'passengerIds': [passengerId],
-          'status': attendanceStatus,
+          'attendances': [
+            {'memberId': passengerId, 'status': apiStatus},
+          ],
         }),
       );
 
       final response = await requestObj.close();
 
       if (response.statusCode == 200) {
-        // Return updated passenger with new status
+        final stringData = await response.transform(utf8.decoder).join();
+        final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+        final data = jsonMap['data'] as Map<String, dynamic>?;
+
+        if (data != null) {
+          final updatedPassenger = _findPassengerFromResponse(
+            data,
+            passengerId,
+          );
+          if (updatedPassenger != null) {
+            return Result.ok(updatedPassenger);
+          }
+        }
+
         return Result.ok(
           CheckInPassenger(
             id: passengerId,
@@ -199,7 +213,7 @@ class CheckInRepositoryImpl implements CheckInRepository {
             type: PassengerType.adult,
             status: status,
             bookingId: '',
-            missionId: '',
+            missionId: missionId,
           ),
         );
       } else {
@@ -219,11 +233,65 @@ class CheckInRepositoryImpl implements CheckInRepository {
   @override
   Future<Result<bool>> completeCheckIn({
     required String missionId,
-    required List<String> arrivedPassengerIds,
+    required List<MemberAttendance> attendances,
   }) async {
-    // Complete check-in is done via the attendance update endpoint
-    // All passengers are already marked, so just return success
-    return Result.ok(true);
+    final client = HttpClient();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
+
+    try {
+      final requestObj = await client.patchUrl(
+        Uri.https(
+          AppConfig.baseUrl,
+          '/api/v1/staff/guide/instances/$missionId/attendance',
+        ),
+      );
+      requestObj.headers.set(
+        HttpHeaders.contentTypeHeader,
+        ContentType.json.value,
+      );
+      await _setBearerAuth(requestObj);
+
+      requestObj.write(
+        jsonEncode({
+          'attendances': attendances.map((a) => a.toJson()).toList(),
+        }),
+      );
+
+      final response = await requestObj.close();
+
+      if (response.statusCode == 200) {
+        return Result.ok(true);
+      } else {
+        final errorMsg = await _extractErrorMessage(
+          response,
+          'Hoàn tất điểm danh thất bại',
+        );
+        return Result.error(HttpException(errorMsg));
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    } finally {
+      client.close();
+    }
+  }
+
+  CheckInPassenger? _findPassengerFromResponse(
+    Map<String, dynamic> data,
+    String passengerId,
+  ) {
+    final bookings = data['bookings'] as List<dynamic>? ?? [];
+    for (final booking in bookings) {
+      final members = booking['members'] as List<dynamic>? ?? [];
+      for (final member in members) {
+        if (member['id'] == passengerId) {
+          return _mapToCheckInPassenger(
+            member as Map<String, dynamic>,
+            data['id'] as String? ?? '',
+          );
+        }
+      }
+    }
+    return null;
   }
 
   CheckInPassenger _mapToCheckInPassenger(

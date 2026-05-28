@@ -30,12 +30,7 @@ class BookingListViewModel extends ChangeNotifier {
   int _currentPage = 0;
   static const int _pageSize = 20;
 
-  final List<String> _statusFilters = [
-    'Tất cả',
-    'PENDING',
-    'PAID',
-    'CANCELLED',
-  ];
+  final List<String> _statusFilters = ['Tất cả', 'PAID', 'CANCELLED'];
   List<String> get statusFilters => _statusFilters;
 
   Future<void> loadBookings({String? status, bool refresh = false}) async {
@@ -102,8 +97,6 @@ class BookingListViewModel extends ChangeNotifier {
 
   String getStatusLabel(String status) {
     switch (status) {
-      case 'PENDING':
-        return 'Đang chờ';
       case 'PAID':
         return 'Đã thanh toán';
       case 'CHECKED_IN':
@@ -119,8 +112,6 @@ class BookingListViewModel extends ChangeNotifier {
 
   String getStatusColor(String status) {
     switch (status) {
-      case 'PENDING':
-        return 'orange';
       case 'PAID':
         return 'green';
       case 'CANCELLED':

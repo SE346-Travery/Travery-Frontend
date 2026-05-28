@@ -8,7 +8,7 @@
 travery://payment-result
 ```
 
-## Query Parameters
+## Query Parameters 
 
 Backend cần gửi kèm khi redirect:
 

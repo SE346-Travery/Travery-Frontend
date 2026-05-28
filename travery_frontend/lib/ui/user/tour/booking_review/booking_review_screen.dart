@@ -593,7 +593,7 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              message,
+              'Người lớn phải từ 12 tuổi trở lên, trẻ em phải từ 11 tuổi trở xuống',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 14,

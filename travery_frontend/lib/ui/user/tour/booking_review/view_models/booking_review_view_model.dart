@@ -83,6 +83,16 @@ class BookingReviewViewModel extends ChangeNotifier {
   String _friendlyError(String raw) {
     final lower = raw.toLowerCase();
 
+    if (lower.contains('age') ||
+        lower.contains('12 tuổi') ||
+        lower.contains('11 tuổi') ||
+        lower.contains('adult') && lower.contains('child') ||
+        lower.contains('người lớn') && lower.contains('trẻ em') ||
+        lower.contains('độ tuổi') ||
+        lower.contains('invalid age') ||
+        lower.contains('member type')) {
+      return 'Người lớn phải từ 12 tuổi trở lên, trẻ em phải từ 11 tuổi trở xuống.';
+    }
     if (lower.contains('slot') ||
         lower.contains('full') ||
         lower.contains('capacity')) {

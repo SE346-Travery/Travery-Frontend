@@ -23,4 +23,9 @@ abstract class AuthRepository extends ChangeNotifier {
     required String confirmPassword,
     required String newPassword,
   });
+
+  /// Returns the role that was persisted during the last successful login,
+  /// or `null` if the user is not logged in (no token / role found).
+  Future<String?> getPersistedRole();
 }
+

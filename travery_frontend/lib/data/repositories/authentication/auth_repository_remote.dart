@@ -42,9 +42,10 @@ class AuthRepositoryRemote extends AuthRepository {
           await _securityStorageService.saveRefreshToken(
             result.value.refreshToken,
           );
-          // Decode role từ JWT access token
+          // Decode role từ JWT access token và persist
           final role =
               JwtUtils.extractRole(result.value.accessToken) ?? 'ROLE_TOURIST';
+          await _securityStorageService.saveUserRole(role);
           return Result.ok(role);
 
         case Error<LoginResponse>():
@@ -194,8 +195,7 @@ class AuthRepositoryRemote extends AuthRepository {
       );
       switch (result) {
         case Ok<void>():
-          await _securityStorageService.deleteAccessToken();
-          await _securityStorageService.deleteRefreshToken();
+          await _securityStorageService.deleteAllTokens();
           return const Result.ok(null);
 
         case Error<void>():
@@ -204,5 +204,32 @@ class AuthRepositoryRemote extends AuthRepository {
     } finally {
       notifyListeners();
     }
+  }
+
+  /// Reads the persisted role from secure storage.
+  ///
+  /// Returns null when:
+  /// - There is no stored access token (user never logged in or has logged out).
+  /// - The stored role key is missing (falls back to JWT decode).
+  @override
+  Future<String?> getPersistedRole() async {
+    // Guard: must have at least an access token or a refresh token.
+    final hasAccess = await _securityStorageService.isLoggedIn();
+    final refreshToken = await _securityStorageService.getRefreshToken();
+    final hasSession =
+        hasAccess || (refreshToken != null && refreshToken.isNotEmpty);
+    if (!hasSession) return null;
+
+    // Prefer the persisted role key (fastest, works even when token is expired).
+    final savedRole = await _securityStorageService.getUserRole();
+    if (savedRole != null && savedRole.isNotEmpty) return savedRole;
+
+    // Fallback: decode from live access token.
+    final accessToken = await _securityStorageService.getAccessToken();
+    if (accessToken != null && accessToken.isNotEmpty) {
+      return JwtUtils.extractRole(accessToken);
+    }
+
+    return null;
   }
 }

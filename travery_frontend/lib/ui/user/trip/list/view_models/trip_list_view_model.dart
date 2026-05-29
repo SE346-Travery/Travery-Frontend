@@ -72,6 +72,24 @@ class TripListViewModel extends ChangeNotifier {
     _searchTrips();
   }
 
+  void resetCoachType() {
+    _selectedCoachType = null;
+    notifyListeners();
+    _searchTrips();
+  }
+
+  void resetTimeSlot() {
+    _selectedTimeSlot = null;
+    notifyListeners();
+    _searchTrips();
+  }
+
+  void resetPriceSort() {
+    _priceSort = 0;
+    notifyListeners();
+    _searchTrips();
+  }
+
   Future<void> _searchTrips() async {
     if (_origin == null || _destination == null || _departureDate == null)
       return;

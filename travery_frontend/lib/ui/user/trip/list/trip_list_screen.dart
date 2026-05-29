@@ -51,7 +51,7 @@ class _TripListScreenState extends State<TripListScreen> {
           return Column(
             children: [
               _SearchInfoBar(vm: vm),
-              _FilterChips(),
+              _FilterChips(vm: vm),
               Expanded(
                 child: vm.isLoading
                     ? const Center(child: CircularProgressIndicator())
@@ -185,52 +185,67 @@ class _SearchInfoBar extends StatelessWidget {
 }
 
 class _FilterChips extends StatelessWidget {
-  const _FilterChips();
+  const _FilterChips({required this.vm});
+  final TripListViewModel vm;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TripListViewModel>(
-      builder: (context, vm, _) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
-          ),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _FilterChip(
-                  label: 'Giá',
-                  icon: Icons.arrow_downward,
-                  isActive: vm.priceSort != 0,
-                  isUp: vm.priceSort == 1,
-                  onTap: () => _showPriceFilter(context, vm),
-                ),
-                const SizedBox(width: 8),
-                _FilterChip(
-                  label: 'Ghế',
-                  icon: Icons.expand_more,
-                  isActive: vm.selectedCoachType != null,
-                  onTap: () => _showCoachFilter(context, vm),
-                ),
-                const SizedBox(width: 8),
-                _FilterChip(
-                  label: 'Giờ',
-                  icon: Icons.expand_more,
-                  isActive: vm.selectedTimeSlot != null,
-                  onTap: () => _showTimeFilter(context, vm),
-                ),
-              ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
+      ),
+      child: Row(
+        children: [
+          Expanded(child: _PriceChip(vm: vm)),
+          const SizedBox(width: 8),
+          Expanded(child: _CoachChip(vm: vm)),
+          const SizedBox(width: 8),
+          Expanded(child: _TimeChip(vm: vm)),
+        ],
+      ),
+    );
+  }
+}
+
+class _PriceChip extends StatelessWidget {
+  const _PriceChip({required this.vm});
+  final TripListViewModel vm;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasSort = vm.priceSort != 0;
+    final isUp = vm.priceSort == 1;
+    final label = !hasSort ? 'Giá' : (isUp ? 'Giá ↑' : 'Giá ↓');
+
+    return GestureDetector(
+      onTap: () => _showPriceSheet(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        decoration: BoxDecoration(
+          color: hasSort ? AppColors.primary : const Color(0xFFF2F3FF),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: hasSort ? Colors.white : const Color(0xFF414755),
+              ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 
-  void _showPriceFilter(BuildContext context, TripListViewModel vm) {
+  void _showPriceSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -240,8 +255,46 @@ class _FilterChips extends StatelessWidget {
       builder: (ctx) => _PriceFilterSheet(vm: vm),
     );
   }
+}
 
-  void _showCoachFilter(BuildContext context, TripListViewModel vm) {
+class _CoachChip extends StatelessWidget {
+  const _CoachChip({required this.vm});
+  final TripListViewModel vm;
+
+  @override
+  Widget build(BuildContext context) {
+    final selected = vm.selectedCoachType;
+    final label = selected == null ? 'Ghế' : selected.label;
+
+    return GestureDetector(
+      onTap: () => _showCoachSheet(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        decoration: BoxDecoration(
+          color: selected != null ? AppColors.primary : const Color(0xFFF2F3FF),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: selected != null
+                    ? Colors.white
+                    : const Color(0xFF414755),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showCoachSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -251,45 +304,41 @@ class _FilterChips extends StatelessWidget {
       builder: (ctx) => _CoachTypeFilterSheet(vm: vm),
     );
   }
-
-  void _showTimeFilter(BuildContext context, TripListViewModel vm) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => _TimeSlotFilterSheet(vm: vm),
-    );
-  }
 }
 
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({
-    required this.label,
-    required this.icon,
-    required this.isActive,
-    this.isUp = false,
-    required this.onTap,
-  });
-  final String label;
-  final IconData icon;
-  final bool isActive;
-  final bool isUp;
-  final VoidCallback onTap;
+class _TimeChip extends StatelessWidget {
+  const _TimeChip({required this.vm});
+  final TripListViewModel vm;
+
+  String _shortLabel(TimeSlot? slot) {
+    if (slot == null) return 'Giờ';
+    switch (slot) {
+      case TimeSlot.earlyMorning:
+        return 'Rạng sáng';
+      case TimeSlot.morning:
+        return 'Sáng';
+      case TimeSlot.afternoon:
+        return 'Chiều';
+      case TimeSlot.evening:
+        return 'Tối';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final selected = vm.selectedTimeSlot;
+    final label = _shortLabel(selected);
+
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => _showTimeSheet(context),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.primary : const Color(0xFFF2F3FF),
-          borderRadius: BorderRadius.circular(20),
-          border: isActive ? Border.all(color: AppColors.primary) : null,
+          color: selected != null ? AppColors.primary : const Color(0xFFF2F3FF),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
@@ -297,18 +346,25 @@ class _FilterChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: isActive ? Colors.white : const Color(0xFF414755),
+                color: selected != null
+                    ? Colors.white
+                    : const Color(0xFF414755),
               ),
-            ),
-            const SizedBox(width: 4),
-            Icon(
-              isUp ? Icons.arrow_upward : icon,
-              size: 16,
-              color: isActive ? Colors.white : const Color(0xFF414755),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _showTimeSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => _TimeSlotFilterSheet(vm: vm),
     );
   }
 }
@@ -336,24 +392,55 @@ class _PriceFilterSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Sắp xếp theo giá',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF131B2E),
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                const Text(
+                  'Sắp xếp theo giá',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF131B2E),
+                  ),
+                ),
+                const Spacer(),
+                if (vm.priceSort != 0)
+                  GestureDetector(
+                    onTap: () {
+                      vm.resetPriceSort();
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.close, size: 14, color: AppColors.primary),
+                          SizedBox(width: 4),
+                          Text(
+                            'Xóa lọc',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
-          _PriceOption(
-            label: 'Tất cả',
-            value: 0,
-            current: vm.priceSort,
-            vm: vm,
-          ),
           _PriceOption(
             label: 'Giá thấp đến cao',
             value: -1,
@@ -441,24 +528,55 @@ class _CoachTypeFilterSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Loại ghế',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF131B2E),
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                const Text(
+                  'Loại ghế',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF131B2E),
+                  ),
+                ),
+                const Spacer(),
+                if (vm.selectedCoachType != null)
+                  GestureDetector(
+                    onTap: () {
+                      vm.resetCoachType();
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.close, size: 14, color: AppColors.primary),
+                          SizedBox(width: 4),
+                          Text(
+                            'Xóa lọc',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
-          _CoachOption(
-            label: 'Tất cả',
-            value: null,
-            current: vm.selectedCoachType,
-            vm: vm,
-          ),
           _CoachOption(
             label: 'Ghế ngồi',
             value: CoachType.seat,
@@ -552,24 +670,55 @@ class _TimeSlotFilterSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'Khung giờ',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF131B2E),
-              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                const Text(
+                  'Khung giờ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF131B2E),
+                  ),
+                ),
+                const Spacer(),
+                if (vm.selectedTimeSlot != null)
+                  GestureDetector(
+                    onTap: () {
+                      vm.resetTimeSlot();
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.close, size: 14, color: AppColors.primary),
+                          SizedBox(width: 4),
+                          Text(
+                            'Xóa lọc',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
-          _TimeOption(
-            label: 'Tất cả',
-            value: null,
-            current: vm.selectedTimeSlot,
-            vm: vm,
-          ),
           _TimeOption(
             label: 'Rạng sáng (00:00 - 06:00)',
             value: TimeSlot.earlyMorning,

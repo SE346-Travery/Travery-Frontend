@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/ui/admin/view_model/update_hotel_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/update_vehicle_view_model.dart';
 import 'package:travery_frontend/ui/core/auth_guard.dart';
@@ -64,6 +63,7 @@ import 'package:travery_frontend/ui/authentication/view/register_screen.dart';
 import 'package:travery_frontend/ui/authentication/view/otp_verification_screen.dart';
 import 'package:travery_frontend/ui/authentication/view/forgot_password_screen.dart';
 import 'package:travery_frontend/ui/authentication/view/confirm_password_screen.dart';
+import 'package:travery_frontend/ui/authentication/view/splash_screen.dart';
 import 'package:travery_frontend/ui/authentication/widgets/role_selection_screen.dart';
 import 'package:travery_frontend/ui/authentication/view_models/login_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/otp_verification_view_model.dart';
@@ -109,9 +109,15 @@ GoRouter appRouter(
   void Function(GoRouter router)? onInitialized,
 }) {
   final router = GoRouter(
-    initialLocation: Routes.login,
+    initialLocation: Routes.splash,
     debugLogDiagnostics: true,
     routes: [
+      // --- SPLASH ---
+      GoRoute(
+        path: Routes.splash,
+        builder: (context, state) => const SplashScreen(),
+      ),
+
       // --- AUTHENTICATION ROUTES ---
       GoRoute(
         path: Routes.login,

@@ -33,184 +33,144 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFF),
-      appBar: UserAppBar(
-        title: 'Chi tiết đặt vé',
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) {
+          final vm = context.read<TripBookingDetailViewModel>();
+          final booking = vm.bookingData;
+          if (booking != null) vm.loadBooking(booking.id);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFAFAFF),
+        appBar: UserAppBar(
+          title: 'Chi tiết đặt vé',
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.pop(),
+          ),
         ),
-      ),
-      body: Consumer<TripBookingDetailViewModel>(
-        builder: (context, vm, _) {
-          if (vm.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (vm.error != null) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error_outline, size: 48, color: Colors.grey),
-                  const SizedBox(height: 12),
-                  Text(vm.error ?? 'Lỗi'),
-                  ElevatedButton(
-                    onPressed: () {
-                      final booking = vm.bookingData;
-                      if (booking != null) vm.loadBooking(booking.id);
-                    },
-                    child: const Text('Thử lại'),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          final booking = vm.bookingData;
-          if (booking == null) {
-            return const Center(child: Text('Không tìm thấy thông tin đặt vé'));
-          }
-
-          return ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              _buildStatusCard(booking),
-              const SizedBox(height: 16),
-              _buildTripInfoCard(booking),
-              const SizedBox(height: 16),
-              _buildSeatInfoCard(booking),
-              const SizedBox(height: 16),
-              _buildContactCard(booking),
-              const SizedBox(height: 16),
-              _buildPaymentCard(booking),
-              const SizedBox(height: 100),
-            ],
-          );
-        },
-      ),
-      bottomNavigationBar: Consumer<TripBookingDetailViewModel>(
-        builder: (context, vm, _) {
-          final booking = vm.bookingData;
-          if (booking == null) return const SizedBox.shrink();
-
-          final canCancel = booking.status == 'PENDING';
-          if (!canCancel) return const SizedBox.shrink();
-
-          return Container(
-            padding: EdgeInsets.fromLTRB(
-              20,
-              12,
-              20,
-              MediaQuery.of(context).padding.bottom + 12,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 20,
-                  offset: const Offset(0, -4),
+        body: Consumer<TripBookingDetailViewModel>(
+          builder: (context, vm, _) {
+            if (vm.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (vm.error != null) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(vm.error ?? 'Lỗi'),
+                    ElevatedButton(
+                      onPressed: () {
+                        final booking = vm.bookingData;
+                        if (booking != null) vm.loadBooking(booking.id);
+                      },
+                      child: const Text('Thử lại'),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Row(
+              );
+            }
+            final booking = vm.bookingData;
+            if (booking == null) {
+              return const Center(
+                child: Text('Không tìm thấy thông tin đặt vé'),
+              );
+            }
+            return Column(
               children: [
                 Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => context.push(
-                      Routes.tripCancelConfirmation,
-                      extra: {'booking': booking},
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text(
-                      'Hủy vé',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
+                  child: ListView(
+                    padding: const EdgeInsets.all(20),
+                    children: [
+                      _buildStatusCard(booking),
+                      const SizedBox(height: 16),
+                      _buildTripInfoCard(booking),
+                      const SizedBox(height: 16),
+                      _buildSeatInfoCard(booking),
+                      const SizedBox(height: 16),
+                      _buildContactCard(booking),
+                      const SizedBox(height: 16),
+                      _buildPaymentCard(booking),
+                    ],
                   ),
                 ),
-                if (booking.status == 'PENDING') ...[
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final vm = context.read<TripPaymentViewModel>();
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) => const Center(
-                            child: Card(
-                              child: Padding(
-                                padding: EdgeInsets.all(24),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                    SizedBox(height: 16),
-                                    Text('Đang tạo thanh toán...'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                        final paymentData = await vm.createPayment(booking.id);
-                        if (!context.mounted) return;
-                        Navigator.pop(context);
-                        if (paymentData != null &&
-                            paymentData.paymentUrl.isNotEmpty) {
-                          context.push(
-                            Routes.tripPayment,
-                            extra: {
-                              'bookingId': booking.id,
-                              'paymentUrl': paymentData.paymentUrl,
-                              'transactionId': paymentData.transactionId,
-                              'amount': paymentData.amount,
-                              'tripName':
-                                  '${booking.originDestination} → ${booking.destinationDestination}',
-                              'expiresAt': paymentData.expiresAt
-                                  ?.toIso8601String(),
-                            },
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Lỗi: ${vm.error ?? 'Không thể tạo thanh toán'}',
-                              ),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: const Text(
-                        'Thanh toán ngay',
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ],
+                _buildBottomBar(context, booking, vm),
               ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  Widget _buildBottomBar(
+    BuildContext context,
+    TripBookingData booking,
+    TripBookingDetailViewModel vm,
+  ) {
+    final isPending = booking.status == 'PENDING';
+    final isPaid = booking.status == 'PAID';
+    if (!isPending && !isPaid) return const SizedBox.shrink();
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        12,
+        20,
+        MediaQuery.of(context).padding.bottom + 12,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: isPending
+          ? ElevatedButton(
+              onPressed: () => _onPayPressed(context, booking, vm),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 0,
+              ),
+              child: const Text(
+                'Thanh toán ngay',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              ),
+            )
+          : OutlinedButton(
+              onPressed: () => context.push(
+                Routes.tripCancelConfirmation,
+                extra: {'booking': booking},
+              ),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.red,
+                side: const BorderSide(color: Colors.red),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                'Hủy vé',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              ),
+            ),
     );
   }
 
@@ -506,6 +466,57 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  }
+
+  Future<void> _onPayPressed(
+    BuildContext context,
+    TripBookingData booking,
+    TripBookingDetailViewModel vm,
+  ) async {
+    final payVm = context.read<TripPaymentViewModel>();
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Đang tạo thanh toán...'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    final paymentData = await payVm.createPayment(booking.id);
+    if (!context.mounted) return;
+    Navigator.pop(context);
+    if (paymentData != null && paymentData.paymentUrl.isNotEmpty) {
+      context.push(
+        Routes.tripPayment,
+        extra: {
+          'bookingId': booking.id,
+          'paymentUrl': paymentData.paymentUrl,
+          'transactionId': paymentData.transactionId,
+          'amount': paymentData.amount,
+          'tripName':
+              '${booking.originDestination} → ${booking.destinationDestination}',
+          'expiresAt': paymentData.expiresAt?.toIso8601String(),
+        },
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Lỗi: ${payVm.error ?? 'Không thể tạo thanh toán'}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
 

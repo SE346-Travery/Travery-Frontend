@@ -20,6 +20,7 @@ class TripCancelScreen extends StatefulWidget {
 class _TripCancelScreenState extends State<TripCancelScreen> {
   final _reasonController = TextEditingController();
   bool _confirmed = false;
+  bool _isCancelling = false;
 
   @override
   void dispose() {
@@ -29,6 +30,21 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final booking = widget.booking;
+    if (booking == null) {
+      return Scaffold(
+        backgroundColor: const Color(0xFFFAFAFF),
+        appBar: UserAppBar(
+          title: 'Hủy đặt vé',
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.pop(),
+          ),
+        ),
+        body: const Center(child: Text('Không tìm thấy thông tin đặt vé')),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
       appBar: UserAppBar(
@@ -38,91 +54,30 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: Consumer<TripBookingDetailViewModel>(
-        builder: (context, vm, _) {
-          final extra =
-              GoRouterState.of(context).extra as Map<String, dynamic>?;
-          final booking = extra?['booking'] as TripBookingData?;
-          if (booking == null) {
-            return const Center(child: Text('Không tìm thấy thông tin đặt vé'));
-          }
-
-          return ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              _buildWarningCard(),
-              const SizedBox(height: 16),
-              _buildBookingInfoCard(booking),
-              const SizedBox(height: 16),
-              _buildReasonSection(),
-              const SizedBox(height: 16),
-              _buildConfirmCheckbox(),
-              const SizedBox(height: 120),
-            ],
-          );
-        },
-      ),
-      bottomNavigationBar: Consumer<TripBookingDetailViewModel>(
-        builder: (context, vm, _) {
-          final extra =
-              GoRouterState.of(context).extra as Map<String, dynamic>?;
-          final booking = extra?['booking'] as TripBookingData?;
-          if (booking == null) return const SizedBox.shrink();
-
-          return Container(
-            padding: EdgeInsets.fromLTRB(
-              20,
-              12,
-              20,
-              MediaQuery.of(context).padding.bottom + 12,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 20,
-                  offset: const Offset(0, -4),
-                ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                _buildWarningCard(booking),
+                const SizedBox(height: 16),
+                _buildBookingInfoCard(booking),
+                const SizedBox(height: 16),
+                _buildReasonSection(),
+                const SizedBox(height: 16),
+                _buildConfirmCheckbox(booking),
               ],
             ),
-            child: ElevatedButton(
-              onPressed: !_confirmed || vm.isCancelling
-                  ? null
-                  : () => _onCancel(context, vm),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 0,
-              ),
-              child: vm.isCancelling
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  : const Text(
-                      'Xác nhận hủy',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-            ),
-          );
-        },
+          ),
+          _buildBottomBar(booking),
+        ],
       ),
     );
   }
 
-  Widget _buildWarningCard() {
+  Widget _buildWarningCard(TripBookingData booking) {
+    final isPaid = booking.status == 'PAID';
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -130,15 +85,15 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.warning_amber, color: Colors.orange, size: 28),
-          SizedBox(width: 12),
+          const Icon(Icons.warning_amber, color: Colors.orange, size: 28),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Bạn có chắc muốn hủy đặt vé này?',
                   style: TextStyle(
                     fontSize: 14,
@@ -146,10 +101,15 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                     color: Colors.orange,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'Việc hủy có thể chịu phí theo chính sách của nhà xe.',
-                  style: TextStyle(fontSize: 12, color: Color(0xFF414755)),
+                  isPaid
+                      ? 'Bạn đã thanh toán. Phí hủy và hoàn tiền sẽ được áp dụng theo chính sách.'
+                      : 'Việc hủy có thể chịu phí theo chính sách của nhà xe.',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF414755),
+                  ),
                 ),
               ],
             ),
@@ -248,7 +208,8 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
     );
   }
 
-  Widget _buildConfirmCheckbox() {
+  Widget _buildConfirmCheckbox(TripBookingData booking) {
+    final isPaid = booking.status == 'PAID';
     return GestureDetector(
       onTap: () => setState(() => _confirmed = !_confirmed),
       child: Container(
@@ -264,35 +225,119 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             ),
           ],
         ),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Checkbox(
-              value: _confirmed,
-              onChanged: (v) => setState(() => _confirmed = v ?? false),
-              activeColor: Colors.red,
+            Row(
+              children: [
+                Checkbox(
+                  value: _confirmed,
+                  onChanged: (v) => setState(() => _confirmed = v ?? false),
+                  activeColor: Colors.red,
+                ),
+                Expanded(
+                  child: Text(
+                    isPaid
+                        ? 'Tôi hiểu rằng phí hủy sẽ được khấu trừ và số tiền hoàn (nếu có) sẽ được xử lý trong 7-14 ngày làm việc.'
+                        : 'Tôi hiểu rằng việc hủy vé sẽ không được hoàn tiền theo chính sách hiện tại.',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFF414755),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const Expanded(
-              child: Text(
-                'Tôi hiểu rằng việc hủy vé sẽ không được hoàn tiền theo chính sách hiện tại.',
-                style: TextStyle(fontSize: 13, color: Color(0xFF414755)),
+            if (isPaid) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.info_outline, size: 16, color: Colors.red),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Số tiền đã thanh toán: ${_formatPrice(booking.totalPrice)}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
     );
   }
 
-  Future<void> _onCancel(
-    BuildContext context,
-    TripBookingDetailViewModel vm,
-  ) async {
+  Widget _buildBottomBar(TripBookingData booking) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        12,
+        20,
+        MediaQuery.of(context).padding.bottom + 12,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: !_confirmed || _isCancelling ? null : () => _onCancel(),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 0,
+        ),
+        child: _isCancelling
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : const Text(
+                'Xác nhận hủy',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              ),
+      ),
+    );
+  }
+
+  Future<void> _onCancel() async {
+    final booking = widget.booking;
+    if (booking == null) return;
     final reason = _reasonController.text.trim();
+    setState(() => _isCancelling = true);
+    final vm = context.read<TripBookingDetailViewModel>();
     final success = await vm.cancelBooking(
-      widget.bookingId,
+      booking.id,
       reason: reason.isEmpty ? null : reason,
     );
-    if (!context.mounted) return;
+    if (!mounted) return;
+    setState(() => _isCancelling = false);
 
     if (success) {
       context.pushReplacement(

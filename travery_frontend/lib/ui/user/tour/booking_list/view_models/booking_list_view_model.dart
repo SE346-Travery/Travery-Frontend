@@ -30,7 +30,12 @@ class BookingListViewModel extends ChangeNotifier {
   int _currentPage = 0;
   static const int _pageSize = 20;
 
-  final List<String> _statusFilters = ['Tất cả', 'PAID', 'CANCELLED'];
+  final List<String> _statusFilters = [
+    'Tất cả',
+    'PENDING',
+    'PAID',
+    'CANCELLED',
+  ];
   List<String> get statusFilters => _statusFilters;
 
   Future<void> loadBookings({String? status, bool refresh = false}) async {

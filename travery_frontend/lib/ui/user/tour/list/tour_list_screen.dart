@@ -66,10 +66,11 @@ class _TourListScreenState extends State<TourListScreen> {
 
   void _showFilterSheet(BuildContext context) {
     final vm = widget.viewModel;
-    double? tempMinPrice;
-    double? tempMaxPrice;
+    RangeValues? tempPriceRange;
     int? tempMinRating;
     DateTime? tempStartDate;
+    double minAllowed = 0;
+    double maxAllowed = 20000000;
 
     showModalBottomSheet(
       context: context,
@@ -116,8 +117,7 @@ class _TourListScreenState extends State<TourListScreen> {
                       TextButton(
                         onPressed: () {
                           setSheetState(() {
-                            tempMinPrice = null;
-                            tempMaxPrice = null;
+                            tempPriceRange = null;
                             tempMinRating = null;
                             tempStartDate = null;
                           });
@@ -134,63 +134,87 @@ class _TourListScreenState extends State<TourListScreen> {
                     ],
                   ),
 
-                  // Price filter
+                  // Price filter with RangeSlider
                   const SizedBox(height: 20),
-                  const Text(
-                    'Khoảng giá',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF131B2E),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: kPriceRangePresets.map((preset) {
-                      final selected =
-                          tempMinPrice == preset.min &&
-                          tempMaxPrice == preset.max;
-                      return FilterChip(
-                        label: Text(preset.label),
-                        selected: selected,
-                        onSelected: (_) {
-                          setSheetState(() {
-                            if (selected) {
-                              tempMinPrice = null;
-                              tempMaxPrice = null;
-                            } else {
-                              tempMinPrice = preset.min;
-                              tempMaxPrice = preset.max;
-                            }
-                          });
-                        },
-                        selectedColor: AppColors.primary.withValues(
-                          alpha: 0.15,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Khoảng giá',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF131B2E),
                         ),
-                        checkmarkColor: AppColors.primary,
-                        labelStyle: TextStyle(
+                      ),
+                      Text(
+                        tempPriceRange != null
+                            ? '${_formatPriceShort(tempPriceRange!.start)} - ${_formatPriceShort(tempPriceRange!.end)}'
+                            : 'Tất cả',
+                        style: const TextStyle(
                           fontSize: 13,
-                          color: selected
-                              ? AppColors.primary
-                              : const Color(0xFF414755),
-                          fontWeight: selected
-                              ? FontWeight.w600
-                              : FontWeight.w500,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
                         ),
-                        backgroundColor: const Color(0xFFF2F3FF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                            color: selected
-                                ? AppColors.primary
-                                : Colors.transparent,
-                          ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  RangeSlider(
+                    values:
+                        tempPriceRange ?? RangeValues(minAllowed, maxAllowed),
+                    min: minAllowed,
+                    max: maxAllowed,
+                    divisions: 40,
+                    labels: RangeLabels(
+                      _formatPriceShort(tempPriceRange?.start ?? minAllowed),
+                      _formatPriceShort(tempPriceRange?.end ?? maxAllowed),
+                    ),
+                    activeColor: AppColors.primary,
+                    inactiveColor: AppColors.primary.withValues(alpha: 0.2),
+                    onChanged: (values) {
+                      setSheetState(() {
+                        if (values.end == maxAllowed) {
+                          tempPriceRange = RangeValues(
+                            values.start,
+                            maxAllowed,
+                          );
+                        } else {
+                          tempPriceRange = values;
+                        }
+                      });
+                    },
+                    onChangeEnd: (values) {
+                      setSheetState(() {
+                        if (values.end == maxAllowed) {
+                          tempPriceRange = RangeValues(
+                            values.start,
+                            maxAllowed,
+                          );
+                        } else {
+                          tempPriceRange = values;
+                        }
+                      });
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _formatPriceShort(minAllowed),
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF717786),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                      );
-                    }).toList(),
+                      ),
+                      Text(
+                        _formatPriceShort(maxAllowed),
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF717786),
+                        ),
+                      ),
+                    ],
                   ),
 
                   // Rating filter
@@ -312,23 +336,29 @@ class _TourListScreenState extends State<TourListScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        final minPrice = tempPriceRange?.start;
+                        final maxPrice = tempPriceRange?.end == maxAllowed
+                            ? null
+                            : tempPriceRange?.end;
                         vm.setFilters(
-                          minPrice: tempMinPrice,
-                          maxPrice: tempMaxPrice,
+                          minPrice: minPrice,
+                          maxPrice: maxPrice,
                           minRating: tempMinRating,
                           startDate: tempStartDate,
                           clearMinPrice:
-                              tempMinPrice == null && vm.minPrice != null,
+                              tempPriceRange == null && vm.minPrice != null,
                           clearMaxPrice:
-                              tempMaxPrice == null && vm.maxPrice != null,
+                              (tempPriceRange?.end == maxAllowed ||
+                                  tempPriceRange == null) &&
+                              vm.maxPrice != null,
                           clearMinRating:
                               tempMinRating == null && vm.minRating != null,
                           clearStartDate:
                               tempStartDate == null && vm.startDate != null,
                         );
                         vm.loadTours(
-                          minPrice: tempMinPrice,
-                          maxPrice: tempMaxPrice,
+                          minPrice: minPrice,
+                          maxPrice: maxPrice,
                           minRating: tempMinRating,
                           startDate: tempStartDate,
                           refresh: true,

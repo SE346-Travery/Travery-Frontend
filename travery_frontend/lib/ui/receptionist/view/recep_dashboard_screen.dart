@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/receptionist/view/widgets/recep_dashboard_info_box.dart';
 import 'package:travery_frontend/ui/receptionist/view/widgets/recep_dashboard_checkin_list.dart';
 import 'package:travery_frontend/ui/receptionist/view/widgets/recep_dashboard_checkout_list.dart';
 
-class RecepDashboard extends StatelessWidget {
-  const RecepDashboard({super.key});
+class RecepDashboardScreen extends StatefulWidget {
+  const RecepDashboardScreen({super.key});
 
+  @override
+  State<RecepDashboardScreen> createState() => _RecepDashboardScreenState();
+}
+
+class _RecepDashboardScreenState extends State<RecepDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,11 +28,15 @@ class RecepDashboard extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Icon(Icons.home_outlined, color: Color(0xFF1E3A8A), size: 20),
+              child: const Icon(
+                Icons.home_outlined,
+                color: Color(0xFF1E3A8A),
+                size: 20,
+              ),
             ),
             const SizedBox(width: 8),
             const Text(
-              'Receptionist',
+              'Lễ tân',
               style: TextStyle(
                 color: Color(0xFF1E3A8A),
                 fontWeight: FontWeight.bold,
@@ -34,12 +45,15 @@ class RecepDashboard extends StatelessWidget {
             ),
           ],
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              radius: 16,
-              backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=11'),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () => context.push(Routes.recepProfile),
+              child: const CircleAvatar(
+                radius: 16,
+                backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=11'),
+              ),
             ),
           ),
         ],
@@ -60,10 +74,7 @@ class RecepDashboard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               '14:30, 24/05/2024',
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
             ),
             const SizedBox(height: 20),
             const Row(

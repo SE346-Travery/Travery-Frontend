@@ -55,7 +55,7 @@ class Routes {
   static const String cancellationSuccess = '/booking/:id/cancel/success';
 
   // Coordinator
-  static const String coordinatorHome = '/coordinator-home';
+  static const String coordinatorHome = '/coordinator/main';
   static const String coordinatorTourDetail = '/coordinator/tour-detail';
   static const String coordinatorTourTemplateList =
       '/coordinator/tour-templates';
@@ -73,4 +73,12 @@ class Routes {
   static const String checkIn = '/guide/mission/:id/check-in';
   static const String tourProgress = '/guide/mission/:id/progress';
   static const String tourCompleted = '/guide/mission/:id/completed';
+
+  // Recep
+  static const String recepMain = '/recep/main';
+  static const String recepDashboard = '/recep/dashboard';
+  static const String recepCheckInOut = '/recep/check-in-out';
+  static const String recepHotel = '/recep/hotel';
+  static const String recepAddon = '/recep/addon';
+  static const String recepProfile = '/recep/profile';
 }

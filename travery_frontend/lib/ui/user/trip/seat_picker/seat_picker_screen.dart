@@ -1,0 +1,410 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:travery_frontend/routing/routes.dart';
+import 'package:travery_frontend/ui/core/themes/app_colors.dart';
+import 'package:travery_frontend/ui/user/trip/seat_picker/view_models/seat_picker_view_model.dart';
+import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
+import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
+
+class SeatPickerScreen extends StatefulWidget {
+  const SeatPickerScreen({super.key});
+
+  @override
+  State<SeatPickerScreen> createState() => _SeatPickerScreenState();
+}
+
+class _SeatPickerScreenState extends State<SeatPickerScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final trip = GoRouterState.of(context).extra as TripSearchItem?;
+      if (trip != null) {
+        final vm = context.read<SeatPickerViewModel>();
+        vm.setTrip(trip);
+        vm.loadSeats();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      appBar: UserAppBar(
+        title: 'Chọn ghế',
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
+      ),
+      body: Consumer<SeatPickerViewModel>(
+        builder: (context, vm, _) {
+          if (vm.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (vm.error != null) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+                  const SizedBox(height: 12),
+                  Text(vm.error ?? 'Lỗi'),
+                  ElevatedButton(
+                    onPressed: vm.loadSeats,
+                    child: const Text('Thử lại'),
+                  ),
+                ],
+              ),
+            );
+          }
+          if (vm.seatData == null) {
+            return const Center(child: Text('Không có dữ liệu ghế'));
+          }
+
+          final seatData = vm.seatData!;
+          return Column(
+            children: [
+              _buildTripInfo(vm),
+              if (seatData.isDoubleDecker) _buildDeckToggle(vm),
+              Expanded(child: _buildSeatGrid(vm)),
+            ],
+          );
+        },
+      ),
+      bottomNavigationBar: Consumer<SeatPickerViewModel>(
+        builder: (context, vm, _) {
+          if (vm.selectedSeats.isEmpty) return const SizedBox.shrink();
+          return _buildBottomBar(context, vm);
+        },
+      ),
+    );
+  }
+
+  Widget _buildTripInfo(SeatPickerViewModel vm) {
+    final trip = vm.trip;
+    if (trip == null) return const SizedBox.shrink();
+    return Container(
+      padding: const EdgeInsets.all(16),
+      color: Colors.white,
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _getCoachTypeLabel(trip.coachType),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF131B2E),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${_formatTime(trip.departureTime)} → ${_formatTime(trip.arrivalTime)}',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF414755),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFD2E1F7),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              'Còn ${trip.availableSeats} chỗ',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF0058BC),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDeckToggle(SeatPickerViewModel vm) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () => vm.setActiveDeck(0),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: vm.activeDeck == 0
+                      ? AppColors.primary
+                      : const Color(0xFFF2F3FF),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    'Tầng dưới (${vm.lowerDeckSeatCount} ghế)',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: vm.activeDeck == 0
+                          ? Colors.white
+                          : const Color(0xFF414755),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => vm.setActiveDeck(1),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: vm.activeDeck == 1
+                      ? AppColors.primary
+                      : const Color(0xFFF2F3FF),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    'Tầng trên (${vm.upperDeckSeatCount} ghế)',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: vm.activeDeck == 1
+                          ? Colors.white
+                          : const Color(0xFF414755),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSeatGrid(SeatPickerViewModel vm) {
+    final seats = vm.seatsForActiveDeck;
+    if (seats.isEmpty) {
+      return const Center(child: Text('Không có ghế nào'));
+    }
+
+    final rows = <int, List<dynamic>>{};
+    for (final seat in seats) {
+      rows.putIfAbsent(seat.rowNumber, () => []).add(seat);
+    }
+    final sortedRows = rows.keys.toList()..sort();
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: sortedRows.length,
+      itemBuilder: (context, index) {
+        final rowNum = sortedRows[index];
+        final rowSeats = rows[rowNum]!;
+        rowSeats.sort((a, b) => a.columnNumber.compareTo(b.columnNumber));
+
+        return Container(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 36,
+                child: Center(
+                  child: Text(
+                    '$rowNum',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF717786),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: rowSeats.map((seat) {
+                    final isSelected = vm.isSeatSelected(seat);
+                    final isAvailable = seat.isAvailable;
+                    final isUpper = seat.isUpperTier;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: GestureDetector(
+                        onTap: isAvailable ? () => vm.toggleSeat(seat) : null,
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? AppColors.primary
+                                : isAvailable
+                                ? isUpper
+                                      ? const Color(0xFFE0E8FF)
+                                      : const Color(0xFFF2F3FF)
+                                : const Color(0xFFE2E8F0),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : isAvailable
+                                  ? const Color(0xFFE2E8F0)
+                                  : const Color(0xFFE2E8F0),
+                              width: isSelected ? 2 : 1,
+                            ),
+                          ),
+                          child: Center(
+                            child: isSelected
+                                ? const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 18,
+                                  )
+                                : Text(
+                                    seat.seatName,
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: isAvailable
+                                          ? const Color(0xFF131B2E)
+                                          : const Color(0xFFB0B8C9),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context, SeatPickerViewModel vm) {
+    final seats = vm.selectedSeats;
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        20,
+        12,
+        20,
+        MediaQuery.of(context).padding.bottom + 12,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${seats.length} ghế đã chọn',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF131B2E),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      seats.map((s) => s.seatName).join(', '),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF414755),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                _formatPrice(vm.totalPrice),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ElevatedButton(
+            onPressed: () {
+              context.push(
+                Routes.tripBookingInput,
+                extra: {'trip': vm.trip, 'seats': vm.selectedSeats},
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            child: const Text(
+              'Tiếp tục',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getCoachTypeLabel(String type) {
+    switch (type) {
+      case 'BED':
+        return 'Xe giường nằm';
+      case 'LIMOUSINE':
+        return 'Limousine';
+      default:
+        return 'Xe ghế ngồi';
+    }
+  }
+
+  String _formatTime(DateTime dt) {
+    return '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
+  }
+
+  String _formatPrice(double price) {
+    final str = price.toStringAsFixed(0);
+    return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  }
+}

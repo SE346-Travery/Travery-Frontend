@@ -1,0 +1,102 @@
+import 'package:flutter/foundation.dart';
+import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
+import 'package:travery_frontend/data/models/trip/destination_data.dart';
+import 'package:travery_frontend/data/services/trip/trip_service.dart';
+import 'package:travery_frontend/data/services/api/model/trip/search_trip_request/search_trip_request.dart';
+import 'package:travery_frontend/utils/core_result.dart';
+
+class TripListViewModel extends ChangeNotifier {
+  TripListViewModel({required TripService tripService})
+    : _tripService = tripService;
+
+  final TripService _tripService;
+
+  List<TripSearchItem> _trips = [];
+  List<TripSearchItem> get trips => _trips;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  String? _error;
+  String? get error => _error;
+
+  CoachType? _selectedCoachType;
+  CoachType? get selectedCoachType => _selectedCoachType;
+
+  TimeSlot? _selectedTimeSlot;
+  TimeSlot? get selectedTimeSlot => _selectedTimeSlot;
+
+  bool _sortByPriceAsc = false;
+  bool get sortByPriceAsc => _sortByPriceAsc;
+
+  DestinationData? _origin;
+  DestinationData? _destination;
+  DateTime? _departureDate;
+
+  void setSearchParams({
+    required DestinationData origin,
+    required DestinationData destination,
+    required DateTime departureDate,
+  }) {
+    _origin = origin;
+    _destination = destination;
+    _departureDate = departureDate;
+    _trips = [];
+    _selectedCoachType = null;
+    _selectedTimeSlot = null;
+    _sortByPriceAsc = false;
+    notifyListeners();
+  }
+
+  void setCoachType(CoachType? type) {
+    _selectedCoachType = type;
+    notifyListeners();
+    _searchTrips();
+  }
+
+  void setTimeSlot(TimeSlot? slot) {
+    _selectedTimeSlot = slot;
+    notifyListeners();
+    _searchTrips();
+  }
+
+  void toggleSortByPrice() {
+    _sortByPriceAsc = !_sortByPriceAsc;
+    notifyListeners();
+    _searchTrips();
+  }
+
+  Future<void> _searchTrips() async {
+    if (_origin == null || _destination == null || _departureDate == null)
+      return;
+
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    final request = SearchTripRequest(
+      originId: _origin!.id,
+      destinationId: _destination!.id,
+      departureDate: _departureDate!.toIso8601String().split('T').first,
+      coachType: _selectedCoachType?.value,
+      departureTimeSlot: _selectedTimeSlot?.value,
+      sortByPriceAsc: _sortByPriceAsc ? true : null,
+    );
+
+    final result = await _tripService.searchTrips(request);
+
+    switch (result) {
+      case Ok(value: final data):
+        _trips = data;
+      case Error(error: final e):
+        _error = e.toString();
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> search() async {
+    await _searchTrips();
+  }
+}

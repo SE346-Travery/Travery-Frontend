@@ -54,6 +54,19 @@ class Routes {
   // Cancellation Success
   static const String cancellationSuccess = '/booking/:id/cancel/success';
 
+  // Trip/Coach Booking nhóm
+  static const String tripHome = '/trip-home';
+  static const String tripList = '/trip/list';
+  static const String tripSeatPicker = '/trip/seat-picker';
+  static const String tripBookingInput = '/trip/book/input';
+  static const String tripBookingReview = '/trip/book/review';
+  static const String tripPayment = '/trip/payment';
+  static const String tripPaymentResult = '/trip/payment/result';
+  static const String tripMyBookings = '/trip/my-bookings';
+  static const String tripBookingDetail = '/trip/booking/:id';
+  static const String tripCancelConfirmation = '/trip/booking/:id/cancel';
+  static const String tripCancelSuccess = '/trip/booking/:id/cancel/success';
+
   // Coordinator
   static const String coordinatorHome = '/coordinator-home';
   static const String coordinatorTourDetail = '/coordinator/tour-detail';

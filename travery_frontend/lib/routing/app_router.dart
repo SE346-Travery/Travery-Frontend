@@ -25,6 +25,12 @@ import 'package:travery_frontend/ui/guide/mission/tour_progress/tour_progress_sc
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/our_completed_screen.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_dashboard_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_main_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_addon_list_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_checkinout_list_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_hotel_room_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_profile_sceen.dart';
 import 'package:travery_frontend/ui/user/home/home_screen.dart';
 import 'package:travery_frontend/ui/user/home/view_models/home_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/list/tour_list_screen.dart';
@@ -573,6 +579,32 @@ GoRouter appRouter(
             authRepository: context.read<AuthRepository>(),
           ),
         ),
+      ),
+
+      //======Receptionist========
+      GoRoute(
+        path: Routes.recepMain,
+        builder: (context, state) => const RecepMainScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepDashboard,
+        builder: (context, state) => const RecepDashboardScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepCheckInOut,
+        builder: (context, state) => const RecepViewCheckinoutListScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepHotel,
+        builder: (context, state) => const RecepViewHotelRoomScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepAddon,
+        builder: (context, state) => const RecepViewAddonListScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepProfile,
+        builder: (context, state) => const RecepViewProfileScreen(),
       ),
     ],
   );

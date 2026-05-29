@@ -5,6 +5,7 @@ import 'package:travery_frontend/data/services/trip/trip_service.dart';
 import 'package:travery_frontend/data/services/api/model/trip/search_trip_request/search_trip_request.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
+/// 0 = all, -1 = low to high, 1 = high to low
 class TripListViewModel extends ChangeNotifier {
   TripListViewModel({required TripService tripService})
     : _tripService = tripService;
@@ -26,11 +27,16 @@ class TripListViewModel extends ChangeNotifier {
   TimeSlot? _selectedTimeSlot;
   TimeSlot? get selectedTimeSlot => _selectedTimeSlot;
 
-  bool _sortByPriceAsc = false;
-  bool get sortByPriceAsc => _sortByPriceAsc;
+  /// 0 = all, -1 = low to high, 1 = high to low
+  int _priceSort = 0;
+  int get priceSort => _priceSort;
 
   DestinationData? _origin;
+  DestinationData? get origin => _origin;
+
   DestinationData? _destination;
+  DestinationData? get destination => _destination;
+
   DateTime? _departureDate;
 
   void setSearchParams({
@@ -44,7 +50,7 @@ class TripListViewModel extends ChangeNotifier {
     _trips = [];
     _selectedCoachType = null;
     _selectedTimeSlot = null;
-    _sortByPriceAsc = false;
+    _priceSort = 0;
     notifyListeners();
   }
 
@@ -60,8 +66,8 @@ class TripListViewModel extends ChangeNotifier {
     _searchTrips();
   }
 
-  void toggleSortByPrice() {
-    _sortByPriceAsc = !_sortByPriceAsc;
+  void setPriceSort(int value) {
+    _priceSort = value;
     notifyListeners();
     _searchTrips();
   }
@@ -80,7 +86,9 @@ class TripListViewModel extends ChangeNotifier {
       departureDate: _departureDate!.toIso8601String().split('T').first,
       coachType: _selectedCoachType?.value,
       departureTimeSlot: _selectedTimeSlot?.value,
-      sortByPriceAsc: _sortByPriceAsc ? true : null,
+      sortByPriceAsc: _priceSort == -1
+          ? true
+          : (_priceSort == 1 ? false : null),
     );
 
     final result = await _tripService.searchTrips(request);

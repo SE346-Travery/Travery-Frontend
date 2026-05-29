@@ -145,21 +145,26 @@ class _TripBookingListContent extends StatelessWidget {
           );
         }
 
-        return ListView.separated(
-          padding: const EdgeInsets.all(16),
-          itemCount: vm.bookings.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final booking = vm.bookings[index];
-            return _TripBookingCard(
-              booking: booking,
-              statusLabel: vm.getStatusLabel(booking.status),
-              onTap: () => context.push(
-                Routes.tripBookingDetail,
-                extra: {'booking': booking},
-              ),
-            );
-          },
+        return RefreshIndicator(
+          onRefresh: () =>
+              vm.loadBookings(status: vm.selectedStatus, refresh: true),
+          child: ListView.separated(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            itemCount: vm.bookings.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final booking = vm.bookings[index];
+              return _TripBookingCard(
+                booking: booking,
+                statusLabel: vm.getStatusLabel(booking.status),
+                onTap: () => context.push(
+                  Routes.tripBookingDetail,
+                  extra: {'booking': booking},
+                ),
+              );
+            },
+          ),
         );
       },
     );

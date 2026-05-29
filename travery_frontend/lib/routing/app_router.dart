@@ -454,7 +454,7 @@ GoRouter appRouter(
       // --- TRIP (COACH BOOKING) ROUTES ---
       GoRoute(
         path: Routes.tripHome,
-        builder: (context, state) => const UserBottomNav(initialIndex: 1),
+        builder: (context, state) => const TripHomeScreen(),
       ),
       GoRoute(
         path: Routes.tripList,

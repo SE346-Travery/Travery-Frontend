@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/home/home_screen.dart';
-import 'package:travery_frontend/ui/user/trip/home/trip_home_screen.dart';
 import 'package:travery_frontend/ui/user/trip/my_booking/my_trip_booking_screen.dart';
 
 class UserBottomNav extends StatefulWidget {
@@ -29,7 +28,6 @@ class _UserBottomNavState extends State<UserBottomNav> {
         index: _currentIndex,
         children: const [
           _UserHomeContent(),
-          _TripHomeContent(),
           _UserBookingsContent(),
           _UserChatContent(),
           _UserProfileContent(),
@@ -53,15 +51,6 @@ class _UserHomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const HomeScreen();
-  }
-}
-
-class _TripHomeContent extends StatelessWidget {
-  const _TripHomeContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return const TripHomeScreen();
   }
 }
 
@@ -126,32 +115,25 @@ class _BottomNavBar extends StatelessWidget {
                 onTap: () => onTap(0),
               ),
               _NavItem(
-                icon: Icons.directions_bus_outlined,
-                activeIcon: Icons.directions_bus,
-                label: 'Vé xe',
-                isActive: currentIndex == 1,
-                onTap: () => onTap(1),
-              ),
-              _NavItem(
                 icon: Icons.confirmation_number_outlined,
                 activeIcon: Icons.confirmation_number,
                 label: 'Đơn của tôi',
-                isActive: currentIndex == 2,
-                onTap: () => onTap(2),
+                isActive: currentIndex == 1,
+                onTap: () => onTap(1),
               ),
               _NavItem(
                 icon: Icons.chat_bubble_outline,
                 activeIcon: Icons.chat_bubble,
                 label: 'Chat',
-                isActive: currentIndex == 3,
-                onTap: () => onTap(3),
+                isActive: currentIndex == 2,
+                onTap: () => onTap(2),
               ),
               _NavItem(
                 icon: Icons.person_outline,
                 activeIcon: Icons.person,
                 label: 'Cá nhân',
-                isActive: currentIndex == 4,
-                onTap: () => onTap(4),
+                isActive: currentIndex == 3,
+                onTap: () => onTap(3),
               ),
             ],
           ),

@@ -57,7 +57,10 @@ class _MyTripBookingScreenState extends State<MyTripBookingScreen> {
                 ? NavigationRail(
                     selectedIndex: _selectedNavIndex,
                     onDestinationSelected: (index) {
-                      setState(() => _selectedNavIndex = index);
+                      setState(() {
+                        _selectedNavIndex = index;
+                        _showRail = false;
+                      });
                     },
                     backgroundColor: Colors.white,
                     indicatorColor: AppColors.primary.withValues(alpha: 0.1),

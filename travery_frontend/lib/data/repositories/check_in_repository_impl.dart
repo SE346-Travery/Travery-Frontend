@@ -4,18 +4,12 @@ import 'dart:io';
 import 'package:travery_frontend/config/app_config.dart';
 import 'package:travery_frontend/data/seed_models/check_in/check_in_passenger.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/token_refresh_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class CheckInRepositoryImpl implements CheckInRepository {
-  CheckInRepositoryImpl({
-    required SecurityStorageService securityStorageService,
-    required TokenRefreshService tokenRefreshService,
-  }) : _securityStorageService = securityStorageService,
-       _tokenRefreshService = tokenRefreshService;
-
-  final SecurityStorageService _securityStorageService;
+  CheckInRepositoryImpl({required TokenRefreshService tokenRefreshService})
+    : _tokenRefreshService = tokenRefreshService;
   final TokenRefreshService _tokenRefreshService;
 
   Future<void> _setBearerAuth(HttpClientRequest request) async {

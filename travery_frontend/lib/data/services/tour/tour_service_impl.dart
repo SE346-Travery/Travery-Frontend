@@ -10,19 +10,14 @@ import 'package:travery_frontend/data/services/api/model/booking/booking_detail_
 import 'package:travery_frontend/data/services/api/model/booking/create_payment_response/create_payment_response.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_request/create_tour_booking_request.dart';
 import 'package:travery_frontend/data/services/api/model/booking/create_tour_booking_response/create_tour_booking_response.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/token_refresh_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class TourServiceImpl implements TourService {
-  TourServiceImpl({
-    required SecurityStorageService securityStorageService,
-    required TokenRefreshService tokenRefreshService,
-  }) : _securityStorageService = securityStorageService,
-       _tokenRefreshService = tokenRefreshService;
+  TourServiceImpl({required TokenRefreshService tokenRefreshService})
+    : _tokenRefreshService = tokenRefreshService;
 
-  final SecurityStorageService _securityStorageService;
   final TokenRefreshService _tokenRefreshService;
 
   Future<void> _setBearerAuth(HttpClientRequest request) async {

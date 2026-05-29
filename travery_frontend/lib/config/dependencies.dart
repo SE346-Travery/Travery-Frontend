@@ -24,13 +24,9 @@ import 'package:travery_frontend/data/services/guide/guide_service.dart';
 import 'package:travery_frontend/data/services/guide/guide_service_impl.dart';
 
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
-import 'package:travery_frontend/data/repositories/mission_repository.dart';
 import 'package:travery_frontend/data/repositories/mission_repository_impl.dart';
-import 'package:travery_frontend/data/repositories/check_in_repository.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository_impl.dart';
-import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
 import 'package:travery_frontend/data/repositories/tour_progress_repository_impl.dart';
-import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 
 import 'package:travery_frontend/ui/user/home/view_models/home_view_model.dart';
 import 'package:travery_frontend/ui/user/providers/user_info_provider.dart';
@@ -49,20 +45,6 @@ import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_vie
 import 'package:travery_frontend/ui/guide/mission/check_in/view_models/check_in_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
-
-import 'package:travery_frontend/ui/admin/view_model/account_management_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/create_account_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/create_hotel_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/create_vehicle_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/dashboard_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/hotel_management_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/tour_management_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/update_hotel_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/update_vehicle_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/vehicle_management_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/view_detail_account_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/admin_tour_template_list_view_model.dart';
-import 'package:travery_frontend/ui/admin/view_model/admin_create_tour_template_view_model.dart';
 
 import '../data/services/tour/tour_service_impl.dart';
 
@@ -92,7 +74,6 @@ List<SingleChildWidget> get providers => [
   ),
   Provider<TourService>(
     create: (context) => TourServiceImpl(
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
@@ -104,7 +85,6 @@ List<SingleChildWidget> get providers => [
   ChangeNotifierProvider<AdminRepository>(
     create: (context) => AdminRepositoryRemote(
       adminApiService: context.read<AdminApiService>(),
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
@@ -116,79 +96,13 @@ List<SingleChildWidget> get providers => [
   ChangeNotifierProvider<CoordinatorRepository>(
     create: (context) => CoordinatorRepositoryRemote(
       apiService: context.read<CoordinatorApiService>(),
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
-    ),
-  ),
-
-  // ── Admin ViewModels ──────────────────────────────────────────────────────
-  ChangeNotifierProvider(
-    create: (context) => AccountManagementViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => CreateAccountViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        CreateHotelViewModel(adminRepository: context.read<AdminRepository>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        UpdateHotelViewModel(adminRepository: context.read<AdminRepository>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => CreateVehicleViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => UpdateVehicleViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) =>
-        DashboardViewModel(adminRepository: context.read<AdminRepository>()),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => HotelManagementViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => TourManagementViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => VehicleManagementViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => ViewDetailAccountViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => AdminTourTemplateListViewModel(
-      adminRepository: context.read<AdminRepository>(),
-    ),
-  ),
-  ChangeNotifierProvider(
-    create: (context) => AdminCreateTourTemplateViewModel(
-      adminRepository: context.read<AdminRepository>(),
     ),
   ),
 
   // ── User ViewModels ───────────────────────────────────────────────────────
   Provider<BookingService>(
     create: (context) => UserBookingRepository(
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
@@ -238,31 +152,26 @@ List<SingleChildWidget> get providers => [
   // ── Guide Service & ViewModels ─────────────────────────────────────────────
   Provider<GuideService>(
     create: (context) => GuideServiceImpl(
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   Provider<MissionRepository>(
     create: (context) => MissionRepositoryImpl(
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   Provider<CheckInRepository>(
     create: (context) => CheckInRepositoryImpl(
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   Provider<TourProgressRepository>(
     create: (context) => TourProgressRepositoryImpl(
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   Provider<TourCompletedRepository>(
     create: (context) => TourCompletedRepositoryImpl(
-      securityStorageService: context.read<SecurityStorageService>(),
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),

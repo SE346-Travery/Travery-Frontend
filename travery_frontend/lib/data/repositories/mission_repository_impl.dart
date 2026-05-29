@@ -4,18 +4,12 @@ import 'dart:io';
 import 'package:travery_frontend/config/app_config.dart';
 import 'package:travery_frontend/data/seed_models/guide_tour/guide_tour.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/data/services/token_refresh_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class MissionRepositoryImpl implements MissionRepository {
-  MissionRepositoryImpl({
-    required SecurityStorageService securityStorageService,
-    required TokenRefreshService tokenRefreshService,
-  }) : _securityStorageService = securityStorageService,
-       _tokenRefreshService = tokenRefreshService;
-
-  final SecurityStorageService _securityStorageService;
+  MissionRepositoryImpl({required TokenRefreshService tokenRefreshService})
+    : _tokenRefreshService = tokenRefreshService;
   final TokenRefreshService _tokenRefreshService;
 
   Future<void> _setBearerAuth(HttpClientRequest request) async {

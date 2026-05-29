@@ -121,7 +121,7 @@ class _SplashScreenState extends State<SplashScreen>
                   const Text(
                     'Travery',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.primary,
                       fontSize: 36,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1.5,

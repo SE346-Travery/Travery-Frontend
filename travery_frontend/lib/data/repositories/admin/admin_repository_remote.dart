@@ -2,6 +2,7 @@ import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/data/seed_models/room/room.dart';
 import 'package:travery_frontend/data/services/api/admin_api_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
+import 'package:travery_frontend/data/services/token_refresh_service.dart';
 import 'package:travery_frontend/domain/models/admin/business_account/business_account.dart';
 import 'package:travery_frontend/domain/models/admin/business_coach/business_coach.dart';
 import 'package:travery_frontend/domain/models/admin/business_dashboard/business_dashboard.dart';
@@ -20,16 +21,21 @@ class AdminRepositoryRemote extends AdminRepository {
   AdminRepositoryRemote({
     required AdminApiService adminApiService,
     required SecurityStorageService securityStorageService,
+    required TokenRefreshService tokenRefreshService,
   }) : _adminApiService = adminApiService,
-       _securityStorageService = securityStorageService;
+       _securityStorageService = securityStorageService,
+       _tokenRefreshService = tokenRefreshService;
 
   final AdminApiService _adminApiService;
   final SecurityStorageService _securityStorageService;
+  final TokenRefreshService _tokenRefreshService;
 
   // ── Helper ─────────────────────────────────────────────────────────────────
 
-  Future<String?> _getAccessToken() =>
-      _securityStorageService.getAccessToken();
+  Future<String?> _getAccessToken() async {
+    final result = await _tokenRefreshService.getValidAccessToken();
+    return result is Ok ? (result as Ok<String>).value : null;
+  }
 
   static final _notImplemented = Exception('API endpoint not yet available');
 

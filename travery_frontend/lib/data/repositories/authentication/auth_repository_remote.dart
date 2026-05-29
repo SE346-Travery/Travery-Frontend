@@ -12,16 +12,20 @@ import 'package:travery_frontend/utils/jwt_utils.dart';
 import 'auth_repository.dart';
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
+import 'package:travery_frontend/data/services/token_refresh_service.dart';
 
 class AuthRepositoryRemote extends AuthRepository {
   final AuthService _authService;
   final SecurityStorageService _securityStorageService;
+  final TokenRefreshService _tokenRefreshService;
 
   AuthRepositoryRemote({
     required AuthService authService,
     required SecurityStorageService securityStorageService,
+    required TokenRefreshService tokenRefreshService,
   }) : _authService = authService,
-       _securityStorageService = securityStorageService;
+       _securityStorageService = securityStorageService,
+       _tokenRefreshService = tokenRefreshService;
 
   @override
   Future<Result<String>> loginViaEmail({
@@ -176,11 +180,12 @@ class AuthRepositoryRemote extends AuthRepository {
     try {
       // Lấy accessToken và refreshToken từ storage
       final accessToken = await _securityStorageService.getAccessToken();
-      String? actualRefreshToken = await _securityStorageService.getRefreshToken();
+      String? actualRefreshToken =
+          await _securityStorageService.getRefreshToken();
       if (actualRefreshToken == null || actualRefreshToken.isEmpty) {
         actualRefreshToken = refreshToken;
       }
-      
+
       if (accessToken == null || accessToken.isEmpty) {
         // Nếu không có accessToken thì xóa token local và coi như đã logout
         await _securityStorageService.deleteAccessToken();
@@ -199,11 +204,29 @@ class AuthRepositoryRemote extends AuthRepository {
           return const Result.ok(null);
 
         case Error<void>():
+          // Dù API logout thất bại (network error, server error, v.v.),
+          // vẫn xóa token local để người dùng không bị auto-login lại.
+          await _securityStorageService.deleteAllTokens();
           return Result.error(result.error);
       }
     } finally {
       notifyListeners();
     }
+  }
+
+  /// Refreshes the access token using the stored refresh token via
+  /// [TokenRefreshService]. Notifies listeners on completion so that
+  /// any widget observing [AuthRepository] can react (e.g. update UI state
+  /// or redirect to login when the refresh token is also expired).
+  @override
+  Future<Result<String>> refreshAccessToken() async {
+    final result = await _tokenRefreshService.getValidAccessToken();
+    // Only notify when the result is an error (tokens were cleared), so that
+    // the app can redirect the user to the login screen.
+    if (result is Error) {
+      notifyListeners();
+    }
+    return result;
   }
 
   /// Reads the persisted role from secure storage.

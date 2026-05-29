@@ -27,5 +27,11 @@ abstract class AuthRepository extends ChangeNotifier {
   /// Returns the role that was persisted during the last successful login,
   /// or `null` if the user is not logged in (no token / role found).
   Future<String?> getPersistedRole();
-}
 
+  /// Refreshes the access token using the stored refresh token.
+  ///
+  /// Returns `Result.ok(newAccessToken)` on success.
+  /// Returns `Result.error(...)` and clears all stored tokens when the
+  /// refresh token is also expired/invalid (forcing the user to log in again).
+  Future<Result<String>> refreshAccessToken();
+}

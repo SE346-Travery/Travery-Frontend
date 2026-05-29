@@ -9,6 +9,7 @@ import 'package:travery_frontend/data/repositories/authentication/auth_repositor
 import 'package:travery_frontend/data/repositories/authentication/auth_repository_remote.dart';
 import 'package:travery_frontend/data/repositories/mission_repository.dart';
 import 'package:travery_frontend/data/repositories/check_in_repository.dart';
+import 'package:travery_frontend/data/repositories/tour_completed_repository_impl.dart';
 import 'package:travery_frontend/data/repositories/tour_progress_repository.dart';
 import 'package:travery_frontend/data/repositories/tour_completed_repository.dart';
 import 'package:travery_frontend/data/repositories/user/user_booking_repository.dart';
@@ -17,6 +18,7 @@ import 'package:travery_frontend/data/services/api/admin_api_service.dart';
 import 'package:travery_frontend/data/services/api/auth_service.dart';
 import 'package:travery_frontend/data/services/api/coordinator_api_service.dart';
 import 'package:travery_frontend/data/services/security_storage_service.dart';
+import 'package:travery_frontend/data/services/token_refresh_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/data/services/guide/guide_service.dart';
 import 'package:travery_frontend/data/services/guide/guide_service_impl.dart';
@@ -67,21 +69,31 @@ import '../data/services/tour/tour_service_impl.dart';
 List<SingleChildWidget> get providers => [
   Provider(create: (context) => AuthService()),
   Provider(create: (context) => SecurityStorageService()),
+  Provider(
+    create: (context) => TokenRefreshService(
+      authService: context.read<AuthService>(),
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
+  ),
   ChangeNotifierProvider(
     create: (context) =>
         AuthRepositoryRemote(
               authService: context.read(),
               securityStorageService: context.read(),
+              tokenRefreshService: context.read<TokenRefreshService>(),
             )
             as AuthRepository,
   ),
   ChangeNotifierProvider(
-    create: (context) =>
-        UserInfoProvider(storage: context.read<SecurityStorageService>()),
+    create: (context) => UserInfoProvider(
+      storage: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
+    ),
   ),
   Provider<TourService>(
     create: (context) => TourServiceImpl(
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
 
@@ -93,6 +105,7 @@ List<SingleChildWidget> get providers => [
     create: (context) => AdminRepositoryRemote(
       adminApiService: context.read<AdminApiService>(),
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
 
@@ -104,6 +117,7 @@ List<SingleChildWidget> get providers => [
     create: (context) => CoordinatorRepositoryRemote(
       apiService: context.read<CoordinatorApiService>(),
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
 
@@ -175,6 +189,7 @@ List<SingleChildWidget> get providers => [
   Provider<BookingService>(
     create: (context) => UserBookingRepository(
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   ChangeNotifierProvider(
@@ -224,21 +239,31 @@ List<SingleChildWidget> get providers => [
   Provider<GuideService>(
     create: (context) => GuideServiceImpl(
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   Provider<MissionRepository>(
     create: (context) => MissionRepositoryImpl(
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   Provider<CheckInRepository>(
     create: (context) => CheckInRepositoryImpl(
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   Provider<TourProgressRepository>(
     create: (context) => TourProgressRepositoryImpl(
       securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
+    ),
+  ),
+  Provider<TourCompletedRepository>(
+    create: (context) => TourCompletedRepositoryImpl(
+      securityStorageService: context.read<SecurityStorageService>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   ChangeNotifierProvider(

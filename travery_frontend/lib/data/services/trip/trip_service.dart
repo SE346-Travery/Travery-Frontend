@@ -23,7 +23,7 @@ abstract class TripService {
     String? reason,
   });
 
-  Future<Result<TripBookingData>> createTripPayment(String bookingId);
+  Future<Result<TripPaymentData>> createTripPayment(String bookingId);
 
   Future<Result<List<StationData>>> getStations();
 }

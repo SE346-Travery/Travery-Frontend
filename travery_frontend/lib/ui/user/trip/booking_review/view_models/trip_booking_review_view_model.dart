@@ -18,7 +18,7 @@ class TripBookingReviewViewModel extends ChangeNotifier {
   String? _error;
   String? get error => _error;
 
-  Future<TripBookingData?> createPayment() async {
+  Future<TripPaymentData?> createPayment() async {
     if (_bookingData == null) return null;
 
     _isLoading = true;
@@ -29,7 +29,6 @@ class TripBookingReviewViewModel extends ChangeNotifier {
 
     switch (result) {
       case Ok(value: final data):
-        _bookingData = data;
         _isLoading = false;
         notifyListeners();
         return data;

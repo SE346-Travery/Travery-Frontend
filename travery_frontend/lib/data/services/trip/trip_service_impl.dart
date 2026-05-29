@@ -270,7 +270,7 @@ class TripServiceImpl implements TripService {
   }
 
   @override
-  Future<Result<TripBookingData>> createTripPayment(String bookingId) async {
+  Future<Result<TripPaymentData>> createTripPayment(String bookingId) async {
     final client = HttpClient();
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
 
@@ -298,7 +298,7 @@ class TripServiceImpl implements TripService {
             return Result.error(
               const HttpException('Không có dữ liệu thanh toán'),
             );
-          return Result.ok(TripBookingData.fromJson(data));
+          return Result.ok(TripPaymentData.fromJson(data));
         } on Exception catch (error) {
           return Result.error(error);
         }

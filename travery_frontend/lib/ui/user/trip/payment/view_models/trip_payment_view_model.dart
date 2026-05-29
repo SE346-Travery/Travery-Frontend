@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/models/trip/trip_booking_data.dart';
-import 'package:travery_frontend/data/models/trip/trip_seat_data.dart';
-import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
 import 'package:travery_frontend/data/services/trip/trip_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
@@ -14,6 +12,9 @@ class TripPaymentViewModel extends ChangeNotifier {
   TripBookingData? _bookingData;
   TripBookingData? get bookingData => _bookingData;
 
+  TripPaymentData? _paymentData;
+  TripPaymentData? get paymentData => _paymentData;
+
   String? _bookingId;
   String? get bookingId => _bookingId;
 
@@ -23,7 +24,7 @@ class TripPaymentViewModel extends ChangeNotifier {
   String? _error;
   String? get error => _error;
 
-  Future<TripBookingData?> createPayment(String bookingId) async {
+  Future<TripPaymentData?> createPayment(String bookingId) async {
     _isCreating = true;
     _error = null;
     _bookingId = bookingId;
@@ -33,7 +34,7 @@ class TripPaymentViewModel extends ChangeNotifier {
 
     switch (result) {
       case Ok(value: final data):
-        _bookingData = data;
+        _paymentData = data;
         _isCreating = false;
         notifyListeners();
         return data;

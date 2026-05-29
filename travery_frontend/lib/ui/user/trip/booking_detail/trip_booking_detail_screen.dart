@@ -161,17 +161,22 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                             ),
                           ),
                         );
-                        final paymentBooking = await vm.createPayment(
-                          booking.id,
-                        );
+                        final paymentData = await vm.createPayment(booking.id);
                         if (!context.mounted) return;
                         Navigator.pop(context);
-                        if (paymentBooking != null) {
+                        if (paymentData != null &&
+                            paymentData.paymentUrl.isNotEmpty) {
                           context.push(
-                            Routes.tripPaymentResult,
+                            Routes.tripPayment,
                             extra: {
                               'bookingId': booking.id,
-                              'txnRef': paymentBooking.payment?.transactionId,
+                              'paymentUrl': paymentData.paymentUrl,
+                              'transactionId': paymentData.transactionId,
+                              'amount': paymentData.amount,
+                              'tripName':
+                                  '${booking.originDestination} → ${booking.destinationDestination}',
+                              'expiresAt': paymentData.expiresAt
+                                  ?.toIso8601String(),
                             },
                           );
                         } else {

@@ -16,7 +16,7 @@ class TripPaymentScreen extends StatefulWidget {
 }
 
 class _TripPaymentScreenState extends State<TripPaymentScreen> {
-  late final WebViewController _controller;
+  WebViewController? _controller;
   bool _isLoading = true;
   bool _hasNavigatedAway = false;
   Timer? _pollingTimer;
@@ -28,14 +28,18 @@ class _TripPaymentScreenState extends State<TripPaymentScreen> {
   String? _transactionId;
   String? _tripName;
   double? _amount;
+  bool _isInitialized = false;
 
   @override
-  void initState() {
-    super.initState();
-    _parseExtra();
-    if (_paymentUrl != null) {
-      _initWebView();
-      _startPolling();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInitialized) {
+      _isInitialized = true;
+      _parseExtra();
+      if (_paymentUrl != null && _paymentUrl!.isNotEmpty) {
+        _initWebView();
+        _startPolling();
+      }
     }
   }
 
@@ -43,10 +47,12 @@ class _TripPaymentScreenState extends State<TripPaymentScreen> {
     final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
     if (extra != null) {
       _bookingId = extra['bookingId'] as String?;
-      _paymentUrl = extra['paymentUrl'] as String?;
+      final urlRaw = extra['paymentUrl'];
+      _paymentUrl = (urlRaw is String && urlRaw.isNotEmpty) ? urlRaw : null;
       _transactionId = extra['transactionId'] as String?;
       _tripName = extra['tripName'] as String? ?? 'Chuyến xe';
-      _amount = extra['amount'] as double?;
+      final amountRaw = extra['amount'];
+      _amount = (amountRaw is num) ? amountRaw.toDouble() : null;
     }
   }
 
@@ -201,7 +207,7 @@ class _TripPaymentScreenState extends State<TripPaymentScreen> {
           Expanded(
             child: Stack(
               children: [
-                WebViewWidget(controller: _controller),
+                WebViewWidget(controller: _controller!),
                 if (_isLoading)
                   Container(
                     color: Colors.white,

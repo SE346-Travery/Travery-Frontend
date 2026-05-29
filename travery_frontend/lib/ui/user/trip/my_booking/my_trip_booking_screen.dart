@@ -32,6 +32,7 @@ class _MyTripBookingScreenState extends State<MyTripBookingScreen> {
       backgroundColor: const Color(0xFFFAFAFF),
       appBar: UserAppBar(
         title: 'Đơn đặt vé của tôi',
+        showBackButton: false,
         actions: [
           IconButton(
             onPressed: () => setState(() => _showRail = !_showRail),

@@ -33,7 +33,7 @@ class RefundPolicyWidget extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Trước ${rule.daysBefore} ngày khởi hành',
+                    'Trước ${rule.timeBefore?.toInt() ?? 0} ngày khởi hành',
                     style: const TextStyle(
                       fontSize: 13,
                       color: Color(0xFF414755),
@@ -41,7 +41,7 @@ class RefundPolicyWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Hoàn ${rule.refundPercentage.toInt()}%',
+                  'Hoàn ${rule.refundPercentage?.toInt()}%',
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,

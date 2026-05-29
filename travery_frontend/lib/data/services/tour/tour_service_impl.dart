@@ -159,12 +159,16 @@ class TourServiceImpl implements TourService {
       final response = await request.close();
 
       if (response.statusCode == 200) {
-        final stringData = await response.transform(utf8.decoder).join();
-        final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
-        final data = jsonMap['data'] as Map<String, dynamic>?;
-        if (data == null) return Result.ok(null);
-        final tour = TourDetailPageData.fromJson(data);
-        return Result.ok(tour);
+        try {
+          final stringData = await response.transform(utf8.decoder).join();
+          final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+          final data = jsonMap['data'] as Map<String, dynamic>?;
+          if (data == null) return Result.ok(null);
+          final tour = TourDetailPageData.fromJson(data);
+          return Result.ok(tour);
+        } on Exception catch (error) {
+          return Result.error(error);
+        }
       } else if (response.statusCode == 404) {
         return Result.ok(null);
       } else {

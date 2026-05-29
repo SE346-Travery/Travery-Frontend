@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="vi"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Đặt xe thành công - Travery</title>
+<!-- BEGIN: Scripts -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'travery-blue': '#0066da',
+            'travery-light-blue': '#f3f6ff',
+            'travery-success': '#10b981',
+            'travery-bg': '#ebf3ff',
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: Scripts -->
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="layout-styling">
+    body {
+      background-color: #ebf3ff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .main-container {
+      max-width: 375px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background-color: #f9faff;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .ticket-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle corner accent as seen in the image */
+    .ticket-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      background: #f0f4f9;
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+      opacity: 0.5;
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="antialiased text-slate-800">
+<!-- BEGIN: MainContainer -->
+<main class="main-container shadow-xl">
+<!-- Header Spacing -->
+<div class="h-12 w-full"></div>
+<!-- BEGIN: SuccessHeader -->
+<section class="px-6 flex flex-col items-center text-center mt-4">
+<!-- Success Icon -->
+<div class="relative mb-6">
+<div class="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg shadow-emerald-100">
+<svg class="h-10 w-10 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<!-- Little blue badge icon overlay -->
+<div class="absolute -top-1 -right-1 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center border-2 border-white">
+<span class="text-[10px] text-blue-500">✨</span>
+</div>
+</div>
+<h1 class="text-xl font-bold text-gray-900 mb-2">Đặt xe thành công!</h1>
+<p class="text-xs text-gray-500 leading-relaxed max-w-[240px]">
+        Cảm ơn bạn đã tin tưởng Travery. Hành trình của bạn đã sẵn sàng bắt đầu.
+      </p>
+</section>
+<!-- END: SuccessHeader -->
+<!-- BEGIN: BookingDetailsCard -->
+<section class="px-6 mt-10">
+<div class="ticket-card p-6" data-purpose="booking-info-card">
+<div class="space-y-4">
+<!-- Transaction ID -->
+<div class="flex justify-between items-center">
+<span class="text-[13px] text-gray-500">Mã giao dịch</span>
+<span class="text-[13px] font-bold text-blue-600">TRV-8829-4410</span>
+</div>
+<!-- License Plate -->
+<div class="flex justify-between items-center">
+<span class="text-[13px] text-gray-500">Biển số xe</span>
+<span class="text-[13px] font-medium text-gray-700">59A-123.45</span>
+</div>
+<!-- Trip -->
+<div class="flex justify-between items-center">
+<span class="text-[13px] text-gray-500">Chuyến đi</span>
+<span class="text-[13px] font-bold text-gray-700">TP HCM <span class="mx-1">→</span> Đà Lạt</span>
+</div>
+<!-- Vehicle Type -->
+<div class="flex justify-between items-center">
+<span class="text-[13px] text-gray-500">Loại xe</span>
+<span class="text-[13px] font-bold text-gray-700">Limousine</span>
+</div>
+<!-- Dotted Divider -->
+<div class="border-t border-dashed border-gray-200 my-2"></div>
+<!-- Total Payment -->
+<div class="flex justify-between items-center">
+<span class="text-[13px] text-gray-500">Tổng thanh toán</span>
+<span class="text-[16px] font-extrabold text-gray-800">320.000 VND</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: BookingDetailsCard -->
+<!-- BEGIN: ActionButtons -->
+<section class="px-6 mt-12 flex flex-col gap-3">
+<!-- Main Action: View Booking -->
+<button class="w-full py-3.5 bg-travery-blue text-white font-bold rounded-xl shadow-lg shadow-blue-100 active:scale-[0.98] transition-transform" data-purpose="view-booking-button">
+        Xem booking
+      </button>
+<!-- Secondary Action: Home -->
+<button class="w-full py-3.5 bg-travery-light-blue text-travery-blue font-bold rounded-xl active:scale-[0.98] transition-transform" data-purpose="go-home-button">
+        Về trang chủ
+      </button>
+</section>
+<!-- END: ActionButtons -->
+<!-- Empty space for footer area padding -->
+<div class="flex-grow"></div>
+<div class="h-10"></div>
+</main>
+<!-- END: MainContainer -->
+</body></html>

@@ -5,7 +5,6 @@ import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
 import 'package:travery_frontend/ui/user/trip/list/view_models/trip_list_view_model.dart';
-import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class TripListScreen extends StatefulWidget {
   const TripListScreen({super.key});
@@ -38,19 +37,13 @@ class _TripListScreenState extends State<TripListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFF),
-      appBar: UserAppBar(
-        title: 'Danh sách chuyến xe',
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-      ),
+      backgroundColor: const Color(0xFFF8F9FA),
       body: Consumer<TripListViewModel>(
         builder: (context, vm, _) {
           return Column(
             children: [
-              _SearchInfoBar(vm: vm),
+              _buildHeader(context, vm),
+              _DateStrip(vm: vm),
               _FilterChips(vm: vm),
               Expanded(
                 child: vm.isLoading
@@ -66,6 +59,65 @@ class _TripListScreenState extends State<TripListScreen> {
         },
       ),
     );
+  }
+
+  Widget _buildHeader(BuildContext context, TripListViewModel vm) {
+    return Container(
+      color: AppColors.primary,
+      padding: EdgeInsets.fromLTRB(
+        12,
+        MediaQuery.of(context).padding.top + 8,
+        16,
+        16,
+      ),
+      child: Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => context.pop(),
+          ),
+          const SizedBox(width: 4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '${vm.origin?.name ?? 'Điểm đi'} → ${vm.destination?.name ?? 'Điểm đến'}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (vm.departureDate != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    _formatHeaderDate(vm.departureDate!),
+                    style: const TextStyle(fontSize: 12, color: Colors.white70),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(width: 40),
+        ],
+      ),
+    );
+  }
+
+  String _formatHeaderDate(DateTime dt) {
+    const weekdays = [
+      'Thứ 2',
+      'Thứ 3',
+      'Thứ 4',
+      'Thứ 5',
+      'Thứ 6',
+      'Thứ 7',
+      'CN',
+    ];
+    return '${weekdays[dt.weekday - 1]}, ${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
   }
 
   Widget _buildTripList(TripListViewModel vm) {
@@ -131,54 +183,91 @@ class _TripListScreenState extends State<TripListScreen> {
   }
 }
 
-class _SearchInfoBar extends StatelessWidget {
-  const _SearchInfoBar({required this.vm});
+class _DateStrip extends StatelessWidget {
+  const _DateStrip({required this.vm});
   final TripListViewModel vm;
 
   @override
   Widget build(BuildContext context) {
+    final today = DateTime.now();
+    final dates = List.generate(7, (i) => today.add(Duration(days: i)));
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       color: Colors.white,
-      child: Row(
-        children: [
-          const Icon(Icons.trip_origin, size: 14, color: AppColors.primary),
-          const SizedBox(width: 4),
-          Expanded(
-            child: Text(
-              vm.origin?.name ?? 'Điểm đi',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF131B2E),
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: SizedBox(
+        height: 68,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          itemCount: dates.length,
+          separatorBuilder: (_, __) => const SizedBox(width: 8),
+          itemBuilder: (context, index) {
+            final date = dates[index];
+            final isSelected = _isSameDay(date, vm.departureDate ?? today);
+            return _DateChip(
+              date: date,
+              isSelected: isSelected,
+              onTap: () => vm.setDepartureDate(date),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  bool _isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+}
+
+class _DateChip extends StatelessWidget {
+  const _DateChip({
+    required this.date,
+    required this.isSelected,
+    required this.onTap,
+  });
+  final DateTime date;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    const weekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 64,
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primary : const Color(0xFFF8F9FA),
+          borderRadius: BorderRadius.circular(12),
+          border: isSelected
+              ? null
+              : Border.all(color: const Color(0xFFE2E8F0)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              weekdays[date.weekday - 1],
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: isSelected ? Colors.white70 : const Color(0xFF717786),
               ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Icon(
-              Icons.arrow_forward,
-              size: 14,
-              color: Color(0xFF717786),
-            ),
-          ),
-          const Icon(Icons.location_on, size: 14, color: Color(0xFFFF6B6B)),
-          const SizedBox(width: 4),
-          Expanded(
-            child: Text(
-              vm.destination?.name ?? 'Điểm đến',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF131B2E),
+            const SizedBox(height: 4),
+            Text(
+              '${date.day}/${date.month}',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: isSelected ? Colors.white : const Color(0xFF131B2E),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -191,19 +280,22 @@ class _FilterChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
       ),
-      child: Row(
-        children: [
-          Expanded(child: _PriceChip(vm: vm)),
-          const SizedBox(width: 8),
-          Expanded(child: _CoachChip(vm: vm)),
-          const SizedBox(width: 8),
-          Expanded(child: _TimeChip(vm: vm)),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _PriceChip(vm: vm),
+            const SizedBox(width: 8),
+            _CoachChip(vm: vm),
+            const SizedBox(width: 8),
+            _TimeChip(vm: vm),
+          ],
+        ),
       ),
     );
   }
@@ -578,7 +670,7 @@ class _CoachTypeFilterSheet extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           _CoachOption(
-            label: 'Ghế ngồi',
+            label: 'Ghế thường',
             value: CoachType.seat,
             current: vm.selectedCoachType,
             vm: vm,
@@ -800,132 +892,9 @@ class _TripCard extends StatelessWidget {
   final dynamic trip;
   final VoidCallback onTap;
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.directions_bus,
-                    color: AppColors.primary,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        trip.coachType,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF131B2E),
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${trip.availableSeats} ghế trống',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFF717786),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      _formatPrice(trip.basePrice as double),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    const Text(
-                      '/khách',
-                      style: TextStyle(fontSize: 11, color: Color(0xFF717786)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Text(
-                  _formatTime(trip.departureTime as DateTime),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF131B2E),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    children: [
-                      const Text(
-                        '_____________',
-                        style: TextStyle(
-                          color: Color(0xFFE2E8F0),
-                          letterSpacing: 4,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        _formatDuration(
-                          trip.departureTime as DateTime,
-                          trip.arrivalTime as DateTime,
-                        ),
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Color(0xFF717786),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  _formatTime(trip.arrivalTime as DateTime),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: Color(0xFF131B2E),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+  String _formatPrice(double price) {
+    final str = price.toStringAsFixed(0);
+    return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
   }
 
   String _formatTime(DateTime dt) {
@@ -939,8 +908,251 @@ class _TripCard extends StatelessWidget {
     return '${hours}h ${minutes}m';
   }
 
-  String _formatPrice(double price) {
-    final str = price.toStringAsFixed(0);
-    return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  String _coachLabel(String coachType) {
+    switch (coachType.toUpperCase()) {
+      case 'LIMOUSINE':
+        return 'Ghế - Limousine';
+      case 'BED':
+        return 'Giường nằm';
+      case 'SEAT':
+      default:
+        return 'Ghế';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Row 1: Departure time → Arrival time
+            Row(
+              children: [
+                Text(
+                  _formatTime(trip.departureTime as DateTime),
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF131B2E),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: Color(0xFFE2E8F0),
+                              thickness: 1,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: Icon(
+                              Icons.arrow_forward,
+                              size: 14,
+                              color: Color(0xFF717786),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: Color(0xFFE2E8F0),
+                              thickness: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        '_____________',
+                        style: TextStyle(
+                          color: Color(0xFFE2E8F0),
+                          letterSpacing: 4,
+                          fontSize: 8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  _formatTime(trip.arrivalTime as DateTime),
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF131B2E),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            // Row 2: Duration (below time row)
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                _formatDuration(
+                  trip.departureTime as DateTime,
+                  trip.arrivalTime as DateTime,
+                ),
+                style: const TextStyle(fontSize: 10, color: Color(0xFF717786)),
+              ),
+            ),
+            const SizedBox(height: 10),
+            // Row 3: Info badge
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8F9FA),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    _formatPrice(trip.basePrice as double),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      '•',
+                      style: TextStyle(color: Color(0xFFE2E8F0)),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      _coachLabel(trip.coachType as String),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF414755),
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      '•',
+                      style: TextStyle(color: Color(0xFFE2E8F0)),
+                    ),
+                  ),
+                  Text(
+                    '${trip.availableSeats} seats left',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF717786),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Row 4: Route tracking
+            _buildRouteTracking(trip),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRouteTracking(dynamic trip) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Vertical line + dots
+        SizedBox(
+          width: 24,
+          child: Column(
+            children: [
+              // Green dot (origin)
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFF4CAF50), width: 2),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Container(
+                    width: 5,
+                    height: 5,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFF4CAF50),
+                    ),
+                  ),
+                ),
+              ),
+              // Dotted line
+              Container(
+                width: 2,
+                height: 32,
+                decoration: const BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: Color(0xFFE2E8F0),
+                      width: 2,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                ),
+                margin: const EdgeInsets.symmetric(vertical: 4),
+              ),
+              // Red pin (destination)
+              const Icon(Icons.location_on, size: 18, color: Color(0xFFFF6B6B)),
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        // Origin + Destination names
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 0),
+              Text(
+                trip.originDestination?.name ?? 'Điểm đi',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF131B2E),
+                ),
+              ),
+              const SizedBox(height: 28),
+              Text(
+                trip.destinationDestination?.name ?? 'Điểm đến',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF131B2E),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

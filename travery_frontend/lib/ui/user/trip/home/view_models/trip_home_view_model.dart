@@ -117,6 +117,12 @@ class TripHomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<Result<List<DestinationData>>> searchDestinations(
+    String keyword,
+  ) async {
+    return await _tripService.searchDestinations(keyword);
+  }
+
   bool get canSearch =>
       _selectedOrigin != null &&
       _selectedDestination != null &&

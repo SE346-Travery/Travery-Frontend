@@ -359,4 +359,52 @@ class TripServiceImpl implements TripService {
       client.close();
     }
   }
+
+  @override
+  Future<Result<List<DestinationData>>> searchDestinations(
+    String keyword,
+  ) async {
+    final client = HttpClient();
+    client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
+
+    try {
+      final request = await client.getUrl(
+        Uri.https(AppConfig.baseUrl, '/api/v1/destinations/search', {
+          'keyword': keyword,
+        }),
+      );
+      request.headers.set(
+        HttpHeaders.contentTypeHeader,
+        ContentType.json.value,
+      );
+      await _setBearerAuth(request);
+
+      final response = await request.close();
+
+      if (response.statusCode == 200) {
+        try {
+          final stringData = await response.transform(utf8.decoder).join();
+          final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+          final data = jsonMap['data'] as List<dynamic>?;
+          if (data == null) return Result.ok([]);
+          final destinations = data
+              .map((e) => DestinationData.fromJson(e as Map<String, dynamic>))
+              .toList();
+          return Result.ok(destinations);
+        } on Exception catch (error) {
+          return Result.error(error);
+        }
+      } else {
+        final errorMsg = await _extractErrorMessage(
+          response,
+          'Tìm kiếm điểm đến thất bại',
+        );
+        return Result.error(HttpException(errorMsg));
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    } finally {
+      client.close();
+    }
+  }
 }

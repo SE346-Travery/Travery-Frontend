@@ -5,6 +5,7 @@ import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/trip/home/view_models/trip_home_view_model.dart';
 import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
+import 'package:travery_frontend/utils/core_result.dart';
 
 class TripHomeScreen extends StatefulWidget {
   const TripHomeScreen({super.key});
@@ -36,7 +37,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
               const SizedBox(height: 24),
               _buildSearchCard(context, vm),
               const SizedBox(height: 24),
-              _buildPopularDestinations(context, vm),
+              _buildPopularDestinations(),
             ],
           );
         },
@@ -216,6 +217,13 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
           }
           Navigator.pop(ctx);
         },
+        onSearch: (keyword) async {
+          final result = await vm.searchDestinations(keyword);
+          return switch (result) {
+            Ok(value: final data) => data,
+            Error() => [],
+          };
+        },
       ),
     );
   }
@@ -248,85 +256,43 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
     }
   }
 
-  Widget _buildPopularDestinations(BuildContext context, TripHomeViewModel vm) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Điểm đến phổ biến',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF131B2E),
-          ),
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 100,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: vm.destinations.length.clamp(0, 6),
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (context, index) {
-              final dest = vm.destinations[index];
-              return GestureDetector(
-                onTap: () {
-                  if (vm.selectedOrigin != null) {
-                    vm.selectDestination(dest);
-                    context.push(
-                      Routes.tripList,
-                      extra: {
-                        'origin': vm.selectedOrigin,
-                        'destination': dest,
-                        'departureDate': vm.departureDate,
-                      },
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Vui lòng chọn điểm đi trước'),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  width: 120,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [AppColors.primary, AppColors.primaryLight],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(
-                        Icons.directions_bus,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      Text(
-                        dest.name,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+  Widget _buildPopularDestinations() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Image.network(
+        'https://carshop.vn/wp-content/uploads/2022/07/LESO3679-HDR-min-scaled.jpg',
+        fit: BoxFit.cover,
+        width: double.infinity,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            height: 160,
+            color: const Color(0xFFF2F3FF),
+            child: const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.primary,
+              ),
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: 160,
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.image_not_supported,
+                color: Colors.white54,
+                size: 40,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -455,18 +421,84 @@ class _DateField extends StatelessWidget {
   }
 }
 
-class _DestinationBottomSheet extends StatelessWidget {
+class _DestinationBottomSheet extends StatefulWidget {
   const _DestinationBottomSheet({
     required this.title,
     required this.destinations,
     required this.selectedDestination,
     required this.onSelect,
+    required this.onSearch,
   });
 
   final String title;
   final List<dynamic> destinations;
   final dynamic selectedDestination;
   final void Function(dynamic) onSelect;
+  final Future<List<dynamic>> Function(String keyword) onSearch;
+
+  @override
+  State<_DestinationBottomSheet> createState() =>
+      _DestinationBottomSheetState();
+}
+
+class _DestinationBottomSheetState extends State<_DestinationBottomSheet> {
+  final _searchController = TextEditingController();
+  List<dynamic> _filteredDestinations = [];
+  bool _isSearching = false;
+  String _searchText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredDestinations = widget.destinations.cast();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    final query = _searchController.text.trim().toLowerCase();
+    if (query.isEmpty) {
+      setState(() {
+        _filteredDestinations = widget.destinations.cast();
+        _searchText = '';
+        _isSearching = false;
+      });
+      return;
+    }
+    setState(() {
+      _searchText = query;
+      _isSearching = true;
+    });
+    _performSearch(query);
+  }
+
+  Future<void> _performSearch(String query) async {
+    try {
+      final results = await widget.onSearch(query);
+      if (!mounted) return;
+      if (query != _searchText) return;
+      setState(() {
+        _filteredDestinations = results;
+        _isSearching = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      if (query != _searchText) return;
+      final localFiltered = widget.destinations
+          .where((d) => (d.name as String).toLowerCase().contains(query))
+          .toList();
+      setState(() {
+        _filteredDestinations = localFiltered;
+        _isSearching = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -479,102 +511,170 @@ class _DestinationBottomSheet extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
             decoration: const BoxDecoration(
               border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
             ),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF131B2E),
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF131B2E),
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.close, color: Color(0xFF717786)),
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.close, color: Color(0xFF717786)),
+                const SizedBox(height: 12),
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    autofocus: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Tìm kiếm điểm đến...',
+                      hintStyle: TextStyle(
+                        color: Color(0xFF717786),
+                        fontSize: 14,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color(0xFF717786),
+                        size: 20,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 12,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF131B2E),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: destinations.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 8),
-              itemBuilder: (context, index) {
-                final dest = destinations[index];
-                final isSelected = selectedDestination?.id == dest.id;
-                return GestureDetector(
-                  onTap: () => onSelect(dest),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? AppColors.primary.withValues(alpha: 0.06)
-                          : const Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.circular(12),
-                      border: isSelected
-                          ? Border.all(color: AppColors.primary)
-                          : null,
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(alpha: 0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.location_city,
-                            color: AppColors.primary,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                dest.name,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF131B2E),
-                                ),
-                              ),
-                              Text(
-                                '${dest.stations.length} trạm',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF717786),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        if (isSelected)
-                          const Icon(
-                            Icons.check_circle,
-                            color: AppColors.primary,
-                            size: 20,
-                          ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+          Expanded(child: _buildList()),
         ],
       ),
+    );
+  }
+
+  Widget _buildList() {
+    if (_isSearching) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(32),
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.primary,
+          ),
+        ),
+      );
+    }
+
+    if (_filteredDestinations.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.search_off, color: Color(0xFF717786), size: 48),
+            const SizedBox(height: 12),
+            Text(
+              _searchText.isEmpty
+                  ? 'Không có điểm đến nào'
+                  : 'Không tìm thấy "$_searchText"',
+              style: const TextStyle(fontSize: 14, color: Color(0xFF717786)),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
+      itemCount: _filteredDestinations.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      itemBuilder: (context, index) {
+        final dest = _filteredDestinations[index];
+        final isSelected = widget.selectedDestination?.id == dest.id;
+        return GestureDetector(
+          onTap: () => widget.onSelect(dest),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? AppColors.primary.withValues(alpha: 0.06)
+                  : const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(12),
+              border: isSelected ? Border.all(color: AppColors.primary) : null,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.location_city,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        dest.name,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF131B2E),
+                        ),
+                      ),
+                      Text(
+                        '${dest.stations.length} trạm',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF717786),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isSelected)
+                  const Icon(
+                    Icons.check_circle,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -21,6 +21,7 @@ abstract class TourService {
     String? sortDir,
     int page = 0,
     int size = 20,
+    int? minDays,
   });
 
   Future<Result<List<TourFeaturedItem>>> getFeaturedTours();

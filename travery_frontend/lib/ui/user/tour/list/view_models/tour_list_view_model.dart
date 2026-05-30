@@ -33,6 +33,7 @@ class TourListViewModel extends ChangeNotifier {
   DateTime? _startDate;
   int _currentPage = 0;
   static const int _pageSize = 20;
+  static const int _defaultMinDays = 5;
 
   // Debounce timer for search
   Timer? _debounceTimer;
@@ -138,6 +139,7 @@ class TourListViewModel extends ChangeNotifier {
       startDate: _startDate,
       page: _currentPage,
       size: _pageSize,
+      minDays: _defaultMinDays,
     );
 
     switch (result) {
@@ -167,6 +169,7 @@ class TourListViewModel extends ChangeNotifier {
       startDate: _startDate,
       page: _currentPage,
       size: _pageSize,
+      minDays: _defaultMinDays,
     );
 
     switch (result) {

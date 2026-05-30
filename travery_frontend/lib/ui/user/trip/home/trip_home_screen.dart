@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,17 @@ import 'package:travery_frontend/ui/user/trip/home/view_models/trip_home_view_mo
 import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
+const _kBannerImages = [
+  'https://cellphones.com.vn/sforum/wp-content/uploads/2022/12/ung-dung-dat-xe-1.jpg',
+  'https://aegona.vn/wp-content/uploads/2024/02/thiet-ke-app-dat-xe-may-be.png',
+  'https://kenh14cdn.com/2019/1/11/photo-6-15471832961491730428272.jpg',
+  'https://mrluka.com/wp-content/uploads/2025/09/Dich-Vu-Quang-Cao-Google-Ads-Xe-Honda-Cong-Ty-Quang-Cao-Google-Ads-Uy-Tin-Chuyeen-Nghiep.jpg',
+  'https://cdn.xanhsm.com/2023/06/0484e3a7-huong-dan-tai-app-taxi-xanh-sm.jpg',
+  'https://busmedia.vn/wp-content/uploads/2019/06/bao-gia-quang-cao-xe-buyt-5.jpg',
+  'https://quangcaooto.vn/wp-content/uploads/2023/02/bai-viet-quang-cao-xe-o-to-1-768x515.jpg',
+  'https://citgroup.vn/wp-content/uploads/2024/05/app-quan-ly-xe-640x427.png',
+];
+
 class TripHomeScreen extends StatefulWidget {
   const TripHomeScreen({super.key});
 
@@ -15,6 +27,8 @@ class TripHomeScreen extends StatefulWidget {
 }
 
 class _TripHomeScreenState extends State<TripHomeScreen> {
+  int _bannerIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +51,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
               const SizedBox(height: 24),
               _buildSearchCard(context, vm),
               const SizedBox(height: 24),
-              _buildPopularDestinations(),
+              _buildBannerCarousel(),
             ],
           );
         },
@@ -256,43 +270,92 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
     }
   }
 
-  Widget _buildPopularDestinations() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Image.network(
-        'https://carshop.vn/wp-content/uploads/2022/07/LESO3679-HDR-min-scaled.jpg',
-        fit: BoxFit.cover,
-        width: double.infinity,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            height: 160,
-            color: const Color(0xFFF2F3FF),
-            child: const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: AppColors.primary,
-              ),
-            ),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            height: 160,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.image_not_supported,
-                color: Colors.white54,
-                size: 40,
-              ),
-            ),
-          );
-        },
-      ),
+  final PageController _bannerPageController = PageController(
+    viewportFraction: 0.92,
+  );
+
+  @override
+  void dispose() {
+    _bannerPageController.dispose();
+    super.dispose();
+  }
+
+  Widget _buildBannerCarousel() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Khám phá dịch vụ',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF131B2E),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 160,
+          child: PageView.builder(
+            controller: _bannerPageController,
+            onPageChanged: (index) {
+              setState(() => _bannerIndex = index);
+            },
+            itemCount: _kBannerImages.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(
+                    _kBannerImages[index],
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        color: const Color(0xFFF2F3FF),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.primary.withValues(alpha: 0.8),
+                              AppColors.primary,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.directions_bus,
+                            color: Colors.white54,
+                            size: 48,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 8),
+        _CarouselIndicator(
+          controller: _bannerPageController,
+          count: _kBannerImages.length,
+          currentIndex: _bannerIndex,
+        ),
+      ],
     );
   }
 }
@@ -418,6 +481,75 @@ class _DateField extends StatelessWidget {
   String _formatDate(DateTime date) {
     final weekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
     return '${weekdays[date.weekday - 1]}, ${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+}
+
+class _CarouselIndicator extends StatefulWidget {
+  const _CarouselIndicator({
+    required this.controller,
+    required this.count,
+    required this.currentIndex,
+  });
+
+  final PageController controller;
+  final int count;
+  final int currentIndex;
+
+  @override
+  State<_CarouselIndicator> createState() => _CarouselIndicatorState();
+}
+
+class _CarouselIndicatorState extends State<_CarouselIndicator> {
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_onPageChanged);
+  }
+
+  @override
+  void didUpdateWidget(_CarouselIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(_onPageChanged);
+      widget.controller.addListener(_onPageChanged);
+    }
+  }
+
+  void _onPageChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onPageChanged);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 6,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(widget.count, (index) {
+          final isActive =
+              widget.controller.hasClients &&
+              (widget.controller.page?.round() ?? widget.currentIndex) == index;
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            margin: const EdgeInsets.symmetric(horizontal: 3),
+            width: isActive ? 20 : 6,
+            height: 6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3),
+              color: isActive
+                  ? AppColors.primary
+                  : AppColors.primary.withValues(alpha: 0.25),
+            ),
+          );
+        }),
+      ),
+    );
   }
 }
 

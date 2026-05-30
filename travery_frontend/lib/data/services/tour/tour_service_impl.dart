@@ -60,6 +60,7 @@ class TourServiceImpl implements TourService {
     String? sortDir,
     int page = 0,
     int size = 20,
+    int? minDays,
   }) async {
     final client = HttpClient();
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
@@ -83,6 +84,9 @@ class TourServiceImpl implements TourService {
       }
       if (sortBy != null && sortBy.isNotEmpty && sortDir != null) {
         queryParams['sort'] = '$sortBy,$sortDir';
+      }
+      if (minDays != null) {
+        queryParams['minDays'] = minDays.toString();
       }
 
       final request = await client.getUrl(

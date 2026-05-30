@@ -121,9 +121,10 @@ List<SingleChildWidget> get providers => [
     create: (context) =>
         SeatPickerViewModel(tripService: context.read<TripService>()),
   ),
+  ChangeNotifierProvider(create: (_) => TripBookingInputViewModel()),
   ChangeNotifierProvider(
     create: (context) =>
-        TripBookingInputViewModel(tripService: context.read<TripService>()),
+        TripBookingReviewViewModel(tripService: context.read<TripService>()),
   ),
   ChangeNotifierProvider(
     create: (context) =>

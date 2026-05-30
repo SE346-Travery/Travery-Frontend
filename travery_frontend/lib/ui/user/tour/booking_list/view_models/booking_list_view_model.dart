@@ -62,8 +62,8 @@ class BookingListViewModel extends ChangeNotifier {
 
     switch (result) {
       case Ok(value: final data):
-        _bookings = data.content;
-        _hasMore = _bookings.length >= _pageSize;
+        _bookings = data.content.where((b) => !b.isTooSoon).toList();
+        _hasMore = data.content.length >= _pageSize;
       case Error(error: final e):
         _error = e.toString();
     }
@@ -89,7 +89,7 @@ class BookingListViewModel extends ChangeNotifier {
 
     switch (result) {
       case Ok(value: final data):
-        _bookings.addAll(data.content);
+        _bookings.addAll(data.content.where((b) => !b.isTooSoon));
         _hasMore = data.content.length >= _pageSize;
       case Error(error: final e):
         _currentPage--;

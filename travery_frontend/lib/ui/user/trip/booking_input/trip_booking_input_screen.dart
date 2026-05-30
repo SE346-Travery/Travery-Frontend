@@ -22,17 +22,28 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
-      if (extra != null) {
-        final trip = extra['trip'] as TripSearchItem;
-        final seats = extra['seats'] as List<SeatItem>;
-        context.read<TripBookingInputViewModel>().setTripAndSeats(
-          trip: trip,
-          seats: seats,
-        );
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadExtraData());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadExtraData();
+  }
+
+  void _loadExtraData() {
+    if (!mounted) return;
+    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+    if (extra != null) {
+      final trip = extra['trip'] as TripSearchItem;
+      final seats = extra['seats'] as List<SeatItem>;
+      final vm = context.read<TripBookingInputViewModel>();
+      vm.setTripAndSeats(trip: trip, seats: seats);
+      if (seats.isNotEmpty) {
+        _nameController.clear();
+        _phoneController.clear();
       }
-    });
+    }
   }
 
   @override
@@ -110,9 +121,7 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
             child: SafeArea(
               top: false,
               child: ElevatedButton(
-                onPressed: vm.isSubmitting
-                    ? null
-                    : () => _onSubmit(context, vm),
+                onPressed: () => _onSubmit(context, vm),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
@@ -126,7 +135,7 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Thanh toán',
+                      'Tiếp tục',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -471,8 +480,9 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
             hint: 'Nhập họ và tên',
             onChanged: vm.setContactName,
             validator: (value) {
-              if (value == null || value.trim().isEmpty)
+              if (value == null || value.trim().isEmpty) {
                 return 'Vui lòng nhập họ tên';
+              }
               return null;
             },
           ),
@@ -483,9 +493,12 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
             hint: 'Nhập số điện thoại',
             onChanged: vm.setContactPhone,
             validator: (value) {
-              if (value == null || value.trim().isEmpty)
+              if (value == null || value.trim().isEmpty) {
                 return 'Vui lòng nhập số điện thoại';
-              if (value.trim().length < 10) return 'Số điện thoại không hợp lệ';
+              }
+              if (value.trim().length < 10) {
+                return 'Số điện thoại không hợp lệ';
+              }
               return null;
             },
           ),
@@ -633,18 +646,15 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
   ) async {
     if (!_formKey.currentState!.validate()) return;
 
-    final success = await vm.submitBooking();
-    if (!success || !context.mounted) return;
-
-    final booking = vm.bookingData;
-    if (booking == null) return;
+    final trip = vm.trip;
+    final seats = vm.selectedSeats;
+    if (trip == null || seats.isEmpty) return;
 
     context.push(
       Routes.tripBookingReview,
       extra: {
-        'booking': booking,
-        'trip': vm.trip,
-        'seats': vm.selectedSeats,
+        'trip': trip,
+        'seats': seats,
         'contactName': vm.contactName,
         'contactPhone': vm.contactPhone,
       },

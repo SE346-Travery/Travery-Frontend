@@ -57,6 +57,7 @@ import 'package:travery_frontend/ui/user/trip/booking_input/trip_booking_input_s
 import 'package:travery_frontend/ui/user/trip/booking_input/view_models/trip_booking_input_view_model.dart';
 import 'package:travery_frontend/ui/user/trip/booking_review/trip_booking_review_screen.dart';
 import 'package:travery_frontend/ui/user/trip/booking_review/view_models/trip_booking_review_view_model.dart';
+import 'package:travery_frontend/data/services/trip/trip_service.dart';
 import 'package:travery_frontend/ui/user/trip/payment/trip_payment_screen.dart';
 import 'package:travery_frontend/ui/user/trip/payment/view_models/trip_payment_view_model.dart';
 import 'package:travery_frontend/ui/user/trip/payment_result/trip_payment_result_screen.dart';
@@ -477,7 +478,12 @@ GoRouter appRouter(
       GoRoute(
         path: Routes.tripBookingReview,
         builder: (context, state) {
-          return const TripBookingReviewScreen();
+          return ChangeNotifierProvider(
+            create: (_) => TripBookingReviewViewModel(
+              tripService: context.read<TripService>(),
+            ),
+            child: const TripBookingReviewScreen(),
+          );
         },
       ),
       GoRoute(

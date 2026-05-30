@@ -28,9 +28,8 @@ class TripCancelSuccessScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(),
+                const SizedBox(height: 16),
                 Container(
                   width: 88,
                   height: 88,
@@ -67,56 +66,55 @@ class TripCancelSuccessScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 28),
-                if (cancelData != null) ...[
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 16,
-                          offset: const Offset(0, 4),
+                if (cancelData != null)
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 16,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Thông tin hoàn tiền',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF1E293B),
-                          ),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Thông tin hoàn tiền',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF1E293B),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            _InfoRow(
+                              'Số tiền hoàn',
+                              _formatPrice(cancelData.refundAmount),
+                            ),
+                            const Divider(height: 24),
+                            _InfoRow(
+                              'Tỷ lệ hoàn',
+                              '${cancelData.refundPercentage.toInt()}%',
+                            ),
+                            const Divider(height: 24),
+                            _InfoRow(
+                              'Trạng thái hoàn',
+                              _getRefundStatusLabel(cancelData.refundStatus),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 16),
-                        _InfoRow(
-                          'Số tiền hoàn',
-                          _formatPrice(cancelData.refundAmount),
-                        ),
-                        const Divider(height: 24),
-                        _InfoRow(
-                          'Tỷ lệ hoàn',
-                          '${cancelData.refundPercentage.toInt()}%',
-                        ),
-                        const Divider(height: 24),
-                        _InfoRow(
-                          'Trạng thái hoàn',
-                          _getRefundStatusLabel(cancelData.refundStatus),
-                        ),
-                        if (cancelData.refundMessage.isNotEmpty) ...[
-                          const Divider(height: 24),
-                          _InfoRow('Ghi chú', cancelData.refundMessage),
-                        ],
-                      ],
+                      ),
                     ),
                   ),
-                ],
-                const Spacer(),
+                const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

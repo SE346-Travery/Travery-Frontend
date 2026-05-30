@@ -282,12 +282,6 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
 
   Widget _buildBottomBar(TripBookingData booking) {
     return Container(
-      padding: EdgeInsets.fromLTRB(
-        20,
-        12,
-        20,
-        MediaQuery.of(context).padding.bottom + 12,
-      ),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -300,34 +294,53 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
       ),
       child: SafeArea(
         top: false,
-        child: ElevatedButton.icon(
-          onPressed: !_confirmed || _isCancelling ? null : () => _onCancel(),
-          icon: _isCancelling
-              ? const SizedBox(width: 18, height: 18)
-              : const Icon(Icons.warning_amber_rounded, size: 18),
-          label: _isCancelling
-              ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                )
-              : const Text(
-                  'Xác nhận hủy vé',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: !_confirmed || _isCancelling
+                  ? null
+                  : () => _onCancel(),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade600,
+                foregroundColor: Colors.white,
+                disabledBackgroundColor: Colors.red.shade100,
+                disabledForegroundColor: Colors.red.shade300,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red.shade600,
-            foregroundColor: Colors.white,
-            disabledBackgroundColor: Colors.red.shade100,
-            disabledForegroundColor: Colors.red.shade300,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+                elevation: 0,
+              ),
+              child: _isCancelling
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.warning_amber_rounded,
+                          size: 18,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'Xác nhận hủy vé',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
             ),
-            elevation: 0,
           ),
         ),
       ),

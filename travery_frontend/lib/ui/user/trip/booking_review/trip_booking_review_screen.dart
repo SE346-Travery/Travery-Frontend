@@ -8,6 +8,7 @@ import 'package:travery_frontend/data/models/trip/trip_booking_data.dart';
 import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
 import 'package:travery_frontend/data/models/trip/trip_seat_data.dart';
 import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
+import 'package:travery_frontend/ui/user/widgets/trip_card.dart';
 
 String _formatPrice(double price) {
   final str = price.toStringAsFixed(0);
@@ -143,89 +144,17 @@ class _TripInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: _cardDecoration(),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(Icons.directions_bus, color: AppColors.primary),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  trip != null
-                      ? _getCoachTypeLabel(trip!.coachType)
-                      : 'Xe khách',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF131B2E),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${booking.originDestination} → ${booking.destinationDestination}',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF717786),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${_formatDate(booking.departureTime)} • ${_formatTime(booking.departureTime)}',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF414755),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _getCoachTypeLabel(String type) {
-    switch (type) {
-      case 'BED':
-        return 'Xe giường nằm';
-      case 'LIMOUSINE':
-        return 'Limousine';
-      default:
-        return 'Xe ghế ngồi';
-    }
-  }
-
-  String _formatDate(DateTime dt) {
-    return '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
-  }
-
-  String _formatTime(DateTime dt) {
-    return '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
-  }
-
-  BoxDecoration _cardDecoration() {
-    return BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.04),
-          blurRadius: 12,
-          offset: const Offset(0, 4),
-        ),
-      ],
+    return TripCard(
+      departureTime: trip?.departureTime ?? booking.departureTime,
+      arrivalTime:
+          trip?.arrivalTime ??
+          (booking.estimatedArrivalTime ?? booking.departureTime),
+      originName: trip?.originDestination.name ?? booking.originDestination,
+      destinationName:
+          trip?.destinationDestination.name ?? booking.destinationDestination,
+      price: trip?.basePrice ?? booking.basePrice,
+      coachType: trip?.coachType,
+      onTap: null,
     );
   }
 }
@@ -236,8 +165,16 @@ class _SeatCard extends StatelessWidget {
   final List<SeatItem>? seats;
   final double basePrice;
 
+  String _formatPrice(double price) {
+    final str = price.toStringAsFixed(0);
+    return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final seatNames = seats?.map((s) => s.seatName).toList() ?? <String>[];
+    final count = seatNames.length;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -251,29 +188,102 @@ class _SeatCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: (seats ?? []).map((seat) {
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: AppColors.primary.withValues(alpha: 0.3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.event_seat, size: 18, color: AppColors.primary),
+              const SizedBox(width: 8),
+              const Text(
+                'Ghế đã chọn',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF131B2E),
+                ),
               ),
-            ),
-            child: Text(
-              seat.seatName,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.primary,
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  '$count ghế',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
+                ),
               ),
-            ),
-          );
-        }).toList(),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: seatNames.map((name) {
+              return Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F4FF),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.25),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.chair,
+                      size: 14,
+                      color: AppColors.primary.withValues(alpha: 0.7),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1E40AF),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 12),
+          const Divider(height: 1),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '$count x ${_formatPrice(basePrice)}',
+                style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+              ),
+              Text(
+                _formatPrice(count * basePrice),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF131B2E),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

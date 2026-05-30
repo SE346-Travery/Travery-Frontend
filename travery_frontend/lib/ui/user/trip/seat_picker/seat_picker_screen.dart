@@ -67,8 +67,8 @@ class _SeatPickerScreenState extends State<SeatPickerScreen> {
           final seatData = vm.seatData!;
           return Column(
             children: [
-              _buildTripInfo(vm),
               if (seatData.isDoubleDecker) _buildDeckToggle(vm),
+              _buildSeatCount(seatData.availableSeats),
               Expanded(child: _buildSeatGrid(vm)),
             ],
           );
@@ -83,53 +83,18 @@ class _SeatPickerScreenState extends State<SeatPickerScreen> {
     );
   }
 
-  Widget _buildTripInfo(SeatPickerViewModel vm) {
-    final trip = vm.trip;
-    if (trip == null) return const SizedBox.shrink();
+  Widget _buildSeatCount(int availableSeats) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      color: Colors.white,
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _getCoachTypeLabel(trip.coachType),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF131B2E),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${_formatTime(trip.departureTime)} → ${_formatTime(trip.arrivalTime)}',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF414755),
-                  ),
-                ),
-              ],
-            ),
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Center(
+        child: Text(
+          'Còn $availableSeats chỗ',
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF0058BC),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFD2E1F7),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              'Còn ${trip.availableSeats} chỗ',
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF0058BC),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -428,21 +393,6 @@ class _SeatPickerScreenState extends State<SeatPickerScreen> {
         ],
       ),
     );
-  }
-
-  String _getCoachTypeLabel(String type) {
-    switch (type) {
-      case 'BED':
-        return 'Xe giường nằm';
-      case 'LIMOUSINE':
-        return 'Limousine';
-      default:
-        return 'Xe ghế ngồi';
-    }
-  }
-
-  String _formatTime(DateTime dt) {
-    return '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
   }
 
   String _formatPrice(double price) {

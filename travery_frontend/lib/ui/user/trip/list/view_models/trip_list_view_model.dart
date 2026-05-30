@@ -40,6 +40,9 @@ class TripListViewModel extends ChangeNotifier {
   DateTime? _departureDate;
   DateTime? get departureDate => _departureDate;
 
+  DateTime? _initDepartureDate;
+  DateTime? get initDepartureDate => _initDepartureDate;
+
   void setSearchParams({
     required DestinationData origin,
     required DestinationData destination,
@@ -48,6 +51,7 @@ class TripListViewModel extends ChangeNotifier {
     _origin = origin;
     _destination = destination;
     _departureDate = departureDate;
+    _initDepartureDate = departureDate;
     _trips = [];
     _selectedCoachType = null;
     _selectedTimeSlot = null;

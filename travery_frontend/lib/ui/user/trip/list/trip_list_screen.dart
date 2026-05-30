@@ -189,7 +189,7 @@ class _DateStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseDate = vm.departureDate ?? DateTime.now();
+    final baseDate = vm.initDepartureDate ?? DateTime.now();
     final dates = List.generate(7, (i) => baseDate.add(Duration(days: i)));
 
     return Container(

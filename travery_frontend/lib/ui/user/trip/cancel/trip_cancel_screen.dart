@@ -145,7 +145,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          _InfoRow('Mã giao dịch', '#${_shortCode(booking.id)}'),
+          _InfoRow('Mã giao dịch', '#${_shortCode(booking.gatewayTransactionId ?? '')}'),
           const Divider(height: 24),
           _InfoRow('Hành khách', booking.contactName),
           const Divider(height: 24),

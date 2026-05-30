@@ -34,6 +34,14 @@ class TourServiceImpl implements TourService {
     try {
       final stringData = await response.transform(utf8.decoder).join();
       final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+
+      // If server returns structured validation errors in 'items', concatenate them
+      final items = jsonMap['items'] as Map<String, dynamic>?;
+      if (items != null && items.isNotEmpty) {
+        final messages = items.values.map((v) => v.toString()).toList();
+        return messages.join(' ');
+      }
+
       return jsonMap['message'] as String? ?? defaultMessage;
     } catch (_) {
       return defaultMessage;

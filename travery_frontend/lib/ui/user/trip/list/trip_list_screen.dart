@@ -199,6 +199,7 @@ class _DateStrip extends StatelessWidget {
         height: 68,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 12),
           itemCount: dates.length,
           separatorBuilder: (_, __) => const SizedBox(width: 8),

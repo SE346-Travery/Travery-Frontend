@@ -417,8 +417,12 @@ class _SuccessUI extends StatelessWidget {
             child: Column(
               children: [
                 _InfoItem(
-                  label: 'Mã đặt chỗ',
-                  value: '#${_shortCode(booking.id as String)}',
+                  label: 'Mã giao dịch',
+                  value: _shortCode(
+                    booking.gatewayTransactionId as String? ??
+                        booking.transactionId as String? ??
+                        '',
+                  ),
                 ),
                 const Divider(height: 24),
                 _InfoItem(

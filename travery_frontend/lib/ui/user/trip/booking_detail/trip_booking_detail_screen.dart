@@ -266,7 +266,10 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          _InfoRow('Mã giao dịch', '#${_shortCode(booking.id)}'),
+          _InfoRow(
+            'Mã giao dịch',
+            '#${_shortCode(booking.gatewayTransactionId ?? booking.transactionId ?? booking.id)}',
+          ),
           const Divider(height: 24),
           _InfoRow('Ngày khởi hành', _formatDate(booking.departureTime)),
           const Divider(height: 24),
@@ -410,17 +413,6 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
           _InfoRow('Số lượng', '${booking.bookedSeatNames.length} ghế'),
           const Divider(height: 24),
           _InfoRow('Tổng cộng', _formatPrice(booking.totalPrice), isBold: true),
-          if (booking.paymentMethod != null) ...[
-            const Divider(height: 24),
-            _InfoRow('Phương thức', booking.paymentMethod!),
-          ],
-          if (booking.transactionId != null) ...[
-            const Divider(height: 24),
-            _InfoRow(
-              'Mã giao dịch',
-              _truncateTransactionId(booking.transactionId!),
-            ),
-          ],
         ],
       ),
     );
@@ -487,11 +479,6 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
-  }
-
-  String _truncateTransactionId(String id) {
-    if (id.length <= 16) return id;
-    return '${id.substring(0, 8)}...${id.substring(id.length - 6)}';
   }
 
   Future<void> _onPayPressed(

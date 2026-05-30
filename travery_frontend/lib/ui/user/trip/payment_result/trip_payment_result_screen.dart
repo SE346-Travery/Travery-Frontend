@@ -335,37 +335,45 @@ class _ConfirmedContent extends StatelessWidget {
         ),
         if (booking != null) ...[
           const SizedBox(height: 28),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 16,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                _InfoRow(
-                  'Mã giao dịch',
-                  _shortCode(
-                    booking.transactionId as String? ?? booking.id as String,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Container(
+              width: double.infinity,
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width - 48,
+              ),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
                   ),
-                ),
-                const Divider(height: 24),
-                _InfoRow(
-                  'Tổng tiền',
-                  _formatPrice(booking.totalPrice as double),
-                ),
-                const Divider(height: 24),
-                const _InfoRow('Trạng thái', 'Đã thanh toán'),
-              ],
+                ],
+              ),
+              child: Column(
+                children: [
+                  _InfoRow(
+                    'Mã giao dịch',
+                    _shortCode(
+                      booking.gatewayTransactionId as String? ??
+                          booking.transactionId as String? ??
+                          booking.id as String,
+                    ),
+                  ),
+                  const Divider(height: 24),
+                  _InfoRow(
+                    'Tổng tiền',
+                    _formatPrice(booking.totalPrice as double),
+                  ),
+                  const Divider(height: 24),
+                  const _InfoRow('Trạng thái', 'Đã thanh toán'),
+                ],
+              ),
             ),
           ),
         ],

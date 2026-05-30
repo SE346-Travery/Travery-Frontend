@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/models/trip/trip_booking_data.dart';
+import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
+import 'package:travery_frontend/data/models/trip/trip_seat_data.dart';
 import 'package:travery_frontend/data/services/trip/trip_service.dart';
 import 'package:travery_frontend/data/services/api/model/trip/create_trip_booking_request/create_trip_booking_request.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -9,6 +11,22 @@ class TripBookingReviewViewModel extends ChangeNotifier {
     : _tripService = tripService;
 
   final TripService _tripService;
+
+  TripSearchItem? _trip;
+  TripSearchItem? get trip => _trip;
+
+  List<SeatItem> _selectedSeats = [];
+  List<SeatItem> get selectedSeats => _selectedSeats;
+
+  String _contactName = '';
+  String get contactName => _contactName;
+
+  String _contactPhone = '';
+  String get contactPhone => _contactPhone;
+
+  double get totalPrice => _selectedSeats.length * (_trip?.basePrice ?? 0);
+
+  bool get isLoading => _isCreatingBooking || _isCreatingPayment;
 
   TripBookingData? _bookingData;
   TripBookingData? get bookingData => _bookingData;
@@ -22,21 +40,33 @@ class TripBookingReviewViewModel extends ChangeNotifier {
   String? _error;
   String? get error => _error;
 
-  Future<TripBookingData?> createBooking({
-    required String tripId,
-    required List<String> seatLayoutItemIds,
+  void setBookingData({
+    required TripSearchItem trip,
+    required List<SeatItem> seats,
     required String contactName,
     required String contactPhone,
-  }) async {
+  }) {
+    _trip = trip;
+    _selectedSeats = seats;
+    _contactName = contactName;
+    _contactPhone = contactPhone;
+    _bookingData = null;
+    _error = null;
+    notifyListeners();
+  }
+
+  Future<TripBookingData?> createBooking() async {
+    if (_trip == null || _selectedSeats.isEmpty) return null;
+
     _isCreatingBooking = true;
     _error = null;
     notifyListeners();
 
     final request = CreateTripBookingRequest(
-      tripId: tripId,
-      seatLayoutItemIds: seatLayoutItemIds,
-      contactName: contactName,
-      contactPhone: contactPhone,
+      tripId: _trip!.id,
+      seatLayoutItemIds: _selectedSeats.map((s) => s.seatLayoutItemId).toList(),
+      contactName: _contactName,
+      contactPhone: _contactPhone,
     );
 
     final result = await _tripService.createTripBooking(request);
@@ -78,6 +108,10 @@ class TripBookingReviewViewModel extends ChangeNotifier {
   }
 
   void reset() {
+    _trip = null;
+    _selectedSeats = [];
+    _contactName = '';
+    _contactPhone = '';
     _bookingData = null;
     _isCreatingBooking = false;
     _isCreatingPayment = false;

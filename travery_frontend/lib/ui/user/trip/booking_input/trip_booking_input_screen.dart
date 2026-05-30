@@ -234,7 +234,7 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Số ghế',
+                'Vị trí ghế',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
@@ -275,8 +275,8 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
                     children: [
                       // Boarding point
                       _buildStationNode(
-                        icon: Icons.arrow_upward,
-                        iconColor: AppColors.primary,
+                        icon: Icons.trip_origin,
+                        iconColor: AppColors.success,
                         title: 'Lên xe: ',
                         stationName: trip.originDestination.name,
                         address: trip.originDestination.stations.isNotEmpty
@@ -325,8 +325,8 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
 
                       // Alighting point
                       _buildStationNode(
-                        icon: Icons.arrow_downward,
-                        iconColor: const Color(0xFF9CA3AF),
+                        icon: Icons.location_on,
+                        iconColor: AppColors.error,
                         title: 'Xuống xe: ',
                         stationName: trip.destinationDestination.name,
                         address: trip.destinationDestination.stations.isNotEmpty

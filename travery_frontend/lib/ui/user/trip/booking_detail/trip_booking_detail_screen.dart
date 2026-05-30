@@ -121,12 +121,6 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
     final isPaid = booking.status == 'PAID';
     if (!isPending && !isPaid) return const SizedBox.shrink();
     return Container(
-      padding: EdgeInsets.fromLTRB(
-        20,
-        12,
-        20,
-        MediaQuery.of(context).padding.bottom + 12,
-      ),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -137,45 +131,64 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
           ),
         ],
       ),
-      child: isPending
-          ? ElevatedButton(
-              onPressed: () => _onPayPressed(context, booking, vm),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 0,
-              ),
-              child: const Text(
-                'Thanh toán ngay',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
-              ),
-            )
-          : SizedBox(
-              width: double.infinity,
-              child: TextButton.icon(
-                onPressed: () => context.push(
-                  Routes.tripCancelConfirmation,
-                  extra: {'booking': booking},
-                ),
-                icon: const Icon(Icons.cancel_outlined, size: 18),
-                label: const Text(
-                  'Hủy vé',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                ),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.red.shade600,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+          child: isPending
+              ? SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => _onPayPressed(context, booking, vm),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'Thanh toán ngay',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
-                  side: BorderSide(color: Colors.red.shade300),
+                )
+              : SizedBox(
+                  width: double.infinity,
+                  child: TextButton.icon(
+                    onPressed: () => context.push(
+                      Routes.tripCancelConfirmation,
+                      extra: {'booking': booking},
+                    ),
+                    icon: Icon(
+                      Icons.cancel_outlined,
+                      size: 18,
+                      color: Colors.red.shade600,
+                    ),
+                    label: Text(
+                      'Hủy vé',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red.shade600,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      side: BorderSide(color: Colors.red.shade300),
+                    ),
+                  ),
                 ),
-              ),
-            ),
+        ),
+      ),
     );
   }
 

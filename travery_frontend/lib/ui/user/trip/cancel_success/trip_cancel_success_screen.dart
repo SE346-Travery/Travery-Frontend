@@ -137,17 +137,6 @@ class TripCancelSuccessScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () => context.go(Routes.tripHome),
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  child: const Text(
-                    'Đặt vé khác',
-                    style: TextStyle(fontSize: 13),
-                  ),
-                ),
               ],
             ),
           ),

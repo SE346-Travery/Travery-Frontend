@@ -917,6 +917,13 @@ class _TripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final duration = _formatDuration(
+      trip.departureTime as DateTime,
+      trip.arrivalTime as DateTime,
+    );
+    final origin = trip.originDestination?.name ?? 'Điểm đi';
+    final destination = trip.destinationDestination?.name ?? 'Điểm đến';
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -935,7 +942,6 @@ class _TripCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Row 1: Departure time → Arrival time
             Row(
               children: [
                 Text(
@@ -947,18 +953,18 @@ class _TripCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     children: [
                       Row(
                         children: [
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: Color(0xFFE2E8F0),
                               thickness: 1,
                             ),
                           ),
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 6),
                             child: Icon(
                               Icons.arrow_forward,
@@ -966,7 +972,7 @@ class _TripCard extends StatelessWidget {
                               color: Color(0xFF717786),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: Color(0xFFE2E8F0),
                               thickness: 1,
@@ -974,8 +980,8 @@ class _TripCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 2),
-                      Text(
+                      const SizedBox(height: 2),
+                      const Text(
                         '_____________',
                         style: TextStyle(
                           color: Color(0xFFE2E8F0),
@@ -998,19 +1004,14 @@ class _TripCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 4),
-            // Row 2: Duration (below time row)
             Align(
               alignment: Alignment.center,
               child: Text(
-                _formatDuration(
-                  trip.departureTime as DateTime,
-                  trip.arrivalTime as DateTime,
-                ),
+                duration,
                 style: const TextStyle(fontSize: 10, color: Color(0xFF717786)),
               ),
             ),
             const SizedBox(height: 10),
-            // Row 3: Info badge
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
               decoration: BoxDecoration(
@@ -1063,68 +1064,66 @@ class _TripCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // Row 4: Route tracking
-            _buildRouteTracking(trip),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    origin,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF131B2E),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF2F3FF),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.straighten,
+                        size: 12,
+                        color: Color(0xFF717786),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        duration,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF717786),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    destination,
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF131B2E),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildRouteTracking(dynamic trip) {
-    final duration = _formatDuration(
-      trip.departureTime as DateTime,
-      trip.arrivalTime as DateTime,
-    );
-    final origin = trip.originDestination?.name ?? 'Điểm đi';
-    final destination = trip.destinationDestination?.name ?? 'Điểm đến';
-
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            origin,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF131B2E),
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF2F3FF),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.straighten, size: 12, color: Color(0xFF717786)),
-              const SizedBox(width: 4),
-              Text(
-                duration,
-                style: const TextStyle(fontSize: 12, color: Color(0xFF717786)),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Text(
-            destination,
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF131B2E),
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
     );
   }
 }

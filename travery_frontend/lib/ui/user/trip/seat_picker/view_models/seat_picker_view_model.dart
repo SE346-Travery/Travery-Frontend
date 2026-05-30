@@ -92,6 +92,16 @@ class SeatPickerViewModel extends ChangeNotifier {
     return _seatData!.seats;
   }
 
+  List<SeatItem> get seatsForLowerDeck {
+    if (_seatData == null) return [];
+    return _seatData!.seats.where((s) => !s.isUpperTier).toList();
+  }
+
+  List<SeatItem> get seatsForUpperDeck {
+    if (_seatData == null) return [];
+    return _seatData!.seats.where((s) => s.isUpperTier).toList();
+  }
+
   int get upperDeckSeatCount {
     if (_seatData == null) return 0;
     return _seatData!.seats.where((s) => s.isUpperTier).length;

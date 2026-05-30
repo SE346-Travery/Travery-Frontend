@@ -149,36 +149,100 @@ class _TripBookingListContent extends StatelessWidget {
         return RefreshIndicator(
           onRefresh: () =>
               vm.loadBookings(status: vm.selectedStatus, refresh: true),
-          child: ListView.separated(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16),
-            itemCount: vm.bookings.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
-            itemBuilder: (context, index) {
-              final b = vm.bookings[index];
-              return TripBookingCard(
-                departureTime: b.departureTime,
-                arrivalTime: b.estimatedArrivalTime,
-                originDestination: b.originDestination,
-                destinationDestination: b.destinationDestination,
-                bookedSeatNames: b.bookedSeatNames,
-                basePrice: b.basePrice,
-                totalPrice: b.totalPrice,
-                status: b.status,
-                statusLabel: vm.getStatusLabel(b.status),
-                coachLicensePlate: b.coachLicensePlate,
-                paymentDeadline: b.paymentDeadline,
-                paymentMethod: b.paymentMethod,
-                paymentStatus: b.paymentStatus,
-                onTap: () => context.push(
-                  Routes.tripBookingDetail,
-                  extra: {'booking': b},
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
                 ),
-              );
-            },
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: vm.statusFilters.map((filter) {
+                      final isSelected =
+                          (vm.selectedStatus ?? 'Tất cả') == filter;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: GestureDetector(
+                          onTap: () => vm.loadBookings(status: filter),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : const Color(0xFFDAE2FD),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              _getStatusDisplayName(filter),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF414755),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  itemCount: vm.bookings.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final b = vm.bookings[index];
+                    return TripBookingCard(
+                      departureTime: b.departureTime,
+                      arrivalTime: b.estimatedArrivalTime,
+                      originDestination: b.originDestination,
+                      destinationDestination: b.destinationDestination,
+                      bookedSeatNames: b.bookedSeatNames,
+                      basePrice: b.basePrice,
+                      totalPrice: b.totalPrice,
+                      status: b.status,
+                      statusLabel: vm.getStatusLabel(b.status),
+                      coachLicensePlate: b.coachLicensePlate,
+                      paymentDeadline: b.paymentDeadline,
+                      paymentMethod: b.paymentMethod,
+                      paymentStatus: b.paymentStatus,
+                      onTap: () => context.push(
+                        Routes.tripBookingDetail,
+                        extra: {'booking': b},
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
     );
+  }
+
+  String _getStatusDisplayName(String filter) {
+    switch (filter) {
+      case 'Tất cả':
+        return 'Tất cả';
+      case 'PENDING':
+        return 'Đang chờ';
+      case 'PAID':
+        return 'Đã thanh toán';
+      case 'CANCELLED':
+        return 'Đã hủy';
+      default:
+        return filter;
+    }
   }
 }

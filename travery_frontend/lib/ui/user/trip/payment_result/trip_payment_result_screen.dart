@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/routing/routes.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/trip/payment_result/view_models/trip_payment_result_view_model.dart';
-import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class TripPaymentResultScreen extends StatefulWidget {
   const TripPaymentResultScreen({
@@ -137,7 +136,7 @@ class _TripPaymentResultScreenState extends State<TripPaymentResultScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.push(
+                  context.pushReplacement(
                     Routes.tripBookingDetail,
                     extra: {'bookingId': vm.bookingData?.id ?? ''},
                   );
@@ -353,7 +352,12 @@ class _ConfirmedContent extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _InfoRow('Mã đặt chỗ', '#${_shortCode(booking.id as String)}'),
+                _InfoRow(
+                  'Mã giao dịch',
+                  _shortCode(
+                    booking.transactionId as String? ?? booking.id as String,
+                  ),
+                ),
                 const Divider(height: 24),
                 _InfoRow(
                   'Tổng tiền',

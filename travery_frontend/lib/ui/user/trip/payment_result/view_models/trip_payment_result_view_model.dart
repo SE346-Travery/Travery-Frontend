@@ -23,6 +23,8 @@ class TripPaymentResultViewModel extends ChangeNotifier {
   TripBookingData? _bookingData;
   TripBookingData? get bookingData => _bookingData;
 
+  String? get transactionId => _bookingData?.payment?.transactionId;
+
   String? _txnRef;
   String? _deeplinkStatus;
   String? _responseCode;

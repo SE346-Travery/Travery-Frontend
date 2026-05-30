@@ -34,6 +34,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+      canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) {
           final vm = context.read<TripBookingDetailViewModel>();
@@ -46,8 +47,8 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
         appBar: UserAppBar(
           title: 'Chi tiết đặt vé',
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
+            icon: const Icon(Icons.home_outlined),
+            onPressed: () => context.go(Routes.home),
           ),
         ),
         body: Consumer<TripBookingDetailViewModel>(
@@ -153,22 +154,26 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
               ),
             )
-          : OutlinedButton(
-              onPressed: () => context.push(
-                Routes.tripCancelConfirmation,
-                extra: {'booking': booking},
-              ),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.red,
-                side: const BorderSide(color: Colors.red),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+          : SizedBox(
+              width: double.infinity,
+              child: TextButton.icon(
+                onPressed: () => context.push(
+                  Routes.tripCancelConfirmation,
+                  extra: {'booking': booking},
                 ),
-              ),
-              child: const Text(
-                'Hủy vé',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                icon: const Icon(Icons.cancel_outlined, size: 18),
+                label: const Text(
+                  'Hủy vé',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                ),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.red.shade600,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  side: BorderSide(color: Colors.red.shade300),
+                ),
               ),
             ),
     );
@@ -248,7 +253,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          _InfoRow('Mã đặt chỗ', '#${_shortCode(booking.id)}'),
+          _InfoRow('Mã giao dịch', '#${_shortCode(booking.id)}'),
           const Divider(height: 24),
           _InfoRow('Ngày khởi hành', _formatDate(booking.departureTime)),
           const Divider(height: 24),
@@ -398,7 +403,10 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
           ],
           if (booking.transactionId != null) ...[
             const Divider(height: 24),
-            _InfoRow('Mã giao dịch', booking.transactionId!),
+            _InfoRow(
+              'Mã giao dịch',
+              _truncateTransactionId(booking.transactionId!),
+            ),
           ],
         ],
       ),
@@ -466,6 +474,11 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
   String _formatPrice(double price) {
     final str = price.toStringAsFixed(0);
     return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
+  }
+
+  String _truncateTransactionId(String id) {
+    if (id.length <= 16) return id;
+    return '${id.substring(0, 8)}...${id.substring(id.length - 6)}';
   }
 
   Future<void> _onPayPressed(

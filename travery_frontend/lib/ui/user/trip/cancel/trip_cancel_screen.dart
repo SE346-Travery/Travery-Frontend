@@ -145,7 +145,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          _InfoRow('Mã đặt chỗ', '#${_shortCode(booking.id)}'),
+          _InfoRow('Mã giao dịch', '#${_shortCode(booking.id)}'),
           const Divider(height: 24),
           _InfoRow('Hành khách', booking.contactName),
           const Divider(height: 24),
@@ -256,14 +256,14 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                   color: Colors.red.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Row(
+                child: const Row(
                   children: [
-                    const Icon(Icons.info_outline, size: 16, color: Colors.red),
-                    const SizedBox(width: 8),
+                    Icon(Icons.info_outline, size: 16, color: Colors.red),
+                    SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Số tiền đã thanh toán: ${_formatPrice(booking.totalPrice)}',
-                        style: const TextStyle(
+                        'Bạn đã thanh toán. Phí hủy và hoàn tiền sẽ được áp dụng theo chính sách.',
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Colors.red,
@@ -298,30 +298,38 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
           ),
         ],
       ),
-      child: ElevatedButton(
-        onPressed: !_confirmed || _isCancelling ? null : () => _onCancel(),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 0,
-        ),
-        child: _isCancelling
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      child: SafeArea(
+        top: false,
+        child: ElevatedButton.icon(
+          onPressed: !_confirmed || _isCancelling ? null : () => _onCancel(),
+          icon: _isCancelling
+              ? const SizedBox(width: 18, height: 18)
+              : const Icon(Icons.warning_amber_rounded, size: 18),
+          label: _isCancelling
+              ? const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                )
+              : const Text(
+                  'Xác nhận hủy vé',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                 ),
-              )
-            : const Text(
-                'Xác nhận hủy',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
-              ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red.shade600,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: Colors.red.shade100,
+            disabledForegroundColor: Colors.red.shade300,
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            elevation: 0,
+          ),
+        ),
       ),
     );
   }

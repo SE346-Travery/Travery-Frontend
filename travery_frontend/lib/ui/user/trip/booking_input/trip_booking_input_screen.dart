@@ -67,21 +67,24 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
       ),
       body: Consumer<TripBookingInputViewModel>(
         builder: (context, vm, _) {
-          return Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.only(bottom: 120),
-                  children: [
-                    _buildTripInfo(vm),
-                    const SizedBox(height: 2),
-                    _buildCustomerInfo(vm),
-                    const SizedBox(height: 2),
-                    _buildPaymentDetails(vm),
-                  ],
+          return Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.only(bottom: 120),
+                    children: [
+                      _buildTripInfo(vm),
+                      const SizedBox(height: 2),
+                      _buildCustomerInfo(vm),
+                      const SizedBox(height: 2),
+                      _buildPaymentDetails(vm),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -441,11 +444,15 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
     );
   }
 
-  // ─── THÔNG TIN KHÁCH HÀNG ─────────────────────────────────────────────
+  // ─── THÔNG TIN KHÁCH HÀNG ───────────────────────────────────────────
   Widget _buildCustomerInfo(TripBookingInputViewModel vm) {
     return Container(
-      color: Colors.white,
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -458,29 +465,6 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
             ),
           ),
           const SizedBox(height: 14),
-
-          // Name
-          _buildInfoRow(
-            'Họ và tên',
-            _nameController.text.isEmpty ? '—' : _nameController.text,
-          ),
-          const SizedBox(height: 12),
-
-          // Phone
-          _buildInfoRow(
-            'Số điện thoại',
-            _phoneController.text.isEmpty ? '—' : _phoneController.text,
-          ),
-          const SizedBox(height: 12),
-
-          // Email (logged-in user)
-          _buildInfoRow('Email', vm.contactPhone.isNotEmpty ? '—' : '—'),
-
-          const SizedBox(height: 16),
-          const Divider(height: 1),
-          const SizedBox(height: 16),
-
-          // Editable fields
           _buildTextField(
             controller: _nameController,
             label: 'Họ và tên',
@@ -510,30 +494,7 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
-        ),
-        Flexible(
-          child: Text(
-            value,
-            textAlign: TextAlign.right,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF111827),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // ─── CHI TIẾT THANH TOÁN ───────────────────────────────────────────────
+  // ─── CHI TIẾT THANH TOÁN ───────────────────────────────────────────
   Widget _buildPaymentDetails(TripBookingInputViewModel vm) {
     final trip = vm.trip;
     if (trip == null) return const SizedBox.shrink();

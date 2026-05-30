@@ -213,91 +213,133 @@ class _SeatPickerScreenState extends State<SeatPickerScreen> {
     }
     final sortedRows = rows.keys.toList()..sort();
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: sortedRows.length,
-      itemBuilder: (context, index) {
-        final rowNum = sortedRows[index];
-        final rowSeats = rows[rowNum]!;
-        rowSeats.sort((a, b) => a.columnNumber.compareTo(b.columnNumber));
-
-        return Container(
-          margin: const EdgeInsets.only(bottom: 8),
+    return Column(
+      children: [
+        // --- Legend ---
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: Row(
             children: [
-              SizedBox(
-                width: 36,
-                child: Center(
-                  child: Text(
-                    '$rowNum',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF717786),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
+              _legendDot(const Color(0xFFF2F3FF), 'Trống'),
+              const SizedBox(width: 20),
+              _legendDot(AppColors.primary, 'Đang chọn'),
+              const SizedBox(width: 20),
+              _legendDot(const Color(0xFFE2E8F0), 'Đã đặt'),
+            ],
+          ),
+        ),
+        // --- Seat grid ---
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            itemCount: sortedRows.length,
+            itemBuilder: (context, index) {
+              final rowNum = sortedRows[index];
+              final rowSeats = rows[rowNum]!;
+              rowSeats.sort((a, b) => a.columnNumber.compareTo(b.columnNumber));
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: rowSeats.map((seat) {
-                    final isSelected = vm.isSeatSelected(seat);
-                    final isAvailable = seat.isAvailable;
-                    final isUpper = seat.isUpperTier;
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: GestureDetector(
-                        onTap: isAvailable ? () => vm.toggleSeat(seat) : null,
-                        child: Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.primary
-                                : isAvailable
-                                ? isUpper
-                                      ? const Color(0xFFE0E8FF)
-                                      : const Color(0xFFF2F3FF)
-                                : const Color(0xFFE2E8F0),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : isAvailable
-                                  ? const Color(0xFFE2E8F0)
-                                  : const Color(0xFFE2E8F0),
-                              width: isSelected ? 2 : 1,
-                            ),
-                          ),
-                          child: Center(
-                            child: isSelected
-                                ? const Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                    size: 18,
-                                  )
-                                : Text(
-                                    seat.seatName,
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: isAvailable
-                                          ? const Color(0xFF131B2E)
-                                          : const Color(0xFFB0B8C9),
-                                    ),
-                                  ),
+                  children: [
+                    SizedBox(
+                      width: 36,
+                      child: Center(
+                        child: Text(
+                          '$rowNum',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF717786),
                           ),
                         ),
                       ),
-                    );
-                  }).toList(),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: rowSeats.map((seat) {
+                          final isSelected = vm.isSeatSelected(seat);
+                          final isAvailable = seat.isAvailable;
+                          final isUpper = seat.isUpperTier;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: GestureDetector(
+                              onTap: isAvailable
+                                  ? () => vm.toggleSeat(seat)
+                                  : null,
+                              child: Container(
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColors.primary
+                                      : isAvailable
+                                      ? isUpper
+                                            ? const Color(0xFFE0E8FF)
+                                            : const Color(0xFFF2F3FF)
+                                      : const Color(0xFFE2E8F0),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: isSelected
+                                        ? AppColors.primary
+                                        : const Color(0xFFE2E8F0),
+                                    width: isSelected ? 2 : 1,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: isSelected
+                                      ? const Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                          size: 18,
+                                        )
+                                      : Text(
+                                          seat.seatName,
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w600,
+                                            color: isAvailable
+                                                ? const Color(0xFF131B2E)
+                                                : const Color(0xFFB0B8C9),
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              );
+            },
           ),
-        );
-      },
+        ),
+      ],
+    );
+  }
+
+  Widget _legendDot(Color color, String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Color(0xFF717786)),
+        ),
+      ],
     );
   }
 

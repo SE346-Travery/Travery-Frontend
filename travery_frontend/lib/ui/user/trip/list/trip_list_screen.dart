@@ -189,8 +189,8 @@ class _DateStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final today = DateTime.now();
-    final dates = List.generate(7, (i) => today.add(Duration(days: i)));
+    final baseDate = vm.departureDate ?? DateTime.now();
+    final dates = List.generate(7, (i) => baseDate.add(Duration(days: i)));
 
     return Container(
       color: Colors.white,
@@ -204,7 +204,7 @@ class _DateStrip extends StatelessWidget {
           separatorBuilder: (_, __) => const SizedBox(width: 8),
           itemBuilder: (context, index) {
             final date = dates[index];
-            final isSelected = _isSameDay(date, vm.departureDate ?? today);
+            final isSelected = _isSameDay(date, vm.departureDate ?? baseDate);
             return _DateChip(
               date: date,
               isSelected: isSelected,
@@ -301,6 +301,59 @@ class _FilterChips extends StatelessWidget {
   }
 }
 
+class _FilterPill extends StatelessWidget {
+  const _FilterPill({
+    required this.label,
+    required this.isActive,
+    required this.icon,
+    required this.onTap,
+  });
+  final String label;
+  final bool isActive;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+        decoration: BoxDecoration(
+          color: isActive ? AppColors.primary : const Color(0xFFF8F9FA),
+          borderRadius: BorderRadius.circular(20),
+          border: isActive ? null : Border.all(color: const Color(0xFFE2E8F0)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 16,
+              color: isActive ? Colors.white : const Color(0xFF414755),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: isActive ? Colors.white : const Color(0xFF414755),
+              ),
+            ),
+            const SizedBox(width: 4),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 16,
+              color: isActive ? Colors.white70 : const Color(0xFF717786),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _PriceChip extends StatelessWidget {
   const _PriceChip({required this.vm});
   final TripListViewModel vm;
@@ -311,29 +364,11 @@ class _PriceChip extends StatelessWidget {
     final isUp = vm.priceSort == 1;
     final label = !hasSort ? 'Giá' : (isUp ? 'Giá ↑' : 'Giá ↓');
 
-    return GestureDetector(
+    return _FilterPill(
+      label: label,
+      isActive: hasSort,
+      icon: Icons.attach_money,
       onTap: () => _showPriceSheet(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        decoration: BoxDecoration(
-          color: hasSort ? AppColors.primary : const Color(0xFFF2F3FF),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: hasSort ? Colors.white : const Color(0xFF414755),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -356,33 +391,13 @@ class _CoachChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selected = vm.selectedCoachType;
-    final label = selected == null ? 'Ghế' : selected.label;
+    final label = selected == null ? 'Loại xe' : selected.label;
 
-    return GestureDetector(
+    return _FilterPill(
+      label: label,
+      isActive: selected != null,
+      icon: Icons.directions_bus,
       onTap: () => _showCoachSheet(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        decoration: BoxDecoration(
-          color: selected != null ? AppColors.primary : const Color(0xFFF2F3FF),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: selected != null
-                    ? Colors.white
-                    : const Color(0xFF414755),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -421,31 +436,11 @@ class _TimeChip extends StatelessWidget {
     final selected = vm.selectedTimeSlot;
     final label = _shortLabel(selected);
 
-    return GestureDetector(
+    return _FilterPill(
+      label: label,
+      isActive: selected != null,
+      icon: Icons.schedule,
       onTap: () => _showTimeSheet(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        decoration: BoxDecoration(
-          color: selected != null ? AppColors.primary : const Color(0xFFF2F3FF),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: selected != null
-                    ? Colors.white
-                    : const Color(0xFF414755),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -1077,79 +1072,56 @@ class _TripCard extends StatelessWidget {
   }
 
   Widget _buildRouteTracking(dynamic trip) {
+    final duration = _formatDuration(
+      trip.departureTime as DateTime,
+      trip.arrivalTime as DateTime,
+    );
+    final origin = trip.originDestination?.name ?? 'Điểm đi';
+    final destination = trip.destinationDestination?.name ?? 'Điểm đến';
+
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Vertical line + dots
-        SizedBox(
-          width: 24,
-          child: Column(
+        Expanded(
+          child: Text(
+            origin,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF131B2E),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF2F3FF),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Green dot (origin)
-              Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF4CAF50), width: 2),
-                  color: Colors.white,
-                ),
-                child: Center(
-                  child: Container(
-                    width: 5,
-                    height: 5,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFF4CAF50),
-                    ),
-                  ),
-                ),
+              const Icon(Icons.straighten, size: 12, color: Color(0xFF717786)),
+              const SizedBox(width: 4),
+              Text(
+                duration,
+                style: const TextStyle(fontSize: 12, color: Color(0xFF717786)),
               ),
-              // Dotted line
-              Container(
-                width: 2,
-                height: 32,
-                decoration: const BoxDecoration(
-                  border: Border(
-                    left: BorderSide(
-                      color: Color(0xFFE2E8F0),
-                      width: 2,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                ),
-                margin: const EdgeInsets.symmetric(vertical: 4),
-              ),
-              // Red pin (destination)
-              const Icon(Icons.location_on, size: 18, color: Color(0xFFFF6B6B)),
             ],
           ),
         ),
-        const SizedBox(width: 8),
-        // Origin + Destination names
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 0),
-              Text(
-                trip.originDestination?.name ?? 'Điểm đi',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF131B2E),
-                ),
-              ),
-              const SizedBox(height: 28),
-              Text(
-                trip.destinationDestination?.name ?? 'Điểm đến',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF131B2E),
-                ),
-              ),
-            ],
+          child: Text(
+            destination,
+            textAlign: TextAlign.right,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF131B2E),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

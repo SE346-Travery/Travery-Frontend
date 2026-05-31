@@ -120,9 +120,11 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
                   label: 'Điểm đi',
                   icon: Icons.trip_origin,
                   iconColor: AppColors.primary,
-                  value:
-                      vm.selectedOriginStation?.name ??
-                      (vm.selectedOrigin?.name ?? ''),
+                  value: _formatLocationDisplay(
+                    vm.selectedOriginStation?.name,
+                    vm.selectedOriginStation?.address,
+                    vm.selectedOrigin?.name,
+                  ),
                   onTap: () => _showStationPicker(context, vm, isOrigin: true),
                 ),
               ),
@@ -147,9 +149,11 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
                   label: 'Điểm đến',
                   icon: Icons.location_on,
                   iconColor: const Color(0xFFFF6B6B),
-                  value:
-                      vm.selectedDestinationStation?.name ??
-                      (vm.selectedDestination?.name ?? ''),
+                  value: _formatLocationDisplay(
+                    vm.selectedDestinationStation?.name,
+                    vm.selectedDestinationStation?.address,
+                    vm.selectedDestination?.name,
+                  ),
                   onTap: () => _showStationPicker(context, vm, isOrigin: false),
                 ),
               ),
@@ -253,6 +257,23 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
         },
       ),
     );
+  }
+
+  String _formatLocationDisplay(
+    String? stationName,
+    String? stationAddress,
+    String? destName,
+  ) {
+    if (stationName == null || stationName.isEmpty) {
+      return destName ?? '';
+    }
+    final parts = <String>[stationName];
+    if (stationAddress != null && stationAddress.isNotEmpty) {
+      parts.add(stationAddress);
+    } else if (destName != null && destName.isNotEmpty) {
+      parts.add(destName);
+    }
+    return parts.join(' • ');
   }
 
   void _showDatePicker(BuildContext context, TripHomeViewModel vm) async {
@@ -686,12 +707,25 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
               autofocus: true,
               decoration: InputDecoration(
                 hintText: 'Tìm thành phố hoặc trạm...',
-                hintStyle: const TextStyle(color: Color(0xFF717786), fontSize: 14),
-                prefixIcon: const Icon(Icons.search, color: Color(0xFF717786), size: 20),
+                hintStyle: const TextStyle(
+                  color: Color(0xFF717786),
+                  fontSize: 14,
+                ),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: Color(0xFF717786),
+                  size: 20,
+                ),
                 filled: true,
                 fillColor: const Color(0xFFF8FAFC),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 12,
+                ),
               ),
               style: const TextStyle(fontSize: 14, color: Color(0xFF131B2E)),
             ),
@@ -704,7 +738,12 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
 
   Widget _buildList() {
     if (_isSearching) {
-      return const Center(child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary));
+      return const Center(
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: AppColors.primary,
+        ),
+      );
     }
 
     if (_filteredDestinations.isEmpty) {
@@ -715,7 +754,9 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
             const Icon(Icons.search_off, color: Color(0xFF717786), size: 48),
             const SizedBox(height: 12),
             Text(
-              _searchText.isEmpty ? 'Không có điểm đến nào' : 'Không tìm thấy "$_searchText"',
+              _searchText.isEmpty
+                  ? 'Không có điểm đến nào'
+                  : 'Không tìm thấy "$_searchText"',
               style: const TextStyle(fontSize: 14, color: Color(0xFF717786)),
             ),
           ],
@@ -745,7 +786,9 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
           child: Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary.withValues(alpha: 0.06) : const Color(0xFFF8FAFC),
+              color: isSelected
+                  ? AppColors.primary.withValues(alpha: 0.06)
+                  : const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(12),
               border: isSelected ? Border.all(color: AppColors.primary) : null,
             ),
@@ -755,12 +798,18 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: (isSelected ? AppColors.primary : const Color(0xFFFF6B6B)).withValues(alpha: 0.1),
+                    color:
+                        (isSelected
+                                ? AppColors.primary
+                                : const Color(0xFFFF6B6B))
+                            .withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.directions_bus,
-                    color: isSelected ? AppColors.primary : const Color(0xFFFF6B6B),
+                    color: isSelected
+                        ? AppColors.primary
+                        : const Color(0xFFFF6B6B),
                     size: 18,
                   ),
                 ),
@@ -773,19 +822,34 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
                         station.name,
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.w500,
                           color: const Color(0xFF131B2E),
                         ),
                       ),
+                      const SizedBox(height: 2),
                       Text(
-                        dest.name,
-                        style: const TextStyle(fontSize: 12, color: Color(0xFF717786)),
+                        [
+                          dest.name,
+                          station.address,
+                        ].where((s) => s != null && s.isNotEmpty).join(' • '),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF717786),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
                 if (isSelected)
-                  const Icon(Icons.check_circle, color: AppColors.primary, size: 20),
+                  const Icon(
+                    Icons.check_circle,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
               ],
             ),
           ),

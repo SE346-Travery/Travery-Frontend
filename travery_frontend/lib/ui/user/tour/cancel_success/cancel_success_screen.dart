@@ -125,20 +125,6 @@ class CancelSuccessScreen extends StatelessWidget {
                             const SizedBox(height: 16),
 
                             _RefundInfoRow(
-                              label: 'Mã đặt chỗ',
-                              valueWidget: Text(
-                                '#$_shortCode',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                            ),
-
-                            const Divider(height: 20),
-
-                            _RefundInfoRow(
                               label: 'Số tiền hoàn lại',
                               valueWidget: Text(
                                 _formatPrice(refundAmount),
@@ -147,39 +133,6 @@ class CancelSuccessScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w900,
                                   color: AppColors.primary,
                                 ),
-                              ),
-                            ),
-
-                            const Divider(height: 20),
-
-                            _RefundInfoRow(
-                              label: 'Phương thức hoàn tiền',
-                              valueWidget: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFF0F9FF),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: const Icon(
-                                      Icons.qr_code,
-                                      size: 14,
-                                      color: Color(0xFF0058BC),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    'Ví VNPay',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF131B2E),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
 

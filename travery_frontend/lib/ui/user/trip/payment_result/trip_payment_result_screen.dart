@@ -43,7 +43,7 @@ class _TripPaymentResultScreenState extends State<TripPaymentResultScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) context.go(Routes.home);
+        if (!didPop) Navigator.of(context).pop();
       },
       child: Scaffold(
         backgroundColor: const Color(0xFFF8FAFC),
@@ -136,7 +136,7 @@ class _TripPaymentResultScreenState extends State<TripPaymentResultScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  context.pushReplacement(
+                  context.go(
                     Routes.tripBookingDetail,
                     extra: {'bookingId': vm.bookingData?.id ?? ''},
                   );

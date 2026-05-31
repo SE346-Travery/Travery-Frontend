@@ -86,4 +86,23 @@ class Routes {
   static const String checkIn = '/guide/mission/:id/check-in';
   static const String tourProgress = '/guide/mission/:id/progress';
   static const String tourCompleted = '/guide/mission/:id/completed';
+
+  // Hotel nhóm
+  static const String hotelHome = '/hotel/home';
+  static const String hotelList = '/hotel/list';
+  static const String hotelDetail = '/hotel/:id';
+  static const String hotelRoomList = '/hotel/:id/rooms';
+  static const String hotelBookingInput = '/hotel/book/input';
+  static const String hotelBookingReview = '/hotel/book/review';
+  static const String hotelPayment = '/hotel/payment';
+  static const String hotelPaymentResult = '/hotel/payment/result';
+  static const String hotelMyBookings = '/hotel/my-bookings';
+  static const String hotelBookingDetail = '/hotel/booking/:id';
+  static const String hotelCancel = '/hotel/booking/:id/cancel';
+  static const String hotelCancelSuccess = '/hotel/booking/:id/cancel/success';
+  static const String hotelAddonList = '/hotel/booking/:id/addons';
+  static const String hotelAddonPayment = '/hotel/addon/payment';
+  static const String hotelAddonPaymentResult = '/hotel/addon/payment/result';
+  static const String hotelCheckout = '/hotel/booking/:id/checkout';
+  static const String hotelCheckoutSuccess = '/hotel/checkout/success';
 }

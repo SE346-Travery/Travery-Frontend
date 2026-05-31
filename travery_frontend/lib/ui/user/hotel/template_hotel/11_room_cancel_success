@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Thông báo Hủy phòng thành công</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="custom-fonts">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+<style data-purpose="background-styles">
+    .bg-custom-main {
+      background-color: #F8FAFF;
+    }
+    .text-custom-blue {
+      color: #0066D6;
+    }
+    .bg-custom-blue {
+      background-color: #0066D6;
+    }
+  </style>
+</head>
+<body class="bg-custom-main min-h-screen flex justify-center">
+<!-- BEGIN: MainContainer -->
+<main class="w-full max-w-md bg-white shadow-sm flex flex-col min-h-screen" data-purpose="app-container">
+<!-- BEGIN: Header -->
+<header class="flex items-center px-4 py-4 border-b border-gray-100" data-purpose="top-navigation">
+<button aria-label="Quay lại" class="p-1">
+<svg class="h-6 w-6 text-custom-blue" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<h1 class="ml-4 text-lg font-bold text-custom-blue">Thông báo</h1>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: ContentScrollArea -->
+<div class="flex-1 overflow-y-auto px-6 py-8" data-purpose="content-area">
+<!-- BEGIN: SuccessMessage -->
+<section class="flex flex-col items-center text-center mb-8" data-purpose="status-header">
+<div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+<div class="w-14 h-14 bg-custom-blue rounded-full flex items-center justify-center">
+<svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</div>
+</div>
+<h2 class="text-xl font-bold text-gray-800 mb-4">Hủy phòng thành công!</h2>
+<p class="text-gray-500 text-sm px-4 leading-relaxed">
+          Yêu cầu hủy phòng của bạn đã được xác nhận.
+        </p>
+</section>
+<!-- END: SuccessMessage -->
+<!-- BEGIN: RefundDetailsCard -->
+<section class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6" data-purpose="refund-info-card">
+<div class="flex items-center gap-2 mb-6">
+<div class="text-custom-blue">
+<svg class="lucide lucide-wallet" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"></path>
+<path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"></path>
+</svg>
+</div>
+<h3 class="font-bold text-gray-800">Thông tin hoàn tiền</h3>
+</div>
+<div class="space-y-5">
+<!-- Item: Mã đặt phòng -->
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">Mã đặt phòng</span>
+<span class="font-bold text-gray-800">TRV-8829-VN</span>
+</div>
+<!-- Item: Số tiền hoàn lại -->
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">Số tiền hoàn lại</span>
+<span class="font-bold text-custom-blue text-lg">12.500.000đ</span>
+</div>
+<!-- Item: Phương thức hoàn tiền -->
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500">Phương thức hoàn tiền</span>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-blue-50 rounded flex items-center justify-center overflow-hidden">
+<!-- Mini VNPay Placeholder Icon -->
+<svg class="w-4 h-4 text-blue-500" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+</svg>
+</div>
+<span class="font-bold text-gray-800">Ví VNPay</span>
+</div>
+</div>
+<!-- Item: Thời gian xử lý -->
+<div class="flex justify-between items-start text-sm">
+<span class="text-gray-500">Thời gian xử lý dự kiến</span>
+<span class="font-bold text-gray-800 text-right">3-5 ngày làm việc</span>
+</div>
+</div>
+</section>
+<!-- END: RefundDetailsCard -->
+<!-- BEGIN: InfoBox -->
+<section class="bg-blue-50 rounded-xl p-4 flex gap-3 border-l-4 border-blue-400" data-purpose="disclaimer">
+<div class="mt-0.5 text-custom-blue">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-xs text-gray-600 leading-relaxed">
+<span class="font-bold text-gray-800">Lưu ý:</span> Tiền sẽ được hoàn về đúng phương thức thanh toán bạn đã sử dụng.
+        </p>
+</section>
+<!-- END: InfoBox -->
+</div>
+<!-- END: ContentScrollArea -->
+<!-- BEGIN: FooterAction -->
+<footer class="p-6 bg-white" data-purpose="footer-button">
+<button class="w-full bg-custom-blue text-white font-bold py-4 rounded-xl shadow-md active:scale-95 transition-transform">
+        Về trang chủ
+      </button>
+</footer>
+<!-- END: FooterAction -->
+</main>
+<!-- END: MainContainer -->
+</body></html>

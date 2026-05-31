@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đặt phòng thành công</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="custom-shadows">
+    /* Custom shadow to match the soft card elevation in the image */
+    .soft-card-shadow {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+<style data-purpose="typography">
+    /* Setting base font to sans-serif for mobile iOS look and feel */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#f0f5ff] min-h-screen flex items-center justify-center p-4">
+<!-- BEGIN: MainContainer -->
+<main class="w-full max-w-md bg-white min-h-[90vh] rounded-[40px] overflow-hidden flex flex-col relative shadow-sm" data-purpose="mobile-frame">
+<!-- BEGIN: HeaderText -->
+<div class="pt-4 px-6 text-left" data-purpose="status-header">
+<span class="text-xs text-gray-400 font-medium">đặt phòng thành công</span>
+</div>
+<!-- END: HeaderText -->
+<div class="flex-grow flex flex-col items-center px-8 pt-10">
+<!-- BEGIN: SuccessIcon -->
+<div class="relative mb-8" data-purpose="success-badge">
+<!-- Main Green Circle -->
+<div class="w-24 h-24 bg-[#00b289] rounded-full flex items-center justify-center">
+<svg class="h-12 w-12 text-white" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<!-- Top Right Small Badge -->
+<div class="absolute -top-1 -right-1 w-8 h-8 bg-[#c2d7ff] rounded-full border-4 border-white flex items-center justify-center">
+<svg class="h-4 w-4 text-[#0066ff]" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+</svg>
+</div>
+</div>
+<!-- END: SuccessIcon -->
+<!-- BEGIN: TitleAndDescription -->
+<div class="text-center mb-10">
+<h1 class="text-2xl font-bold text-gray-900 mb-4">Đặt phòng thành công!</h1>
+<p class="text-gray-500 text-sm leading-relaxed px-2">
+          Cảm ơn bạn đã tin tưởng Travery. Hành trình của bạn đã sẵn sàng bắt đầu.
+        </p>
+</div>
+<!-- END: TitleAndDescription -->
+<!-- BEGIN: BookingDetailsCard -->
+<section class="w-full bg-white rounded-3xl p-6 soft-card-shadow border border-gray-50" data-purpose="booking-info-card">
+<div class="space-y-4">
+<!-- Reservation ID -->
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">Mã đặt phòng</span>
+<span class="text-[#0066ff] font-bold text-sm">TRV-8829-4410</span>
+</div>
+<!-- Room Number -->
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">Mã phòng</span>
+<span class="text-gray-900 font-bold text-sm">101</span>
+</div>
+<!-- Room Type -->
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">Loại phòng</span>
+<span class="text-gray-900 font-bold text-sm">VIP</span>
+</div>
+<!-- Dashed Separator -->
+<div class="border-t border-dashed border-gray-300 my-4"></div>
+<!-- Total Payment -->
+<div class="flex justify-between items-center pt-2">
+<span class="text-gray-500 text-sm">Tổng thanh toán</span>
+<span class="text-gray-900 font-bold text-lg">2.450.000 VND</span>
+</div>
+</div>
+</section>
+<!-- END: BookingDetailsCard -->
+</div>
+<!-- BEGIN: FooterButtons -->
+<footer class="p-8 space-y-3" data-purpose="action-buttons">
+<button class="w-full bg-[#0066ff] text-white py-4 rounded-xl font-bold text-sm active:scale-[0.98] transition-transform">
+        Xem booking
+      </button>
+<button class="w-full bg-[#f0f5ff] text-[#0066ff] py-4 rounded-xl font-bold text-sm active:scale-[0.98] transition-transform">
+        Về trang chủ
+      </button>
+</footer>
+<!-- END: FooterButtons -->
+</main>
+<!-- END: MainContainer -->
+</body></html>

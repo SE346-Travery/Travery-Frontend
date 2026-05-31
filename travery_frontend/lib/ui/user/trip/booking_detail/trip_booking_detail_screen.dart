@@ -66,7 +66,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
           elevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
+            onPressed: () => context.pushReplacement(Routes.tripMyBookings),
           ),
           title: const Text(
             'Chi tiết đặt vé',

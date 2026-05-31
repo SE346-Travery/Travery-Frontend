@@ -17,26 +17,42 @@ class TripBookingReviewScreen extends StatefulWidget {
 }
 
 class _TripBookingReviewScreenState extends State<TripBookingReviewScreen> {
+  String? _lastLoadedExtraKey;
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadExtra());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadFromRoute());
   }
 
-  void _loadExtra() {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadFromRoute());
+  }
+
+  void _loadFromRoute() {
     if (!mounted) return;
     final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
-    if (extra != null) {
-      final vm = context.read<TripBookingReviewViewModel>();
-      vm.setBookingData(
-        trip: extra['trip'] as TripSearchItem,
-        seats: extra['seats'] as List<SeatItem>,
-        contactName: extra['contactName'] as String,
-        contactPhone: extra['contactPhone'] as String,
-        originStation: extra['originStation'] as StationData?,
-        destinationStation: extra['destinationStation'] as StationData?,
-      );
-    }
+    if (extra == null) return;
+
+    final trip = extra['trip'] as TripSearchItem?;
+    final seats = extra['seats'] as List<SeatItem>?;
+    if (trip == null || seats == null) return;
+
+    final key = '${trip.id}_${seats.map((s) => s.seatLayoutItemId).join(',')}';
+    if (key == _lastLoadedExtraKey) return;
+    _lastLoadedExtraKey = key;
+
+    final vm = context.read<TripBookingReviewViewModel>();
+    vm.setBookingData(
+      trip: trip,
+      seats: seats,
+      contactName: extra['contactName'] as String? ?? '',
+      contactPhone: extra['contactPhone'] as String? ?? '',
+      originStation: extra['originStation'] as StationData?,
+      destinationStation: extra['destinationStation'] as StationData?,
+    );
   }
 
   @override

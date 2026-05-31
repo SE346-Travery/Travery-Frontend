@@ -42,11 +42,11 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             onPressed: () => context.pop(),
           ),
           title: const Text(
-            'Huy dat ve',
+            'Hủy đặt vé',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
-        body: const Center(child: Text('Khong tim thay thong tin dat ve')),
+        body: const Center(child: Text('Không tìm thấy thông tin đặt vé')),
       );
     }
 
@@ -61,7 +61,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Huy dat ve',
+          'Hủy đặt vé',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
       ),
@@ -123,7 +123,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Ban co chan muon huy dat ve nay?',
+                    'Bạn có chắc chắn muốn hủy đặt vé này?',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -133,8 +133,8 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                   const SizedBox(height: 4),
                   Text(
                     isPaid
-                        ? 'Ban da thanh toan. Phi huy va hoan tien se duoc ap dung theo chinh sach cua nha xe.'
-                        : 'Viec huy co the chiu phi theo chinh sach hien tai.',
+                        ? 'Bạn đã thanh toán. Phi hủy và hoàn tiền sẽ được áp dụng theo chính sách của nhà xe.'
+                        : 'Việc hủy có thể chịu phí theo chính sách hiện tại.',
                     style: const TextStyle(
                       fontSize: 12,
                       color: Color(0xFF991B1B),
@@ -161,7 +161,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'THONG TIN CHUYEN DI',
+            'THÔNG TIN CHUYẾN ĐI',
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -174,7 +174,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Chuyen xe',
+                'Chuyến xe',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
@@ -192,7 +192,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Gio khoi hanh',
+                'Giờ khởi hành',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
@@ -210,11 +210,11 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'So luong ve',
+                'Số lượng vé',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
-                '$seatCount ve',
+                '$seatCount vé',
                 style: const TextStyle(fontSize: 13, color: Color(0xFF111827)),
               ),
             ],
@@ -224,7 +224,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Vi tri ghe',
+                'Vị trí ghế',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
@@ -262,10 +262,10 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                       _buildStationNode(
                         icon: Icons.trip_origin,
                         iconColor: AppColors.success,
-                        title: 'Len xe: ',
+                        title: 'Lên xe: ',
                         stationName: booking.originDestination,
                         address: '',
-                        timeLabel: 'Gio co mat tai ben',
+                        timeLabel: 'Giờ có mặt tại bên',
                         timeValue:
                             '${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)}',
                         isBoarding: true,
@@ -289,7 +289,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Quy khach vui long co mat tai ${booking.originDestination} truoc ${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)} de lam thu tuc len xe!',
+                                'Quý khách vui lòng có mặt tại ${booking.originDestination} trước ${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)} để làm thủ tục lên xe!',
                                 style: const TextStyle(
                                   fontSize: 11,
                                   color: Color(0xFFDC2626),
@@ -304,7 +304,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                       _buildStationNode(
                         icon: Icons.location_on,
                         iconColor: AppColors.error,
-                        title: 'Xuat xe: ',
+                        title: 'Xuống xe: ',
                         stationName: booking.destinationDestination,
                         address: '',
                         timeLabel: null,
@@ -439,7 +439,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
           Row(
             children: [
               const Text(
-                'Thong tin khach hang',
+                'Thông tin khách hàng',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -469,13 +469,13 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
           ),
           const SizedBox(height: 14),
           _buildReadOnlyField(
-            label: 'Ho va ten',
+            label: 'Họ và tên',
             value: booking.contactName,
             icon: Icons.person_outline,
           ),
           const SizedBox(height: 12),
           _buildReadOnlyField(
-            label: 'So dien thoai',
+            label: 'Số điện thoại',
             value: booking.contactPhone,
             icon: Icons.phone_outlined,
           ),
@@ -540,7 +540,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Chi tiet thanh toan',
+            'Chi tiết thanh toán',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -560,7 +560,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Gia ve',
+                      'Giá vé',
                       style: const TextStyle(
                         fontSize: 13,
                         color: Color(0xFF4B5563),
@@ -583,7 +583,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Tong cong',
+                      'Tổng cộng',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -616,7 +616,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Ly do huy (tuy chon)',
+            'Lý do hủy (tùy chọn)',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -628,7 +628,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
             controller: _reasonController,
             maxLines: 4,
             decoration: InputDecoration(
-              hintText: 'VD: Thay doi ke hoach, khong the sap xep thoi gian...',
+              hintText: 'VD: Thay đổi kế hoạch, không thể sắp xếp thời gian...',
               hintStyle: const TextStyle(color: Color(0xFF9CA3AF)),
               filled: true,
               fillColor: const Color(0xFFF9FAFE),
@@ -658,8 +658,8 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                     padding: const EdgeInsets.only(top: 14),
                     child: Text(
                       widget.booking?.status == 'PAID'
-                          ? 'Toi hieu rang phi huy se duoc khau tru va so tien hoan (neu co) se duoc xu ly trong 7-14 ngay lam viec.'
-                          : 'Toi hieu rang viec huy ve se khong duoc hoan tien theo chinh sach hien tai.',
+                          ? 'Tôi hiểu rằng phí hủy sẽ được khấu trừ và số tiền hoàn (nếu có) sẽ được xử lý trong 7-14 ngày làm việc.'
+                          : 'Tôi hiểu rằng việc hủy vé sẽ không được hoàn tiền theo chính sách hiện tại.',
                       style: const TextStyle(
                         fontSize: 13,
                         color: Color(0xFF414755),
@@ -726,7 +726,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
                       const Icon(Icons.warning_amber_rounded, size: 18),
                       const SizedBox(width: 8),
                       const Text(
-                        'Xac nhan huy ve',
+                        'Xác nhận hủy vé',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -761,7 +761,7 @@ class _TripCancelScreenState extends State<TripCancelScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Loi: ${vm.error ?? 'Khong the huy dat ve'}'),
+          content: Text('Lỗi: ${vm.error ?? 'Không thể hủy đặt vé'}'),
           backgroundColor: Colors.red,
         ),
       );

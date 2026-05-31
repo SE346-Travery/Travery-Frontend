@@ -18,16 +18,32 @@ class TripBookingDetailScreen extends StatefulWidget {
 }
 
 class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
+  String? _lastLoadedBookingId;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
-      final booking = extra?['booking'] as TripBookingData?;
-      if (booking != null) {
-        context.read<TripBookingDetailViewModel>().loadBooking(booking.id);
-      }
+      _loadBookingFromRoute();
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadBookingFromRoute();
+    });
+  }
+
+  void _loadBookingFromRoute() {
+    if (!mounted) return;
+    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+    final booking = extra?['booking'] as TripBookingData?;
+    if (booking != null && booking.id != _lastLoadedBookingId) {
+      _lastLoadedBookingId = booking.id;
+      context.read<TripBookingDetailViewModel>().loadBooking(booking.id);
+    }
   }
 
   @override
@@ -36,6 +52,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) {
+          _lastLoadedBookingId = null;
           final vm = context.read<TripBookingDetailViewModel>();
           final booking = vm.bookingData;
           if (booking != null) vm.loadBooking(booking.id);
@@ -52,7 +69,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             onPressed: () => context.pop(),
           ),
           title: const Text(
-            'Chi tiet dat ve',
+            'Chi tiết đặt vé',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
@@ -78,7 +95,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                         final booking = vm.bookingData;
                         if (booking != null) vm.loadBooking(booking.id);
                       },
-                      child: const Text('Thu lai'),
+                      child: const Text('Thử lại'),
                     ),
                   ],
                 ),
@@ -87,7 +104,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             final booking = vm.bookingData;
             if (booking == null) {
               return const Center(
-                child: Text('Khong tim thay thong tin dat ve'),
+                child: Text('Không tìm thấy thông tin đặt xe'),
               );
             }
             return Column(
@@ -129,26 +146,26 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
     if (isPaid) {
       statusColor = const Color(0xFF10B981);
       statusIcon = Icons.check_circle;
-      statusLabel = 'Da thanh toan';
+      statusLabel = 'Đã thanh toán';
       statusDesc =
-          'Ve cua ban da duoc xac nhan. Vui long co mat tai ben truoc gio khoi hanh 15 phut.';
+          'Xe của bạn đã được xác nhận. Vui lòng có mặt tại bên trước giờ khởi hành 15 phút.';
     } else if (isCancelled) {
       statusColor = Colors.red;
       statusIcon = Icons.cancel;
-      statusLabel = 'Da huy';
-      statusDesc = 'Ve da bi huy. Neu can hoan tien, vui long lien he ho tro.';
+      statusLabel = 'Đã hủy';
+      statusDesc = 'Xe đã bị hủy. Nếu cần hoàn tiền, vui lòng liên hệ hỗ trợ.';
     } else if (isCheckedIn) {
       statusColor = AppColors.primary;
       statusIcon = Icons.person;
-      statusLabel = 'Da check-in';
-      statusDesc = 'Ban da check-in thanh cong. Chuc ban co chuyen di vui ve!';
+      statusLabel = 'Đã check-in';
+      statusDesc = 'Bạn đã check-in thành công. Chúc bạn có chuyến đi vui vẻ!';
     } else {
       statusColor = Colors.orange;
       statusIcon = Icons.hourglass_empty;
-      statusLabel = 'Cho thanh toan';
+      statusLabel = 'Chờ thanh toán';
       statusDesc = booking.paymentDeadline != null
-          ? 'Han thanh toan: ${_formatDateTime(booking.paymentDeadline!)}'
-          : 'Vui long thanh toan de xac nhan ve.';
+          ? 'Hạn thanh toán: ${_formatDateTime(booking.paymentDeadline!)}'
+          : 'Vui lòng thanh toán để xác nhận xe.';
     }
 
     return Container(
@@ -216,7 +233,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'THONG TIN CHUYEN DI',
+            'THÔNG TIN CHUYẾN ĐI',
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -229,7 +246,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Chuyen xe',
+                'Chuyến xe',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
@@ -247,7 +264,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Gio khoi hanh',
+                'Giờ khởi hành',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
@@ -265,11 +282,11 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'So luong ve',
+                'Số lượng vé',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
-                '$seatCount ve',
+                '$seatCount vé',
                 style: const TextStyle(fontSize: 13, color: Color(0xFF111827)),
               ),
             ],
@@ -279,7 +296,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Vi tri ghe',
+                'Vị trí ghế',
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
@@ -298,7 +315,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Bien so xe',
+                  'Biển số xe',
                   style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
                 ),
                 Text(
@@ -336,10 +353,10 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                       _buildStationNode(
                         icon: Icons.trip_origin,
                         iconColor: AppColors.success,
-                        title: 'Len xe: ',
+                        title: 'Lên xe: ',
                         stationName: booking.originDestination,
                         address: '',
-                        timeLabel: 'Gio co mat tai ben',
+                        timeLabel: 'Giờ có mặt tại bên',
                         timeValue:
                             '${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)}',
                         isBoarding: true,
@@ -363,7 +380,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Quy khach vui long co mat tai ${booking.originDestination} truoc ${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)} de lam thu tuc len xe!',
+                                'Quý khách vui lòng có mặt tại ${booking.originDestination} trước ${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)} để làm thủ tục lên xe!',
                                 style: const TextStyle(
                                   fontSize: 11,
                                   color: Color(0xFFDC2626),
@@ -378,7 +395,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                       _buildStationNode(
                         icon: Icons.location_on,
                         iconColor: AppColors.error,
-                        title: 'Xuat xe: ',
+                        title: 'Xuống xe: ',
                         stationName: booking.destinationDestination,
                         address: '',
                         timeLabel: null,
@@ -514,7 +531,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
           Row(
             children: [
               const Text(
-                'Thong tin khach hang',
+                'Thông tin khách hàng',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -539,13 +556,13 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
           ),
           const SizedBox(height: 14),
           _buildReadOnlyField(
-            label: 'Ho va ten',
+            label: 'Họ và tên',
             value: booking.contactName,
             icon: Icons.person_outline,
           ),
           const SizedBox(height: 12),
           _buildReadOnlyField(
-            label: 'So dien thoai',
+            label: 'Số điện thoại',
             value: booking.contactPhone,
             icon: Icons.phone_outlined,
           ),
@@ -610,7 +627,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Chi tiet thanh toan',
+            'Chi tiết thanh toán',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -630,7 +647,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Ma giao dich',
+                      'Mã giao dịch',
                       style: TextStyle(fontSize: 13, color: Color(0xFF4B5563)),
                     ),
                     Text(
@@ -648,7 +665,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Gia ve',
+                      'Giá vé',
                       style: TextStyle(fontSize: 13, color: Color(0xFF4B5563)),
                     ),
                     Text(
@@ -668,7 +685,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Tong cong',
+                      'Tổng cộng',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -738,7 +755,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Thanh toan ngay',
+                      'Thanh toán ngay',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -758,7 +775,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                         extra: {'booking': booking},
                       ),
                       icon: const Icon(Icons.cancel_outlined, size: 18),
-                      label: const Text('Huy ve'),
+                      label: const Text('Hủy vé'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Colors.red,
                         side: BorderSide(color: Colors.red.shade300),
@@ -774,7 +791,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                     child: ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(Icons.phone, size: 18),
-                      label: const Text('Lien he'),
+                      label: const Text('Liên hệ'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
@@ -810,7 +827,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
               children: [
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
-                Text('Dang tao thanh toan...'),
+                Text('Đang tạo thanh toán...'),
               ],
             ),
           ),
@@ -836,7 +853,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Loi: ${payVm.error ?? 'Khong the tao thanh toan'}'),
+          content: Text('Lỗi: ${payVm.error ?? 'Không thể tạo thanh toán'}'),
           backgroundColor: Colors.red,
         ),
       );

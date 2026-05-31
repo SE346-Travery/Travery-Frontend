@@ -43,7 +43,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFF),
-      appBar: const UserAppBar(title: 'Dat ve xe'),
+      appBar: const UserAppBar(title: 'Đặt vé xe khách'),
       body: Consumer<TripHomeViewModel>(
         builder: (context, vm, _) {
           return ListView(
@@ -66,12 +66,12 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Chao ban!',
+          'Chào bạn!',
           style: TextStyle(fontSize: 14, color: Color(0xFF414755)),
         ),
         const SizedBox(height: 4),
         const Text(
-          'Dat ve xe khach',
+          'Đặt vé xe khách',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w800,
@@ -80,7 +80,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
         ),
         const SizedBox(height: 4),
         const Text(
-          'Tim chuyen xe phu hop voi ban',
+          'Tìm chuyến xe phù hợp với bạn',
           style: TextStyle(fontSize: 14, color: Color(0xFF717786)),
         ),
       ],
@@ -105,7 +105,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Tim chuyen xe',
+            'Tìm chuyến xe',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -117,7 +117,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
             children: [
               Expanded(
                 child: _LocationField(
-                  label: 'Diem di',
+                  label: 'Điểm đi',
                   icon: Icons.trip_origin,
                   iconColor: AppColors.primary,
                   value:
@@ -144,7 +144,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
               ),
               Expanded(
                 child: _LocationField(
-                  label: 'Diem den',
+                  label: 'Điểm đến',
                   icon: Icons.location_on,
                   iconColor: const Color(0xFFFF6B6B),
                   value:
@@ -206,7 +206,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
                       ),
                     )
                   : const Text(
-                      'Tim chuyen xe',
+                      'Tìm chuyến xe',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -229,7 +229,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => _StationPickerBottomSheet(
-        title: isOrigin ? 'Chon diem di' : 'Chon diem den',
+        title: isOrigin ? 'Chọn điểm đi' : 'Chọn điểm đến',
         destinations: vm.origins,
         selectedStation: isOrigin
             ? vm.selectedOriginStation
@@ -261,9 +261,9 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
       initialDate: vm.departureDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
-      helpText: 'Chon ngay khoi hanh',
-      cancelText: 'Huy',
-      confirmText: 'Xac nhan',
+      helpText: 'Chọn ngày khởi hành',
+      cancelText: 'Hủy',
+      confirmText: 'Xác nhận',
       builder: (ctx, child) {
         return Theme(
           data: Theme.of(ctx).copyWith(
@@ -298,7 +298,7 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Kham pha dich vu',
+          'Khám phá dịch vụ',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
@@ -458,7 +458,7 @@ class _DateField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'NGAY KHOI HANH',
+              'NGÀY KHỞI HÀNH',
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w700,
@@ -685,7 +685,7 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
               controller: _searchController,
               autofocus: true,
               decoration: InputDecoration(
-                hintText: 'Tim thanh pho hoac tram...',
+                hintText: 'Tìm thành phố hoặc trạm...',
                 hintStyle: const TextStyle(color: Color(0xFF717786), fontSize: 14),
                 prefixIcon: const Icon(Icons.search, color: Color(0xFF717786), size: 20),
                 filled: true,
@@ -715,7 +715,7 @@ class _StationPickerBottomSheetState extends State<_StationPickerBottomSheet> {
             const Icon(Icons.search_off, color: Color(0xFF717786), size: 48),
             const SizedBox(height: 12),
             Text(
-              _searchText.isEmpty ? 'Khong co diem den nao' : 'Khong tim thay "$_searchText"',
+              _searchText.isEmpty ? 'Không có điểm đến nào' : 'Không tìm thấy "$_searchText"',
               style: const TextStyle(fontSize: 14, color: Color(0xFF717786)),
             ),
           ],

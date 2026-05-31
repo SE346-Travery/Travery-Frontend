@@ -37,6 +37,12 @@ class TripListViewModel extends ChangeNotifier {
   DestinationData? _destination;
   DestinationData? get destination => _destination;
 
+  StationData? _originStation;
+  StationData? get originStation => _originStation;
+
+  StationData? _destinationStation;
+  StationData? get destinationStation => _destinationStation;
+
   DateTime? _departureDate;
   DateTime? get departureDate => _departureDate;
 
@@ -47,11 +53,15 @@ class TripListViewModel extends ChangeNotifier {
     required DestinationData origin,
     required DestinationData destination,
     required DateTime departureDate,
+    StationData? originStation,
+    StationData? destinationStation,
   }) {
     _origin = origin;
     _destination = destination;
     _departureDate = departureDate;
     _initDepartureDate = departureDate;
+    _originStation = originStation;
+    _destinationStation = destinationStation;
     _trips = [];
     _selectedCoachType = null;
     _selectedTimeSlot = null;

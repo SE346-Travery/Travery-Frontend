@@ -183,33 +183,97 @@ class _TripListScreenState extends State<TripListScreen> {
   }
 }
 
-class _DateStrip extends StatelessWidget {
+class _ClampingScrollPhysics extends ClampingScrollPhysics {
+  const _ClampingScrollPhysics({super.parent});
+
+  @override
+  _ClampingScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return _ClampingScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  double applyBoundaryConditions(ScrollMetrics position, double value) {
+    if (value < 0) return 0;
+    return super.applyBoundaryConditions(position, value);
+  }
+}
+
+class _DateStrip extends StatefulWidget {
   const _DateStrip({required this.vm});
   final TripListViewModel vm;
 
   @override
-  Widget build(BuildContext context) {
-    final baseDate = vm.initDepartureDate ?? DateTime.now();
-    final dates = List.generate(7, (i) => baseDate.add(Duration(days: i)));
+  State<_DateStrip> createState() => _DateStripState();
+}
 
+class _DateStripState extends State<_DateStrip> {
+  static const _totalDays = 90;
+  late final List<DateTime> _dates;
+  late final ScrollController _scrollController;
+  bool _hasScrolled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _dates = List.generate(
+      _totalDays,
+      (i) => DateTime.now().add(Duration(days: i)),
+    );
+    _scrollController = ScrollController();
+    Future.microtask(_scrollToSelected);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToSelected() {
+    if (_hasScrolled) return;
+    final selectedDate = widget.vm.departureDate ?? widget.vm.initDepartureDate;
+    if (selectedDate == null) return;
+    final index = _dates.indexWhere((d) => _isSameDay(d, selectedDate));
+    if (index < 0) return;
+    const chipWidth = 64.0;
+    const chipSpacing = 8.0;
+    final offset = index * (chipWidth + chipSpacing) + 12;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(
+          offset.clamp(0.0, _scrollController.position.maxScrollExtent),
+        );
+      }
+    });
+    _hasScrolled = true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: SizedBox(
         height: 68,
         child: ListView.separated(
+          controller: _scrollController,
           scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
+          physics: const _ClampingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          itemCount: dates.length,
+          itemCount: _dates.length,
           separatorBuilder: (_, __) => const SizedBox(width: 8),
           itemBuilder: (context, index) {
-            final date = dates[index];
-            final isSelected = _isSameDay(date, vm.departureDate ?? baseDate);
+            final date = _dates[index];
+            final isSelected = _isSameDay(
+              date,
+              widget.vm.departureDate ??
+                  widget.vm.initDepartureDate ??
+                  DateTime.now(),
+            );
             return _DateChip(
               date: date,
               isSelected: isSelected,
-              onTap: () => vm.setDepartureDate(date),
+              onTap: () => widget.vm.setDepartureDate(date),
             );
           },
         ),

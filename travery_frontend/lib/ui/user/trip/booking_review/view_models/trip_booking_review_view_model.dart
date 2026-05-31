@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/models/trip/trip_booking_data.dart';
 import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
 import 'package:travery_frontend/data/models/trip/trip_seat_data.dart';
+import 'package:travery_frontend/data/models/trip/destination_data.dart';
 import 'package:travery_frontend/data/services/trip/trip_service.dart';
 import 'package:travery_frontend/data/services/api/model/trip/create_trip_booking_request/create_trip_booking_request.dart';
 import 'package:travery_frontend/utils/core_result.dart';
@@ -24,6 +25,12 @@ class TripBookingReviewViewModel extends ChangeNotifier {
   String _contactPhone = '';
   String get contactPhone => _contactPhone;
 
+  StationData? _originStation;
+  StationData? get originStation => _originStation;
+
+  StationData? _destinationStation;
+  StationData? get destinationStation => _destinationStation;
+
   double get totalPrice => _selectedSeats.length * (_trip?.basePrice ?? 0);
 
   bool get isLoading => _isCreatingBooking || _isCreatingPayment;
@@ -45,11 +52,15 @@ class TripBookingReviewViewModel extends ChangeNotifier {
     required List<SeatItem> seats,
     required String contactName,
     required String contactPhone,
+    StationData? originStation,
+    StationData? destinationStation,
   }) {
     _trip = trip;
     _selectedSeats = seats;
     _contactName = contactName;
     _contactPhone = contactPhone;
+    _originStation = originStation;
+    _destinationStation = destinationStation;
     _bookingData = null;
     _error = null;
     notifyListeners();

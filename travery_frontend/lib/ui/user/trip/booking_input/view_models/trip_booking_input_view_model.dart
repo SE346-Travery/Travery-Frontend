@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:travery_frontend/data/models/trip/trip_seat_data.dart';
 import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
+import 'package:travery_frontend/data/models/trip/destination_data.dart';
 
 class TripBookingInputViewModel extends ChangeNotifier {
   TripSearchItem? _trip;
@@ -15,6 +16,12 @@ class TripBookingInputViewModel extends ChangeNotifier {
   String _contactPhone = '';
   String get contactPhone => _contactPhone;
 
+  StationData? _originStation;
+  StationData? get originStation => _originStation;
+
+  StationData? _destinationStation;
+  StationData? get destinationStation => _destinationStation;
+
   double get totalPrice {
     if (_trip == null) return 0;
     return _selectedSeats.length * _trip!.basePrice;
@@ -23,11 +30,15 @@ class TripBookingInputViewModel extends ChangeNotifier {
   void setTripAndSeats({
     required TripSearchItem trip,
     required List<SeatItem> seats,
+    StationData? originStation,
+    StationData? destinationStation,
   }) {
     _trip = trip;
     _selectedSeats = seats;
     _contactName = '';
     _contactPhone = '';
+    _originStation = originStation;
+    _destinationStation = destinationStation;
     notifyListeners();
   }
 

@@ -6,7 +6,6 @@ import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/trip/payment/view_models/trip_payment_view_model.dart';
 import 'package:travery_frontend/ui/user/trip/booking_detail/view_models/trip_booking_detail_view_model.dart';
 import 'package:travery_frontend/data/models/trip/trip_booking_data.dart';
-import 'package:travery_frontend/ui/user/widgets/user_app_bar.dart';
 
 class TripBookingDetailScreen extends StatefulWidget {
   const TripBookingDetailScreen({super.key, this.bookingId = ''});
@@ -43,12 +42,18 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFFAFAFF),
-        appBar: UserAppBar(
-          title: 'Chi tiết đặt vé',
+        backgroundColor: const Color(0xFFF3F4F6),
+        appBar: AppBar(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.home_outlined),
-            onPressed: () => context.go(Routes.home),
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.pop(),
+          ),
+          title: const Text(
+            'Chi tiet dat ve',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
         body: Consumer<TripBookingDetailViewModel>(
@@ -67,13 +72,13 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
                       color: Colors.grey,
                     ),
                     const SizedBox(height: 12),
-                    Text(vm.error ?? 'Lỗi'),
+                    Text(vm.error ?? 'Loi'),
                     ElevatedButton(
                       onPressed: () {
                         final booking = vm.bookingData;
                         if (booking != null) vm.loadBooking(booking.id);
                       },
-                      child: const Text('Thử lại'),
+                      child: const Text('Thu lai'),
                     ),
                   ],
                 ),
@@ -82,24 +87,22 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
             final booking = vm.bookingData;
             if (booking == null) {
               return const Center(
-                child: Text('Không tìm thấy thông tin đặt vé'),
+                child: Text('Khong tim thay thong tin dat ve'),
               );
             }
             return Column(
               children: [
                 Expanded(
                   child: ListView(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.only(bottom: 120),
                     children: [
                       _buildStatusCard(booking),
-                      const SizedBox(height: 16),
-                      _buildTripInfoCard(booking),
-                      const SizedBox(height: 16),
-                      _buildSeatInfoCard(booking),
-                      const SizedBox(height: 16),
-                      _buildContactCard(booking),
-                      const SizedBox(height: 16),
-                      _buildPaymentCard(booking),
+                      const SizedBox(height: 2),
+                      _buildTripInfo(booking),
+                      const SizedBox(height: 2),
+                      _buildCustomerInfoReadOnly(booking),
+                      const SizedBox(height: 2),
+                      _buildPaymentDetails(booking),
                     ],
                   ),
                 ),
@@ -112,126 +115,279 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
     );
   }
 
-  Widget _buildBottomBar(
-    BuildContext context,
-    TripBookingData booking,
-    TripBookingDetailViewModel vm,
-  ) {
-    final isPending = booking.status == 'PENDING';
+  // ─── STATUS CARD ───────────────────────────────────────────────────
+  Widget _buildStatusCard(TripBookingData booking) {
     final isPaid = booking.status == 'PAID';
-    if (!isPending && !isPaid) return const SizedBox.shrink();
+    final isCancelled = booking.status == 'CANCELLED';
+    final isCheckedIn = booking.status == 'CHECKED_IN';
+
+    Color statusColor;
+    IconData statusIcon;
+    String statusLabel;
+    String statusDesc;
+
+    if (isPaid) {
+      statusColor = const Color(0xFF10B981);
+      statusIcon = Icons.check_circle;
+      statusLabel = 'Da thanh toan';
+      statusDesc =
+          'Ve cua ban da duoc xac nhan. Vui long co mat tai ben truoc gio khoi hanh 15 phut.';
+    } else if (isCancelled) {
+      statusColor = Colors.red;
+      statusIcon = Icons.cancel;
+      statusLabel = 'Da huy';
+      statusDesc = 'Ve da bi huy. Neu can hoan tien, vui long lien he ho tro.';
+    } else if (isCheckedIn) {
+      statusColor = AppColors.primary;
+      statusIcon = Icons.person;
+      statusLabel = 'Da check-in';
+      statusDesc = 'Ban da check-in thanh cong. Chuc ban co chuyen di vui ve!';
+    } else {
+      statusColor = Colors.orange;
+      statusIcon = Icons.hourglass_empty;
+      statusLabel = 'Cho thanh toan';
+      statusDesc = booking.paymentDeadline != null
+          ? 'Han thanh toan: ${_formatDateTime(booking.paymentDeadline!)}'
+          : 'Vui long thanh toan de xac nhan ve.';
+    }
+
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
-          child: isPending
-              ? SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => _onPayPressed(context, booking, vm),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'Thanh toán ngay',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
+      color: Colors.white,
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: statusColor.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: statusColor.withValues(alpha: 0.25)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: statusColor.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(statusIcon, color: statusColor, size: 22),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    statusLabel,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: statusColor,
                     ),
                   ),
-                )
-              : SizedBox(
-                  width: double.infinity,
-                  child: TextButton.icon(
-                    onPressed: () => context.push(
-                      Routes.tripCancelConfirmation,
-                      extra: {'booking': booking},
-                    ),
-                    icon: Icon(
-                      Icons.cancel_outlined,
-                      size: 18,
-                      color: Colors.red.shade600,
-                    ),
-                    label: Text(
-                      'Hủy vé',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.red.shade600,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      side: BorderSide(color: Colors.red.shade300),
+                  const SizedBox(height: 4),
+                  Text(
+                    statusDesc,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF414755),
+                      height: 1.4,
                     ),
                   ),
-                ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildStatusCard(TripBookingData booking) {
+  // ─── THONG TIN CHUYEN DI ───────────────────────────────────────────────
+  Widget _buildTripInfo(TripBookingData booking) {
+    final departureDt = booking.departureTime;
+    final seatCount = booking.bookedSeatNames.length;
+
     return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: _getStatusColor(booking.status).withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _getStatusColor(booking.status).withValues(alpha: 0.3),
-        ),
-      ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            _getStatusIcon(booking.status),
-            color: _getStatusColor(booking.status),
-            size: 28,
+          const Text(
+            'THONG TIN CHUYEN DI',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF6B7280),
+              letterSpacing: 0.8,
+            ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Chuyen xe',
+                style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
+              ),
+              Text(
+                '${booking.originDestination} → ${booking.destinationDestination}',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF111827),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Gio khoi hanh',
+                style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
+              ),
+              Text(
+                '${_formatTime(departureDt)} ${_formatDate(departureDt)}',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'So luong ve',
+                style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
+              ),
+              Text(
+                '$seatCount ve',
+                style: const TextStyle(fontSize: 13, color: Color(0xFF111827)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Vi tri ghe',
+                style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
+              ),
+              Text(
+                booking.bookedSeatNames.join(', '),
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+          if (booking.coachLicensePlate != null) ...[
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const Text(
+                  'Bien so xe',
+                  style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
+                ),
                 Text(
-                  _getStatusLabel(booking.status),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: _getStatusColor(booking.status),
+                  booking.coachLicensePlate!,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF111827),
                   ),
                 ),
-                if (booking.paymentDeadline != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    'Hạn thanh toán: ${_formatDateTime(booking.paymentDeadline!)}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF414755),
+              ],
+            ),
+          ],
+          const SizedBox(height: 24),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 24,
+                  child: CustomPaint(
+                    size: const Size(24, double.infinity),
+                    painter: _DashedLinePainter(
+                      color: AppColors.primary,
+                      strokeWidth: 1.5,
+                      dashHeight: 4,
+                      dashSpace: 3,
                     ),
                   ),
-                ],
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildStationNode(
+                        icon: Icons.trip_origin,
+                        iconColor: AppColors.success,
+                        title: 'Len xe: ',
+                        stationName: booking.originDestination,
+                        address: '',
+                        timeLabel: 'Gio co mat tai ben',
+                        timeValue:
+                            '${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)}',
+                        isBoarding: true,
+                      ),
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFEF2F2),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: const Color(0xFFFECACA)),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.info_outline,
+                              size: 14,
+                              color: Color(0xFFDC2626),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Quy khach vui long co mat tai ${booking.originDestination} truoc ${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)} de lam thu tuc len xe!',
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Color(0xFFDC2626),
+                                  height: 1.4,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      _buildStationNode(
+                        icon: Icons.location_on,
+                        iconColor: AppColors.error,
+                        title: 'Xuat xe: ',
+                        stationName: booking.destinationDestination,
+                        address: '',
+                        timeLabel: null,
+                        timeValue: null,
+                        isBoarding: false,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -240,245 +396,400 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
     );
   }
 
-  Widget _buildTripInfoCard(TripBookingData booking) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Thông tin chuyến xe',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF131B2E),
+  Widget _buildStationNode({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String stationName,
+    required String address,
+    required String? timeLabel,
+    required String? timeValue,
+    required bool isBoarding,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: iconColor, width: 2),
+                color: Colors.white,
+              ),
+              child: Icon(icon, size: 12, color: iconColor),
             ),
-          ),
-          const SizedBox(height: 16),
-          _InfoRow(
-            'Mã giao dịch',
-            '#${_shortCode(booking.gatewayTransactionId ?? booking.transactionId ?? booking.id)}',
-          ),
-          const Divider(height: 24),
-          _InfoRow('Ngày khởi hành', _formatDate(booking.departureTime)),
-          const Divider(height: 24),
-          _InfoRow('Giờ khởi hành', _formatTime(booking.departureTime)),
-          if (booking.estimatedArrivalTime != null) ...[
-            const Divider(height: 24),
-            _InfoRow(
-              'Giờ đến dự kiến',
-              _formatTime(booking.estimatedArrivalTime!),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: const TextStyle(fontSize: 13),
+                      children: [
+                        TextSpan(
+                          text: title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF111827),
+                          ),
+                        ),
+                        TextSpan(
+                          text: stationName,
+                          style: const TextStyle(color: Color(0xFF111827)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (address.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: Text(
+                        address,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF6B7280),
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF3F4F6),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.copy_outlined,
+                size: 16,
+                color: Color(0xFF6B7280),
+              ),
             ),
           ],
-          if (booking.coachLicensePlate != null) ...[
-            const Divider(height: 24),
-            _InfoRow('Biển số xe', booking.coachLicensePlate!),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSeatInfoCard(TripBookingData booking) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Ghế đã đặt',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF131B2E),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: booking.bookedSeatNames.map((name) {
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+        ),
+        if (isBoarding && timeLabel != null && timeValue != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 34, top: 6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  timeLabel,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF6B7280),
                   ),
                 ),
-                child: Text(
-                  name,
+                Text(
+                  timeValue,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,
                   ),
                 ),
-              );
-            }).toList(),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  // ─── THONG TIN KHACH HANG (READ-ONLY) ───────────────────────────────
+  Widget _buildCustomerInfoReadOnly(TripBookingData booking) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Text(
+                'Thong tin khach hang',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF111827),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3F4F6),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                ),
+                child: const Icon(
+                  Icons.lock_outline,
+                  size: 12,
+                  color: Color(0xFF9CA3AF),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          _buildReadOnlyField(
+            label: 'Ho va ten',
+            value: booking.contactName,
+            icon: Icons.person_outline,
+          ),
+          const SizedBox(height: 12),
+          _buildReadOnlyField(
+            label: 'So dien thoai',
+            value: booking.contactPhone,
+            icon: Icons.phone_outlined,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildContactCard(TripBookingData booking) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+  Widget _buildReadOnlyField({
+    required String label,
+    required String value,
+    required IconData icon,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF374151),
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 6),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF9FAFE),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: const Color(0xFFE5E7EB)),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, size: 18, color: const Color(0xFF9CA3AF)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF111827),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ─── CHI TIET THANH TOAN ───────────────────────────────────────────
+  Widget _buildPaymentDetails(TripBookingData booking) {
+    final seatCount = booking.bookedSeatNames.length;
+
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Thông tin liên hệ',
+            'Chi tiet thanh toan',
             style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF131B2E),
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF111827),
             ),
           ),
-          const SizedBox(height: 16),
-          _InfoRow('Họ tên', booking.contactName),
-          const Divider(height: 24),
-          _InfoRow('Số điện thoại', booking.contactPhone),
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF3F4F6),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Ma giao dich',
+                      style: TextStyle(fontSize: 13, color: Color(0xFF4B5563)),
+                    ),
+                    Text(
+                      '#${_shortCode(booking.gatewayTransactionId ?? booking.transactionId ?? booking.id)}',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF111827),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Gia ve',
+                      style: TextStyle(fontSize: 13, color: Color(0xFF4B5563)),
+                    ),
+                    Text(
+                      '${_formatPrice(booking.basePrice)} x$seatCount',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF111827),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Container(height: 1, color: const Color(0xFFE5E7EB)),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Tong cong',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF111827),
+                      ),
+                    ),
+                    Text(
+                      _formatPrice(booking.totalPrice),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF111827),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildPaymentCard(TripBookingData booking) {
+  // ─── BOTTOM BAR ────────────────────────────────────────────────────
+  Widget _buildBottomBar(
+    BuildContext context,
+    TripBookingData booking,
+    TripBookingDetailViewModel vm,
+  ) {
+    final isPending = booking.status == 'PENDING';
+    final isPaid = booking.status == 'PAID';
+    if (!isPending && !isPaid) return const SizedBox.shrink();
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        12,
+        16,
+        MediaQuery.of(context).padding.bottom + 12,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 20,
+            offset: const Offset(0, -4),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Thông tin thanh toán',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF131B2E),
-            ),
-          ),
-          const SizedBox(height: 16),
-          _InfoRow('Giá vé', _formatPrice(booking.basePrice)),
-          const Divider(height: 24),
-          _InfoRow('Số lượng', '${booking.bookedSeatNames.length} ghế'),
-          const Divider(height: 24),
-          _InfoRow('Tổng cộng', _formatPrice(booking.totalPrice), isBold: true),
-        ],
+      child: SafeArea(
+        top: false,
+        child: isPending
+            ? ElevatedButton(
+                onPressed: () => _onPayPressed(context, booking, vm),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  elevation: 0,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Thanh toan ngay',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(Icons.arrow_forward, size: 20),
+                  ],
+                ),
+              )
+            : Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => context.push(
+                        Routes.tripCancelConfirmation,
+                        extra: {'booking': booking},
+                      ),
+                      icon: const Icon(Icons.cancel_outlined, size: 18),
+                      label: const Text('Huy ve'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.red,
+                        side: BorderSide(color: Colors.red.shade300),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(28),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.phone, size: 18),
+                      label: const Text('Lien he'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(28),
+                        ),
+                        elevation: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'PAID':
-        return Colors.green;
-      case 'CANCELLED':
-        return Colors.red;
-      case 'CHECKED_IN':
-        return AppColors.primary;
-      default:
-        return Colors.orange;
-    }
-  }
-
-  IconData _getStatusIcon(String status) {
-    switch (status) {
-      case 'PAID':
-        return Icons.check_circle;
-      case 'CANCELLED':
-        return Icons.cancel;
-      case 'CHECKED_IN':
-        return Icons.person;
-      default:
-        return Icons.hourglass_empty;
-    }
-  }
-
-  String _getStatusLabel(String status) {
-    switch (status) {
-      case 'PAID':
-        return 'Đã thanh toán';
-      case 'CANCELLED':
-        return 'Đã hủy';
-      case 'CHECKED_IN':
-        return 'Đã check-in';
-      default:
-        return 'Chờ thanh toán';
-    }
-  }
-
-  String _shortCode(String id) {
-    final clean = id.replaceAll('-', '');
-    return clean.length >= 8
-        ? clean.substring(0, 8).toUpperCase()
-        : clean.toUpperCase();
-  }
-
-  String _formatDate(DateTime dt) {
-    return '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
-  }
-
-  String _formatTime(DateTime dt) {
-    return '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
-  }
-
-  String _formatDateTime(DateTime dt) {
-    return '${_formatDate(dt)} ${_formatTime(dt)}';
-  }
-
-  String _formatPrice(double price) {
-    final str = price.toStringAsFixed(0);
-    return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}đ';
   }
 
   Future<void> _onPayPressed(
@@ -499,7 +810,7 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
               children: [
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
-                Text('Đang tạo thanh toán...'),
+                Text('Dang tao thanh toan...'),
               ],
             ),
           ),
@@ -525,39 +836,64 @@ class _TripBookingDetailScreenState extends State<TripBookingDetailScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Lỗi: ${payVm.error ?? 'Không thể tạo thanh toán'}'),
+          content: Text('Loi: ${payVm.error ?? 'Khong the tao thanh toan'}'),
           backgroundColor: Colors.red,
         ),
       );
     }
   }
+
+  // ─── HELPERS ───────────────────────────────────────────────────────
+  String _shortCode(String id) {
+    final clean = id.replaceAll('-', '');
+    return clean.length >= 8
+        ? clean.substring(0, 8).toUpperCase()
+        : clean.toUpperCase();
+  }
+
+  String _formatDate(DateTime dt) =>
+      '${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}';
+  String _formatTime(DateTime dt) =>
+      '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
+  String _formatDateTime(DateTime dt) =>
+      '${_formatDate(dt)} ${_formatTime(dt)}';
+
+  String _formatPrice(double price) {
+    final str = price.toStringAsFixed(0);
+    return '${str.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}d';
+  }
 }
 
-class _InfoRow extends StatelessWidget {
-  const _InfoRow(this.label, this.value, {this.isBold = false});
-
-  final String label;
-  final String value;
-  final bool isBold;
+// ─── Dashed line painter ────────────────────────────────────────────────────
+class _DashedLinePainter extends CustomPainter {
+  _DashedLinePainter({
+    required this.color,
+    required this.strokeWidth,
+    required this.dashHeight,
+    required this.dashSpace,
+  });
+  final Color color;
+  final double strokeWidth;
+  final double dashHeight;
+  final double dashSpace;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: isBold ? 16 : 13,
-            fontWeight: isBold ? FontWeight.w800 : FontWeight.w600,
-            color: const Color(0xFF1E293B),
-          ),
-        ),
-      ],
-    );
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+    double startY = dashHeight / 2;
+    while (startY < size.height) {
+      canvas.drawLine(
+        Offset(size.width / 2, startY),
+        Offset(size.width / 2, (startY + dashHeight).clamp(0, size.height)),
+        paint,
+      );
+      startY += dashHeight + dashSpace;
+    }
   }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

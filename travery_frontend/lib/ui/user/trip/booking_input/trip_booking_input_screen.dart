@@ -6,6 +6,7 @@ import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/trip/booking_input/view_models/trip_booking_input_view_model.dart';
 import 'package:travery_frontend/data/models/trip/trip_search_item.dart';
 import 'package:travery_frontend/data/models/trip/trip_seat_data.dart';
+import 'package:travery_frontend/data/models/trip/destination_data.dart';
 
 class TripBookingInputScreen extends StatefulWidget {
   const TripBookingInputScreen({super.key});
@@ -37,8 +38,15 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
     if (extra != null) {
       final trip = extra['trip'] as TripSearchItem;
       final seats = extra['seats'] as List<SeatItem>;
+      final originStation = extra['originStation'] as StationData?;
+      final destinationStation = extra['destinationStation'] as StationData?;
       final vm = context.read<TripBookingInputViewModel>();
-      vm.setTripAndSeats(trip: trip, seats: seats);
+      vm.setTripAndSeats(
+        trip: trip,
+        seats: seats,
+        originStation: originStation,
+        destinationStation: destinationStation,
+      );
       if (seats.isNotEmpty) {
         _nameController.clear();
         _phoneController.clear();
@@ -160,6 +168,19 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
 
     final departureDt = trip.departureTime;
     final seatCount = vm.selectedSeats.length;
+    final originName = vm.originStation?.name ?? trip.originDestination.name;
+    final destinationName =
+        vm.destinationStation?.name ?? trip.destinationDestination.name;
+    final originAddress =
+        vm.originStation?.address ??
+        (trip.originDestination.stations.isNotEmpty
+            ? trip.originDestination.stations.first.address
+            : '');
+    final destinationAddress =
+        vm.destinationStation?.address ??
+        (trip.destinationDestination.stations.isNotEmpty
+            ? trip.destinationDestination.stations.first.address
+            : '');
 
     return Container(
       color: Colors.white,
@@ -188,7 +209,7 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
                 style: TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
               ),
               Text(
-                '${trip.originDestination.name} → ${trip.destinationDestination.name}',
+                '$originName → $destinationName',
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -278,10 +299,8 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
                         icon: Icons.trip_origin,
                         iconColor: AppColors.success,
                         title: 'Lên xe: ',
-                        stationName: trip.originDestination.name,
-                        address: trip.originDestination.stations.isNotEmpty
-                            ? trip.originDestination.stations.first.address
-                            : '',
+                        stationName: originName,
+                        address: originAddress,
                         timeLabel: 'Giờ có mặt tại bến',
                         timeValue:
                             '${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)}',
@@ -309,7 +328,7 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Quý khách vui lòng có mặt tại ${trip.originDestination.name} trước ${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)} để làm thủ tục lên xe!',
+                                'Quý khách vui lòng có mặt tại $originName trước ${_formatTime(departureDt.subtract(const Duration(minutes: 15)))} ${_formatDate(departureDt)} để làm thủ tục lên xe!',
                                 style: const TextStyle(
                                   fontSize: 11,
                                   color: Color(0xFFDC2626),
@@ -328,10 +347,8 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
                         icon: Icons.location_on,
                         iconColor: AppColors.error,
                         title: 'Xuống xe: ',
-                        stationName: trip.destinationDestination.name,
-                        address: trip.destinationDestination.stations.isNotEmpty
-                            ? trip.destinationDestination.stations.first.address
-                            : '',
+                        stationName: destinationName,
+                        address: destinationAddress,
                         timeLabel: null,
                         timeValue: null,
                         isBoarding: false,
@@ -657,6 +674,8 @@ class _TripBookingInputScreenState extends State<TripBookingInputScreen> {
         'seats': seats,
         'contactName': vm.contactName,
         'contactPhone': vm.contactPhone,
+        'originStation': vm.originStation,
+        'destinationStation': vm.destinationStation,
       },
     );
   }

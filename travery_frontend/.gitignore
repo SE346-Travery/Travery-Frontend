@@ -44,7 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Custom ignores
 
 Model_documentation
 Travery API Documentation.md

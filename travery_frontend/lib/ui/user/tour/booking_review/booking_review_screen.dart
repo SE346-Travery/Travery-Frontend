@@ -462,9 +462,15 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
   }
 
   Widget _buildContactSection(BookingReviewViewModel vm) {
-    final hasContact =
-        vm.userName != null || vm.userPhone != null || vm.userEmail != null;
-    if (!hasContact) return const SizedBox.shrink();
+    final name = vm.userName?.isNotEmpty == true
+        ? vm.userName!
+        : 'Chưa cập nhật';
+    final phone = vm.userPhone?.isNotEmpty == true
+        ? vm.userPhone!
+        : 'Chưa cập nhật';
+    final email = vm.userEmail?.isNotEmpty == true
+        ? vm.userEmail!
+        : 'Chưa cập nhật';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -496,17 +502,11 @@ class _BookingReviewScreenState extends State<BookingReviewScreen> {
           ),
           child: Column(
             children: [
-              if (vm.userName != null)
-                _buildInfoRow(icon: Icons.person_outline, text: vm.userName!),
-              if (vm.userPhone != null) ...[
-                if (vm.userName != null) const SizedBox(height: 10),
-                _buildInfoRow(icon: Icons.phone_outlined, text: vm.userPhone!),
-              ],
-              if (vm.userEmail != null) ...[
-                if (vm.userName != null || vm.userPhone != null)
-                  const SizedBox(height: 10),
-                _buildInfoRow(icon: Icons.email_outlined, text: vm.userEmail!),
-              ],
+              _buildInfoRow(icon: Icons.person_outline, text: name),
+              const SizedBox(height: 10),
+              _buildInfoRow(icon: Icons.phone_outlined, text: phone),
+              const SizedBox(height: 10),
+              _buildInfoRow(icon: Icons.email_outlined, text: email),
             ],
           ),
         ),

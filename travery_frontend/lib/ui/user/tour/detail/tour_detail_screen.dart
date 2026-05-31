@@ -623,7 +623,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      'Trước ${rule.daysBefore} ngày',
+                      'Trước ${rule.timeBefore?.toInt() ?? 0} ngày',
                       style: const TextStyle(
                         fontSize: 13,
                         color: Color(0xFF414755),
@@ -631,7 +631,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                     ),
                     const Spacer(),
                     Text(
-                      'Hoàn ${rule.refundPercentage}%',
+                      'Hoàn ${rule.refundPercentage?.toInt() ?? 0}%',
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,

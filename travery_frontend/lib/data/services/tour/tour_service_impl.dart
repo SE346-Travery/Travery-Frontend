@@ -35,6 +35,14 @@ class TourServiceImpl implements TourService {
     try {
       final stringData = await response.transform(utf8.decoder).join();
       final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+
+      // If server returns structured validation errors in 'items', concatenate them
+      final items = jsonMap['items'] as Map<String, dynamic>?;
+      if (items != null && items.isNotEmpty) {
+        final messages = items.values.map((v) => v.toString()).toList();
+        return messages.join(' ');
+      }
+
       return jsonMap['message'] as String? ?? defaultMessage;
     } catch (_) {
       return defaultMessage;
@@ -49,8 +57,11 @@ class TourServiceImpl implements TourService {
     int? minRating,
     DateTime? startDate,
     String? destinationId,
+    String? sortBy,
+    String? sortDir,
     int page = 0,
     int size = 20,
+    int? minDays,
   }) async {
     final client = HttpClient();
     client.connectionTimeout = const Duration(milliseconds: AppConfig.timeout);
@@ -71,6 +82,12 @@ class TourServiceImpl implements TourService {
       }
       if (destinationId != null && destinationId.isNotEmpty) {
         queryParams['destinationId'] = destinationId;
+      }
+      if (sortBy != null && sortBy.isNotEmpty && sortDir != null) {
+        queryParams['sort'] = '$sortBy,$sortDir';
+      }
+      if (minDays != null) {
+        queryParams['minDays'] = minDays.toString();
       }
 
       final request = await client.getUrl(
@@ -155,12 +172,16 @@ class TourServiceImpl implements TourService {
       final response = await request.close();
 
       if (response.statusCode == 200) {
-        final stringData = await response.transform(utf8.decoder).join();
-        final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
-        final data = jsonMap['data'] as Map<String, dynamic>?;
-        if (data == null) return Result.ok(null);
-        final tour = TourDetailPageData.fromJson(data);
-        return Result.ok(tour);
+        try {
+          final stringData = await response.transform(utf8.decoder).join();
+          final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
+          final data = jsonMap['data'] as Map<String, dynamic>?;
+          if (data == null) return Result.ok(null);
+          final tour = TourDetailPageData.fromJson(data);
+          return Result.ok(tour);
+        } on Exception catch (error) {
+          return Result.error(error);
+        }
       } else if (response.statusCode == 404) {
         return Result.ok(null);
       } else {
@@ -312,7 +333,7 @@ class TourServiceImpl implements TourService {
 
       final response = await requestObj.close();
 
-      if (response.statusCode == 200) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         final stringData = await response.transform(utf8.decoder).join();
         final jsonMap = jsonDecode(stringData) as Map<String, dynamic>;
         final data = CreatePaymentResponse.fromJson(jsonMap).data;
@@ -320,7 +341,7 @@ class TourServiceImpl implements TourService {
       } else {
         final errorMsg = await _extractErrorMessage(
           response,
-          'Tạo thanh toán thất bại',
+          'Tạo thanh toán thất bại (${response.statusCode})',
         );
         return Result.error(HttpException(errorMsg));
       }

@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           _ServiceItem(
                             icon: Icons.directions_bus,
                             label: 'Vé xe',
-                            onTap: () {},
+                            onTap: () => context.push(Routes.tripHome),
                           ),
                           _ServiceItem(
                             icon: Icons.travel_explore,
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           _ServiceItem(
                             icon: Icons.apartment,
                             label: 'Khách sạn',
-                            onTap: () {},
+                            onTap: () => context.push(Routes.hotelHome),
                           ),
                         ],
                       ),

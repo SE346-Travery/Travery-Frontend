@@ -218,6 +218,7 @@ mixin _$TourBookingData {
   String get paymentMethod => throw _privateConstructorUsedError;
   String get paymentStatus => throw _privateConstructorUsedError;
   String get transactionId => throw _privateConstructorUsedError;
+  String get gatewayTransactionId => throw _privateConstructorUsedError;
 
   /// Serializes this TourBookingData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -254,6 +255,7 @@ abstract class $TourBookingDataCopyWith<$Res> {
     String paymentMethod,
     String paymentStatus,
     String transactionId,
+    String gatewayTransactionId,
   });
 
   $PaymentDataCopyWith<$Res>? get payment;
@@ -291,6 +293,7 @@ class _$TourBookingDataCopyWithImpl<$Res, $Val extends TourBookingData>
     Object? paymentMethod = null,
     Object? paymentStatus = null,
     Object? transactionId = null,
+    Object? gatewayTransactionId = null,
   }) {
     return _then(
       _value.copyWith(
@@ -362,6 +365,10 @@ class _$TourBookingDataCopyWithImpl<$Res, $Val extends TourBookingData>
                 ? _value.transactionId
                 : transactionId // ignore: cast_nullable_to_non_nullable
                       as String,
+            gatewayTransactionId: null == gatewayTransactionId
+                ? _value.gatewayTransactionId
+                : gatewayTransactionId // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -409,6 +416,7 @@ abstract class _$$TourBookingDataImplCopyWith<$Res>
     String paymentMethod,
     String paymentStatus,
     String transactionId,
+    String gatewayTransactionId,
   });
 
   @override
@@ -446,6 +454,7 @@ class __$$TourBookingDataImplCopyWithImpl<$Res>
     Object? paymentMethod = null,
     Object? paymentStatus = null,
     Object? transactionId = null,
+    Object? gatewayTransactionId = null,
   }) {
     return _then(
       _$TourBookingDataImpl(
@@ -517,6 +526,10 @@ class __$$TourBookingDataImplCopyWithImpl<$Res>
             ? _value.transactionId
             : transactionId // ignore: cast_nullable_to_non_nullable
                   as String,
+        gatewayTransactionId: null == gatewayTransactionId
+            ? _value.gatewayTransactionId
+            : gatewayTransactionId // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -543,6 +556,7 @@ class _$TourBookingDataImpl implements _TourBookingData {
     this.paymentMethod = '',
     this.paymentStatus = '',
     this.transactionId = '',
+    this.gatewayTransactionId = '',
   }) : _members = members;
 
   factory _$TourBookingDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -602,10 +616,13 @@ class _$TourBookingDataImpl implements _TourBookingData {
   @override
   @JsonKey()
   final String transactionId;
+  @override
+  @JsonKey()
+  final String gatewayTransactionId;
 
   @override
   String toString() {
-    return 'TourBookingData(id: $id, customerName: $customerName, customerPhone: $customerPhone, specialRequests: $specialRequests, status: $status, totalPrice: $totalPrice, pricePerAdultAtBooking: $pricePerAdultAtBooking, pricePerChildAtBooking: $pricePerChildAtBooking, paymentDeadline: $paymentDeadline, tourName: $tourName, startDate: $startDate, endDate: $endDate, members: $members, payment: $payment, paymentMethod: $paymentMethod, paymentStatus: $paymentStatus, transactionId: $transactionId)';
+    return 'TourBookingData(id: $id, customerName: $customerName, customerPhone: $customerPhone, specialRequests: $specialRequests, status: $status, totalPrice: $totalPrice, pricePerAdultAtBooking: $pricePerAdultAtBooking, pricePerChildAtBooking: $pricePerChildAtBooking, paymentDeadline: $paymentDeadline, tourName: $tourName, startDate: $startDate, endDate: $endDate, members: $members, payment: $payment, paymentMethod: $paymentMethod, paymentStatus: $paymentStatus, transactionId: $transactionId, gatewayTransactionId: $gatewayTransactionId)';
   }
 
   @override
@@ -641,7 +658,9 @@ class _$TourBookingDataImpl implements _TourBookingData {
             (identical(other.paymentStatus, paymentStatus) ||
                 other.paymentStatus == paymentStatus) &&
             (identical(other.transactionId, transactionId) ||
-                other.transactionId == transactionId));
+                other.transactionId == transactionId) &&
+            (identical(other.gatewayTransactionId, gatewayTransactionId) ||
+                other.gatewayTransactionId == gatewayTransactionId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -665,6 +684,7 @@ class _$TourBookingDataImpl implements _TourBookingData {
     paymentMethod,
     paymentStatus,
     transactionId,
+    gatewayTransactionId,
   );
 
   /// Create a copy of TourBookingData
@@ -703,6 +723,7 @@ abstract class _TourBookingData implements TourBookingData {
     final String paymentMethod,
     final String paymentStatus,
     final String transactionId,
+    final String gatewayTransactionId,
   }) = _$TourBookingDataImpl;
 
   factory _TourBookingData.fromJson(Map<String, dynamic> json) =
@@ -742,6 +763,8 @@ abstract class _TourBookingData implements TourBookingData {
   String get paymentStatus;
   @override
   String get transactionId;
+  @override
+  String get gatewayTransactionId;
 
   /// Create a copy of TourBookingData
   /// with the given fields replaced by the non-null parameter values.
@@ -1043,6 +1066,7 @@ PaymentData _$PaymentDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PaymentData {
   String get transactionId => throw _privateConstructorUsedError;
+  String get gatewayTransactionId => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   String get paymentUrl => throw _privateConstructorUsedError;
   String? get expiresAt => throw _privateConstructorUsedError;
@@ -1066,6 +1090,7 @@ abstract class $PaymentDataCopyWith<$Res> {
   @useResult
   $Res call({
     String transactionId,
+    String gatewayTransactionId,
     double amount,
     String paymentUrl,
     String? expiresAt,
@@ -1088,6 +1113,7 @@ class _$PaymentDataCopyWithImpl<$Res, $Val extends PaymentData>
   @override
   $Res call({
     Object? transactionId = null,
+    Object? gatewayTransactionId = null,
     Object? amount = null,
     Object? paymentUrl = null,
     Object? expiresAt = freezed,
@@ -1097,6 +1123,10 @@ class _$PaymentDataCopyWithImpl<$Res, $Val extends PaymentData>
             transactionId: null == transactionId
                 ? _value.transactionId
                 : transactionId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            gatewayTransactionId: null == gatewayTransactionId
+                ? _value.gatewayTransactionId
+                : gatewayTransactionId // ignore: cast_nullable_to_non_nullable
                       as String,
             amount: null == amount
                 ? _value.amount
@@ -1127,6 +1157,7 @@ abstract class _$$PaymentDataImplCopyWith<$Res>
   @useResult
   $Res call({
     String transactionId,
+    String gatewayTransactionId,
     double amount,
     String paymentUrl,
     String? expiresAt,
@@ -1148,6 +1179,7 @@ class __$$PaymentDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? transactionId = null,
+    Object? gatewayTransactionId = null,
     Object? amount = null,
     Object? paymentUrl = null,
     Object? expiresAt = freezed,
@@ -1157,6 +1189,10 @@ class __$$PaymentDataImplCopyWithImpl<$Res>
         transactionId: null == transactionId
             ? _value.transactionId
             : transactionId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        gatewayTransactionId: null == gatewayTransactionId
+            ? _value.gatewayTransactionId
+            : gatewayTransactionId // ignore: cast_nullable_to_non_nullable
                   as String,
         amount: null == amount
             ? _value.amount
@@ -1180,6 +1216,7 @@ class __$$PaymentDataImplCopyWithImpl<$Res>
 class _$PaymentDataImpl implements _PaymentData {
   const _$PaymentDataImpl({
     this.transactionId = '',
+    this.gatewayTransactionId = '',
     this.amount = 0,
     this.paymentUrl = '',
     this.expiresAt,
@@ -1193,6 +1230,9 @@ class _$PaymentDataImpl implements _PaymentData {
   final String transactionId;
   @override
   @JsonKey()
+  final String gatewayTransactionId;
+  @override
+  @JsonKey()
   final double amount;
   @override
   @JsonKey()
@@ -1202,7 +1242,7 @@ class _$PaymentDataImpl implements _PaymentData {
 
   @override
   String toString() {
-    return 'PaymentData(transactionId: $transactionId, amount: $amount, paymentUrl: $paymentUrl, expiresAt: $expiresAt)';
+    return 'PaymentData(transactionId: $transactionId, gatewayTransactionId: $gatewayTransactionId, amount: $amount, paymentUrl: $paymentUrl, expiresAt: $expiresAt)';
   }
 
   @override
@@ -1212,6 +1252,8 @@ class _$PaymentDataImpl implements _PaymentData {
             other is _$PaymentDataImpl &&
             (identical(other.transactionId, transactionId) ||
                 other.transactionId == transactionId) &&
+            (identical(other.gatewayTransactionId, gatewayTransactionId) ||
+                other.gatewayTransactionId == gatewayTransactionId) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.paymentUrl, paymentUrl) ||
                 other.paymentUrl == paymentUrl) &&
@@ -1221,8 +1263,14 @@ class _$PaymentDataImpl implements _PaymentData {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, transactionId, amount, paymentUrl, expiresAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    transactionId,
+    gatewayTransactionId,
+    amount,
+    paymentUrl,
+    expiresAt,
+  );
 
   /// Create a copy of PaymentData
   /// with the given fields replaced by the non-null parameter values.
@@ -1241,6 +1289,7 @@ class _$PaymentDataImpl implements _PaymentData {
 abstract class _PaymentData implements PaymentData {
   const factory _PaymentData({
     final String transactionId,
+    final String gatewayTransactionId,
     final double amount,
     final String paymentUrl,
     final String? expiresAt,
@@ -1251,6 +1300,8 @@ abstract class _PaymentData implements PaymentData {
 
   @override
   String get transactionId;
+  @override
+  String get gatewayTransactionId;
   @override
   double get amount;
   @override

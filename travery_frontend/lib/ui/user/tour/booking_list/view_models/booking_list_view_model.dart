@@ -30,7 +30,12 @@ class BookingListViewModel extends ChangeNotifier {
   int _currentPage = 0;
   static const int _pageSize = 20;
 
-  final List<String> _statusFilters = ['Tất cả', 'PAID', 'CANCELLED'];
+  final List<String> _statusFilters = [
+    'Tất cả',
+    'PENDING',
+    'PAID',
+    'CANCELLED',
+  ];
   List<String> get statusFilters => _statusFilters;
 
   Future<void> loadBookings({String? status, bool refresh = false}) async {
@@ -57,8 +62,8 @@ class BookingListViewModel extends ChangeNotifier {
 
     switch (result) {
       case Ok(value: final data):
-        _bookings = data.content;
-        _hasMore = _bookings.length >= _pageSize;
+        _bookings = data.content.where((b) => !b.isTooSoon).toList();
+        _hasMore = data.content.length >= _pageSize;
       case Error(error: final e):
         _error = e.toString();
     }
@@ -84,7 +89,7 @@ class BookingListViewModel extends ChangeNotifier {
 
     switch (result) {
       case Ok(value: final data):
-        _bookings.addAll(data.content);
+        _bookings.addAll(data.content.where((b) => !b.isTooSoon));
         _hasMore = data.content.length >= _pageSize;
       case Error(error: final e):
         _currentPage--;

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travery_frontend/ui/core/themes/app_colors.dart';
 import 'package:travery_frontend/ui/user/home/home_screen.dart';
-import 'package:travery_frontend/ui/user/tour/booking_list/booking_list_screen.dart';
-import 'package:travery_frontend/ui/user/tour/booking_list/view_models/booking_list_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/my_booking/my_trip_booking_screen.dart';
 
 class UserBottomNav extends StatefulWidget {
   const UserBottomNav({super.key, this.initialIndex = 0});
@@ -61,7 +59,7 @@ class _UserBookingsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BookingListScreen();
+    return const MyTripBookingScreen();
   }
 }
 

@@ -22,6 +22,9 @@ import 'package:travery_frontend/data/services/token_refresh_service.dart';
 import 'package:travery_frontend/data/services/tour/tour_service.dart';
 import 'package:travery_frontend/data/services/guide/guide_service.dart';
 import 'package:travery_frontend/data/services/guide/guide_service_impl.dart';
+import 'package:travery_frontend/data/services/trip/trip_service.dart';
+import 'package:travery_frontend/data/services/trip/trip_service_impl.dart';
+import 'package:travery_frontend/data/services/trip/trip_booking_repository.dart';
 
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
 import 'package:travery_frontend/data/repositories/mission_repository_impl.dart';
@@ -39,6 +42,16 @@ import 'package:travery_frontend/ui/user/tour/payment_result/view_models/payment
 import 'package:travery_frontend/ui/user/tour/booking_list/view_models/booking_list_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/booking_detail/view_models/booking_detail_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/cancel/view_models/cancel_booking_view_model.dart';
+
+import 'package:travery_frontend/ui/user/trip/home/view_models/trip_home_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/list/view_models/trip_list_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/seat_picker/view_models/seat_picker_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/booking_input/view_models/trip_booking_input_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/booking_review/view_models/trip_booking_review_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/payment/view_models/trip_payment_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/payment_result/view_models/trip_payment_result_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/my_booking/view_models/my_trip_booking_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/booking_detail/view_models/trip_booking_detail_view_model.dart';
 
 import 'package:travery_frontend/ui/guide/home/view_models/guide_home_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/view_models/mission_detail_view_model.dart';
@@ -76,6 +89,52 @@ List<SingleChildWidget> get providers => [
     create: (context) => TourServiceImpl(
       tokenRefreshService: context.read<TokenRefreshService>(),
     ),
+  ),
+  Provider<TripService>(
+    create: (context) => TripServiceImpl(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
+  ),
+  Provider<TripBookingRepository>(
+    create: (context) => TripBookingRepository(
+      securityStorageService: context.read<SecurityStorageService>(),
+    ),
+  ),
+
+  // ── Trip ViewModels ────────────────────────────────────────────────────────
+  ChangeNotifierProvider(
+    create: (context) =>
+        TripHomeViewModel(tripService: context.read<TripService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        TripListViewModel(tripService: context.read<TripService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        SeatPickerViewModel(tripService: context.read<TripService>()),
+  ),
+  ChangeNotifierProvider(create: (_) => TripBookingInputViewModel()),
+  ChangeNotifierProvider(
+    create: (context) =>
+        TripBookingReviewViewModel(tripService: context.read<TripService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        TripPaymentViewModel(tripService: context.read<TripService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        TripPaymentResultViewModel(tripService: context.read<TripService>()),
+  ),
+  ChangeNotifierProvider(
+    create: (context) => MyTripBookingViewModel(
+      repository: context.read<TripBookingRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider(
+    create: (context) =>
+        TripBookingDetailViewModel(tripService: context.read<TripService>()),
   ),
 
   // ── Admin service ─────────────────────────────────────────────────────────

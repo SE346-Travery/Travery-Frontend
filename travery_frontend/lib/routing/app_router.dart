@@ -52,6 +52,27 @@ import 'package:travery_frontend/ui/user/tour/booking_detail/view_models/booking
 import 'package:travery_frontend/ui/user/tour/cancel/cancel_booking_screen.dart';
 import 'package:travery_frontend/ui/user/tour/cancel/view_models/cancel_booking_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/cancel_success/cancel_success_screen.dart';
+import 'package:travery_frontend/ui/user/trip/home/trip_home_screen.dart';
+import 'package:travery_frontend/ui/user/trip/home/view_models/trip_home_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/list/trip_list_screen.dart';
+import 'package:travery_frontend/ui/user/trip/list/view_models/trip_list_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/seat_picker/seat_picker_screen.dart';
+import 'package:travery_frontend/ui/user/trip/seat_picker/view_models/seat_picker_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/booking_input/trip_booking_input_screen.dart';
+import 'package:travery_frontend/ui/user/trip/booking_input/view_models/trip_booking_input_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/booking_review/trip_booking_review_screen.dart';
+import 'package:travery_frontend/ui/user/trip/booking_review/view_models/trip_booking_review_view_model.dart';
+import 'package:travery_frontend/data/services/trip/trip_service.dart';
+import 'package:travery_frontend/ui/user/trip/payment/trip_payment_screen.dart';
+import 'package:travery_frontend/ui/user/trip/payment/view_models/trip_payment_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/payment_result/trip_payment_result_screen.dart';
+import 'package:travery_frontend/ui/user/trip/payment_result/view_models/trip_payment_result_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/my_booking/my_trip_booking_screen.dart';
+import 'package:travery_frontend/ui/user/trip/my_booking/view_models/my_trip_booking_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/booking_detail/trip_booking_detail_screen.dart';
+import 'package:travery_frontend/ui/user/trip/booking_detail/view_models/trip_booking_detail_view_model.dart';
+import 'package:travery_frontend/ui/user/trip/cancel/trip_cancel_screen.dart';
+import 'package:travery_frontend/ui/user/trip/cancel_success/trip_cancel_success_screen.dart';
 import 'package:travery_frontend/ui/user/widgets/user_bottom_nav.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
@@ -92,6 +113,26 @@ import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_t
 import 'package:travery_frontend/ui/coordinator/view/coordinator_create_tour_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_create_tour_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_template_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/home/hotel_home_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/home/hotel_detail_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/home/view_models/hotel_home_view_model.dart';
+import 'package:travery_frontend/ui/user/hotel/home/view_models/hotel_detail_view_model.dart';
+import 'package:travery_frontend/ui/user/hotel/room_list/hotel_room_list_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/booking_input/hotel_booking_input_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/booking_review/hotel_booking_review_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/payment/hotel_payment_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/payment_result/hotel_payment_result_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/my_booking/hotel_my_booking_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/my_booking/view_models/hotel_my_booking_view_model.dart';
+import 'package:travery_frontend/ui/user/hotel/booking_detail/hotel_booking_detail_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/booking_detail/view_models/hotel_booking_detail_view_model.dart';
+import 'package:travery_frontend/ui/user/hotel/cancel/hotel_cancel_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/cancel_success/hotel_cancel_success_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/addon_list/hotel_addon_list_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/addon_payment/hotel_addon_payment_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/addon_payment_success/hotel_addon_payment_success_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/checkout/hotel_checkout_screen.dart';
+import 'package:travery_frontend/ui/user/hotel/checkout_success/hotel_checkout_success_screen.dart';
 import 'routes.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour/coordinator_tour.dart';
 import 'package:travery_frontend/domain/models/coordinator/coordinator_tour_template/coordinator_tour_template.dart';
@@ -318,7 +359,6 @@ GoRouter appRouter(
           return TourListScreen(
             viewModel: context.read<TourListViewModel>(),
             keyword: keyword,
-            destinationId: destinationId,
           );
         },
       ),
@@ -442,6 +482,176 @@ GoRouter appRouter(
             refundPercentage: extra?['refundPercentage'] as double? ?? 0,
           );
         },
+      ),
+
+      // --- TRIP (COACH BOOKING) ROUTES ---
+      GoRoute(
+        path: Routes.tripHome,
+        builder: (context, state) => const TripHomeScreen(),
+      ),
+      GoRoute(
+        path: Routes.tripList,
+        builder: (context, state) {
+          return TripListScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.tripSeatPicker,
+        builder: (context, state) {
+          return const SeatPickerScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.tripBookingInput,
+        builder: (context, state) {
+          return TripBookingInputScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.tripBookingReview,
+        builder: (context, state) {
+          return ChangeNotifierProvider(
+            create: (_) => TripBookingReviewViewModel(
+              tripService: context.read<TripService>(),
+            ),
+            child: const TripBookingReviewScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.tripPayment,
+        builder: (context, state) {
+          return TripPaymentScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.tripPaymentResult,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return TripPaymentResultScreen(
+            txnRef: extra?['txnRef'] as String?,
+            deeplinkStatus: extra?['deeplinkStatus'] as String?,
+            responseCode: extra?['responseCode'] as String?,
+            bookingId: extra?['bookingId'] as String?,
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.tripMyBookings,
+        builder: (context, state) {
+          return const MyTripBookingScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.tripBookingDetail,
+        builder: (context, state) {
+          final bookingId = state.pathParameters['id'] ?? '';
+          return TripBookingDetailScreen(bookingId: bookingId);
+        },
+      ),
+      GoRoute(
+        path: Routes.tripCancelConfirmation,
+        builder: (context, state) {
+          final bookingId = state.pathParameters['id'] ?? '';
+          final extra = state.extra as Map<String, dynamic>?;
+          return TripCancelScreen(
+            bookingId: bookingId,
+            booking: extra?['booking'],
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.tripCancelSuccess,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return TripCancelSuccessScreen(
+            cancelData: extra?['cancelData'],
+            booking: extra?['booking'],
+          );
+        },
+      ),
+
+      // --- HOTEL ROUTES ---
+      GoRoute(
+        path: Routes.hotelHome,
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (_) => HotelHomeViewModel(),
+          child: const HotelHomeScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.hotelDetail,
+        builder: (context, state) {
+          return ChangeNotifierProvider(
+            create: (_) => HotelDetailViewModel(),
+            child: const HotelDetailScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.hotelRoomList,
+        builder: (context, state) => const HotelRoomListScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelBookingInput,
+        builder: (context, state) => const HotelBookingInputScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelBookingReview,
+        builder: (context, state) => const HotelBookingReviewScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelPayment,
+        builder: (context, state) => const HotelPaymentScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelPaymentResult,
+        builder: (context, state) => const HotelPaymentResultScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelMyBookings,
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (_) => HotelMyBookingViewModel(),
+          child: const HotelMyBookingScreen(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.hotelBookingDetail,
+        builder: (context, state) {
+          final bookingId = state.pathParameters['id'] ?? '';
+          return ChangeNotifierProvider(
+            create: (_) => HotelBookingDetailViewModel(),
+            child: HotelBookingDetailScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.hotelCancel,
+        builder: (context, state) => const HotelCancelScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelCancelSuccess,
+        builder: (context, state) => const HotelCancelSuccessScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelAddonList,
+        builder: (context, state) => const HotelAddonListScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelAddonPayment,
+        builder: (context, state) => const HotelAddonPaymentScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelAddonPaymentResult,
+        builder: (context, state) => const HotelAddonPaymentSuccessScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelCheckout,
+        builder: (context, state) => const HotelCheckoutScreen(),
+      ),
+      GoRoute(
+        path: Routes.hotelCheckoutSuccess,
+        builder: (context, state) => const HotelCheckoutSuccessScreen(),
       ),
 
       // --- ADMIN ROUTES ---

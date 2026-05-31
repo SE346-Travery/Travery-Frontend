@@ -122,6 +122,16 @@ class UserBookingItem {
       );
 
   int get computedMemberCount => memberCount ?? members?.length ?? 0;
+
+  bool get isTooSoon {
+    if (startDate.isEmpty) return false;
+    final start = DateTime.tryParse(startDate);
+    if (start == null) return false;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final startDay = DateTime(start.year, start.month, start.day);
+    return startDay.difference(today).inDays <= 5;
+  }
 }
 
 class UserBookingMember {

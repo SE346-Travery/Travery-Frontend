@@ -4,11 +4,17 @@ import 'package:intl/intl.dart';
 import '../../../../domain/models/admin/business_room_type/business_room_type.dart';
 import 'widgets/large_button.dart';
 
-class AdminViewRoomtypeScreen extends StatelessWidget {
+class RoomtypeManagementScreen extends StatefulWidget {
   final BusinessRoomType? roomType;
 
-  const AdminViewRoomtypeScreen({super.key, this.roomType});
+  const RoomtypeManagementScreen({super.key, this.roomType});
 
+  @override
+  State<RoomtypeManagementScreen> createState() =>
+      _RoomtypeManagementScreenState();
+}
+
+class _RoomtypeManagementScreenState extends State<RoomtypeManagementScreen> {
   String _getBedTypeName(BedType type) {
     switch (type) {
       case BedType.single:
@@ -25,7 +31,8 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
     final formatCurrency = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ');
 
     // Use a default for preview if roomType is null
-    final type = roomType ??
+    final type =
+        widget.roomType ??
         BusinessRoomType(
           name: 'Suite',
           pricePerNight: 3500000,
@@ -35,20 +42,15 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
         );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC), // slightly off-white background as seen in design
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF8FAFC),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => context.pop(),
-        ),
-      ),
+      backgroundColor: const Color(
+        0xFFF8FAFC,
+      ), // slightly off-white background as seen in design
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 16),
             const Text(
               'Thông tin Loại phòng',
               style: TextStyle(
@@ -60,13 +62,10 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               'Xem thông tin của loại phòng đã chọn',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
             const SizedBox(height: 24),
-            
+
             // First Card: Room Name and Price
             Container(
               width: double.infinity,
@@ -75,7 +74,7 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -120,13 +119,17 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFF1F5F9),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
                                     'GIÁ MỖI ĐÊM',
@@ -157,7 +160,7 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Second Card: Capacity
             Container(
               padding: const EdgeInsets.all(16),
@@ -166,7 +169,7 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -211,7 +214,7 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Third Card: Bed Type
             Container(
               padding: const EdgeInsets.all(16),
@@ -220,7 +223,7 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -265,13 +268,16 @@ class AdminViewRoomtypeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            
+
             // Buttons
             LargeButton(
               text: 'Chỉnh sửa',
               color: const Color(0xFF0055C3),
               onTap: () {
-                context.push('/admin_update_room_type_screen.dart', extra: type);
+                context.push(
+                  '/admin_update_room_type_screen.dart',
+                  extra: type,
+                );
               },
             ),
             const SizedBox(height: 12),

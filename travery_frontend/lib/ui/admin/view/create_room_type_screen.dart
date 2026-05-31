@@ -1,52 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../domain/models/admin/business_room_type/business_room_type.dart';
 import 'widgets/input_text_field.dart';
 import 'widgets/dropdown_button.dart';
 import 'widgets/large_button.dart';
 
-class AdminUpdateRoomTypeScreen extends StatefulWidget {
-  final BusinessRoomType? roomType;
-
-  const AdminUpdateRoomTypeScreen({super.key, this.roomType});
+class CreateRoomTypeScreen extends StatefulWidget {
+  const CreateRoomTypeScreen({super.key});
 
   @override
-  State<AdminUpdateRoomTypeScreen> createState() => _AdminUpdateRoomTypeScreenState();
+  State<CreateRoomTypeScreen> createState() => _CreateRoomTypeScreenState();
 }
 
-class _AdminUpdateRoomTypeScreenState extends State<AdminUpdateRoomTypeScreen> {
-  late TextEditingController _nameController;
-  late TextEditingController _adultController;
-  late TextEditingController _childController;
-  late TextEditingController _priceController;
-  
+class _CreateRoomTypeScreenState extends State<CreateRoomTypeScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _adultController = TextEditingController();
+  final TextEditingController _childController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+
   String? _selectedBedType;
   final List<String> _bedTypes = ['Single', 'Double', 'Twin'];
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(text: widget.roomType?.name ?? 'Very VIP');
-    _adultController = TextEditingController(text: widget.roomType?.aldultCapacity.toString() ?? '2');
-    _childController = TextEditingController(text: widget.roomType?.childCapacity.toString() ?? '2');
-    _priceController = TextEditingController(text: widget.roomType != null ? widget.roomType!.pricePerNight.toStringAsFixed(0) : '2000000');
-    
-    if (widget.roomType != null) {
-      switch (widget.roomType!.bedType) {
-        case BedType.single:
-          _selectedBedType = 'Single';
-          break;
-        case BedType.double:
-          _selectedBedType = 'Double';
-          break;
-        case BedType.twin:
-          _selectedBedType = 'Twin';
-          break;
-      }
-    } else {
-      _selectedBedType = 'Twin';
-    }
-  }
 
   @override
   void dispose() {
@@ -75,7 +47,7 @@ class _AdminUpdateRoomTypeScreenState extends State<AdminUpdateRoomTypeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Chỉnh sửa Loại phòng',
+              'Thêm Loại phòng mới',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -84,11 +56,8 @@ class _AdminUpdateRoomTypeScreenState extends State<AdminUpdateRoomTypeScreen> {
             ),
             const SizedBox(height: 4),
             Text(
-              'Chỉnh sửa thông tin của loại phòng đã chọn',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-              ),
+              'Cung cấp các thông tin cần thiết',
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
             const SizedBox(height: 24),
             InputTextField(
@@ -97,7 +66,11 @@ class _AdminUpdateRoomTypeScreenState extends State<AdminUpdateRoomTypeScreen> {
               controller: _nameController,
               textInputType: TextInputType.text,
               prefixIcon: const Icon(Icons.format_size, color: Colors.black54),
-              suffixIcon: const Icon(Icons.edit, size: 20, color: Colors.black54),
+              suffixIcon: const Icon(
+                Icons.edit,
+                size: 20,
+                color: Colors.black54,
+              ),
             ),
             const SizedBox(height: 16),
             CustomDropdownButton(
@@ -121,8 +94,15 @@ class _AdminUpdateRoomTypeScreenState extends State<AdminUpdateRoomTypeScreen> {
                     textholder: 'Nhập số người lớn',
                     controller: _adultController,
                     textInputType: TextInputType.number,
-                    prefixIcon: const Icon(Icons.person_outline, color: Colors.black54),
-                    suffixIcon: const Icon(Icons.edit, size: 20, color: Colors.black54),
+                    prefixIcon: const Icon(
+                      Icons.person_outline,
+                      color: Colors.black54,
+                    ),
+                    suffixIcon: const Icon(
+                      Icons.edit,
+                      size: 20,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -132,8 +112,15 @@ class _AdminUpdateRoomTypeScreenState extends State<AdminUpdateRoomTypeScreen> {
                     textholder: 'Nhập số trẻ em',
                     controller: _childController,
                     textInputType: TextInputType.number,
-                    prefixIcon: const Icon(Icons.person_outline, color: Colors.black54),
-                    suffixIcon: const Icon(Icons.edit, size: 20, color: Colors.black54),
+                    prefixIcon: const Icon(
+                      Icons.person_outline,
+                      color: Colors.black54,
+                    ),
+                    suffixIcon: const Icon(
+                      Icons.edit,
+                      size: 20,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
               ],
@@ -145,14 +132,18 @@ class _AdminUpdateRoomTypeScreenState extends State<AdminUpdateRoomTypeScreen> {
               controller: _priceController,
               textInputType: TextInputType.number,
               prefixIcon: const Icon(Icons.attach_money, color: Colors.black54),
-              suffixIcon: const Icon(Icons.edit, size: 20, color: Colors.black54),
+              suffixIcon: const Icon(
+                Icons.edit,
+                size: 20,
+                color: Colors.black54,
+              ),
             ),
             const SizedBox(height: 32),
             LargeButton(
-              text: 'Xác nhận chỉnh sửa',
+              text: 'Xác nhận',
               color: const Color(0xFF0055C3),
               onTap: () {
-                // Handle confirm edit
+                // Handle confirm
               },
             ),
             const SizedBox(height: 12),

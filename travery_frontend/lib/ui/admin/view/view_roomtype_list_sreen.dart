@@ -4,14 +4,14 @@ import '../../../../domain/models/admin/business_room_type/business_room_type.da
 import 'widgets/hotel_room_type_card.dart';
 import 'widgets/small_button.dart';
 
-class AdminViewRoomtypeListScreen extends StatefulWidget {
-  const AdminViewRoomtypeListScreen({super.key});
+class ViewRoomtypeListScreen extends StatefulWidget {
+  const ViewRoomtypeListScreen({super.key});
 
   @override
-  State<AdminViewRoomtypeListScreen> createState() => _AdminViewRoomtypeListScreenState();
+  State<ViewRoomtypeListScreen> createState() => _ViewRoomtypeListScreenState();
 }
 
-class _AdminViewRoomtypeListScreenState extends State<AdminViewRoomtypeListScreen> {
+class _ViewRoomtypeListScreenState extends State<ViewRoomtypeListScreen> {
   final List<String> categories = ['Tất cả', 'Standard', 'VIP', 'Suite'];
   String selectedCategory = 'Tất cả';
 
@@ -73,19 +73,22 @@ class _AdminViewRoomtypeListScreenState extends State<AdminViewRoomtypeListScree
                     const SizedBox(height: 4),
                     Text(
                       'Danh sách các loại phòng',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                     ),
                   ],
                 ),
                 SmallButton(
                   label: 'Thêm',
-                  prefixIcon: const Icon(Icons.add, size: 16, color: Colors.white),
+                  prefixIcon: const Icon(
+                    Icons.add,
+                    size: 16,
+                    color: Colors.white,
+                  ),
                   color: const Color(0xFF0055C3),
                   onTap: () {
-                    context.push('/admin_create_room_type_screen.dart'); // Assuming generic push for demo
+                    context.push(
+                      '/admin_create_room_type_screen.dart',
+                    ); // Assuming generic push for demo
                   },
                 ),
               ],
@@ -106,15 +109,22 @@ class _AdminViewRoomtypeListScreenState extends State<AdminViewRoomtypeListScree
                       },
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: isSelected ? const Color(0xFF0055C3) : const Color(0xFFE2E8F0),
+                          color: isSelected
+                              ? const Color(0xFF0055C3)
+                              : const Color(0xFFE2E8F0),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           category,
                           style: TextStyle(
-                            color: isSelected ? Colors.white : const Color(0xFF475569),
+                            color: isSelected
+                                ? Colors.white
+                                : const Color(0xFF475569),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -139,7 +149,10 @@ class _AdminViewRoomtypeListScreenState extends State<AdminViewRoomtypeListScree
                   return HotelRoomTypeCard(
                     roomType: roomType,
                     onTap: () {
-                      context.push('/admin_view_roomtype_screen.dart', extra: roomType);
+                      context.push(
+                        '/admin_view_roomtype_screen.dart',
+                        extra: roomType,
+                      );
                     },
                   );
                 },

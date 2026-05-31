@@ -78,7 +78,7 @@ import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
 import '../ui/admin/view/create_vehicle_screen.dart';
 import '../ui/admin/view/update_vehicle_screen.dart';
-import '../ui/admin/view/admin_update_profile_screen.dart';
+import '../ui/admin/view/update_profile_screen.dart';
 import 'package:travery_frontend/ui/admin/view_model/admin_profile_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_list_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
@@ -469,6 +469,21 @@ GoRouter appRouter(
                 authRepository: context.read<AuthRepository>(),
               ),
             ),
+            ChangeNotifierProvider(
+              create: (context) => TourManagementViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => VehicleManagementViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => HotelManagementViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
           ],
           child: const AdminMainScreen(),
         ),
@@ -580,7 +595,7 @@ GoRouter appRouter(
       ),
       GoRoute(
         path: Routes.adminUpdateProfile,
-        builder: (context, state) => AdminUpdateProfileScreen(
+        builder: (context, state) => UpdateProfileScreen(
           viewModel: AdminProfileViewModel(
             authRepository: context.read<AuthRepository>(),
           ),

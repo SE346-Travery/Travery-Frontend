@@ -4,14 +4,15 @@ import 'widgets/small_button.dart';
 import 'update_amenity_screen.dart';
 import 'create_amenity_screen.dart';
 
-class ViewAmenityListScreen extends StatefulWidget {
-  const ViewAmenityListScreen({super.key});
+class AmenityManagementScreen extends StatefulWidget {
+  const AmenityManagementScreen({super.key});
 
   @override
-  State<ViewAmenityListScreen> createState() => _ViewAmenityListScreenState();
+  State<AmenityManagementScreen> createState() =>
+      _AmenityManagementScreenState();
 }
 
-class _ViewAmenityListScreenState extends State<ViewAmenityListScreen> {
+class _AmenityManagementScreenState extends State<AmenityManagementScreen> {
   String selectedFilter = 'Tất cả';
   final List<String> filters = ['Tất cả', 'Phòng', 'Khách sạn'];
 
@@ -19,19 +20,12 @@ class _ViewAmenityListScreenState extends State<ViewAmenityListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FB),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF8F9FB),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -45,7 +39,11 @@ class _ViewAmenityListScreenState extends State<ViewAmenityListScreen> {
                 ),
                 SmallButton(
                   label: 'Thêm',
-                  prefixIcon: const Icon(Icons.add, color: Colors.white, size: 16),
+                  prefixIcon: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 16,
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -60,10 +58,7 @@ class _ViewAmenityListScreenState extends State<ViewAmenityListScreen> {
             const SizedBox(height: 8),
             const Text(
               'Danh sách các cơ sở vật chất',
-              style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF64748B),
-              ),
+              style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
             ),
             const SizedBox(height: 16),
             Row(
@@ -78,16 +73,25 @@ class _ViewAmenityListScreenState extends State<ViewAmenityListScreen> {
                       });
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
-                        color: isSelected ? const Color(0xFF003399) : const Color(0xFFDCE6FB),
+                        color: isSelected
+                            ? const Color(0xFF003399)
+                            : const Color(0xFFDCE6FB),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         filter,
                         style: TextStyle(
-                          color: isSelected ? Colors.white : const Color(0xFF64748B),
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                          color: isSelected
+                              ? Colors.white
+                              : const Color(0xFF64748B),
+                          fontWeight: isSelected
+                              ? FontWeight.w600
+                              : FontWeight.normal,
                         ),
                       ),
                     ),

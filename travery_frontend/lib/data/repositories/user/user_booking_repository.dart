@@ -8,19 +8,18 @@ import 'package:travery_frontend/data/services/api/model/booking/cancel_booking_
 import 'package:travery_frontend/data/services/api/model/booking/create_payment_response/create_payment_response.dart';
 import 'package:travery_frontend/data/services/api/model/booking/user_booking_list_response/user_booking_list_response.dart';
 import 'package:travery_frontend/data/services/booking/booking_service.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
+import 'package:travery_frontend/data/services/token_refresh_service.dart';
 import 'package:travery_frontend/utils/core_result.dart';
 
 class UserBookingRepository extends BookingService {
-  UserBookingRepository({
-    required SecurityStorageService securityStorageService,
-  }) : _securityStorageService = securityStorageService;
-
-  final SecurityStorageService _securityStorageService;
+  UserBookingRepository({required TokenRefreshService tokenRefreshService})
+    : _tokenRefreshService = tokenRefreshService;
+  final TokenRefreshService _tokenRefreshService;
 
   Future<void> _setBearerAuth(HttpClientRequest request) async {
-    final token = await _securityStorageService.getAccessToken();
-    if (token != null) {
+    final result = await _tokenRefreshService.getValidAccessToken();
+    if (result is Ok) {
+      final token = (result as Ok<String>).value;
       request.headers.set(HttpHeaders.authorizationHeader, 'Bearer $token');
     }
   }

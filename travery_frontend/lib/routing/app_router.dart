@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:travery_frontend/data/repositories/admin/admin_repository.dart';
 import 'package:travery_frontend/data/repositories/authentication/auth_repository.dart';
 import 'package:travery_frontend/data/repositories/coordinator/coordinator_repository.dart';
-import 'package:travery_frontend/data/services/security_storage_service.dart';
 import 'package:travery_frontend/ui/admin/view_model/update_hotel_view_model.dart';
 import 'package:travery_frontend/ui/admin/view_model/update_vehicle_view_model.dart';
 import 'package:travery_frontend/ui/core/auth_guard.dart';
@@ -25,6 +24,12 @@ import 'package:travery_frontend/ui/guide/mission/tour_progress/tour_progress_sc
 import 'package:travery_frontend/ui/guide/mission/tour_progress/view_models/tour_progress_view_model.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/our_completed_screen.dart';
 import 'package:travery_frontend/ui/guide/mission/tour_completed/view_models/our_completed_view_model.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_dashboard_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_main_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_addon_list_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_checkinout_list_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_hotel_room_screen.dart';
+import 'package:travery_frontend/ui/receptionist/view/recep_view_profile_sceen.dart';
 import 'package:travery_frontend/ui/user/home/home_screen.dart';
 import 'package:travery_frontend/ui/user/home/view_models/home_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/list/tour_list_screen.dart';
@@ -79,6 +84,7 @@ import 'package:travery_frontend/ui/authentication/view/register_screen.dart';
 import 'package:travery_frontend/ui/authentication/view/otp_verification_screen.dart';
 import 'package:travery_frontend/ui/authentication/view/forgot_password_screen.dart';
 import 'package:travery_frontend/ui/authentication/view/confirm_password_screen.dart';
+import 'package:travery_frontend/ui/authentication/view/splash_screen.dart';
 import 'package:travery_frontend/ui/authentication/widgets/role_selection_screen.dart';
 import 'package:travery_frontend/ui/authentication/view_models/login_view_model.dart';
 import 'package:travery_frontend/ui/authentication/view_models/otp_verification_view_model.dart';
@@ -93,7 +99,7 @@ import '../ui/admin/view/create_hotel_screen.dart';
 import '../ui/admin/view/update_hotel_screen.dart';
 import '../ui/admin/view/create_vehicle_screen.dart';
 import '../ui/admin/view/update_vehicle_screen.dart';
-import '../ui/admin/view/admin_update_profile_screen.dart';
+import '../ui/admin/view/update_profile_screen.dart';
 import 'package:travery_frontend/ui/admin/view_model/admin_profile_view_model.dart';
 import 'package:travery_frontend/ui/coordinator/view/coordinator_view_tour_list_screen.dart';
 import 'package:travery_frontend/ui/coordinator/view_models/coordinator_tour_list_view_model.dart';
@@ -144,9 +150,15 @@ GoRouter appRouter(
   void Function(GoRouter router)? onInitialized,
 }) {
   final router = GoRouter(
-    initialLocation: Routes.login,
+    initialLocation: Routes.splash,
     debugLogDiagnostics: true,
     routes: [
+      // --- SPLASH ---
+      GoRoute(
+        path: Routes.splash,
+        builder: (context, state) => const SplashScreen(),
+      ),
+
       // --- AUTHENTICATION ROUTES ---
       GoRoute(
         path: Routes.login,
@@ -667,6 +679,21 @@ GoRouter appRouter(
                 authRepository: context.read<AuthRepository>(),
               ),
             ),
+            ChangeNotifierProvider(
+              create: (context) => TourManagementViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => VehicleManagementViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => HotelManagementViewModel(
+                adminRepository: context.read<AdminRepository>(),
+              ),
+            ),
           ],
           child: const AdminMainScreen(),
         ),
@@ -778,11 +805,37 @@ GoRouter appRouter(
       ),
       GoRoute(
         path: Routes.adminUpdateProfile,
-        builder: (context, state) => AdminUpdateProfileScreen(
+        builder: (context, state) => UpdateProfileScreen(
           viewModel: AdminProfileViewModel(
             authRepository: context.read<AuthRepository>(),
           ),
         ),
+      ),
+
+      //======Receptionist========
+      GoRoute(
+        path: Routes.recepMain,
+        builder: (context, state) => const RecepMainScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepDashboard,
+        builder: (context, state) => const RecepDashboardScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepCheckInOut,
+        builder: (context, state) => const RecepViewCheckinoutListScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepHotel,
+        builder: (context, state) => const RecepViewHotelRoomScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepAddon,
+        builder: (context, state) => const RecepViewAddonListScreen(),
+      ),
+      GoRoute(
+        path: Routes.recepProfile,
+        builder: (context, state) => const RecepViewProfileScreen(),
       ),
     ],
   );

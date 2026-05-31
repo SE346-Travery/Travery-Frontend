@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -166,14 +167,25 @@ class _TripHomeScreenState extends State<TripHomeScreen> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: vm.canSearch
-                  ? () => context.push(
-                      Routes.tripList,
-                      extra: {
-                        'origin': vm.selectedOrigin,
-                        'destination': vm.selectedDestination,
-                        'departureDate': vm.departureDate,
-                      },
-                    )
+                  ? () {
+                      debugPrint(
+                        'Trip search —-------------------------------------\\n,'
+                        'origin: ${vm.selectedOrigin?.name}, '
+                        'originId: ${vm.selectedOrigin?.id}, '
+                        'destination: ${vm.selectedDestination?.name}, '
+                        'destinationId: ${vm.selectedDestination?.id}, '
+                        'departureDate: ${vm.departureDate}, '
+                        '-------------------------------------',
+                      );
+                      context.push(
+                        Routes.tripList,
+                        extra: {
+                          'origin': vm.selectedOrigin,
+                          'destination': vm.selectedDestination,
+                          'departureDate': vm.departureDate,
+                        },
+                      );
+                    }
                   : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,

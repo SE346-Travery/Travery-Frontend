@@ -180,8 +180,8 @@ class AuthRepositoryRemote extends AuthRepository {
     try {
       // Lấy accessToken và refreshToken từ storage
       final accessToken = await _securityStorageService.getAccessToken();
-      String? actualRefreshToken =
-          await _securityStorageService.getRefreshToken();
+      String? actualRefreshToken = await _securityStorageService
+          .getRefreshToken();
       if (actualRefreshToken == null || actualRefreshToken.isEmpty) {
         actualRefreshToken = refreshToken;
       }

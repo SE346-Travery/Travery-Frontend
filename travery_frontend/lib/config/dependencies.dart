@@ -32,7 +32,7 @@ import 'package:travery_frontend/data/repositories/check_in_repository_impl.dart
 import 'package:travery_frontend/data/repositories/tour_progress_repository_impl.dart';
 
 import 'package:travery_frontend/ui/user/home/view_models/home_view_model.dart';
-import 'package:travery_frontend/ui/user/providers/user_info_provider.dart';
+// import 'package:travery_frontend/ui/user/providers/user_info_provider.dart';
 import 'package:travery_frontend/ui/user/tour/list/view_models/tour_list_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/detail/view_models/tour_detail_view_model.dart';
 import 'package:travery_frontend/ui/user/tour/booking_input/view_models/booking_input_view_model.dart';
@@ -79,12 +79,12 @@ List<SingleChildWidget> get providers => [
             )
             as AuthRepository,
   ),
-  ChangeNotifierProvider(
-    create: (context) => UserInfoProvider(
-      storage: context.read<SecurityStorageService>(),
-      tokenRefreshService: context.read<TokenRefreshService>(),
-    ),
-  ),
+  // ChangeNotifierProvider(
+  //   create: (context) => UserInfoProvider(
+  //     storage: context.read<SecurityStorageService>(),
+  //     tokenRefreshService: context.read<TokenRefreshService>(),
+  //   ),
+  // ),
   Provider<TourService>(
     create: (context) => TourServiceImpl(
       tokenRefreshService: context.read<TokenRefreshService>(),
@@ -184,7 +184,7 @@ List<SingleChildWidget> get providers => [
   ChangeNotifierProvider(
     create: (context) => BookingReviewViewModel(
       tourService: context.read<TourService>(),
-      userInfoProvider: context.read<UserInfoProvider>(),
+      tokenRefreshService: context.read<TokenRefreshService>(),
     ),
   ),
   ChangeNotifierProvider(
